@@ -26,7 +26,7 @@ def get_refindustry_news(driver):
 
     latest_news = []
     for news in news_blocks:
-        title = news.find('div', class_='post_title')
+        title = news.find('div', class_='post_title').text
         summary = news.find('div', class_='post_descr')
         link = news.get('href')
         parsed_date = news.find('div', class_='post_bot_text').text
@@ -44,7 +44,7 @@ def get_refindustry_news(driver):
             {
                 'PublishDate': publish_date,
                 'Source': 'Ref Industry NEWS',
-                'Title': title.text.strip(),
+                'Title': title.strip(),
                 'Summary': summary.text.strip(),
                 'Link': link
             }
