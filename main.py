@@ -17,7 +17,8 @@ driver = webdriver.Chrome(options=options)
 
 scrapers = [
     get_cooling_post_news,
-    get_refindustry_news
+    get_refindustry_news,
+    get_natural_refrigerants_news
 ]
 
 try:
@@ -29,7 +30,8 @@ finally:
 
 df1 = pd.read_csv('csv/ref_industry_news.csv')
 df2 = pd.read_csv('csv/cooling_post_news.csv')
+df3 = pd.read_csv('csv/natural_refrigerants_news.csv')
 
-combined_df = pd.concat([df1, df2], ignore_index=True)
+combined_df = pd.concat([df1, df2, df3], ignore_index=True)
 
-combined_df.to_csv('combined_news.csv', index=False)
+combined_df.to_csv('csv/combined_news.csv', index=False)

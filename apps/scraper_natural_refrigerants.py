@@ -10,39 +10,39 @@ from datetime import datetime
 import pandas as pd
 import time
 
-options = Options()
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
 
-driver = webdriver.Chrome(options=options)
-driver.get('https://naturalrefrigerants.com/news/')
-WebDriverWait(driver, timeout=5).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'elementor-post')))
+def get_natural_refrigerants_news(driver):
+    driver.get('https://naturalrefrigerants.com/news/')
+    WebDriverWait(driver, timeout=5).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'elementor-post')))
 
-html_data = driver.page_source
-soup = BeautifulSoup(html_data,'html.parser')
-news_section = soup.find('div', class_='elementor-posts-container')
-news_blocks = news_section.find_all('article', class_='elementor-post')
-news_block_selenium = driver.find_elements(By.CLASS_NAME, 'ecs-posts')
+    html_data = driver.page_source
+    soup = BeautifulSoup(html_data,'html.parser')
+    news_section = soup.find('div', class_='elementor-posts-container')
+    news_blocks = news_section.find_all('article', class_='elementor-post')
 
-latest_news = []
-for news in news_blocks:
-    title = news.find('a').text.strip()
-    for sel_news in news_block_selenium:
-        summary_element = sel_news.find_element(By.CSS_SELECTOR, 'a')
-        summary = driver.execute_script('return arguments[0].textContent;', summary_element)
+    latest_news = []
+    for news in news_blocks:
+        publish_date = news.find('time').text.strip()
+        title = news.find('h2', class_='elementor-heading-title')
+        link = title.find('a').get('href')
+        summary = news.find('div', class_='elementor-widget-theme-post-excerpt')
+        time_original_format = '%B %d, %Y'
+        publish_date_obj = datetime.strptime(publish_date,time_original_format)
+        time_new_format = '%Y-%m-%d'
+        publish_date_formatted = datetime.strftime(publish_date_obj, time_new_format)
+        
+        latest_news.append(
+            {
+                'PublishDate': publish_date_formatted,
+                'Source': 'Natural Refrigerants',
+                'Title': title.text.strip(),
+                'Summary': summary.text.strip(),
+                'Link': link
+            }
+        )
+
+    df = pd.DataFrame(latest_news)
+    df.to_csv('csv/natural_refrigerants_news.csv', index=False)
     
-    latest_news.append(
-        {
-            'Title': title,
-            'Summary': summary,
-        }
-    )
-
-print(latest_news)
-
-time.sleep(10)
-driver.close()
-
-
+    return latest_news
 
