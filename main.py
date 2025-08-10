@@ -16,7 +16,7 @@ def main(page:ft.Page):
     page.horizontal_alignment = 'center'
     page.vertical_alignment = 'center'
     page.title = 'News Scraper Dashboard'
-    page.theme = ft.Theme('Dark')
+    page.theme = ft.Theme('Light')
     page.update()
 
     def scrape_all(e):
@@ -26,6 +26,8 @@ def main(page:ft.Page):
         options.add_argument('--window-size=1920x1080')
         options.add_argument('--log-level=3')
         driver = webdriver.Chrome(options=options)
+        search_status.value = 'Starting to scrape..'
+        search_status.update()
         scrapers = [
             get_cooling_post_news,
             get_refindustry_news,
@@ -36,11 +38,16 @@ def main(page:ft.Page):
             for scraper in scrapers:
                 start = time.time()
                 print(f"Running {scraper.__name__}...")
+                search_status.value = f'Running {scraper.__name__}...'
+                search_status.update()
                 scraper(driver)
                 duration = time.time() - start
-                print(f"{scraper.__name__} completed in {duration:.2f} seconds\n")
+                print(f"{scraper.__name__} completed in {duration:.2f} seconds")
+                search_status.value = f'{scraper.__name__} completed in {duration:.2f} seconds'
+                search_status.update()
                 time.sleep(2)
         finally:
+            search_status.value = 'SCRAPING COMPLETE...'
             driver.quit()
 
         df1 = pd.read_csv('csv/ref_industry_news.csv')
@@ -110,30 +117,71 @@ def main(page:ft.Page):
         scroll="auto",
         controls=[]
     )
+    search_field = ft.TextField(
+        border_radius=3,
+        label='Search Keywords',
+        bgcolor='#ffffff',
+    )
+    
+    search_status = ft.Text(
+        value='ON STAND-BY...',
+        size=15,
+        color="#B3B3B3"
+    )
 
     container = ft.Container(
         width = 1800,
         height = 900,
+        border_radius=15,
         content=ft.Column(
             controls=[
-                ft.Container(
+                ft.Container(  ####-----CONTROLS SECTION-----####
+                    padding = ft.padding.all(15),
+                    bgcolor="#555555",
                     height=150,
-                    content=ft.Row(
-                        controls=[
-                        ft.Container(
-                            height=100,
-                            content=ft.ElevatedButton(
-                                text='SCRAPE!',
-                                width=300,
-                                height=20,
-                                on_click=scrape_all
-                            )
+                    width=1800,
+                        content=ft.Row(
+                            controls=[
+                                ft.Container( 
+                                    width=700,
+                                    height=150,
+                                    content=ft.Column(
+                                        controls=[
+                                            ft.Container(
+                                                width=300,
+                                                height=50,
+                                                content=ft.Row(
+                                                    controls=[
+                                                        search_field,
+                                                        search_status
+                                                    ]
+                                                )
+                                            )
+                                            ,
+                                            ft.Container( 
+                                                width=300,
+                                                height=50,
+                                                content=ft.ElevatedButton(
+                                                    text='SCRAPE ALL NEWS',
+                                                    width=200,
+                                                    height=20,
+                                                    on_click=scrape_all,
+                                                    style=ft.ButtonStyle(
+                                                        shape=ft.RoundedRectangleBorder(radius=10),
+                                                        text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL)
+                                                    ),
+                                                )
+                                            )   
+                                        ]
+                                    )
+                                )
+                            ]
                         )
-                        ]
-                    )
                     ),
-                ft.Container(
+                ft.Container( ####-----OUTPUT_SECTION-----####
+                    padding = ft.padding.all(15),
                     height=750,
+                    width=1800,
                     content=output_section
                 )
             ]
