@@ -21,6 +21,7 @@ def main(page:ft.Page):
 
     def scrape_all(e):
         options = Options()
+        options.add_argument('--headless')
         options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1920x1080')
         options.add_argument('--log-level=3')
@@ -78,7 +79,7 @@ def main(page:ft.Page):
                     if header == "Title":
                         cell_widget = ft.Container(
                             content=cell_content,
-                            width=200
+                            width=600
                         )
                     else:
                         cell_widget = cell_content
@@ -119,12 +120,15 @@ def main(page:ft.Page):
                     height=150,
                     content=ft.Row(
                         controls=[
-                        ft.ElevatedButton(
-                        text='SCRAPE!',
-                        width=300,
-                        height=20,
-                        on_click=scrape_all
-                    )
+                        ft.Container(
+                            height=100,
+                            content=ft.ElevatedButton(
+                                text='SCRAPE!',
+                                width=300,
+                                height=20,
+                                on_click=scrape_all
+                            )
+                        )
                         ]
                     )
                     ),

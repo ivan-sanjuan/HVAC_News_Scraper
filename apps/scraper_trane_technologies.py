@@ -35,8 +35,7 @@ def get_trane_news(driver):
             publish_date = datetime.strftime(parsed_date_obj, parsed_date_new_format)
             try:
                 if title.get('target') == '_self':
-                    options = Options()
-                    
+                    options = Options()                    
                     options.add_argument('--disable-gpu')
                     options.add_argument('--window-size=1920x1080')
                     options.add_argument('--log-level=3')
