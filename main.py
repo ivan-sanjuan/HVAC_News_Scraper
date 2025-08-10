@@ -4,7 +4,6 @@ from apps.scraper_natural_refrigerants import get_natural_refrigerants_news
 from apps.scraper_trane_technologies import get_trane_news
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 import flet as ft
 import time
 import pandas as pd
