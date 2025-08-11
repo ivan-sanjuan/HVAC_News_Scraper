@@ -36,22 +36,24 @@ def get_danfoss_news(driver):
     latest_news = []
     for news in news_sections:
         title = news.find('div', class_='tile__text-title')
+        link_src = news.find('a', class_='tile__link').get('href')
+        link = f'https://www.danfoss.com{link_src}'
+        summary = news.find('div', class_='tile__text-description').find('span').text
+        parsed_date = news.find('div', class_='tile__text-details_item').text.strip().split(maxsplit=1)[1]
+        original_date_format = '%B %d, %Y'
+        parsed_date_obj = datetime.strptime(parsed_date, original_date_format)
+        new_date_format = '%Y-%m-%d'
+        publish_date = datetime.strftime(parsed_date_obj, new_date_format)
         
         latest_news.append(
             {
-                'Title': title.text.strip()
+                'Title': title.text.strip(),
+                'Source': 'Danfoss',
+                'Link': link,
+                'Summary': summary.strip(),
+                'PublishDate': publish_date
             }
         )
     
-    print(latest_news)
-
-options = Options()
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-driver = webdriver.Chrome(options=options)
-get_danfoss_news(driver)
-
-
-driver.quit()
-time.sleep(10)
+    df = pd.DataFrame(latest_news)
+    df.to_csv('csv/danfoss_news.csv', index=False)

@@ -42,7 +42,7 @@ def get_refindustry_news(driver):
         latest_news.append(
             {
                 'PublishDate': publish_date,
-                'Source': 'Ref Industry NEWS',
+                'Source': 'RefIndustry',
                 'Title': title.strip(),
                 'Summary': summary.text.strip(),
                 'Link': link

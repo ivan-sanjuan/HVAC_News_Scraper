@@ -2,6 +2,7 @@ from apps.scraper_coolingpost import get_cooling_post_news
 from apps.scraper_refindustry import get_refindustry_news
 from apps.scraper_natural_refrigerants import get_natural_refrigerants_news
 from apps.scraper_trane_technologies import get_trane_news
+from apps.scraper_danfoss import get_danfoss_news
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import flet as ft
@@ -25,16 +26,17 @@ def main(page:ft.Page):
         options.add_argument('--window-size=1920x1080')
         options.add_argument('--log-level=3')
         driver = webdriver.Chrome(options=options)
-        search_status.value = 'Starting to scrape..'
         search_status.update()
         scrapers = [
             get_cooling_post_news,
             get_refindustry_news,
             get_natural_refrigerants_news,
-            get_trane_news
+            get_trane_news,
+            get_danfoss_news
         ]
         try:
             for scraper in scrapers:
+                search_status.value = 'Starting to scrape..'
                 start = time.time()
                 print(f"Running {scraper.__name__}...")
                 search_status.value = f'Running {scraper.__name__}...'
@@ -53,7 +55,8 @@ def main(page:ft.Page):
         df2 = pd.read_csv('csv/cooling_post_news.csv')
         df3 = pd.read_csv('csv/natural_refrigerants_news.csv')
         df4 = pd.read_csv('csv/trane_technologies_news.csv')
-        combined_df = pd.concat([df1, df2, df3, df4], ignore_index=True)
+        df5 = pd.read_csv('csv/danfoss_news.csv')
+        combined_df = pd.concat([df1, df2, df3, df4, df5], ignore_index=True)
         combined_df.to_csv('csv/combined_news.csv', index=False)
         
         combined_csv = pd.read_csv('csv/combined_news.csv')
@@ -161,7 +164,7 @@ def main(page:ft.Page):
                                                 width=300,
                                                 height=50,
                                                 content=ft.ElevatedButton(
-                                                    text='SCRAPE ALL NEWS',
+                                                    text='START SCRAPING...',
                                                     width=200,
                                                     height=20,
                                                     on_click=scrape_all,

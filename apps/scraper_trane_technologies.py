@@ -56,7 +56,7 @@ def get_trane_news(driver):
                 latest_news.append(
                     {
                         'PublishDate': publish_date.strip(),
-                        'Source': 'Trane Technologies',
+                        'Source': 'TRANE',
                         'Title': title.text.strip(),
                         'Summary': summary,
                         'Link': link
