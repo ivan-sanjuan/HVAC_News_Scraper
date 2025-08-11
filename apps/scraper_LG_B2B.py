@@ -53,11 +53,12 @@ try:
         'PublishDate': highlighted_post_publish_date
         }
     )
-    
-    highlighted_post_driver.navigate().back()
+    highlighted_post_driver.get('https://www.lgnewsroom.com/category/b2b/product-and-solutions/')
     
 except Exception as e:
     print(f'An error has occured: {e}')
+    
+
 
 print(latest_news)
 
