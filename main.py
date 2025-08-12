@@ -16,7 +16,7 @@ def main(page:ft.Page):
     page.horizontal_alignment = 'center'
     page.vertical_alignment = 'center'
     page.title = 'News Scraper Dashboard'
-    page.theme = ft.Theme('Light')
+    page.theme = ft.Theme('Dark')
     page.update()
 
     def scrape_all(e):

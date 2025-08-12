@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
+from selenium.webdriver.common.window import WindowTypes
 from datetime import datetime, timedelta
 import pandas as pd
 import time
@@ -53,7 +54,23 @@ try:
         'PublishDate': highlighted_post_publish_date
         }
     )
-    highlighted_post_driver.get('https://www.lgnewsroom.com/category/b2b/product-and-solutions/')
+    
+    html_data = driver.page_source
+    soup = BeautifulSoup(html_data, 'html.parser')
+    news_block = soup.find('div', class_='bs_psbx')
+    news_sections = news_block.find_all('bs_ps_item')
+
+    for news in news_sections:
+        a_tag_news = news.find('a', class_='itembx')
+        news_title = a_tag_news.get('title')
+        news_link = a_tag_news.get('href')
+        driver.switch_to.new_window(WindowTypes.TAB)
+        driver.get(news_link)
+        window_handles = driver.window_handles
+
+
+
+
     
 except Exception as e:
     print(f'An error has occured: {e}')
