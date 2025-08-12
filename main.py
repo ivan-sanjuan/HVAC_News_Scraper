@@ -17,15 +17,19 @@ def main(page:ft.Page):
     page.horizontal_alignment = 'center'
     page.vertical_alignment = 'center'
     page.title = 'News Scraper Dashboard'
-    page.theme = ft.Theme('Dark')
+    page.theme = ft.Theme(
+        color_scheme_seed=ft.Colors.YELLOW,
+    )
     page.update()
 
     def scrape_all(e):
         options = Options()
-        # options.add_argument('--headless')
+        options.add_argument('--headless=new')
         options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1920x1080')
         options.add_argument('--log-level=3')
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
         driver = webdriver.Chrome(options=options)
         search_status.update()
         scrapers = [

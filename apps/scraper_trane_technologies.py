@@ -36,10 +36,6 @@ def get_trane_news(driver):
             try:
                 if title.get('target') == '_self':
                     driver.switch_to.new_window(WindowTypes.TAB)
-                    options = Options()
-                    options.add_argument('--disable-gpu')
-                    options.add_argument('--window-size=1920x1080')
-                    options.add_argument('--log-level=3')
                     driver.get(link)
                     WebDriverWait(driver, timeout=5).until(
                         EC.presence_of_element_located((By.CLASS_NAME, 'q4default'))
@@ -51,6 +47,7 @@ def get_trane_news(driver):
                     p_tag.span.decompose()
                     summary = p_tag.text.strip()
                     driver.close()
+                    driver.switch_to.window(driver.window_handles[0])
                 else:
                     summary = 'Not Available -- Link leads to another site.'
             
