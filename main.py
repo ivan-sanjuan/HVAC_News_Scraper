@@ -3,6 +3,7 @@ from apps.scraper_refindustry import get_refindustry_news
 from apps.scraper_natural_refrigerants import get_natural_refrigerants_news
 from apps.scraper_trane_technologies import get_trane_news
 from apps.scraper_danfoss import get_danfoss_news
+from apps.scraper_LG_B2B import get_LG_B2B_news
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import flet as ft
@@ -21,7 +22,7 @@ def main(page:ft.Page):
 
     def scrape_all(e):
         options = Options()
-        options.add_argument('--headless')
+        # options.add_argument('--headless')
         options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1920x1080')
         options.add_argument('--log-level=3')
@@ -32,7 +33,8 @@ def main(page:ft.Page):
             get_refindustry_news,
             get_natural_refrigerants_news,
             get_trane_news,
-            get_danfoss_news
+            get_danfoss_news,
+            get_LG_B2B_news
         ]
         try:
             for scraper in scrapers:
@@ -56,7 +58,8 @@ def main(page:ft.Page):
         df3 = pd.read_csv('csv/natural_refrigerants_news.csv')
         df4 = pd.read_csv('csv/trane_technologies_news.csv')
         df5 = pd.read_csv('csv/danfoss_news.csv')
-        combined_df = pd.concat([df1, df2, df3, df4, df5], ignore_index=True)
+        df6 = pd.read_csv('csv/LG_B2B_news.csv')
+        combined_df = pd.concat([df1, df2, df3, df4, df5, df6], ignore_index=True)
         combined_df.to_csv('csv/combined_news.csv', index=False)
         
         combined_csv = pd.read_csv('csv/combined_news.csv')

@@ -10,77 +10,65 @@ from datetime import datetime, timedelta
 import pandas as pd
 import time
 
-# def get_LG_B2B_news(driver):
-
-options = Options()
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-driver = webdriver.Chrome(options=options)
-
-driver.get('https://www.lgnewsroom.com/category/b2b/product-and-solutions/')
-WebDriverWait(driver, timeout=5).until(
-    EC.presence_of_element_located((By.CLASS_NAME, 'page_content'))
-)
-
-latest_news = []
-try:
-    highlighted_post = driver.find_element(By.CLASS_NAME, 'itembx')
-    highlighted_post_link = highlighted_post.get_attribute('href')
-    highlighted_post_driver = webdriver.Chrome(options=options)
-    highlighted_post_driver.get(highlighted_post_link)
-    html_highlighted_post = highlighted_post_driver.page_source
-    highlighted_post_soup = BeautifulSoup(html_highlighted_post, 'html.parser')
-    WebDriverWait(highlighted_post_driver, timeout=5).until(
+def get_LG_B2B_news(driver):
+    url = 'https://www.lgnewsroom.com/category/b2b/product-and-solutions/'
+    driver.get(url)
+    WebDriverWait(driver, timeout=5).until(
         EC.presence_of_element_located((By.CLASS_NAME, 'page_content'))
     )
-    highlighted_post_content_block = highlighted_post_soup.find('div', class_='page_content')
-    highlighted_post_title = highlighted_post_content_block.find('h2', class_='st_title')
-    highlighted_post_p_tag = highlighted_post_content_block.find('p', style='text-align: justify;')
-    highlighted_post_p_tag.strong.decompose()
-    highlighted_post_summary = highlighted_post_content_block.find('p', style='text-align: justify;').text
-    highlighted_post_parsed_date = highlighted_post_content_block.find('div', class_='date').text
-    original_date_format = '%B %d, %Y'
-    highlighted_post_parsed_date_obj = datetime.strptime(highlighted_post_parsed_date, original_date_format)
-    new_date_format = '%Y-%m-%d'
-    highlighted_post_publish_date = datetime.strftime(highlighted_post_parsed_date_obj, new_date_format)
-
-    latest_news.append(
-        {
-        'Title': highlighted_post_title.text.strip(),
-        'Source': 'LG B2B News',
-        'Link': highlighted_post_link,
-        'Summary': highlighted_post_summary.strip(),
-        'PublishDate': highlighted_post_publish_date
-        }
-    )
+    news_section = driver.find_element(By.CLASS_NAME, 'page_content')
+    highlighted_post = news_section.find_element(By.CLASS_NAME, 'sticky_post')
+    window_handles = driver.window_handles
+    hlight_link = highlighted_post.find_element(By.CLASS_NAME, 'itembx').get_attribute('href')
+    home_html = driver.page_source
+    home_soup = BeautifulSoup(home_html, 'html.parser')
+    news_blocks = home_soup.find_all('div', class_='bs_ps_item')
     
-    html_data = driver.page_source
-    soup = BeautifulSoup(html_data, 'html.parser')
-    news_block = soup.find('div', class_='bs_psbx')
-    news_sections = news_block.find_all('bs_ps_item')
-
-    for news in news_sections:
-        a_tag_news = news.find('a', class_='itembx')
-        news_title = a_tag_news.get('title')
-        news_link = a_tag_news.get('href')
+    latest_news = []
+    def get_news_details(link):
         driver.switch_to.new_window(WindowTypes.TAB)
-        driver.get(news_link)
-        window_handles = driver.window_handles
-
-
-
-
+        driver.get(link)
+        WebDriverWait(driver, timeout=5).until(
+        EC.presence_of_element_located((By.CLASS_NAME, 'page_content'))
+        )
+        html = driver.page_source
+        soup = BeautifulSoup(html,'html.parser')
+        page_content = soup.find('div', class_='page_content')
+        try:
+            title = page_content.find('h2', class_='st_title')
+            summary_group = page_content.find('div', class_='single_cont')
+            p_tag_summary = summary_group.find('p', style='text-align: justify;')
+            if p_tag_summary.strong:
+                p_tag_summary.strong.decompose()
+            summary = p_tag_summary.text
+            parsed_date = page_content.find('div', class_='date').text
+            original_format = '%B %d, %Y'
+            parsed_date_obj = datetime.strptime(parsed_date,original_format)
+            new_date_format = '%Y-%m-%d'
+            publish_date = datetime.strftime(parsed_date_obj,new_date_format)
+            driver.close()
+            driver.switch_to.window(window_handles[0])
+            
+        except Exception as e:
+            print(f'An error has occured: {e}')
+            
+        latest_news.append(
+                {
+                'Title': title.text.strip(),
+                'Source': 'LG B2B',
+                'Link': link,
+                'Summary': summary.strip(),
+                'PublishDate': publish_date
+                }
+            )
+        
+    get_news_details(hlight_link)
     
-except Exception as e:
-    print(f'An error has occured: {e}')
+    for news_links in news_blocks:
+        link = news_links.find('a', class_='itembx').get('href')
+        get_news_details(link)
+     
+    df = pd.DataFrame(latest_news)
+    df.to_csv('csv/LG_B2B_news.csv', index=False)
     
-
-
-print(latest_news)
-
-
-# get_LG_B2B_news(driver)
-
-driver.quit()
-time.sleep(10)
+    return latest_news

@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.window import WindowTypes
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import pandas as pd
@@ -34,22 +35,22 @@ def get_trane_news(driver):
             publish_date = datetime.strftime(parsed_date_obj, parsed_date_new_format)
             try:
                 if title.get('target') == '_self':
-                    options = Options()                    
+                    driver.switch_to.new_window(WindowTypes.TAB)
+                    options = Options()
                     options.add_argument('--disable-gpu')
                     options.add_argument('--window-size=1920x1080')
                     options.add_argument('--log-level=3')
-                    link_driver = webdriver.Chrome(options=options)
-                    link_driver.get(link)
-                    WebDriverWait(link_driver, timeout=5).until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, 'p'))
+                    driver.get(link)
+                    WebDriverWait(driver, timeout=5).until(
+                        EC.presence_of_element_located((By.CLASS_NAME, 'q4default'))
                     )
-                    html_link = link_driver.page_source
+                    html_link = driver.page_source
                     summary_soup = BeautifulSoup(html_link, 'html.parser')
-                    p_tag = summary_soup.find('div', class_='q4default')
+                    summary_section = summary_soup.find('div', class_='q4default')
+                    p_tag = summary_section.find('p')
                     p_tag.span.decompose()
-                    summary = p_tag.find('p').text.strip()
-                    link_driver.close()
-                    time.sleep(2)
+                    summary = p_tag.text.strip()
+                    driver.close()
                 else:
                     summary = 'Not Available -- Link leads to another site.'
             
