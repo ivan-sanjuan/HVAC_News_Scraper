@@ -41,11 +41,15 @@ def main(page:ft.Page):
             get_LG_B2B_news
         ]
         try:
-            for scraper in scrapers:
+            total_tasks = len(scrapers)
+            for i, scraper in enumerate(scrapers):
                 search_status.value = 'Starting to scrape..'
+                progress_bar.visible = True
                 start = time.time()
-                print(f"Running {scraper.__name__}...")
-                search_status.value = f'Running {scraper.__name__}...'
+                print(f"Running {scraper.__name__}... ({i+1} of {total_tasks})")
+                progress_bar.value = (i+1)/total_tasks
+                progress_bar.update()
+                search_status.value = f'Running {scraper.__name__}... ({i+1} of {total_tasks})'
                 search_status.update()
                 scraper(driver)
                 duration = time.time() - start
@@ -56,7 +60,7 @@ def main(page:ft.Page):
         finally:
             search_status.value = 'SCRAPING COMPLETE...'
             driver.quit()
-
+            
         df1 = pd.read_csv('csv/ref_industry_news.csv')
         df2 = pd.read_csv('csv/cooling_post_news.csv')
         df3 = pd.read_csv('csv/natural_refrigerants_news.csv')
@@ -103,7 +107,6 @@ def main(page:ft.Page):
                     row_cells.append(ft.DataCell(cell_widget))
                 rows.append(ft.DataRow(cells=row_cells))
             return rows
-
                 
         scrape_result = ft.DataTable(
                         columns=headers(combined_csv_df),
@@ -117,25 +120,52 @@ def main(page:ft.Page):
                         width=1800
                         )
         
+        
+        
         output_section.controls.append(scrape_result)
         page.update()
-        
+    
+    
     output_section = ft.Column(
         width=1800,
-        height=750,
+        height=700,
         scroll="auto",
         controls=[]
     )
+    
     search_field = ft.TextField(
         border_radius=3,
         label='Search Keywords',
         bgcolor='#ffffff',
+        width=400,
+        value=''
     )
     
     search_status = ft.Text(
         value='ON STAND-BY...',
         size=15,
-        color="#B3B3B3"
+        color="#B3B3B3",
+        width=400
+    )
+    
+    progress_bar = ft.ProgressBar(
+        width=1735,
+        visible=False
+    )
+    
+    scrape_button = ft.Container( 
+        width=300,
+        height=50,
+        content=ft.ElevatedButton(
+            text='START SCRAPING...',
+            width=200,
+            height=20,
+            on_click=scrape_all,
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=10),
+                text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL)
+            ),
+        )
     )
 
     container = ft.Container(
@@ -147,40 +177,24 @@ def main(page:ft.Page):
                 ft.Container(  ####-----CONTROLS SECTION-----####
                     padding = ft.padding.all(15),
                     bgcolor="#555555",
-                    height=150,
+                    height=120,
                     width=1800,
                         content=ft.Row(
                             controls=[
                                 ft.Container( 
-                                    width=700,
+                                    width=1800,
                                     height=150,
                                     content=ft.Column(
                                         controls=[
-                                            ft.Container(
-                                                width=300,
-                                                height=50,
-                                                content=ft.Row(
-                                                    controls=[
-                                                        search_field,
-                                                        search_status
-                                                    ]
-                                                )
-                                            )
-                                            ,
-                                            ft.Container( 
-                                                width=300,
-                                                height=50,
-                                                content=ft.ElevatedButton(
-                                                    text='START SCRAPING...',
-                                                    width=200,
-                                                    height=20,
-                                                    on_click=scrape_all,
-                                                    style=ft.ButtonStyle(
-                                                        shape=ft.RoundedRectangleBorder(radius=10),
-                                                        text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL)
-                                                    ),
-                                                )
-                                            )   
+                                            ft.Row(
+                                                controls=[
+                                                    scrape_button,
+                                                    search_field
+                                                ]
+                                            ),
+                                            ft.Container(),
+                                            search_status,
+                                            progress_bar                                               
                                         ]
                                     )
                                 )
@@ -189,9 +203,21 @@ def main(page:ft.Page):
                     ),
                 ft.Container( ####-----OUTPUT_SECTION-----####
                     padding = ft.padding.all(15),
-                    height=750,
+                    height=780,
                     width=1800,
-                    content=output_section
+                    content=ft.Column(
+                        controls=[
+                            ft.Container(
+                                content=ft.Row(
+                                    controls=[
+                                        
+                                    ]
+                                )
+                            )
+                            ,
+                            output_section
+                        ]
+                    )
                 )
             ]
         )
