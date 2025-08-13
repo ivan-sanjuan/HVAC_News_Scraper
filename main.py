@@ -23,6 +23,7 @@ def main(page:ft.Page):
     page.update()
 
     def scrape_all(e):
+        output_section.controls.clear()
         options = Options()
         options.add_argument('--headless=new')
         options.add_argument('--disable-gpu')
@@ -120,11 +121,64 @@ def main(page:ft.Page):
                         width=1800
                         )
         
-        
-        
         output_section.controls.append(scrape_result)
         page.update()
     
+    def filter_items(e):
+        output_section.controls.clear()
+        query = e.strip().lower()
+
+        df = pd.read_csv('csv/combined_news.csv')
+        filtered_df = df[df.apply(lambda row: query in str(row['Title']).lower(), axis=1)]
+
+        def headers(df: pd.DataFrame):
+            return [ft.DataColumn(ft.Text(col)) for col in df.columns]
+
+        def rows(df: pd.DataFrame):
+            def open_link(e):
+                page.launch_url(e.control.data)
+
+            rows = []
+            for index, row in df.iterrows():
+                row_cells = []
+                for header in df.columns:
+                    cell_value = str(row[header])
+
+                    if cell_value.startswith("http://") or cell_value.startswith("https://"):
+                        cell_content = ft.TextButton(
+                            text="Visit",
+                            data=cell_value,
+                            on_click=open_link,
+                            style=ft.ButtonStyle(color=ft.Colors.BLUE)
+                        )
+                    else:
+                        cell_content = ft.Text(cell_value, color='#1F2134')
+
+                    if header == "Title":
+                        cell_widget = ft.Container(
+                            content=cell_content,
+                            width=600
+                        )
+                    else:
+                        cell_widget = cell_content
+
+                    row_cells.append(ft.DataCell(cell_widget))
+                rows.append(ft.DataRow(cells=row_cells))
+            return rows
+
+        scrape_result = ft.DataTable(
+            columns=headers(filtered_df),
+            bgcolor='#DCDCDC',
+            rows=rows(filtered_df),
+            column_spacing=20,
+            heading_row_color='#1F2134',
+            data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
+            show_checkbox_column=True,
+            border=ft.border.all(1, ft.Colors.GREY),
+            width=1800
+        )
+        output_section.controls.append(scrape_result)
+        page.update()
     
     output_section = ft.Column(
         width=1800,
@@ -138,14 +192,14 @@ def main(page:ft.Page):
         label='Search Keywords',
         bgcolor='#ffffff',
         width=400,
-        value=''
+        on_change=lambda e: filter_items(e.control.value)
     )
-    
+
     search_status = ft.Text(
         value='ON STAND-BY...',
         size=15,
         color="#B3B3B3",
-        width=400
+        width=400,
     )
     
     progress_bar = ft.ProgressBar(
