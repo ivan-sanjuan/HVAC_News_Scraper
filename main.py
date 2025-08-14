@@ -129,7 +129,15 @@ def main(page:ft.Page):
         query = e.strip().lower()
 
         df = pd.read_csv('csv/combined_news.csv')
-        filtered_df = df[df.apply(lambda row: query in str(row['Title']).lower(), axis=1)]
+        filtered_df = df[
+            df.apply(
+            lambda row: 
+            query in str(row['Title']).lower() 
+            or query in str(row['Summary']).lower()
+            or query in str(row['Source']).lower(), 
+            axis=1
+            )
+        ]
 
         def headers(df: pd.DataFrame):
             return [ft.DataColumn(ft.Text(col)) for col in df.columns]
@@ -182,7 +190,7 @@ def main(page:ft.Page):
     
     output_section = ft.Column(
         width=1800,
-        height=700,
+        height=715,
         scroll="auto",
         controls=[]
     )
@@ -204,7 +212,8 @@ def main(page:ft.Page):
     
     progress_bar = ft.ProgressBar(
         width=1735,
-        visible=False
+        visible=False,
+        color = "#18B100"
     )
     
     scrape_button = ft.Container( 
@@ -231,7 +240,7 @@ def main(page:ft.Page):
                 ft.Container(  ####-----CONTROLS SECTION-----####
                     padding = ft.padding.all(15),
                     bgcolor="#555555",
-                    height=120,
+                    height=135,
                     width=1800,
                         content=ft.Row(
                             controls=[
@@ -257,7 +266,7 @@ def main(page:ft.Page):
                     ),
                 ft.Container( ####-----OUTPUT_SECTION-----####
                     padding = ft.padding.all(15),
-                    height=780,
+                    height=750,
                     width=1800,
                     content=ft.Column(
                         controls=[
