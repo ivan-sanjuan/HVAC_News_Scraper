@@ -11,7 +11,7 @@ import time
 today = date.today()
 yesterday = today-timedelta(days=1)
 
-def get_refindustry_news(driver):
+def get_refindustry_news(driver,coverage_date):
     driver.get('https://refindustry.com/news/')
 
     WebDriverWait(driver, 5).until(
@@ -23,33 +23,42 @@ def get_refindustry_news(driver):
     news_section = soup.find('div', class_='posts_new')
     news_blocks = news_section.find_all('a', class_='post_new _post_news_status')
 
+    page_num = 1
     latest_news = []
     for news in news_blocks:
-        title = news.find('div', class_='post_title').text
-        summary = news.find('div', class_='post_descr')
-        link = news.get('href')
         parsed_date = news.find('div', class_='post_bot_text').text
+        original_format_date_obj = datetime.strptime(parsed_date, '%d %b %Y')
+        publish_date = datetime.strftime(original_format_date_obj,'%Y-%m-%d')
         if parsed_date == 'today':
             publish_date = today
         elif parsed_date == 'yesterday':
             publish_date = yesterday
         else:
-            original_format = '%d %b %Y'
-            original_format_date_obj = datetime.strptime(parsed_date, original_format)
-            new_format = '%Y-%m-%d'
-            publish_date = original_format_date_obj.strftime(new_format)
-        
-        latest_news.append(
-            {
-                'PublishDate': publish_date,
-                'Source': 'RefIndustry',
-                'Title': title.strip(),
-                'Summary': summary.text.strip(),
-                'Link': link
-            }
-        )
+            if publish_date >= coverage_date:
+                title = news.find('div', class_='post_title').text
+                summary = news.find('div', class_='post_descr')
+                link = news.get('href')
+                pages = driver.find_element(By.ID, 'pagination')
+                WebDriverWait(driver, timeout=5).until(
+                    EC.element_to_be_clickable((By.CLASS_NAME, 'active'))
+                )
+                page_num += 1
+                
+                latest_news.append(
+                    {
+                        'PublishDate': publish_date,
+                        'Source': 'RefIndustry',
+                        'Title': title.strip(),
+                        'Summary': summary.text.strip(),
+                        'Link': link
+                    }
+                )
+    
+    next_page = pages.find_element(By.CSS_SELECTOR, f'{page_num}')
+    next_page.click()
 
     df = pd.DataFrame(latest_news)
     df.to_csv('csv/ref_industry_news.csv', index=False)
     
     return latest_news
+
