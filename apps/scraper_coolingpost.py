@@ -52,10 +52,10 @@ class CoolingPostNews:
             self.latest_news.append(
                 {
                 'PublishDate': publish_date,
-                'Title': self.title.text.strip(),
                 'Source': self.source,
-                'Link': self.link,
-                'Summary': self.summary.text.strip()
+                'Title': self.title.text.strip(),
+                'Summary': self.summary.text.strip(),
+                'Link': self.link
                 }
             )
         return True
@@ -99,7 +99,7 @@ options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
 
 driver = webdriver.Chrome(options=options)
-get_cooling_post_news(driver, coverage_date=30)
+get_cooling_post_news(driver, coverage_date=7)
 
 time.sleep(10)
 driver.quit()
