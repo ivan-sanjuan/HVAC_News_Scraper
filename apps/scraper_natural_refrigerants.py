@@ -11,9 +11,9 @@ import time
 
 
 class NaturalRefrigerants:
-    def __init__(self,driver,coverage_date,news_url):
+    def __init__(self,driver,coverage_days,news_url):
         self.driver = driver
-        self.coverage_date = coverage_date
+        self.coverage_days = coverage_days
         self.news_url = news_url
         self.today = date.today()
         self.latest_news = []
@@ -37,7 +37,7 @@ class NaturalRefrigerants:
             parsed_date = news.find('span', class_='elementor-post-info__item').find('time').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
             self.publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj.date() < self.today - timedelta(days=self.coverage_date):
+            if parsed_date_obj.date() < self.today - timedelta(days=self.coverage_days):
                 self.link = news.find('h2', class_='elementor-heading-title').find('a').get('href')
                 self.title = news.find('h2', class_='elementor-heading-title').find('a')
                 self.summary = news.find('div', class_='elementor-widget-theme-post-excerpt').find('div', class_='elementor-widget-container')
@@ -57,9 +57,9 @@ class NaturalRefrigerants:
         self.get_news()
         
 all_news = []
-def get_natural_refrigerants_news(driver, coverage_date):
+def get_natural_refrigerants_news(driver, coverage_days):
     url = 'https://naturalrefrigerants.com/news/'
-    news = NaturalRefrigerants(driver,coverage_date,url)
+    news = NaturalRefrigerants(driver,coverage_days,url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)

@@ -12,9 +12,9 @@ import pandas as pd
 import time
 
 class TraneNews:
-    def __init__(self,driver,coverage_date,news_url):
+    def __init__(self,driver,coverage_days,news_url):
         self.driver = driver
-        self.coverage_date = coverage_date
+        self.coverage_days = coverage_days
         self.news_url = news_url
         self.today = date.today()
         self.latest_news = []
@@ -34,7 +34,7 @@ class TraneNews:
             parsed_date = news.find('p', class_='newspromo__date').text
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
             self.publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj.date() >= self.today-timedelta(days=self.coverage_date):
+            if parsed_date_obj.date() >= self.today-timedelta(days=self.coverage_days):
                 link_tag = news.find('a', 'newspromo__link')
                 link_target = link_tag.get('target')
                 self.link = link_tag.get('href')
@@ -63,9 +63,9 @@ class TraneNews:
         self.get_news()
 
 all_news = []
-def get_trane_news(driver, coverage_date):
+def get_trane_news(driver, coverage_days):
     news_url = 'https://www.tranetechnologies.com/en/index/news/news-archive.html'
-    news = TraneNews(driver,coverage_date,news_url)
+    news = TraneNews(driver,coverage_days,news_url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
@@ -81,7 +81,7 @@ options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
 
 driver = webdriver.Chrome(options=options)
-get_trane_news(driver, coverage_date=150)
+get_trane_news(driver, coverage_days=60)
 
 time.sleep(10)
 driver.quit()

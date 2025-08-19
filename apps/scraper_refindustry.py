@@ -9,7 +9,7 @@ from datetime import date, timedelta, datetime
 import pandas as pd
 import time
 
-def get_refindustry_news(driver, coverage_date):
+def get_refindustry_news(driver, coverage_days):
     page_num = 1
     conditions_met = False
     latest_news = []
@@ -36,7 +36,7 @@ def get_refindustry_news(driver, coverage_date):
                     old_format = '%d %b %Y'
                     parsed_date_obj = datetime.strptime(parsed_date, old_format)
                     publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-                    max_date_range = today-timedelta(days=coverage_date)
+                    max_date_range = today-timedelta(days=coverage_days)
                     if parsed_date_obj.date() >= max_date_range:
                         link = news.get('href')
                         driver.switch_to.new_window(WindowTypes.TAB)

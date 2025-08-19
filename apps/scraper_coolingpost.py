@@ -11,9 +11,9 @@ import re
 import time
 
 class CoolingPostNews:
-    def __init__(self, news_link, coverage_date, driver, name, source):
+    def __init__(self, news_link, coverage_days, driver, name, source):
         self.news_link = news_link
-        self.coverage_date = coverage_date
+        self.coverage_days = coverage_days
         self.driver = driver
         self.soup = None
         self.news_block = []
@@ -44,7 +44,7 @@ class CoolingPostNews:
             parsed_date = news.find('div', class_='cl-element-published_date').text
             parsed_date_obj = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', parsed_date), '%d %B %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj.date() < self.today-timedelta(days=self.coverage_date):
+            if parsed_date_obj.date() < self.today-timedelta(days=self.coverage_days):
                 return False
             self.title = news.find('a', class_='cl-element-title__anchor')
             self.link = self.title.get('href')
@@ -64,19 +64,19 @@ class CoolingPostNews:
         self.get_soup()
 
 all_news = []        
-def get_cooling_post_news(driver, coverage_date):
+def get_cooling_post_news(driver, coverage_days):
     world = 'https://www.coolingpost.com/world-news/'
     uk = 'https://www.coolingpost.com/uk-news/'
     products = 'https://www.coolingpost.com/products/'
     features = 'https://www.coolingpost.com/features/'
     blog = 'https://www.coolingpost.com/blog/'
     train_events = 'https://www.coolingpost.com/training/'
-    world_news = CoolingPostNews(world,coverage_date, driver,'world-news','CoolingPost-World')
-    uk_news = CoolingPostNews(uk,coverage_date,driver,'uk-news','CoolingPost-UK')
-    product_news = CoolingPostNews(products,coverage_date,driver,'products','CoolingPost-Products')
-    feature_news = CoolingPostNews(features,coverage_date,driver,'features','CoolingPost-Features')
-    blog_news = CoolingPostNews(blog,coverage_date,driver,'blog','CoolingPost-Blog')
-    train_events_news = CoolingPostNews(train_events,coverage_date,driver,'training','CoolingPost-T&E')
+    world_news = CoolingPostNews(world,coverage_days, driver,'world-news','CoolingPost-World')
+    uk_news = CoolingPostNews(uk,coverage_days,driver,'uk-news','CoolingPost-UK')
+    product_news = CoolingPostNews(products,coverage_days,driver,'products','CoolingPost-Products')
+    feature_news = CoolingPostNews(features,coverage_days,driver,'features','CoolingPost-Features')
+    blog_news = CoolingPostNews(blog,coverage_days,driver,'blog','CoolingPost-Blog')
+    train_events_news = CoolingPostNews(train_events,coverage_days,driver,'training','CoolingPost-T&E')
     world_news.scrape()
     uk_news.scrape()
     product_news.scrape()
