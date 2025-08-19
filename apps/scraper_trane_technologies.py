@@ -7,69 +7,73 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.window import WindowTypes
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
+from datetime import date, timedelta, datetime
 import pandas as pd
 import time
 
-def get_trane_news(driver):
-    driver.get('https://www.tranetechnologies.com/en/index/news/news-archive.html')
-    WebDriverWait(driver, timeout=5).until(
-        EC.presence_of_element_located((By.CLASS_NAME, 'newspromo__promos'))
-    )
-    html = driver.page_source
-    soup = BeautifulSoup(html, 'html.parser')
-    news_block = soup.find('div', class_='newspromo__promos')
-    news_section = news_block.find_all('div', class_='newspromo__text')
-
-    latest_news = []
-    for news in news_section:
-        parsed_date = news.find('p', class_='newspromo__date').text
-        parsed_date_original_format = '%B %d, %Y'
-        parsed_date_obj = datetime.strptime(parsed_date, parsed_date_original_format)
-        today = datetime.today()
-        parsed_date_new_format = '%Y-%m-%d'
-        max_date_range = today-timedelta(days=60)
-        if parsed_date_obj >= max_date_range:
-            title = news.find('a', class_='newspromo__link')
-            link = title.get('href')
-            publish_date = datetime.strftime(parsed_date_obj, parsed_date_new_format)
-            try:
-                if title.get('target') == '_self':
-                    driver.switch_to.new_window(WindowTypes.TAB)
-                    driver.get(link)
-                    WebDriverWait(driver, timeout=5).until(
-                        EC.presence_of_element_located((By.CLASS_NAME, 'q4default'))
-                    )
-                    html_link = driver.page_source
-                    summary_soup = BeautifulSoup(html_link, 'html.parser')
-                    summary_section = summary_soup.find('div', class_='q4default')
-                    p_tag = summary_section.find('p')
-                    p_tag.span.decompose()
-                    summary = p_tag.text.strip()
-                    driver.close()
-                    driver.switch_to.window(driver.window_handles[0])
+class TraneNews:
+    def __init__(self,driver,coverage_date,news_url):
+        self.driver = driver
+        self.coverage_date = coverage_date
+        self.news_url = news_url
+        self.today = date.today()
+        self.latest_news = []
+        
+    def get_soup(self):
+        self.driver.get(self.news_url)
+        WebDriverWait(self.driver,5).until(
+            EC.presence_of_element_located((By.CLASS_NAME,'newspromo__promos'))
+        )
+        html = self.driver.page_source
+        self.soup = BeautifulSoup(html,'html.parser')
+        self.news_section = self.soup.find('div', class_='newspromo__promos')
+        self.news_blocks = self.news_section.find_all('div', 'newspromo__promo-wrap')
+        
+    def get_news(self):
+        for news in self.news_blocks:
+            parsed_date = news.find('p', class_='newspromo__date').text
+            parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+            self.publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+            if parsed_date_obj.date() >= self.today-timedelta(days=self.coverage_date):
+                link_tag = news.find('a', 'newspromo__link')
+                link_target = link_tag.get('target')
+                self.link = link_tag.get('href')
+                self.title = link_tag.text.strip()
+                if link_target == '_self':
+                    self.driver.switch_to.new_window('tab')
+                    self.driver.get(self.link)
+                    self.summary = self.driver.find_element(By.XPATH,'//*[@id="_ctrl0_ctl70_divModuleContainer"]/div/div/div/div[3]/div/p[1]').text.strip()
+                    self.driver.close()
+                    self.driver.switch_to.window(self.driver.window_handles[0])
                 else:
-                    summary = 'Not Available -- Link leads to another site.'
-            
-                latest_news.append(
+                    self.summary = 'NO SUMMARY - LINK LEADS TO A DIFFERENT SITE; Visit the site for more information.'
+                    
+                self.latest_news.append(
                     {
-                        'PublishDate': publish_date.strip(),
-                        'Source': 'TRANE',
-                        'Title': title.text.strip(),
-                        'Summary': summary,
-                        'Link': link
+                    'PublishDate': self.publish_date,
+                    'Source': 'TRANE',
+                    'Title': self.title,
+                    'Summary': self.summary,
+                    'Link': self.link
                     }
                 )
-                df = pd.DataFrame(latest_news)
-                df.to_csv('csv/trane_technologies_news.csv', index=False)
-                
-            except Exception as e:
-                print(f'An error has occured: {e}')
-                
-    return latest_news
+                    
+    def scrape(self):
+        self.get_soup()
+        self.get_news()
 
+all_news = []
+def get_trane_news(driver, coverage_date):
+    news_url = 'https://www.tranetechnologies.com/en/index/news/news-archive.html'
+    news = TraneNews(driver,coverage_date,news_url)
+    news.scrape()
+    all_news.extend(news.latest_news)
+    df = pd.DataFrame(all_news)
+    df.to_csv('csv/trane_technologies_news.csv', index=False)
+    return all_news
+    
 options = Options()
-# options.add_argument('--headless=new')
+options.add_argument('--headless=new')
 options.add_argument('--disable-gpu')
 options.add_argument('--window-size=1920x1080')
 options.add_argument('--log-level=3')
@@ -77,7 +81,7 @@ options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
 
 driver = webdriver.Chrome(options=options)
-get_trane_news(driver, coverage_date=30)
+get_trane_news(driver, coverage_date=150)
 
 time.sleep(10)
 driver.quit()
