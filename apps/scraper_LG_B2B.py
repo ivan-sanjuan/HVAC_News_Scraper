@@ -1,14 +1,9 @@
-from selenium import webdriver
-import requests
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
-from selenium.webdriver.common.window import WindowTypes
 from datetime import datetime, timedelta
 import pandas as pd
-import time
 
 class LGNews:
     def __init__(self,driver,coverage_days,news_url,source):
@@ -46,6 +41,7 @@ class LGNews:
         self.driver.back()
         
     def get_blocks_soup(self):
+        print(f'Getting {self.source} News')
         home_html=self.driver.page_source
         home_soup=BeautifulSoup(home_html,'html.parser')
         news_section = home_soup.find('div', class_='bs_psbx')
@@ -65,6 +61,7 @@ class LGNews:
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
             if parsed_date_obj >= self.today-timedelta(days=self.coverage_days):
                 title = article.find('h2',class_='st_title').text.strip()
+                print(f'Scraping summary: {title}')
                 summary_block = article.find('p',style='text-align: justify;')
                 summary_block.strong.decompose()
                 summary = summary_block.text.strip()
@@ -94,7 +91,7 @@ class LGNews:
         self.get_news()
 
 all_news = []
-def get_LG_B2B_news(driver,coverage_days):
+def get_LG_news(driver,coverage_days):
     corporate_url = 'https://www.lgnewsroom.com/category/news/corporate/'
     appliance_solution_url = 'https://www.lgnewsroom.com/category/news/home-appliances-solution/'
     entertainment_url = 'https://www.lgnewsroom.com/category/news/media-entertainment-solution/'

@@ -4,8 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.window import WindowTypes
 from bs4 import BeautifulSoup
 from datetime import date, timedelta, datetime
 import pandas as pd
@@ -41,6 +39,7 @@ class TraneNews:
                 self.title = link_tag.text.strip()
                 if link_target == '_self':
                     self.driver.switch_to.new_window('tab')
+                    print(f'getting summary of: {self.title}')
                     self.driver.get(self.link)
                     self.summary = self.driver.find_element(By.XPATH,'//*[@id="_ctrl0_ctl70_divModuleContainer"]/div/div/div/div[3]/div/p[1]').text.strip()
                     self.driver.close()

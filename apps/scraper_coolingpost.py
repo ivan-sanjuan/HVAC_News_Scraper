@@ -1,14 +1,11 @@
-from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.window import WindowTypes
 from bs4 import BeautifulSoup
 from datetime import date, timedelta, datetime
 import pandas as pd
 import re
-import time
 
 class CoolingPostNews:
     def __init__(self, news_link, coverage_days, driver, name, source):
@@ -25,17 +22,21 @@ class CoolingPostNews:
         self.source = source
     
     def get_soup(self):
-        while True:
-            url = self.news_link if self.page_num == 1 else f'https://www.coolingpost.com/{self.name}/page/{self.page_num}/'
-            self.driver.get(url)
-            WebDriverWait(self.driver,timeout=5).until(
-                EC.presence_of_element_located((By.ID,'main-content'))
-            )
-            html = self.driver.page_source
-            self.soup = BeautifulSoup(html,'html.parser')
-            if not self.get_news_blocks():
-                break
-            self.page_num+=1
+        try:
+            while True:
+                url = self.news_link if self.page_num == 1 else f'https://www.coolingpost.com/{self.name}/page/{self.page_num}/'
+                self.driver.get(url)
+                WebDriverWait(self.driver,timeout=5).until(
+                    EC.presence_of_element_located((By.ID,'main-content'))
+                )
+                html = self.driver.page_source
+                self.soup = BeautifulSoup(html,'html.parser')
+                if not self.get_news_blocks():
+                    break
+                self.page_num+=1
+                print(f'CoolingPost News, Page: {self.page_num}')
+        except Exception as e:
+            print(f'An error has occured: {e}')
         
     def get_news_blocks(self):
         news_section = self.soup.find('div', id='main-content')

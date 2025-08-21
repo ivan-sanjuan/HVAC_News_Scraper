@@ -1,11 +1,9 @@
-from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.window import WindowTypes
 from bs4 import BeautifulSoup
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
 import pandas as pd
 
 class RefIndustryNews:
@@ -23,7 +21,6 @@ class RefIndustryNews:
             try:
                 if self.page_num == 1:
                     self.driver.get(self.news_url)
-                    print(f'Accessing: {self.news_url}')
                 else:
                     try:
                         cookie_accept = WebDriverWait(self.driver,3).until(
@@ -54,7 +51,7 @@ class RefIndustryNews:
         self.element = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, f"//div[@onclick='goToPage({self.page_num})']"))
             )
-        print(f'Page: {self.page_num}')
+        print(f'RefIndustry News, Page: {self.page_num}')
         self.element.click()
 
     def get_news(self):

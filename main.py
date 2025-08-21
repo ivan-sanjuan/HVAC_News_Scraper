@@ -3,7 +3,7 @@ from apps.scraper_refindustry import get_refindustry_news
 from apps.scraper_natural_refrigerants import get_natural_refrigerants_news
 from apps.scraper_trane_technologies import get_trane_news
 from apps.scraper_danfoss import get_danfoss_news
-from apps.scraper_LG_B2B import get_LG_B2B_news
+from apps.scraper_LG_B2B import get_LG_news
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import flet as ft
@@ -17,14 +17,12 @@ class UILogStream:
             self.log_func = log_func
 
         def write(self, message):
-            if message.strip():  # Avoid empty lines
+            if message.strip(): 
                 self.log_func(message)
 
         def flush(self):
             pass
-        
-
-        
+  
 def main(page:ft.Page):
     page.window.width = 1800
     page.window.height = 950
@@ -68,7 +66,7 @@ def main(page:ft.Page):
             get_natural_refrigerants_news,
             get_trane_news,
             get_danfoss_news,
-            get_LG_B2B_news
+            get_LG_news
         ]
         try:
             total_tasks = len(scrapers)
@@ -285,7 +283,7 @@ def main(page:ft.Page):
     
     log_list = ft.ListView(
         expand=True,
-        spacing=3,
+        spacing=1,
         auto_scroll=True,
         padding=ft.padding.only(top=15,bottom=15,right=0,left=0)
     )
