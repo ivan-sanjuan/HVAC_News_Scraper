@@ -36,14 +36,14 @@ class DanfossNews:
         
     def get_soup(self):
         self.driver.get(self.news_url)
-        pop_up = WebDriverWait(driver,5).until(
+        pop_up = WebDriverWait(self.driver,5).until(
             EC.presence_of_element_located((By.CLASS_NAME,'coi-banner__accept'))
         )
         if pop_up:
             pop_up.click()
         else:
             pass
-        WebDriverWait(driver,5).until(
+        WebDriverWait(self.driver,5).until(
             EC.presence_of_element_located((By.CLASS_NAME,'news-list-items'))
         )
         html = self.driver.page_source

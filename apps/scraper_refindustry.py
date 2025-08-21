@@ -7,8 +7,6 @@ from selenium.webdriver.common.window import WindowTypes
 from bs4 import BeautifulSoup
 from datetime import date, timedelta, datetime
 import pandas as pd
-import pprint
-import time
 
 class RefIndustryNews:
     def __init__(self,driver,coverage_days,news_url):
@@ -48,7 +46,7 @@ class RefIndustryNews:
             
             
     def next_page(self):
-        self.element = WebDriverWait(driver, 10).until(
+        self.element = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, f"//div[@onclick='goToPage({self.page_num})']"))
             )
         self.element.click()
@@ -85,6 +83,7 @@ class RefIndustryNews:
 
 all_news = []
 def get_refindustry_news(driver, coverage_days):
+    driver.set_window_size(1920, 1080)
     url = 'https://refindustry.com/news/'
     news = RefIndustryNews(driver,coverage_days,url)
     news.scrape()
@@ -93,12 +92,12 @@ def get_refindustry_news(driver, coverage_days):
     df.to_csv('csv/ref_industry_news.csv', index=False)
     return all_news
 
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_refindustry_news(driver,coverage_days=60)
+# options = Options()
+# # options.add_argument('--headless=new')
+# options.add_argument('--disable-gpu')
+# options.add_argument('--window-size=1920x1080')
+# options.add_argument('--log-level=3')
+# options.add_argument("--disable-blink-features=AutomationControlled")
+# options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
+# driver = webdriver.Chrome(options=options)
+# get_refindustry_news(driver,coverage_days=60)
