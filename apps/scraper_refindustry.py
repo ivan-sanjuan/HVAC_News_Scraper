@@ -20,35 +20,41 @@ class RefIndustryNews:
         
     def get_soup(self):
         while True:
-            if self.page_num == 1:
-                self.driver.get(self.news_url)
-            else:
-                try:
-                    cookie_accept = WebDriverWait(self.driver,3).until(
-                    EC.element_to_be_clickable((By.CLASS_NAME, 'ok')) 
-                    )
-                    cookie_accept.click()
-                    print('Cookies Accepted.')
-                except:
-                    print('No cookie block found.')
-                self.next_page()
-            
-            WebDriverWait(self.driver,5).until(
-                EC.presence_of_element_located((By.CLASS_NAME,'posts_new'))
-            )
-            html = self.driver.page_source
-            self.soup = BeautifulSoup(html,'html.parser')
-            article_section = self.soup.find('div',class_='posts_new')
-            self.article_blocks = article_section.find_all('a', class_='_post_news_status')
-            if not self.get_news():
-                break
-            self.page_num += 1
+            try:
+                if self.page_num == 1:
+                    self.driver.get(self.news_url)
+                    print(f'Accessing: {self.news_url}')
+                else:
+                    try:
+                        cookie_accept = WebDriverWait(self.driver,3).until(
+                        EC.element_to_be_clickable((By.CLASS_NAME, 'ok')) 
+                        )
+                        cookie_accept.click()
+                        print('Cookies Accepted.')
+                    except:
+                        print('No cookie block found.')
+                    self.next_page()
+                
+                WebDriverWait(self.driver,5).until(
+                    EC.presence_of_element_located((By.CLASS_NAME,'posts_new'))
+                )
+                html = self.driver.page_source
+                self.soup = BeautifulSoup(html,'html.parser')
+                article_section = self.soup.find('div',class_='posts_new')
+                self.article_blocks = article_section.find_all('a', class_='_post_news_status')
+                if not self.get_news():
+                    break
+                self.page_num += 1
+                
+            except Exception as e:
+                print(f'An error has occured: {e}')
             
             
     def next_page(self):
         self.element = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, f"//div[@onclick='goToPage({self.page_num})']"))
             )
+        print(f'Page: {self.page_num}')
         self.element.click()
 
     def get_news(self):
@@ -92,12 +98,3 @@ def get_refindustry_news(driver, coverage_days):
     df.to_csv('csv/ref_industry_news.csv', index=False)
     return all_news
 
-# options = Options()
-# # options.add_argument('--headless=new')
-# options.add_argument('--disable-gpu')
-# options.add_argument('--window-size=1920x1080')
-# options.add_argument('--log-level=3')
-# options.add_argument("--disable-blink-features=AutomationControlled")
-# options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-# driver = webdriver.Chrome(options=options)
-# get_refindustry_news(driver,coverage_days=60)

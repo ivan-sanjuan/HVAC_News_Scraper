@@ -21,7 +21,6 @@ class NaturalRefrigerants:
         
     def get_soup(self):
         url = self.news_url
-        print(f'Current URL: {url}')
         self.driver.delete_all_cookies()
         self.driver.get(url)
         WebDriverWait(self.driver,timeout=5).until(
@@ -37,7 +36,7 @@ class NaturalRefrigerants:
             parsed_date = news.find('span', class_='elementor-post-info__item').find('time').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
             self.publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj.date() < self.today - timedelta(days=self.coverage_days):
+            if parsed_date_obj.date() > self.today - timedelta(days=self.coverage_days):
                 self.link = news.find('h2', class_='elementor-heading-title').find('a').get('href')
                 self.title = news.find('h2', class_='elementor-heading-title').find('a')
                 self.summary = news.find('div', class_='elementor-widget-theme-post-excerpt').find('div', class_='elementor-widget-container')
@@ -58,6 +57,7 @@ class NaturalRefrigerants:
         
 all_news = []
 def get_natural_refrigerants_news(driver, coverage_days):
+    driver.set_window_size(1920, 1080)
     url = 'https://naturalrefrigerants.com/news/'
     news = NaturalRefrigerants(driver,coverage_days,url)
     news.scrape()
@@ -66,3 +66,4 @@ def get_natural_refrigerants_news(driver, coverage_days):
     df.to_csv('csv/natural_refrigerants_news.csv', index=False)
     
     return all_news
+

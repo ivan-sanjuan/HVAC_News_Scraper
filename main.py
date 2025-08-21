@@ -9,7 +9,22 @@ from selenium.webdriver.chrome.options import Options
 import flet as ft
 import time
 import pandas as pd
+import sys
 
+
+class UILogStream:
+        def __init__(self, log_func):
+            self.log_func = log_func
+
+        def write(self, message):
+            if message.strip():  # Avoid empty lines
+                self.log_func(message)
+
+        def flush(self):
+            pass
+        
+
+        
 def main(page:ft.Page):
     page.window.width = 1800
     page.window.height = 950
@@ -24,6 +39,20 @@ def main(page:ft.Page):
 
     def scrape_all(e):
         output_section.controls.clear()
+        
+        try:
+            coverage_days = int(coverage_input.value)
+        except ValueError:
+            search_status.value = 'Invalid coverage days. Please enter a number.'
+            search_status.update()
+            return
+        
+        def append_log(message):
+            log_list.controls.append(ft.Text(message))
+            sys.stdout = UILogStream(append_log)
+            sys.stderr = UILogStream(append_log)
+            log_list.update()
+        
         options = Options()
         options.add_argument('--headless=new')
         options.add_argument('--disable-gpu')
@@ -46,25 +75,28 @@ def main(page:ft.Page):
             for i, scraper in enumerate(scrapers):
                 search_status.value = 'Starting to scrape..'
                 start = time.time()
+                if i == 0:
+                    append_log(search_status.value)
+                else:
+                    pass
                 progress_bar.visible = True
-                print(f"Running {scraper.__name__}... ({i+1} of {total_tasks})")
+                status_1 = f"Running {scraper.__name__}... ({i+1} of {total_tasks})"
                 search_status.value = f'Running {scraper.__name__}... ({i+1} of {total_tasks})'
                 search_status.update()
-                progress_bar.value = (i+0.5)/total_tasks
+                append_log(status_1)
+                progress_bar.value = (i+1)/total_tasks
                 progress_bar.update()
-                scraper(driver,coverage_days=30)
+                scraper(driver,coverage_days=coverage_days)
                 duration = time.time() - start
-                print(f"{scraper.__name__} completed in {duration:.2f} seconds")
-                search_status.value = f'{scraper.__name__} completed in {duration:.2f} seconds'
-                search_status.update()
-                progress_bar.value = (i+0.5)/total_tasks
+                status_2 = f"{scraper.__name__} completed in {duration:.2f} seconds"
+                append_log(status_2)
+                progress_bar.value = (i+1)/total_tasks
                 progress_bar.update()
                 time.sleep(2)
-                if progress_bar.value > .95:
-                    search_status.value = 'GENERATING REPORT...'
-                    time.sleep(2)
         finally:
-            search_status.value = 'SCRAPING COMPLETE...'
+            status_report_generation = 'SCRAPING COMPLETE, GENERATING REPORT...'
+            append_log(status_report_generation)
+            time.sleep(1)
             driver.quit()
             
         df1 = pd.read_csv('csv/ref_industry_news.csv')
@@ -127,9 +159,7 @@ def main(page:ft.Page):
                         border=ft.border.all(1, ft.Colors.GREY),
                         width=1800
                         )
-        
-        
-        
+
         output_section.controls.append(scrape_result)
         page.update()
     
@@ -242,6 +272,23 @@ def main(page:ft.Page):
             ),
         )
     )
+    
+    coverage_input = ft.TextField(
+        width=80,
+        height=50,
+        label='Coverage (Days)',
+        max_length=2,
+        value=3,
+        multiline=False,
+        fill_color='#ffffff'
+    )
+    
+    log_list = ft.ListView(
+        expand=True,
+        spacing=3,
+        auto_scroll=True,
+        padding=ft.padding.only(top=15,bottom=15,right=0,left=0)
+    )
 
     container = ft.Container(
         width = 1800,
@@ -259,17 +306,31 @@ def main(page:ft.Page):
                                 ft.Container( 
                                     width=1800,
                                     height=150,
-                                    content=ft.Column(
+                                    content=ft.Row(
                                         controls=[
-                                            ft.Row(
-                                                controls=[
-                                                    scrape_button,
-                                                    search_field
-                                                ]
+                                            ft.Container(   #---- 1ST COLUMN OF CONTROLS
+                                                width=1200,
+                                                content=ft.Column(
+                                                    controls=[  #---- 1st Row of Controls
+                                                        ft.Row( 
+                                                            controls=[
+                                                                scrape_button,
+                                                                coverage_input,
+                                                                search_field
+                                                            ]
+                                                        ),
+                                                        ft.Column(
+                                                            controls=[
+                                                                search_status,
+                                                                progress_bar
+                                                            ]
+                                                        )
+                                                    ]
+                                                )
                                             ),
-                                            ft.Container(),
-                                            search_status,
-                                            progress_bar                                               
+                                            ft.Container(
+                                                content=log_list
+                                            )
                                         ]
                                     )
                                 )

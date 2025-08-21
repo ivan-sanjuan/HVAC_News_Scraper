@@ -19,6 +19,7 @@ class DanfossNews:
         self.interval = 2
         self.today = datetime.today()
         self.latest_news = []
+        self.page_num = 1
         
     def popup_watcher(self):
         def watch():
@@ -33,55 +34,84 @@ class DanfossNews:
                     pass
                 time.sleep(self.interval)
         threading.Thread(target=watch, daemon=True).start()
-        
+    
+    def goTo_next_page(self):
+        next = WebDriverWait(self.driver,5).until(
+                    EC.element_to_be_clickable((By.CLASS_NAME,'next-button'))
+                )
+        # next_page = next.get_attribute('href')
+        # whole_next_page_url = f'https://www.danfoss.com/en/about-danfoss/news/{next_page}'
+        # print(next_page)
+        # self.driver.switch_to.new_window('tab')
+        # self.driver.get(whole_next_page_url)
+        next.click()
+    
     def get_soup(self):
-        self.driver.get(self.news_url)
-        pop_up = WebDriverWait(self.driver,5).until(
-            EC.presence_of_element_located((By.CLASS_NAME,'coi-banner__accept'))
-        )
-        if pop_up:
-            pop_up.click()
-        else:
-            pass
-        WebDriverWait(self.driver,5).until(
-            EC.presence_of_element_located((By.CLASS_NAME,'news-list-items'))
-        )
-        html = self.driver.page_source
-        self.soup = BeautifulSoup(html,'html.parser')
-        article_section = self.soup.find('ul',class_='news-list-items')
-        self.news_blocks = article_section.find_all('div',class_='tile__text')
+        while True:
+            try:
+                if self.page_num == 1:
+                    self.driver.get(self.news_url)
+                    print(f'Accessing: {self.news_url}')
+                    pop_up = WebDriverWait(self.driver,10).until(
+                        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Accept')]"))
+                        )
+                    self.driver.execute_script("arguments[0].scrollIntoView(true);", pop_up)
+                    if pop_up:
+                        pop_up.click()
+                        print('Accepted Cookies.')
+                    else:
+                        pass
+                else:
+                    self.goTo_next_page()
+                    print(f'Page:{self.page_num}')
+                    
+                WebDriverWait(self.driver,5).until(
+                    EC.presence_of_element_located((By.CLASS_NAME,'news-list-items'))
+                )
+                html = self.driver.page_source
+                self.soup = BeautifulSoup(html,'html.parser')
+                article_section = self.soup.find('ul',class_='news-list-items')
+                self.news_blocks = article_section.find_all('div',class_='tile__text')
+                if not self.get_news():
+                    break
+                self.page_num += 1
+                
+            except Exception as e:
+                print(f'Error has occured: {e}')
 
     def get_news(self):
         for news in self.news_blocks:
             parsed_date = news.find('div',class_='tile__text-details_item').text.split(maxsplit=1)[1].strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
             self.publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.today-timedelta(days=self.coverage_days):
-                self.title = news.find('div',class_='tile__text-title').text.strip()
-                self.link = news.find('a',class_='tile__link').get('href')
-                summary = news.find('div',class_='tile__text-description')
-                if summary:
-                    self.summary = news.find('div',class_='tile__text-description').find('span').find('p').text.strip()
-                else:
-                    self.summary = 'NO SUMMARY'
-                root_url = 'https://www.danfoss.com/'
-                self.latest_news.append(
-                    {
-                    'PublishDate': self.publish_date,
-                    'Source': 'Danfoss',
-                    'Title': self.title,
-                    'Summary': self.summary,
-                    'Link': f'{root_url}{self.link}'
-                    }
-                )
+            if parsed_date_obj < self.today-timedelta(days=self.coverage_days):
+                return False
+            self.title = news.find('div',class_='tile__text-title').text.strip()
+            self.link = news.find('a',class_='tile__link').get('href')
+            summary = news.find('div',class_='tile__text-description')
+            if summary:
+                self.summary = news.find('div',class_='tile__text-description').find('span').find('p').text.strip()
+            else:
+                self.summary = 'NO SUMMARY'
+            self.root_url = 'https://www.danfoss.com/'
+            self.latest_news.append(
+                {
+                'PublishDate': self.publish_date,
+                'Source': 'Danfoss',
+                'Title': self.title,
+                'Summary': self.summary,
+                'Link': f'{self.root_url}{self.link}'
+                }
+            )
+        return True
 
     def scrape(self):
         self.get_soup()
-        self.get_news()
         
 
 all_news=[]
 def get_danfoss_news(driver, coverage_days):
+    driver.set_window_size(1920, 1080)
     url='https://www.danfoss.com/en/about-danfoss/news/?pageSize=15&sort=startDate_desc'
     news = DanfossNews(driver,coverage_days,url)
     news.scrape()
@@ -92,3 +122,12 @@ def get_danfoss_news(driver, coverage_days):
     return all_news
     
 
+# options = Options()
+# # options.add_argument('--headless=new')
+# options.add_argument('--disable-gpu')
+# options.add_argument('--window-size=1920x1080')
+# options.add_argument('--log-level=3')
+# options.add_argument("--disable-blink-features=AutomationControlled")
+# options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
+# driver = webdriver.Chrome(options=options)
+# get_danfoss_news(driver,coverage_days=250)
