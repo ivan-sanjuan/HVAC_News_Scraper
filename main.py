@@ -52,7 +52,7 @@ def main(page:ft.Page):
                 search_status.update()
                 progress_bar.value = (i+0.5)/total_tasks
                 progress_bar.update()
-                scraper(driver)
+                scraper(driver,coverage_days=30)
                 duration = time.time() - start
                 print(f"{scraper.__name__} completed in {duration:.2f} seconds")
                 search_status.value = f'{scraper.__name__} completed in {duration:.2f} seconds'
@@ -72,7 +72,7 @@ def main(page:ft.Page):
         df3 = pd.read_csv('csv/natural_refrigerants_news.csv')
         df4 = pd.read_csv('csv/trane_technologies_news.csv')
         df5 = pd.read_csv('csv/danfoss_news.csv')
-        df6 = pd.read_csv('csv/LG_B2B_news.csv')
+        df6 = pd.read_csv('csv/LG_News.csv')
         combined_df = pd.concat([df1, df2, df3, df4, df5, df6], ignore_index=True)
         combined_df.to_csv('csv/combined_news.csv', index=False)
         
