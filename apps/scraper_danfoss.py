@@ -37,11 +37,6 @@ class DanfossNews:
         next = WebDriverWait(self.driver,5).until(
                     EC.element_to_be_clickable((By.CLASS_NAME,'next-button'))
                 )
-        # next_page = next.get_attribute('href')
-        # whole_next_page_url = f'https://www.danfoss.com/en/about-danfoss/news/{next_page}'
-        # print(next_page)
-        # self.driver.switch_to.new_window('tab')
-        # self.driver.get(whole_next_page_url)
         next.click()
     
     def get_soup(self):

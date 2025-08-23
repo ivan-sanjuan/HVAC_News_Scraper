@@ -72,14 +72,13 @@ class RefIndustryNews:
             self.latest_news.append(
                 {
                 'PublishDate': self.publish_date,
-                'Source': 'Ref Industry',
+                'Source': 'RefIndustry',
                 'Title': self.title,
                 'Summary': self.summary,
                 'Link': self.link
                 }
             )
         return True
-    
         
     def scrape(self):
         self.get_soup()

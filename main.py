@@ -6,6 +6,7 @@ from apps.scraper_danfoss import get_danfoss_news
 from apps.scraper_LG_B2B import get_LG_news
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from datetime import datetime, timedelta
 import flet as ft
 import time
 import pandas as pd
@@ -30,9 +31,7 @@ def main(page:ft.Page):
     page.horizontal_alignment = 'center'
     page.vertical_alignment = 'center'
     page.title = 'News Scraper Dashboard'
-    page.theme = ft.Theme(
-        color_scheme_seed=ft.Colors.YELLOW,
-    )
+
     page.update()
 
     def scrape_all(e):
@@ -46,10 +45,20 @@ def main(page:ft.Page):
             return
         
         def append_log(message):
-            log_list.controls.append(ft.Text(message))
+            log_list.controls.append(ft.Text(message,color='#354850'))
             sys.stdout = UILogStream(append_log)
             sys.stderr = UILogStream(append_log)
             log_list.update()
+        
+        def runtime():
+            total_seconds = sum(total_duration)
+            return timedelta(seconds=total_seconds)
+        
+        def format_runtime(td):
+            total_seconds = int(td.total_seconds())
+            hours, remainder = divmod(total_seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            return f"{hours:02}:{minutes:02}:{seconds:02}"
         
         options = Options()
         options.add_argument('--headless=new')
@@ -68,7 +77,9 @@ def main(page:ft.Page):
             get_danfoss_news,
             get_LG_news
         ]
+        
         try:
+            total_duration = []
             total_tasks = len(scrapers)
             for i, scraper in enumerate(scrapers):
                 search_status.value = 'Starting to scrape..'
@@ -90,10 +101,14 @@ def main(page:ft.Page):
                 append_log(status_2)
                 progress_bar.value = (i+1)/total_tasks
                 progress_bar.update()
+                total_duration.append(duration)
                 time.sleep(2)
         finally:
             status_report_generation = 'SCRAPING COMPLETE, GENERATING REPORT...'
+            total_time = runtime()
+            report = f'TOTAL Runtime: {format_runtime(total_time)}'
             append_log(status_report_generation)
+            append_log(report)
             time.sleep(1)
             driver.quit()
             
@@ -236,24 +251,35 @@ def main(page:ft.Page):
     )
     
     search_field = ft.TextField(
-        border_radius=3,
+        border_radius=10,
+        height=50,
         label='Search Keywords',
         bgcolor='#ffffff',
+        color='#354850',
         width=400,
-        on_change=lambda e: filter_items(e.control.value)
+        border_width=2,
+        border_color='#BAA186',
+        focused_border_color='#354850',
+        on_change=lambda e: filter_items(e.control.value),
+        label_style=ft.TextStyle(
+            color='#354850',
+            size=12,
+        )
     )
 
     search_status = ft.Text(
         value='ON STAND-BY...',
         size=15,
-        color="#B3B3B3",
+        color='#354850',
         width=400,
     )
     
     progress_bar = ft.ProgressBar(
         width=1735,
         visible=False,
-        color = "#18B100"
+        color = "#52CBFB",
+        bar_height=20,
+        border_radius=ft.border_radius.all(10)
     )
     
     scrape_button = ft.Container( 
@@ -261,29 +287,44 @@ def main(page:ft.Page):
         height=50,
         content=ft.ElevatedButton(
             text='START SCRAPING...',
+            icon=ft.Icons.MANAGE_SEARCH_OUTLINED,
+            icon_color='#52CBFB',
+            elevation=5,
             width=200,
             height=20,
             on_click=scrape_all,
+            bgcolor='#354850',
             style=ft.ButtonStyle(
-                shape=ft.RoundedRectangleBorder(radius=10),
-                text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL)
+                shape=ft.RoundedRectangleBorder(radius=30),
+                text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL),
+                color="#FFFFFF"
             ),
         )
     )
     
     coverage_input = ft.TextField(
-        width=80,
+        width=73,
         height=50,
-        label='Coverage (Days)',
+        label='DURATION',
         max_length=2,
         value=3,
         multiline=False,
-        fill_color='#ffffff'
+        fill_color='#ffffff',
+        color='#354850',
+        border_width=2,
+        border_radius=10,
+        border_color='#BAA186',
+        focused_border_color='#354850',
+        text_align=ft.TextAlign.CENTER,
+        label_style=ft.TextStyle(
+            color='#354850',
+            size=12,
+        )
     )
     
     log_list = ft.ListView(
-        expand=True,
-        spacing=1,
+        expand=False,
+        spacing=3,
         auto_scroll=True,
         padding=ft.padding.only(top=15,bottom=15,right=0,left=0)
     )
@@ -296,7 +337,7 @@ def main(page:ft.Page):
             controls=[
                 ft.Container(  ####-----CONTROLS SECTION-----####
                     padding = ft.padding.all(15),
-                    bgcolor="#555555",
+                    bgcolor="#FABB75",
                     height=135,
                     width=1800,
                         content=ft.Row(
@@ -339,6 +380,7 @@ def main(page:ft.Page):
                     padding = ft.padding.all(15),
                     height=750,
                     width=1800,
+                    bgcolor='#354850',
                     content=ft.Column(
                         controls=[
                             ft.Container(
