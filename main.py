@@ -405,6 +405,7 @@ def main(page:ft.Page):
         hint_text='Days',
         label='RANGE',
         max_length=2,
+        input_filter=ft.NumbersOnlyInputFilter(),
         value=3,
         multiline=False,
         bgcolor='#ffffff',
