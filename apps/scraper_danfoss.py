@@ -8,6 +8,7 @@ import pandas as pd
 import threading
 import time
 from selenium.common.exceptions import NoSuchElementException
+from selenium import webdriver
 
 class DanfossNews:
     def __init__(self,driver,coverage_days,news_url):
@@ -107,6 +108,8 @@ def get_danfoss_news(driver, coverage_days):
     url='https://www.danfoss.com/en/about-danfoss/news/?pageSize=15&sort=startDate_desc'
     news = DanfossNews(driver,coverage_days,url)
     news.scrape()
+    # empty = pd.DataFrame(all_news)
+    # empty.to_csv('csv/danfoss_news.csv', index=False)
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/danfoss_news.csv', index=False)
@@ -122,4 +125,4 @@ def get_danfoss_news(driver, coverage_days):
 # options.add_argument("--disable-blink-features=AutomationControlled")
 # options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
 # driver = webdriver.Chrome(options=options)
-# get_danfoss_news(driver,coverage_days=250)
+# get_danfoss_news(driver,coverage_days=30)

@@ -69,13 +69,6 @@ def main(page:ft.Page):
         scrape_button_disabled()
         page.update()
         
-        try:
-            coverage_days = int(coverage_input.value)
-        except ValueError:
-            search_status.value = 'Invalid coverage days. Please enter a number.'
-            search_status.update()
-            return
-        
         def append_log(message):
             log_list.controls.append(ft.Text(message,color='#354850'))
             sys.stdout = UILogStream(append_log)
@@ -110,6 +103,20 @@ def main(page:ft.Page):
             get_LG_news
         ]
         
+        csv_paths = [
+            'csv/ref_industry_news.csv',
+            'csv/cooling_post_news.csv',
+            'csv/natural_refrigerants_news.csv',
+            'csv/trane_technologies_news.csv',
+            'csv/danfoss_news.csv',
+            'csv/LG_News.csv'
+        ]
+        
+        for csv in csv_paths:
+            empty = []
+            empty_df = pd.DataFrame(empty)
+            empty_df.to_csv(csv, index=False)
+        
         try:
             global scraping_active
             scraping_active = True
@@ -130,6 +137,10 @@ def main(page:ft.Page):
                     append_log(status_1)
                     progress_bar.value = (i+1)/total_tasks
                     progress_bar.update()
+                    if coverage_input.value == '' or coverage_input.value == '0':
+                        coverage_days = 1
+                    else:
+                        coverage_days = int(coverage_input.value)
                     scraper(driver,coverage_days=coverage_days)
                     duration = time.time() - start
                     status_2 = f"{scraper.__name__} completed in {duration:.2f} seconds"
@@ -152,14 +163,6 @@ def main(page:ft.Page):
             scrape_button_enabled()
             page.update()
         
-        csv_paths = [
-            'csv/ref_industry_news.csv',
-            'csv/cooling_post_news.csv',
-            'csv/natural_refrigerants_news.csv',
-            'csv/trane_technologies_news.csv',
-            'csv/danfoss_news.csv',
-            'csv/LG_News.csv'
-        ]
         
         valid_dfs = []
         for path in csv_paths:
@@ -406,7 +409,7 @@ def main(page:ft.Page):
         label='RANGE',
         max_length=2,
         input_filter=ft.NumbersOnlyInputFilter(),
-        value=3,
+        value='',
         multiline=False,
         bgcolor='#ffffff',
         color='#354850',
