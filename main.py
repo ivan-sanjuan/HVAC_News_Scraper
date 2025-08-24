@@ -11,6 +11,7 @@ import flet as ft
 import time
 import pandas as pd
 import sys
+import os
 
 
 class UILogStream:
@@ -31,11 +32,42 @@ def main(page:ft.Page):
     page.horizontal_alignment = 'center'
     page.vertical_alignment = 'center'
     page.title = 'News Scraper Dashboard'
-
+    page.window.frameless = True
+    page.window.bgcolor = ft.Colors.TRANSPARENT
+    page.bgcolor = ft.Colors.TRANSPARENT
     page.update()
 
+    def scrape_button_disabled():
+        scrape_running_button.visible = True
+        scrape_button.visible = False
+        scrape_button.disabled = True
+        scrape_running_button.disabled = False
+        search_field.disabled = True
+        coverage_input.disabled = True
+        search_field.bgcolor = "#BDBDBD"
+        coverage_input.bgcolor = "#BDBDBD"
+        page.update()
+    
+    def scrape_button_enabled():
+        scrape_button.visible = True
+        scrape_button.disabled = False
+        scrape_running_button.visible = False
+        scrape_running_button.disabled = True
+        search_field.disabled = False
+        coverage_input.disabled = False
+        search_field.bgcolor = "#ffffff"
+        coverage_input.bgcolor = "#ffffff"
+        page.update()
+        
+    def stop_scraping(e):
+        global scraping_active
+        scraping_active = False
+        print('Stopping scrape... Please wait.')
+    
     def scrape_all(e):
         output_section.controls.clear()
+        scrape_button_disabled()
+        page.update()
         
         try:
             coverage_days = int(coverage_input.value)
@@ -79,30 +111,36 @@ def main(page:ft.Page):
         ]
         
         try:
+            global scraping_active
+            scraping_active = True
             total_duration = []
             total_tasks = len(scrapers)
             for i, scraper in enumerate(scrapers):
-                search_status.value = 'Starting to scrape..'
-                start = time.time()
-                if i == 0:
-                    append_log(search_status.value)
+                if scraping_active == True:
+                    search_status.value = 'Starting to scrape..'
+                    start = time.time()
+                    if i == 0:
+                        append_log(search_status.value)
+                    else:
+                        pass
+                    progress_bar.visible = True
+                    status_1 = f"Running {scraper.__name__}... ({i+1} of {total_tasks})"
+                    search_status.value = f'Running {scraper.__name__}... ({i+1} of {total_tasks})'
+                    search_status.update()
+                    append_log(status_1)
+                    progress_bar.value = (i+1)/total_tasks
+                    progress_bar.update()
+                    scraper(driver,coverage_days=coverage_days)
+                    duration = time.time() - start
+                    status_2 = f"{scraper.__name__} completed in {duration:.2f} seconds"
+                    append_log(status_2)
+                    progress_bar.value = (i+1)/total_tasks
+                    progress_bar.update()
+                    total_duration.append(duration)
+                    time.sleep(2)
                 else:
-                    pass
-                progress_bar.visible = True
-                status_1 = f"Running {scraper.__name__}... ({i+1} of {total_tasks})"
-                search_status.value = f'Running {scraper.__name__}... ({i+1} of {total_tasks})'
-                search_status.update()
-                append_log(status_1)
-                progress_bar.value = (i+1)/total_tasks
-                progress_bar.update()
-                scraper(driver,coverage_days=coverage_days)
-                duration = time.time() - start
-                status_2 = f"{scraper.__name__} completed in {duration:.2f} seconds"
-                append_log(status_2)
-                progress_bar.value = (i+1)/total_tasks
-                progress_bar.update()
-                total_duration.append(duration)
-                time.sleep(2)
+                    break
+
         finally:
             status_report_generation = 'SCRAPING COMPLETE, GENERATING REPORT...'
             total_time = runtime()
@@ -111,19 +149,40 @@ def main(page:ft.Page):
             append_log(report)
             time.sleep(1)
             driver.quit()
-            
-        df1 = pd.read_csv('csv/ref_industry_news.csv')
-        df2 = pd.read_csv('csv/cooling_post_news.csv')
-        df3 = pd.read_csv('csv/natural_refrigerants_news.csv')
-        df4 = pd.read_csv('csv/trane_technologies_news.csv')
-        df5 = pd.read_csv('csv/danfoss_news.csv')
-        df6 = pd.read_csv('csv/LG_News.csv')
-        combined_df = pd.concat([df1, df2, df3, df4, df5, df6], ignore_index=True)
-        combined_df.to_csv('csv/combined_news.csv', index=False)
+            scrape_button_enabled()
+            page.update()
         
-        combined_csv = pd.read_csv('csv/combined_news.csv')
-        combined_csv_df = pd.DataFrame(combined_csv)
+        csv_paths = [
+            'csv/ref_industry_news.csv',
+            'csv/cooling_post_news.csv',
+            'csv/natural_refrigerants_news.csv',
+            'csv/trane_technologies_news.csv',
+            'csv/danfoss_news.csv',
+            'csv/LG_News.csv'
+        ]
         
+        valid_dfs = []
+        for path in csv_paths:
+            if os.path.getsize(path) == 0:
+                print(f'Skipping empty file: {path}')
+                continue
+            try:
+                df = pd.read_csv(path)
+                if not df.empty:
+                    valid_dfs.append(df)
+                else:
+                    print(f'Skipping empty DataFrame: {path}')
+            except pd.errors.EmptyDataError:
+                print(f'{path} has no content')
+            except Exception as e:
+                print(f'Error reading {path}: {e}')
+        
+        if valid_dfs:
+            combined_df = pd.concat(valid_dfs, ignore_index=True)
+            combined_df.to_csv('csv/combined_news.csv', index=False)
+            combined_csv = pd.read_csv('csv/combined_news.csv')
+            combined_csv_df = pd.DataFrame(combined_csv)
+
         def headers(df:pd.DataFrame):
             return [ft.DataColumn(ft.Text(col)) for col in combined_csv_df.columns]
         
@@ -242,6 +301,14 @@ def main(page:ft.Page):
             
         output_section.controls.append(scrape_result)
         page.update()
+        
+    def minimize_window(e):
+        page.window.minimized = True
+        page.update()
+        
+    def destroy_window(e):
+        page.window.destroy()
+        page.update()
     
     output_section = ft.Column(
         width=1800,
@@ -254,6 +321,7 @@ def main(page:ft.Page):
         border_radius=10,
         height=50,
         label='Search Keywords',
+        hint_text="ex. acquisitions",
         bgcolor='#ffffff',
         color='#354850',
         width=400,
@@ -294,6 +362,7 @@ def main(page:ft.Page):
             height=20,
             on_click=scrape_all,
             bgcolor='#354850',
+            visible=True,
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=30),
                 text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL),
@@ -302,14 +371,43 @@ def main(page:ft.Page):
         )
     )
     
+    scrape_running_button = ft.Container( 
+        width=300,
+        height=50,
+        content=ft.ElevatedButton(
+            text='STOP SCRAPING',
+            icon=ft.Icons.CANCEL_OUTLINED,
+            icon_color="#B34541",
+            width=200,
+            height=20,
+            on_click=stop_scraping,
+            bgcolor="#19282E",
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=30),
+                text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL),
+                color="#9BB6C2"
+            ),
+        )
+    )
+    
+    scrape_buttons_stack = ft.Stack(
+        width=300,
+        height=50,
+        controls=[
+            scrape_running_button,
+            scrape_button
+        ]
+    )
+    
     coverage_input = ft.TextField(
         width=73,
         height=50,
-        label='DURATION',
+        hint_text='Days',
+        label='RANGE',
         max_length=2,
         value=3,
         multiline=False,
-        fill_color='#ffffff',
+        bgcolor='#ffffff',
         color='#354850',
         border_width=2,
         border_radius=10,
@@ -323,37 +421,74 @@ def main(page:ft.Page):
     )
     
     log_list = ft.ListView(
+        height=100,
         expand=False,
         spacing=3,
         auto_scroll=True,
         padding=ft.padding.only(top=15,bottom=15,right=0,left=0)
     )
+    
+    close_button = ft.IconButton(
+        icon=ft.Icons.CLOSE_OUTLINED,
+        icon_color='#52CBFB',
+        on_click=destroy_window,
+        hover_color="#C78234"
+    )
+    
+    minimize_button = ft.IconButton(
+        icon=ft.Icons.MINIMIZE_OUTLINED,
+        icon_color='#52CBFB',
+        on_click=minimize_window,
+        hover_color="#C78234"
+    )
+    
+    window_controls = ft.Row(
+        controls=[
+            minimize_button,
+            close_button
+        ]
+    )
 
     container = ft.Container(
         width = 1800,
         height = 900,
+        bgcolor="#17252C",
         border_radius=15,
         content=ft.Column(
             controls=[
+                ft.WindowDragArea(
+                    ft.Container(
+                        bgcolor="#17252C",
+                        width=1800,
+                        height=35,                                      
+                        content=ft.Row(
+                            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                            controls=[
+                                ft.Container(width=10),
+                                window_controls,
+                            ]
+                        )
+                    )
+                ),
                 ft.Container(  ####-----CONTROLS SECTION-----####
-                    padding = ft.padding.all(15),
                     bgcolor="#FABB75",
                     height=135,
                     width=1800,
                         content=ft.Row(
                             controls=[
-                                ft.Container( 
+                                ft.Container(
                                     width=1800,
                                     height=150,
                                     content=ft.Row(
                                         controls=[
-                                            ft.Container(   #---- 1ST COLUMN OF CONTROLS
+                                            ft.Container(   #---- 1st COLUMN OF CONTROLS
+                                                padding = ft.padding.all(15),
                                                 width=1200,
                                                 content=ft.Column(
-                                                    controls=[  #---- 1st Row of Controls
+                                                    controls=[  
                                                         ft.Row( 
                                                             controls=[
-                                                                scrape_button,
+                                                                scrape_buttons_stack,
                                                                 coverage_input,
                                                                 search_field
                                                             ]
@@ -367,9 +502,11 @@ def main(page:ft.Page):
                                                     ]
                                                 )
                                             ),
-                                            ft.Container(
+                                            ft.Container(   #---- 2nd COLUMN OF CONTROLS
+                                                width=550,
                                                 content=log_list
-                                            )
+                                            ),
+                                            
                                         ]
                                     )
                                 )
@@ -378,27 +515,14 @@ def main(page:ft.Page):
                     ),
                 ft.Container( ####-----OUTPUT_SECTION-----####
                     padding = ft.padding.all(15),
-                    height=750,
+                    height=765,
                     width=1800,
                     bgcolor='#354850',
-                    content=ft.Column(
-                        controls=[
-                            ft.Container(
-                                content=ft.Row(
-                                    controls=[
-                                        
-                                    ]
-                                )
-                            )
-                            ,
-                            output_section
-                        ]
-                    )
+                    content=output_section
                 )
             ]
         )
     )
-
     page.add(container)
     
 ft.app(target=main)
