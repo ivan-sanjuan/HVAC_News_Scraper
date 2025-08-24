@@ -7,6 +7,7 @@ from apps.scraper_LG_B2B import get_LG_news
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from datetime import datetime, timedelta
+import win32com.client as outlook
 import flet as ft
 import asyncio
 import time
@@ -37,28 +38,6 @@ def main(page:ft.Page):
     page.window.bgcolor = ft.Colors.TRANSPARENT
     page.bgcolor = ft.Colors.TRANSPARENT
     page.update()
-
-    def scrape_button_disabled():
-        scrape_running_button.visible = True
-        scrape_button.visible = False
-        scrape_button.disabled = True
-        scrape_running_button.disabled = False
-        search_field.disabled = True
-        coverage_input.disabled = True
-        search_field.bgcolor = "#BDBDBD"
-        coverage_input.bgcolor = "#BDBDBD"
-        page.update()
-    
-    def scrape_button_enabled():
-        scrape_button.visible = True
-        scrape_button.disabled = False
-        scrape_running_button.visible = False
-        scrape_running_button.disabled = True
-        search_field.disabled = False
-        coverage_input.disabled = False
-        search_field.bgcolor = "#ffffff"
-        coverage_input.bgcolor = "#ffffff"
-        page.update()
         
     def stop_scraping(e):
         global scraping_active
@@ -71,7 +50,7 @@ def main(page:ft.Page):
         page.update()
         
         def append_log(message):
-            log_list.controls.append(ft.Text(message,color='#354850'))
+            log_list.controls.append(ft.Text(message,color='#DEDAC6'))
             sys.stdout = UILogStream(append_log)
             sys.stderr = UILogStream(append_log)
             log_list.update()
@@ -161,6 +140,7 @@ def main(page:ft.Page):
             append_log(report)
             time.sleep(1)
             driver.quit()
+            search_status.value = report
             scrape_button_enabled()
             page.update()
         
@@ -180,64 +160,76 @@ def main(page:ft.Page):
                 print(f'{path} has no content')
             except Exception as e:
                 print(f'Error reading {path}: {e}')
+            except UnboundLocalError:
+                today=datetime.today()
+                print(f'NO NEW News at the moment: {today}')
         
-        if valid_dfs:
+        if len(valid_dfs) > 0:
+            today_csv=datetime.today()
+            today_csv_formatted=today_csv.strftime('%Y-%m-%d')
             combined_df = pd.concat(valid_dfs, ignore_index=True)
-            combined_df.to_csv('csv/combined_news.csv', index=False)
-            combined_csv = pd.read_csv('csv/combined_news.csv')
+            filename_scraped_news = f'csv/scraped_news_{today_csv_formatted}.csv'
+            combined_df.to_csv(filename_scraped_news, index=False)
+            combined_csv = pd.read_csv(filename_scraped_news)
             combined_csv_df = pd.DataFrame(combined_csv)
 
-        def headers(df:pd.DataFrame):
-            return [ft.DataColumn(ft.Text(col)) for col in combined_csv_df.columns]
-        
-        def rows(df: pd.DataFrame):
-            def open_link(e):
-                page.launch_url(e.control.data)
+            def headers(df:pd.DataFrame):
+                return [ft.DataColumn(ft.Text(col)) for col in combined_csv_df.columns]
+            
+            def rows(df: pd.DataFrame):
+                def open_link(e):
+                    page.launch_url(e.control.data)
 
-            rows = []
-            for index, row in df.iterrows():
-                row_cells = []
-                for header in df.columns:
-                    cell_value = str(row[header])
+                rows = []
+                for index, row in df.iterrows():
+                    row_cells = []
+                    for header in df.columns:
+                        cell_value = str(row[header])
 
-                    if cell_value.startswith("http://") or cell_value.startswith("https://"):
-                        cell_content = ft.TextButton(
-                            text="Visit",
-                            data=cell_value,
-                            on_click=open_link,
-                            style=ft.ButtonStyle(color=ft.Colors.BLUE)
-                        )
-                    else:
-                        cell_content = ft.Text(cell_value, color='#1F2134')
+                        if cell_value.startswith("http://") or cell_value.startswith("https://"):
+                            cell_content = ft.TextButton(
+                                text="Visit",
+                                data=cell_value,
+                                on_click=open_link,
+                                style=ft.ButtonStyle(color=ft.Colors.BLUE)
+                            )
+                        else:
+                            cell_content = ft.Text(cell_value, color='#1F2134')
 
-                    if header == "Title":
-                        cell_widget = ft.Container(
-                            content=cell_content,
-                            width=600
-                        )
-                    else:
-                        cell_widget = cell_content
+                        if header == "Title":
+                            cell_widget = ft.Container(
+                                content=cell_content,
+                                width=600
+                            )
+                        else:
+                            cell_widget = cell_content
 
-                    row_cells.append(ft.DataCell(cell_widget))
-                rows.append(ft.DataRow(cells=row_cells))
-            return rows
+                        row_cells.append(ft.DataCell(cell_widget))
+                    rows.append(ft.DataRow(cells=row_cells))
+                return rows
                 
-        scrape_result = ft.DataTable(
-                        columns=headers(combined_csv_df),
-                        sort_column_index=0,
-                        sort_ascending=True,
-                        bgcolor='#DCDCDC',
-                        rows=rows(combined_csv_df),
-                        column_spacing=20,
-                        heading_row_color='#1F2134',
-                        data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
-                        show_checkbox_column=True,
-                        border=ft.border.all(1, ft.Colors.GREY),
-                        width=1800
-                        )
-
-        output_section.controls.append(scrape_result)
-        page.update()
+            scrape_result = ft.DataTable(
+                            columns=headers(combined_csv_df),
+                            sort_column_index=0,
+                            sort_ascending=True,
+                            bgcolor='#DCDCDC',
+                            rows=rows(combined_csv_df),
+                            column_spacing=20,
+                            heading_row_color='#1F2134',
+                            data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
+                            show_checkbox_column=True,
+                            border=ft.border.all(1, ft.Colors.GREY),
+                            width=1800
+                            )
+            output_section.controls.append(scrape_result)
+            page.update()
+            
+        else:
+            today=datetime.today()
+            today_formatted=today.strftime('%B %d, %Y | %X')
+            print(f'NO NEW News at the moment: {today_formatted}')
+            search_status.value = f'No NEW News at the moment: {today_formatted}'
+            search_status.update()
     
     def filter_items(e):
         output_section.controls.clear()
@@ -320,7 +312,40 @@ def main(page:ft.Page):
             date_time_field.value = current_time
             time.sleep(1)
             page.update()
-                
+    
+    def send_to_outlook(e):
+        today=datetime.today()
+        today_formatted=today.strftime('%B %d, %Y')
+        olApp = outlook.Dispatch(f'Outlook.Application')
+        mail_item = olApp.CreateItem(0)
+        mail_item.Subject = f'Scraped News for {today_formatted}'
+        today_csv=datetime.today()
+        today_csv_formatted=today_csv.strftime('%Y-%m-%d')
+        filename_scraped_news = f'csv/scraped_news_{today_csv_formatted}.csv'
+        mail_item.Attachments.Add(filename_scraped_news)
+        mail_item.Display()
+    
+    def scrape_button_disabled():
+        scrape_running_button.visible = True
+        scrape_button.visible = False
+        scrape_button.disabled = True
+        scrape_running_button.disabled = False
+        search_field.disabled = True
+        coverage_input.disabled = True
+        search_field.bgcolor = "#888888"
+        coverage_input.bgcolor = "#888888"
+        page.update()
+    
+    def scrape_button_enabled():
+        scrape_button.visible = True
+        scrape_button.disabled = False
+        scrape_running_button.visible = False
+        scrape_running_button.disabled = True
+        search_field.disabled = False
+        coverage_input.disabled = False
+        search_field.bgcolor = "#ffffff"
+        coverage_input.bgcolor = "#ffffff"
+        page.update()
     
     output_section = ft.Column(
         width=1800,
@@ -338,77 +363,12 @@ def main(page:ft.Page):
         color='#354850',
         width=400,
         border_width=2,
-        border_color='#BAA186',
-        focused_border_color='#354850',
+        focused_border_color="#AB5637",
         on_change=lambda e: filter_items(e.control.value),
         label_style=ft.TextStyle(
             color='#354850',
             size=12,
         )
-    )
-
-    search_status = ft.Text(
-        value='ON STAND-BY...',
-        size=15,
-        color='#354850',
-        width=400,
-    )
-    
-    progress_bar = ft.ProgressBar(
-        width=1735,
-        visible=False,
-        color = "#52CBFB",
-        bar_height=20,
-        border_radius=ft.border_radius.all(10)
-    )
-    
-    scrape_button = ft.Container( 
-        width=300,
-        height=50,
-        content=ft.ElevatedButton(
-            text='START SCRAPING...',
-            icon=ft.Icons.MANAGE_SEARCH_OUTLINED,
-            icon_color='#52CBFB',
-            elevation=5,
-            width=200,
-            height=20,
-            on_click=scrape_all,
-            bgcolor='#354850',
-            visible=True,
-            style=ft.ButtonStyle(
-                shape=ft.RoundedRectangleBorder(radius=30),
-                text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL),
-                color="#FFFFFF"
-            ),
-        )
-    )
-    
-    scrape_running_button = ft.Container( 
-        width=300,
-        height=50,
-        content=ft.ElevatedButton(
-            text='STOP SCRAPING',
-            icon=ft.Icons.CANCEL_OUTLINED,
-            icon_color="#B34541",
-            width=200,
-            height=20,
-            on_click=stop_scraping,
-            bgcolor="#19282E",
-            style=ft.ButtonStyle(
-                shape=ft.RoundedRectangleBorder(radius=30),
-                text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL),
-                color="#9BB6C2"
-            ),
-        )
-    )
-    
-    scrape_buttons_stack = ft.Stack(
-        width=300,
-        height=50,
-        controls=[
-            scrape_running_button,
-            scrape_button
-        ]
     )
     
     coverage_input = ft.TextField(
@@ -424,13 +384,97 @@ def main(page:ft.Page):
         color='#354850',
         border_width=2,
         border_radius=10,
-        border_color='#BAA186',
-        focused_border_color='#354850',
+        focused_border_color='#AB5637',
         text_align=ft.TextAlign.CENTER,
         label_style=ft.TextStyle(
             color='#354850',
             size=12,
         )
+    )
+
+    search_status = ft.Text(
+        value='ON STAND-BY...',
+        size=15,
+        color='#DEDAC6',
+        width=400,
+    )
+    
+    progress_bar = ft.ProgressBar(
+        width=1735,
+        visible=False,
+        color = "#6AADCD",
+        bar_height=20,
+        border_radius=ft.border_radius.all(10)
+    )
+    
+    scrape_button = ft.Container( 
+        width=300,
+        height=50,
+        content=ft.ElevatedButton(
+            text='START SCRAPING...',
+            icon=ft.Icons.MANAGE_SEARCH_OUTLINED,
+            icon_color='#52CBFB',
+            elevation=5,
+            width=200,
+            height=20,
+            on_click=scrape_all,
+            bgcolor='#DEDAC6',
+            visible=True,
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=30),
+                text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL),
+                color="#2B2B2B"
+            ),
+        )
+    )
+    
+    scrape_running_button = ft.Container( 
+        width=300,
+        height=50,
+        content=ft.ElevatedButton(
+            text='STOP SCRAPING',
+            icon=ft.Icons.CANCEL_OUTLINED,
+            icon_color="#F06E3F",
+            width=200,
+            height=20,
+            on_click=stop_scraping,
+            bgcolor="#424242",
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=30),
+                text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL),
+                color="#F06E3F"
+            ),
+        )
+    )
+    
+    send_report = ft.Container( 
+        width=300,
+        height=50,
+        content=ft.ElevatedButton(
+            text='SEND REPORT TO OUTLOOK',
+            icon=ft.Icons.MANAGE_SEARCH_OUTLINED,
+            icon_color='#52CBFB',
+            elevation=5,
+            width=200,
+            height=20,
+            on_click=send_to_outlook,
+            bgcolor='#DEDAC6',
+            visible=True,
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=30),
+                text_style=ft.TextStyle(size=20, weight=ft.FontWeight.NORMAL),
+                color="#2B2B2B"
+            ),
+        )
+    )
+    
+    scrape_buttons_stack = ft.Stack(
+        width=300,
+        height=50,
+        controls=[
+            scrape_running_button,
+            scrape_button
+        ]
     )
     
     log_list = ft.ListView(
@@ -470,20 +514,20 @@ def main(page:ft.Page):
     container = ft.Container(
         width = 1800,
         height = 900,
-        on_hover=refresh_time,
-        bgcolor="#17252C",
+        bgcolor="#2B2B2B",
         border_radius=15,
         content=ft.Column(
             controls=[
                 ft.WindowDragArea(
                     ft.Container(
-                        bgcolor="#17252C",
+                        bgcolor="#78655E",
                         width=1800,
                         height=35,                                      
                         content=ft.Row(
                             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                             controls=[
                                 ft.Container(
+                                    padding=ft.padding.only(left=15,right=0,top=0,bottom=0),
                                     width=1400,
                                     content=date_time_field
                                 ),
@@ -493,7 +537,7 @@ def main(page:ft.Page):
                     )
                 ),
                 ft.Container(  ####-----CONTROLS SECTION-----####
-                    bgcolor="#FABB75",
+                    bgcolor="#2B2B2B",
                     height=135,
                     width=1800,
                         content=ft.Row(
@@ -512,7 +556,8 @@ def main(page:ft.Page):
                                                             controls=[
                                                                 scrape_buttons_stack,
                                                                 coverage_input,
-                                                                search_field
+                                                                search_field,
+                                                                send_report
                                                             ]
                                                         ),
                                                         ft.Column(
@@ -539,8 +584,9 @@ def main(page:ft.Page):
                     padding = ft.padding.all(15),
                     height=765,
                     width=1800,
-                    bgcolor='#354850',
-                    content=output_section
+                    bgcolor='#DEDAC6',
+                    content=output_section,
+                    on_hover=refresh_time
                 )
             ]
         )
