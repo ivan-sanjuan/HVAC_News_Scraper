@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from datetime import datetime, timedelta
 import flet as ft
+import asyncio
 import time
 import pandas as pd
 import sys
@@ -312,6 +313,14 @@ def main(page:ft.Page):
     def destroy_window(e):
         page.window.destroy()
         page.update()
+        
+    def refresh_time(e):
+        while True:
+            current_time = datetime.now().strftime('%c')
+            date_time_field.value = current_time
+            time.sleep(1)
+            page.update()
+                
     
     output_section = ft.Column(
         width=1800,
@@ -452,10 +461,16 @@ def main(page:ft.Page):
             close_button
         ]
     )
+    
+    date_time_field = ft.Text(
+        value='',
+        color='#ffffff'
+    )
 
     container = ft.Container(
         width = 1800,
         height = 900,
+        on_hover=refresh_time,
         bgcolor="#17252C",
         border_radius=15,
         content=ft.Column(
@@ -468,7 +483,10 @@ def main(page:ft.Page):
                         content=ft.Row(
                             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                             controls=[
-                                ft.Container(width=10),
+                                ft.Container(
+                                    width=1400,
+                                    content=date_time_field
+                                ),
                                 window_controls,
                             ]
                         )
@@ -527,6 +545,8 @@ def main(page:ft.Page):
             ]
         )
     )
+    
     page.add(container)
+    
     
 ft.app(target=main)
