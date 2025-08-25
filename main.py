@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from datetime import datetime, timedelta
 import win32com.client as outlook
+import pythoncom
 import flet as ft
 import asyncio
 import time
@@ -28,8 +29,8 @@ class UILogStream:
             pass
   
 def main(page:ft.Page):
-    page.window.width = 1800
-    page.window.height = 950
+    page.window.width = 1500
+    page.window.height = 820
     page.window.resizable = True,
     page.horizontal_alignment = 'center'
     page.vertical_alignment = 'center'
@@ -219,7 +220,7 @@ def main(page:ft.Page):
                             data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
                             show_checkbox_column=True,
                             border=ft.border.all(1, '#78655E'),
-                            width=1800
+                            width=1500
                             )
             output_section.controls.append(scrape_result)
             page.update()
@@ -294,7 +295,7 @@ def main(page:ft.Page):
             data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
             show_checkbox_column=True,
             border=ft.border.all(1, ft.Colors.GREY),
-            width=1800
+            width=1500
         )
             
         output_section.controls.append(scrape_result)
@@ -316,6 +317,7 @@ def main(page:ft.Page):
             page.update()
     
     def send_to_outlook(e):
+        pythoncom.CoInitialize()
         today=datetime.today()
         today_formatted=today.strftime('%B %d, %Y')
         olApp = outlook.Dispatch(f'Outlook.Application')
@@ -323,9 +325,19 @@ def main(page:ft.Page):
         mail_item.Subject = f'Scraped News for {today_formatted}'
         today_csv=datetime.today()
         today_csv_formatted=today_csv.strftime('%Y-%m-%d')
-        filename_scraped_news = f'csv/scraped_news_{today_csv_formatted}.csv'
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        filename_scraped_news = os.path.join(base_dir, 'csv', f'scraped_news_{today_csv_formatted}.csv')
         mail_item.Attachments.Add(filename_scraped_news)
         mail_item.Display()
+        pythoncom.CoUninitialize()
+
+    def report_issue(e):
+        pythoncom.CoInitialize()
+        olApp = outlook.Dispatch(f'Outlook.Application')
+        mail_item = olApp.CreateItem(0)
+        mail_item.Subject = 'Issue on HVACR NEWS Scraper Tool'
+        mail_item.Display()
+        pythoncom.CoUninitialize()
     
     def scrape_button_disabled():
         scrape_running_button.visible = True
@@ -348,13 +360,13 @@ def main(page:ft.Page):
         search_field.disabled = False
         coverage_input.disabled = False
         search_field.bgcolor = "#ffffff"
+        search_field.disabled = False
         coverage_input.bgcolor = "#ffffff"
         send_report.disabled = False
         send_report.visible = True
         page.update()
     
     output_section = ft.Column(
-        width=1800,
         scroll="auto",
         controls=[]
     )
@@ -364,8 +376,9 @@ def main(page:ft.Page):
         height=50,
         label='Search Keywords',
         hint_text="ex. acquisitions",
-        bgcolor='#ffffff',
+        bgcolor='#888888',
         color='#354850',
+        disabled=True,
         width=400,
         border_width=2,
         focused_border_color="#AB5637",
@@ -405,7 +418,6 @@ def main(page:ft.Page):
     )
     
     progress_bar = ft.ProgressBar(
-        width=1735,
         visible=False,
         color = "#6AADCD",
         bar_height=20,
@@ -455,7 +467,7 @@ def main(page:ft.Page):
     )
     
     send_report = ft.Container( 
-        width=300,
+        width=250,
         height=50,
         visible=False,
         content=ft.ElevatedButton(
@@ -519,8 +531,8 @@ def main(page:ft.Page):
     )
 
     container = ft.Container(
-        width = 1800,
-        height = 900,
+        width = 1500,
+        height = 800,
         bgcolor="#2B2B2B",
         border_radius=15,
         content=ft.Column(
@@ -528,14 +540,13 @@ def main(page:ft.Page):
                 ft.WindowDragArea(
                     ft.Container(
                         bgcolor="#78655E",
-                        width=1800,
+                        width=1500,
                         height=35,                                      
                         content=ft.Row(
                             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                             controls=[
                                 ft.Container(
                                     padding=ft.padding.only(left=15,right=0,top=0,bottom=0),
-                                    width=1400,
                                     content=date_time_field
                                 ),
                                 window_controls,
@@ -545,18 +556,16 @@ def main(page:ft.Page):
                 ),
                 ft.Container(  ####-----CONTROLS SECTION-----####
                     bgcolor="#2B2B2B",
-                    height=135,
-                    width=1800,
+                    width=1500,
                         content=ft.Row(
                             controls=[
                                 ft.Container(
-                                    width=1800,
-                                    height=150,
+                                    width=1500,
                                     content=ft.Row(
                                         controls=[
                                             ft.Container(   #---- 1st COLUMN OF CONTROLS
                                                 padding = ft.padding.all(15),
-                                                width=1200,
+                                                width=1100,
                                                 content=ft.Column(
                                                     controls=[  
                                                         ft.Row( 
@@ -564,22 +573,19 @@ def main(page:ft.Page):
                                                                 scrape_buttons_stack,
                                                                 coverage_input,
                                                                 search_field,
-                                                                ft.Container(width=20),
                                                                 send_report
                                                             ]
                                                         ),
                                                         ft.Column(
-                                                            height=30,
                                                             controls=[
                                                                 search_status,
-                                                                progress_bar
+                                                                
                                                             ]
                                                         )
                                                     ]
                                                 )
                                             ),
                                             ft.Container(   #---- 2nd COLUMN OF CONTROLS
-                                                width=550,
                                                 content=log_list
                                             ),
                                             
@@ -591,16 +597,28 @@ def main(page:ft.Page):
                     ),
                 ft.Container( ####-----OUTPUT_SECTION-----####
                     padding = ft.padding.all(15),
-                    height=680,
-                    width=1800,
+                    height=585,
+                    width=1500,
                     bgcolor='#DEDAC6',
                     content=output_section,
                     on_hover=refresh_time
                 ),
                 ft.Container(
+                    padding=ft.padding.only(left=15,right=15,top=0,bottom=0),
                     content=ft.Row(
                         controls=[
-                            ft.Text(value='HELP',color='#ffffff')
+                            ft.Container(
+                                width=1300,
+                                content=progress_bar
+                            ),
+                            ft.TextButton(
+                                'Report an Issue',
+                                on_click=report_issue,
+                                icon=ft.Icons.REPORT_PROBLEM_OUTLINED,
+                                style=ft.ButtonStyle(
+                                    color='#ffffff'
+                                )
+                            ),
                         ]
                     )
                 )

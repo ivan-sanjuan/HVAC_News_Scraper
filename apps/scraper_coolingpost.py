@@ -41,6 +41,7 @@ class CoolingPostNews:
     def get_news_blocks(self):
         news_section = self.soup.find('div', id='main-content')
         news_blocks = news_section.find_all('div', class_='cl-element-section')
+        print(f'Getting {self.source}')
         for news in news_blocks:
             parsed_date = news.find('div', class_='cl-element-published_date').text
             parsed_date_obj = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', parsed_date), '%d %B %Y')
