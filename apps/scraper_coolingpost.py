@@ -55,6 +55,7 @@ class CoolingPostNews:
                 {
                 'PublishDate': publish_date,
                 'Source': self.source,
+                'Type': 'Industry News',
                 'Title': self.title.text.strip(),
                 'Summary': self.summary.text.strip(),
                 'Link': self.link

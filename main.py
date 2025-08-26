@@ -4,6 +4,7 @@ from apps.scraper_natural_refrigerants import get_natural_refrigerants_news
 from apps.scraper_trane_technologies import get_trane_news
 from apps.scraper_danfoss import get_danfoss_news
 from apps.scraper_LG_B2B import get_LG_news
+from apps.scraper_copeland import get_copeland_news
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from datetime import datetime, timedelta
@@ -76,12 +77,13 @@ def main(page:ft.Page):
         driver = webdriver.Chrome(options=options)
         search_status.update()
         scrapers = [
-            get_cooling_post_news,
-            get_refindustry_news,
-            get_natural_refrigerants_news,
-            get_trane_news,
-            get_danfoss_news,
-            get_LG_news
+            # get_cooling_post_news,
+            # get_refindustry_news,
+            # get_natural_refrigerants_news,
+            # get_trane_news,
+            # get_danfoss_news,
+            # get_LG_news,
+            get_copeland_news
         ]
         csv_paths = [
             'csv/combined_news.csv',
@@ -90,7 +92,8 @@ def main(page:ft.Page):
             'csv/natural_refrigerants_news.csv',
             'csv/trane_technologies_news.csv',
             'csv/danfoss_news.csv',
-            'csv/LG_News.csv'
+            'csv/LG_News.csv',
+            'csv/copeland_news.csv'
         ]
         
         for csv in csv_paths:

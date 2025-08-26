@@ -73,6 +73,7 @@ class RefIndustryNews:
                 {
                 'PublishDate': self.publish_date,
                 'Source': 'RefIndustry',
+                'Type': 'Industry News',
                 'Title': self.title,
                 'Summary': self.summary,
                 'Link': self.link

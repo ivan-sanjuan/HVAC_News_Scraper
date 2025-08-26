@@ -44,6 +44,7 @@ class NaturalRefrigerants:
                     {
                     'PublishDate': self.publish_date,
                     'Source': 'Natural Refrigerants',
+                    'Type': 'Industry News',
                     'Title': self.title.text.strip(),
                     'Summary': self.summary.text.strip(),
                     'Link': self.link

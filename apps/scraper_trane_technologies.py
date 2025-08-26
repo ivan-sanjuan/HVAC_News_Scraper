@@ -51,6 +51,7 @@ class TraneNews:
                     {
                     'PublishDate': self.publish_date,
                     'Source': 'TRANE',
+                    'Type': 'Company News',
                     'Title': self.title,
                     'Summary': self.summary,
                     'Link': self.link
