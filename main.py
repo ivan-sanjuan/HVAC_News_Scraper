@@ -83,8 +83,8 @@ def main(page:ft.Page):
             get_danfoss_news,
             get_LG_news
         ]
-        
         csv_paths = [
+            'csv/combined_news.csv',
             'csv/ref_industry_news.csv',
             'csv/cooling_post_news.csv',
             'csv/natural_refrigerants_news.csv',
@@ -94,9 +94,12 @@ def main(page:ft.Page):
         ]
         
         for csv in csv_paths:
-            empty = []
-            empty_df = pd.DataFrame(empty)
-            empty_df.to_csv(csv, index=False)
+            if os.path.isfile(csv):
+                empty = []
+                empty_df = pd.DataFrame(empty)
+                empty_df.to_csv(csv, index=False)
+            else:
+                continue
         
         try:
             global scraping_active
@@ -166,10 +169,8 @@ def main(page:ft.Page):
                 print(f'NO NEW News at the moment: {today}')
         
         if len(valid_dfs) > 0:
-            today_csv=datetime.today()
-            today_csv_formatted=today_csv.strftime('%Y-%m-%d')
             combined_df = pd.concat(valid_dfs, ignore_index=True)
-            filename_scraped_news = f'csv/scraped_news_{today_csv_formatted}.csv'
+            filename_scraped_news = f'csv/combined_news.csv'
             combined_df.to_csv(filename_scraped_news, index=False)
             combined_csv = pd.read_csv(filename_scraped_news)
             combined_csv_df = pd.DataFrame(combined_csv)
@@ -315,6 +316,14 @@ def main(page:ft.Page):
             date_time_field.value = current_time
             time.sleep(1)
             page.update()
+
+    def create_report():
+        today_csv=datetime.today()
+        today_csv_formatted=today_csv.strftime('%Y-%m-%d')
+        combined_news = pd.read_csv('csv/combined_news.csv')
+        df = pd.DataFrame(combined_news)
+        report = df.to_csv(f'csv/scraped_news_{today_csv_formatted}.csv')
+        return report
     
     def send_to_outlook(e):
         pythoncom.CoInitialize()
@@ -323,6 +332,7 @@ def main(page:ft.Page):
         olApp = outlook.Dispatch(f'Outlook.Application')
         mail_item = olApp.CreateItem(0)
         mail_item.Subject = f'Scraped News for {today_formatted}'
+        create_report()
         today_csv=datetime.today()
         today_csv_formatted=today_csv.strftime('%Y-%m-%d')
         base_dir = os.path.dirname(os.path.abspath(__file__))
