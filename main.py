@@ -325,7 +325,7 @@ def main(page:ft.Page):
         today_csv_formatted=today_csv.strftime('%Y-%m-%d')
         combined_news = pd.read_csv('csv/combined_news.csv')
         df = pd.DataFrame(combined_news)
-        report = df.to_csv(f'csv/scraped_news_{today_csv_formatted}.csv')
+        report = df.to_csv(f'csv/scraped_news_{today_csv_formatted}.csv', index=False)
         return report
     
     def send_to_outlook(e):
