@@ -33,6 +33,7 @@ class LGNews:
                 {
                 'PublishDate': publish_date,
                 'Source': self.source,
+                'Type': 'Company News',
                 'Title': title,
                 'Summary': summary,
                 'Link': self.hlink
