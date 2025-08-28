@@ -385,6 +385,19 @@ def main(page:ft.Page):
         send_report.disabled = False
         send_report.visible = True
         page.update()
+        
+    max_value = 30
+    def validate_number(e):
+        try:
+            value=int(e.control.value)
+            if value>max_value:
+                e.control.value = str(max_value)
+                search_status.value = f'I can only scrape {max_value} days worth of news.. (reliably, atleast.)'
+            else:
+                search_status.value = 'ON STAND-BY...'
+        except ValueError:
+            search_status.value = "you can leave it blank (i'll still change it to 1 :D)"
+        search_status.update()
     
     output_section = ft.Column(
         scroll="auto",
@@ -424,6 +437,8 @@ def main(page:ft.Page):
         border_radius=10,
         focused_border_color='#AB5637',
         text_align=ft.TextAlign.CENTER,
+        keyboard_type=ft.KeyboardType.NUMBER,
+        on_change=validate_number,
         label_style=ft.TextStyle(
             color='#354850',
             size=12,

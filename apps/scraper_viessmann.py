@@ -21,9 +21,9 @@ class ViessmannNews:
     def get_soup(self):
         self.driver.get(self.news_url)
         try:
-            button = driver.find_element(By.CSS_SELECTOR, '[data-testid="uc-accept-all-button"]')
-            driver.execute_script("arguments[0].click();", button)
-            WebDriverWait(driver, 5).until(
+            button = self.driver.find_element(By.CSS_SELECTOR, '[data-testid="uc-accept-all-button"]')
+            self.driver.execute_script("arguments[0].click();", button)
+            WebDriverWait(self.driver, 5).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="uc-accept-all-button"]'))
             ).click()
             print('Accepted cookies.')
@@ -78,15 +78,3 @@ def get_viessmann_news(driver,coverage_days):
     return all_news
     
 
-# options = Options()
-# # options.add_argument('--headless=new')
-# options.add_argument('--disable-gpu')
-# options.add_argument('--window-size=1920x1080')
-# options.add_argument('--log-level=3')
-# options.add_argument("--disable-blink-features=AutomationControlled")
-# options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-# driver = webdriver.Chrome(options=options)
-# get_viessmann_news(driver,coverage_days=90)
-
-# driver.quit()
-# time.sleep(10)
