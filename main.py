@@ -31,6 +31,64 @@ class UILogStream:
 
         def flush(self):
             pass
+        
+class ScrapedData:
+    def __init__(self,e,dataframe,output_section,page):
+        self.df = dataframe
+        self.output = output_section
+        self.page = page
+        self.e = e
+        
+    def headers(self):
+            return [ft.DataColumn(ft.Text(col)) for col in self.df.columns]
+        
+    def rows(self):
+        def open_link():
+            self.page.launch_url(self.e.control.data)
+
+        rows = []
+        for index, row in df.iterrows():
+            row_cells = []
+            for header in df.columns:
+                cell_value = str(row[header])
+
+                if cell_value.startswith("http://") or cell_value.startswith("https://"):
+                    cell_content = ft.TextButton(
+                        text="Visit",
+                        data=cell_value,
+                        on_click=open_link,
+                        style=ft.ButtonStyle(color=ft.Colors.BLUE)
+                    )
+                else:
+                    cell_content = ft.Text(cell_value, color='#1F2134')
+
+                if header == "Title":
+                    cell_widget = ft.Container(
+                        content=cell_content,
+                        width=600
+                    )
+                else:
+                    cell_widget = cell_content
+
+                row_cells.append(ft.DataCell(cell_widget))
+            rows.append(ft.DataRow(cells=row_cells))
+        return rows
+            
+    scrape_result = ft.DataTable(
+                    columns=headers(combined_csv_df),
+                    sort_column_index=0,
+                    sort_ascending=True,
+                    bgcolor='#DEDAC6',
+                    rows=rows(combined_csv_df),
+                    column_spacing=15,
+                    heading_row_color='#2B2B2B',
+                    data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
+                    show_checkbox_column=True,
+                    border=ft.border.all(1, '#78655E'),
+                    width=1500
+                    )
+    output_section.controls.append(scrape_result)
+    page.update()
   
 def main(page:ft.Page):
     page.window.width = 1500
