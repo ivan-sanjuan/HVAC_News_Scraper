@@ -5,11 +5,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
 import pandas as pd
-import time
 import requests
-import json
 
 class TraneCommercial:
     def __init__(self,driver,coverage_days):
@@ -51,13 +49,14 @@ class TraneCommercial:
             publish_date_obj = datetime.strptime(self.publish_date,'%Y-%m-%d')
             if publish_date_obj >= self.today-timedelta(days=self.coverage_days):
                 link = item.get('landingPageUrl')
-                self.news_links.append(link)
+                self.news_links.append({'link':link,'dates':self.publish_date})
         return self.news_links
     
     def get_soup(self):
         self.driver.get('https://www.google.com/')
         links = self.get_link()
-        for link in links:
+        for url in links:
+            link = url.get('link')
             self.driver.switch_to.new_window('tab')
             self.driver.get(link)
             WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'featured-article__content')))
@@ -73,7 +72,7 @@ class TraneCommercial:
                 summary = soup.find('div',class_='cmp-text').text.strip()
             self.latest_news.append(
                 {
-                'PublishDate': self.publish_date,
+                'PublishDate': url.get('dates'),
                 'Source': 'Trane-Commercial',
                 'Type': 'Company News',
                 'Title': title,
@@ -96,13 +95,3 @@ def get_trane_commercial(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/trane_commercial_news.csv',index=False)
-
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_trane_commercial(driver,coverage_days=124)
