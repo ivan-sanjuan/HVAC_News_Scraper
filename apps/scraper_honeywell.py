@@ -78,17 +78,3 @@ def get_honeywell_news(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/honeywell_news.csv',index=False)
-    
-
-# options = Options()
-# # options.add_argument('--headless=new')
-# options.add_argument('--disable-gpu')
-# options.add_argument('--window-size=1920x1080')
-# options.add_argument('--log-level=3')
-# options.add_argument("--disable-blink-features=AutomationControlled")
-# options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-# driver = webdriver.Chrome(options=options)
-# get_honeywell_news(driver,coverage_days=120)
-
-# driver.quit()
-# time.sleep(10)

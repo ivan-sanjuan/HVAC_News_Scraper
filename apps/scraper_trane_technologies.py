@@ -50,7 +50,7 @@ class TraneNews:
                 self.latest_news.append(
                     {
                     'PublishDate': self.publish_date,
-                    'Source': 'TRANE',
+                    'Source': 'TRANE-Corporate',
                     'Type': 'Company News',
                     'Title': self.title,
                     'Summary': self.summary,
