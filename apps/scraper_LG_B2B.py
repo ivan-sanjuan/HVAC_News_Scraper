@@ -130,5 +130,3 @@ def get_LG_news(driver,coverage_days):
         all_news.extend(category)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/LG_News.csv', index=False)
-
-    return all_news

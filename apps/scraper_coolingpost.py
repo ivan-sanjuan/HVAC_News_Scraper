@@ -93,5 +93,3 @@ def get_cooling_post_news(driver, coverage_days):
     all_news.extend(train_events_news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/cooling_post_news.csv', index=False)
-    
-    return all_news

@@ -64,6 +64,4 @@ def get_natural_refrigerants_news(driver, coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/natural_refrigerants_news.csv', index=False)
-    
-    return all_news
 

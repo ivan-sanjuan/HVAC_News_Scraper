@@ -83,6 +83,4 @@ def get_copeland_news(driver, coverage_days):
     df = pd.DataFrame(all_news)
     df.to_csv('csv/copeland_news.csv', index=False)
     
-    return all_news
-    
     
