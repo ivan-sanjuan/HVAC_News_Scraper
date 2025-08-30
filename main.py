@@ -1,12 +1,5 @@
-from apps.scraper_coolingpost import get_cooling_post_news
-from apps.scraper_refindustry import get_refindustry_news
-from apps.scraper_natural_refrigerants import get_natural_refrigerants_news
-from apps.scraper_trane_technologies import get_trane_news
-from apps.scraper_danfoss import get_danfoss_news
-from apps.scraper_LG_B2B import get_LG_news
-from apps.scraper_copeland import get_copeland_news
-from apps.scraper_carrier import get_carrier_news
-from apps.scraper_viessmann import get_viessmann_news
+from apps._scrapers import get_scrapers
+from apps._paths import get_paths
 from apps import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -35,7 +28,7 @@ class UILogStream:
 class ScrapedData:
     def __init__(self,e,dataframe,output_section,page):
         self.df = dataframe
-        self.output = output_section
+        self.output_section = output_section
         self.page = page
         self.e = e
         
@@ -47,9 +40,9 @@ class ScrapedData:
             self.page.launch_url(self.e.control.data)
 
         rows = []
-        for index, row in df.iterrows():
+        for index, row in self.df.iterrows():
             row_cells = []
-            for header in df.columns:
+            for header in self.df.columns:
                 cell_value = str(row[header])
 
                 if cell_value.startswith("http://") or cell_value.startswith("https://"):
@@ -73,22 +66,28 @@ class ScrapedData:
                 row_cells.append(ft.DataCell(cell_widget))
             rows.append(ft.DataRow(cells=row_cells))
         return rows
-            
-    scrape_result = ft.DataTable(
-                    columns=headers(combined_csv_df),
-                    sort_column_index=0,
-                    sort_ascending=True,
-                    bgcolor='#DEDAC6',
-                    rows=rows(combined_csv_df),
-                    column_spacing=15,
-                    heading_row_color='#2B2B2B',
-                    data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
-                    show_checkbox_column=True,
-                    border=ft.border.all(1, '#78655E'),
-                    width=1500
-                    )
-    output_section.controls.append(scrape_result)
-    page.update()
+    
+    def output(self):        
+        scrape_result = ft.DataTable(
+                        columns=self.headers(),
+                        sort_column_index=0,
+                        sort_ascending=True,
+                        bgcolor='#DEDAC6',
+                        rows=self.rows(),
+                        column_spacing=15,
+                        heading_row_color='#2B2B2B',
+                        data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
+                        show_checkbox_column=True,
+                        border=ft.border.all(1, '#78655E'),
+                        width=1500
+                        )
+        self.output_section.controls.append(scrape_result)
+        self.page.update()
+        
+    def run(self):
+        self.headers()
+        self.rows()
+        self.output()
   
 def main(page:ft.Page):
     page.window.width = 1500
@@ -115,7 +114,7 @@ def main(page:ft.Page):
         def append_log(message):
             log_list.controls.append(ft.Text(message,color='#DEDAC6'))
             sys.stdout = UILogStream(append_log)
-            sys.stderr = UILogStream(append_log)
+            # sys.stderr = UILogStream(append_log)
             log_list.update()
         
         def runtime():
@@ -136,31 +135,8 @@ def main(page:ft.Page):
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
         driver = webdriver.Chrome(options=options)
-        search_status.update()
-        scrapers = [
-            get_cooling_post_news,
-            get_refindustry_news,
-            get_natural_refrigerants_news,
-            get_trane_news,
-            get_danfoss_news,
-            get_LG_news,
-            get_copeland_news,
-            get_carrier_news,
-            get_viessmann_news
-        ]
-        csv_paths = [
-            'csv/combined_news.csv',
-            'csv/ref_industry_news.csv',
-            'csv/cooling_post_news.csv',
-            'csv/natural_refrigerants_news.csv',
-            'csv/trane_technologies_news.csv',
-            'csv/danfoss_news.csv',
-            'csv/LG_News.csv',
-            'csv/copeland_news.csv',
-            'csv/carrier_news.csv',
-            'csv/viessman_news.csv'
-        ]
-        
+        scrapers = get_scrapers()
+        csv_paths = get_paths()
         for csv in csv_paths:
             if os.path.isfile(csv):
                 empty = []
@@ -168,7 +144,6 @@ def main(page:ft.Page):
                 empty_df.to_csv(csv, index=False)
             else:
                 continue
-        
         try:
             global scraping_active
             scraping_active = True
@@ -203,7 +178,6 @@ def main(page:ft.Page):
                     time.sleep(2)
                 else:
                     break
-
         finally:
             status_report_generation = 'SCRAPING COMPLETE, GENERATING REPORT...'
             total_time = runtime()
@@ -215,7 +189,6 @@ def main(page:ft.Page):
             search_status.value = report
             scrape_button_enabled()
             page.update()
-        
         
         valid_dfs = []
         for path in csv_paths:
@@ -235,65 +208,14 @@ def main(page:ft.Page):
             except UnboundLocalError:
                 today=datetime.today()
                 print(f'NO NEW News at the moment: {today}')
-        
         if len(valid_dfs) > 0:
             combined_df = pd.concat(valid_dfs, ignore_index=True)
             filename_scraped_news = f'csv/combined_news.csv'
             combined_df.to_csv(filename_scraped_news, index=False)
             combined_csv = pd.read_csv(filename_scraped_news)
             combined_csv_df = pd.DataFrame(combined_csv)
-
-            def headers(df:pd.DataFrame):
-                return [ft.DataColumn(ft.Text(col)) for col in combined_csv_df.columns]
-            
-            def rows(df: pd.DataFrame):
-                def open_link(e):
-                    page.launch_url(e.control.data)
-
-                rows = []
-                for index, row in df.iterrows():
-                    row_cells = []
-                    for header in df.columns:
-                        cell_value = str(row[header])
-
-                        if cell_value.startswith("http://") or cell_value.startswith("https://"):
-                            cell_content = ft.TextButton(
-                                text="Visit",
-                                data=cell_value,
-                                on_click=open_link,
-                                style=ft.ButtonStyle(color=ft.Colors.BLUE)
-                            )
-                        else:
-                            cell_content = ft.Text(cell_value, color='#1F2134')
-
-                        if header == "Title":
-                            cell_widget = ft.Container(
-                                content=cell_content,
-                                width=600
-                            )
-                        else:
-                            cell_widget = cell_content
-
-                        row_cells.append(ft.DataCell(cell_widget))
-                    rows.append(ft.DataRow(cells=row_cells))
-                return rows
-                
-            scrape_result = ft.DataTable(
-                            columns=headers(combined_csv_df),
-                            sort_column_index=0,
-                            sort_ascending=True,
-                            bgcolor='#DEDAC6',
-                            rows=rows(combined_csv_df),
-                            column_spacing=15,
-                            heading_row_color='#2B2B2B',
-                            data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
-                            show_checkbox_column=True,
-                            border=ft.border.all(1, '#78655E'),
-                            width=1500
-                            )
-            output_section.controls.append(scrape_result)
-            page.update()
-            
+            initial_scrape = ScrapedData(e,combined_csv_df,output_section,page)
+            initial_scrape.run()
         else:
             today=datetime.today()
             today_formatted=today.strftime('%B %d, %Y | %X')
@@ -304,71 +226,20 @@ def main(page:ft.Page):
     def filter_items(e):
         output_section.controls.clear()
         query = e.strip().lower()
-        today_csv=datetime.today()
-        today_csv_formatted=today_csv.strftime('%Y-%m-%d')
-        filename_scraped_news = f'csv/scraped_news_{today_csv_formatted}.csv'
+        filename_scraped_news = f'csv/combined_news.csv'
         df = pd.read_csv(filename_scraped_news)
         filtered_df = df[
             df.apply(
             lambda row: 
             query in str(row['Title']).lower() 
             or query in str(row['Summary']).lower()
-            or query in str(row['Source']).lower(), 
+            or query in str(row['Source']).lower()
+            or query in str(row['Type']).lower(), 
             axis=1
             )
         ]
-
-        def headers(df: pd.DataFrame):
-            return [ft.DataColumn(ft.Text(col)) for col in df.columns]
-
-        def rows(df: pd.DataFrame):
-            def open_link(e):
-                page.launch_url(e.control.data)
-
-            rows = []
-            for index, row in df.iterrows():
-                row_cells = []
-                for header in df.columns:
-                    cell_value = str(row[header])
-
-                    if cell_value.startswith("http://") or cell_value.startswith("https://"):
-                        cell_content = ft.TextButton(
-                            text="Visit",
-                            data=cell_value,
-                            on_click=open_link,
-                            style=ft.ButtonStyle(color=ft.Colors.BLUE)
-                        )
-                    else:
-                        cell_content = ft.Text(cell_value, color='#1F2134')
-
-                    if header == "Title":
-                        cell_widget = ft.Container(
-                            content=cell_content,
-                            width=600
-                        )
-                    else:
-                        cell_widget = cell_content
-
-                    row_cells.append(ft.DataCell(cell_widget))
-                rows.append(ft.DataRow(cells=row_cells))
-            return rows
-
-        scrape_result = ft.DataTable(
-            columns=headers(filtered_df),
-            sort_column_index=0,
-            sort_ascending=True,
-            bgcolor='#DCDCDC',
-            rows=rows(filtered_df),
-            column_spacing=10,
-            heading_row_color='#1F2134',
-            data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
-            show_checkbox_column=True,
-            border=ft.border.all(1, ft.Colors.GREY),
-            width=1500
-        )
-            
-        output_section.controls.append(scrape_result)
-        page.update()
+        filtered_result = ScrapedData(e,filtered_df,output_section,page)
+        filtered_result.run()
         
     def minimize_window(e):
         page.window.minimized = True
@@ -381,7 +252,7 @@ def main(page:ft.Page):
     def refresh_time(e):
         while True:
             current_time = datetime.now().strftime('%c')
-            date_time_field.value = current_time
+            date_time_field.value = f"|  {current_time}"
             time.sleep(1)
             page.update()
 
@@ -548,12 +419,10 @@ def main(page:ft.Page):
             width=200,
             height=20,
             on_click=stop_scraping,
-            # bgcolor="#424242",
             bgcolor='#AB5637',
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=30),
                 text_style=ft.TextStyle(size=18, weight=ft.FontWeight.NORMAL),
-                # color="#F06E3F"
                 color='#DEDAC6'
             ),
         )
@@ -622,6 +491,12 @@ def main(page:ft.Page):
         value='',
         color='#DEDAC6'
     )
+    
+    tool_name = ft.Text(
+        value='HVACR News - Scraper Tool',
+        color='#DEDAC6',
+        weight=ft.FontWeight.W_500
+    )
 
     container = ft.Container(
         width = 1500,
@@ -640,7 +515,12 @@ def main(page:ft.Page):
                             controls=[
                                 ft.Container(
                                     padding=ft.padding.only(left=15,right=0,top=0,bottom=0),
-                                    content=date_time_field
+                                    content=ft.Row(
+                                        controls=[
+                                            tool_name,
+                                            date_time_field
+                                        ]
+                                    )
                                 ),
                                 window_controls,
                             ]
@@ -693,8 +573,9 @@ def main(page:ft.Page):
                     height=585,
                     width=1500,
                     bgcolor='#DEDAC6',
-                    content=output_section,
-                    on_hover=refresh_time
+                    on_hover=refresh_time,
+                    content=output_section
+                    
                 ),
                 ft.Container(
                     padding=ft.padding.only(left=15,right=15,top=0,bottom=0),
