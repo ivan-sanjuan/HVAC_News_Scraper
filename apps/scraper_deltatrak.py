@@ -27,6 +27,7 @@ class DeltaTrakNews:
         self.news_blocks_sel = self.driver.find_elements(By.CLASS_NAME,'News-container')
         
     def open_in_new_tab(self,driver_link):
+        print('Opening a new tab')
         ActionChains(self.driver)\
             .key_down(Keys.CONTROL)\
             .click(driver_link)\
@@ -35,10 +36,11 @@ class DeltaTrakNews:
             
     def extract_page_soup(self):
         WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'container')))
-        html = self.driver.page_source
-        soup = BeautifulSoup(html,'html.parser')
-        self.title = soup.find('div',class_='news-detail-header').text.strip()
-        self.summary = soup.find('p',class_='1stpara').text.strip()
+        html_page = self.driver.page_source
+        soup_page = BeautifulSoup(html_page,'html.parser')
+        self.title = soup_page.find('div',class_='news-detail-header').text.strip()
+        print(f'Fetching summary of: {self.title}')
+        self.summary = soup_page.find('p',class_='1stpara').text.strip()
 
     def get_news(self):
         for news, sect in zip(self.news_blocks,self.news_blocks_sel):
@@ -49,9 +51,14 @@ class DeltaTrakNews:
                 driver_link = sect.find_element(By.CLASS_NAME,'News-link')
                 self.driver.execute_script("arguments[0].scrollIntoView();",sect)
                 link = news.find('a',class_='News-link').get('href')
+                time.sleep(3)
+                before_tabs = self.driver.window_handles
                 self.open_in_new_tab(driver_link)
                 self.driver.switch_to.window(self.driver.window_handles[1])
+                WebDriverWait(self.driver, 5).until(lambda d: len(d.window_handles) > len(before_tabs))
                 self.extract_page_soup()
+                self.driver.close()
+                self.driver.switch_to.window(self.driver.window_handles[0])
                 self.latest_news.append(
                     {
                     'PublishDate':publish_date,
@@ -62,11 +69,7 @@ class DeltaTrakNews:
                     'Link': link
                     }
                 )
-                time.sleep(1)
-                self.driver.close()
-                self.driver.switch_to.window(self.driver.window_handles[0])
-                
-    
+
     def scrape(self):
         self.get_soup()
         self.get_news()
@@ -80,16 +83,4 @@ def get_delta_trak_news(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/deltatrak_news.csv',index=False)
-
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_delta_trak_news(driver,coverage_days=100)
-
-time.sleep(10)
-driver.quit()
+    

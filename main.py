@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from datetime import datetime, timedelta
 import win32com.client as outlook
+from pandas.errors import EmptyDataError
 import pythoncom
 import flet as ft
 import asyncio
@@ -337,11 +338,15 @@ def main(page:ft.Page):
     )
     
     def reload_results(e):
-        output_section.controls.clear()
-        df = pd.read_csv('csv/combined_news.csv')
-        results = ScrapedData(e,df,output_section,page)
-        results.run()
-        scrape_button_enabled()
+        try:
+            output_section.controls.clear()
+            df = pd.read_csv('csv/combined_news.csv')
+            results = ScrapedData(e,df,output_section,page)
+            results.run()
+            scrape_button_enabled()
+        except EmptyDataError:
+            search_status.value = 'No results to display.'
+            search_status.update()
     
     search_field = ft.TextField(
         border_radius=10,
@@ -461,7 +466,7 @@ def main(page:ft.Page):
     
     reload_last_result = ft.Container( 
         width=200,
-        height=50,
+        height=30,
         content=ft.ElevatedButton(
             text='RELOAD RESULT',
             icon=ft.Icons.FOLDER_OPEN_ROUNDED,
@@ -472,7 +477,7 @@ def main(page:ft.Page):
             bgcolor='#DEDAC6',
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=10),
-                text_style=ft.TextStyle(size=17, weight=ft.FontWeight.NORMAL),
+                text_style=ft.TextStyle(size=14, weight=ft.FontWeight.NORMAL),
                 color="#2B2B2B"
             ),
         )
@@ -480,7 +485,7 @@ def main(page:ft.Page):
     
     save_result = ft.Container( 
         width=190,
-        height=50,
+        height=30,
         content=ft.ElevatedButton(
             text='SAVE',
             icon=ft.Icons.SAVE_ALT_ROUNDED,
@@ -491,7 +496,7 @@ def main(page:ft.Page):
             bgcolor='#DEDAC6',
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=10),
-                text_style=ft.TextStyle(size=17, weight=ft.FontWeight.NORMAL),
+                text_style=ft.TextStyle(size=14, weight=ft.FontWeight.NORMAL),
                 color="#2B2B2B"
             ),
         )

@@ -14,6 +14,7 @@ from .scraper_trane_commercial import get_trane_commercial
 from .scraper_thermoking import get_thermoking
 from .scraper_thermoking_europe import get_thermoking_europe
 from .scraper_carel import get_carel
+from .scraper_deltatrak import get_delta_trak_news
 
 def get_scrapers():
     scrapers = [
@@ -32,6 +33,7 @@ def get_scrapers():
             get_honeywell_news,
             get_thermoking,
             get_thermoking_europe,
-            get_carel
+            get_carel,
+            get_delta_trak_news
         ]
     return scrapers
