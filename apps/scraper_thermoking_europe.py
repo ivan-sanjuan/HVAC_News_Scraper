@@ -63,6 +63,7 @@ class ThermokingNewsEurope:
             if parsed_date_obj >= self.date_limit:
                 get_news = self.get_news()
                 title = get_news.get('title')
+                print(f'Fetching: {title}')
                 summary = get_news.get('summary')
                 self.latest_news.append(
                     {
@@ -84,6 +85,7 @@ class ThermokingNewsEurope:
 
 all_news=[]
 def get_thermoking_europe(driver,coverage_days):
+    driver.set_window_size(1920, 1080)
     url = 'https://europe.thermoking.com/media-room'
     news = ThermokingNewsEurope(driver,coverage_days,url)
     news.scrape()

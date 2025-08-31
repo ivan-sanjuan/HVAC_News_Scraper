@@ -168,7 +168,10 @@ def main(page:ft.Page):
                         coverage_days = 1
                     else:
                         coverage_days = int(coverage_input.value)
-                    scraper(driver,coverage_days=coverage_days)
+                    try:
+                        scraper(driver,coverage_days=coverage_days)
+                    except Exception as e:
+                        print(f'An error has occured: {e}')
                     duration = time.time() - start
                     status_2 = f"{scraper.__name__} completed in {duration:.2f} seconds"
                     append_log(status_2)
@@ -333,6 +336,13 @@ def main(page:ft.Page):
         controls=[]
     )
     
+    def reload_results(e):
+        output_section.controls.clear()
+        df = pd.read_csv('csv/combined_news.csv')
+        results = ScrapedData(e,df,output_section,page)
+        results.run()
+        scrape_button_enabled()
+    
     search_field = ft.TextField(
         border_radius=10,
         height=50,
@@ -378,7 +388,7 @@ def main(page:ft.Page):
         value='ON STAND-BY...',
         size=15,
         color='#DEDAC6',
-        width=400,
+        width=383,
     )
     
     progress_bar = ft.ProgressBar(
@@ -444,6 +454,44 @@ def main(page:ft.Page):
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=30),
                 text_style=ft.TextStyle(size=18, weight=ft.FontWeight.NORMAL),
+                color="#2B2B2B"
+            ),
+        )
+    )
+    
+    reload_last_result = ft.Container( 
+        width=200,
+        height=50,
+        content=ft.ElevatedButton(
+            text='RELOAD RESULT',
+            icon=ft.Icons.FOLDER_OPEN_ROUNDED,
+            elevation=5,
+            width=190,
+            height=20,
+            on_click=reload_results,
+            bgcolor='#DEDAC6',
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=10),
+                text_style=ft.TextStyle(size=17, weight=ft.FontWeight.NORMAL),
+                color="#2B2B2B"
+            ),
+        )
+    )
+    
+    save_result = ft.Container( 
+        width=190,
+        height=50,
+        content=ft.ElevatedButton(
+            text='SAVE',
+            icon=ft.Icons.SAVE_ALT_ROUNDED,
+            elevation=5,
+            width=200,
+            height=20,
+            on_click=reload_results,
+            bgcolor='#DEDAC6',
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=10),
+                text_style=ft.TextStyle(size=17, weight=ft.FontWeight.NORMAL),
                 color="#2B2B2B"
             ),
         )
@@ -549,10 +597,11 @@ def main(page:ft.Page):
                                                                 send_report
                                                             ]
                                                         ),
-                                                        ft.Column(
+                                                        ft.Row(
                                                             controls=[
                                                                 search_status,
-                                                                
+                                                                reload_last_result,
+                                                                save_result
                                                             ]
                                                         )
                                                     ]

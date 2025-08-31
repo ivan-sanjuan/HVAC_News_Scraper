@@ -13,6 +13,7 @@ from .scraper_honeywell import get_honeywell_news
 from .scraper_trane_commercial import get_trane_commercial
 from .scraper_thermoking import get_thermoking
 from .scraper_thermoking_europe import get_thermoking_europe
+from .scraper_carel import get_carel
 
 def get_scrapers():
     scrapers = [
@@ -30,6 +31,7 @@ def get_scrapers():
             get_BDRthermea_news,
             get_honeywell_news,
             get_thermoking,
-            get_thermoking_europe
+            get_thermoking_europe,
+            get_carel
         ]
     return scrapers

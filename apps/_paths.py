@@ -16,6 +16,7 @@ def get_paths():
                 'csv/honeywell_news.csv',
                 'csv/trane_commercial_news.csv',
                 'csv/thermoking_news.csv',
-                'csv/thermoking_EU_news.csv'
+                'csv/thermoking_EU_news.csv',
+                'csv/carel_news.csv'
             ]
     return csv_paths
