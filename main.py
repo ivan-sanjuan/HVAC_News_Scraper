@@ -31,14 +31,15 @@ class ScrapedData:
         self.df = dataframe
         self.output_section = output_section
         self.page = page
-        self.e = e
-        
+    
+    def open_link(self, e):
+            self.page.launch_url(e.control.data)
+     
     def headers(self):
             return [ft.DataColumn(ft.Text(col)) for col in self.df.columns]
         
     def rows(self):
-        def open_link():
-            self.page.launch_url(self.e.control.data)
+        
 
         rows = []
         for index, row in self.df.iterrows():
@@ -50,7 +51,7 @@ class ScrapedData:
                     cell_content = ft.TextButton(
                         text="Visit",
                         data=cell_value,
-                        on_click=open_link,
+                        on_click=self.open_link,
                         style=ft.ButtonStyle(color=ft.Colors.BLUE)
                     )
                 else:
