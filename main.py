@@ -348,6 +348,10 @@ def main(page:ft.Page):
         except EmptyDataError:
             search_status.value = 'No results to display.'
             search_status.update()
+            
+    def save_csv(e):
+        df = pd.read_csv('csv/combined_news.csv')
+        df.to_csv(os.path.expanduser("~"))
     
     search_field = ft.TextField(
         border_radius=10,
@@ -493,7 +497,7 @@ def main(page:ft.Page):
             elevation=5,
             width=200,
             height=20,
-            on_click=reload_results,
+            on_click=save_csv,
             bgcolor='#DEDAC6',
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=10),
@@ -625,7 +629,7 @@ def main(page:ft.Page):
                     ),
                 ft.Container( ####-----OUTPUT_SECTION-----####
                     padding = ft.padding.all(15),
-                    height=585,
+                    height=570,
                     width=1500,
                     bgcolor='#DEDAC6',
                     on_hover=refresh_time,
