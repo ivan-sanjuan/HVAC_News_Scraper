@@ -11,12 +11,13 @@ import pandas as pd
 import time
 
 class JarnNews:
-    def __init__(self,driver,coverage_days,url):
+    def __init__(self,driver,coverage_days,url,source):
         self.driver = driver
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.source = source
         self.page_num = 1
 
     def get_soup(self):
@@ -49,6 +50,7 @@ class JarnNews:
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         title = soup.find('h1',class_='articleTitle').text.strip()
+        print(f'Fetching News: {title}')
         summary_block = soup.find('div', class_='article-detail-main')
         if not summary_block:
             return ({'title': title, 'summary': 'Summary block not found.'})
@@ -89,7 +91,7 @@ class JarnNews:
             self.latest_news.append(
                 {
                 'PublishDate':publish_date,
-                'Source': 'JARN-News',
+                'Source': self.source,
                 'Type': 'Industry News',
                 'Title': title,
                 'Summary': summary,
@@ -101,25 +103,20 @@ class JarnNews:
     def scrape(self):
         self.get_soup()          
 
+sources = [
+    {'url':'https://www.ejarn.com/category/eJarn_news_index','source':'JARN News'},
+    {'url':'https://www.ejarn.com/category/interview_index','source':'JARN Interviews'}
+]
+
 all_news=[]
 def get_jarn(driver,coverage_days):
     driver.set_window_size(1920, 1080)
-    url='https://www.ejarn.com/category/eJarn_news_index'
-    news = JarnNews(driver,coverage_days,url)
-    news.scrape()
-    all_news.extend(news.latest_news)
+    for news in sources:
+        url = news.get('url')
+        source = news.get('source')
+        site = JarnNews(driver,coverage_days,url,source)
+        site.scrape()
+        all_news.extend(site.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/jarn_news.csv',index=False)
 
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_jarn(driver,coverage_days=3)
-
-time.sleep(10)
-driver.quit()

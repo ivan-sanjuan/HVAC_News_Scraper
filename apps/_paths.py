@@ -14,11 +14,12 @@ def get_paths():
                 'csv/lennox_news.csv',
                 'csv/BDR_Thermea_news.csv',
                 'csv/honeywell_news.csv',
-                'csv/trane_commercial_news.csv',
+                # 'csv/trane_commercial_news.csv',
                 'csv/thermoking_news.csv',
                 'csv/thermoking_EU_news.csv',
                 'csv/carel_news.csv',
                 'csv/deltatrak_news.csv',
-                'csv/bitzer_news.csv'
+                'csv/bitzer_news.csv',
+                'csv/jarn_news.csv'
             ]
     return csv_paths

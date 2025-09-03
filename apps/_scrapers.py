@@ -3,7 +3,7 @@ from .scraper_refindustry import get_refindustry_news
 from .scraper_natural_refrigerants import get_natural_refrigerants_news
 from .scraper_trane_technologies import get_trane_news
 from .scraper_danfoss import get_danfoss_news
-from .scraper_LG_B2B import get_LG_news
+from .scraper_LG_Global import get_LG_news
 from .scraper_copeland import get_copeland_news
 from .scraper_carrier import get_carrier_news
 from .scraper_viessmann import get_viessmann_news
@@ -16,14 +16,16 @@ from .scraper_thermoking_europe import get_thermoking_europe
 from .scraper_carel import get_carel
 from .scraper_deltatrak import get_delta_trak_news
 from .scraper_bitzer import get_bitzer_news
+from .scraper_jarn import get_jarn
 
 def get_scrapers():
     scrapers = [
             get_cooling_post_news,
             get_refindustry_news,
             get_natural_refrigerants_news,
+            get_jarn,
             get_trane_news,
-            get_trane_commercial,
+            # get_trane_commercial,
             get_danfoss_news,
             get_LG_news,
             get_copeland_news,
