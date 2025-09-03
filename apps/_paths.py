@@ -18,6 +18,7 @@ def get_paths():
                 'csv/thermoking_news.csv',
                 'csv/thermoking_EU_news.csv',
                 'csv/carel_news.csv',
-                'csv/deltatrak_news.csv'
+                'csv/deltatrak_news.csv',
+                'csv/bitzer_news.csv'
             ]
     return csv_paths

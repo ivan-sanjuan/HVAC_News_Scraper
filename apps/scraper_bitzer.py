@@ -43,12 +43,17 @@ class BitzerNews:
     def get_summary(self):
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
+        title = soup.find('h1',class_='overview-headline').text.strip()
         summary_block = soup.find('div',class_='press-information-content')
         paragraphs = summary_block.find_all('p')
+        print(f'Fetching News: {title}')
         for sum in paragraphs:
-            if len(sum) > 150:
+            if len(sum.text.strip()) < 150:
+                pass
+            else:
                 summary = sum.text.strip()
-                return summary
+                
+        return ({'title':title,'summary':summary})
     
     def get_news(self):
         for news, section in zip(self.news_blocks,self.news_blocks_sel):
@@ -58,7 +63,6 @@ class BitzerNews:
             if parsed_date_obj >= self.date_limit:
                 self.driver.execute_script("arguments[0].scrollIntoView();",section)
                 link_sel = section.find_element(By.LINK_TEXT,'Read more')
-                title = news.find('h2',class_='news-headline').text.strip
                 link = news.find('a',class_='primary-color').get('href')
                 self.open_to_new_tab(link_sel)
                 self.driver.switch_to.window(self.driver.window_handles[1])
@@ -67,9 +71,12 @@ class BitzerNews:
                     WebDriverWait(self.driver,3).until(lambda e: len(e.window_handles) > len(current_tabs))
                 except:
                     pass
-                summary = self.get_summary()
+                page = self.get_summary()
+                title = page.get('title')
+                summary = page.get('summary')
                 self.driver.close()
                 self.driver.switch_to.window(self.driver.window_handles[0])
+                root_url='https://www.bitzer.de'
                 self.latest_news.append(
                     {
                     'PublishDate':publish_date,
@@ -77,7 +84,7 @@ class BitzerNews:
                     'Type': 'Company News',
                     'Title': title,
                     'Summary': summary,
-                    'Link': link
+                    'Link': f'{root_url}{link}'
                     }
                 )
     
@@ -95,15 +102,3 @@ def get_bitzer_news(driver,coverage_days):
     df = pd.DataFrame(all_news)
     df.to_csv('csv/bitzer_news.csv',index=False)
 
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_bitzer_news(driver,coverage_days=360)
-
-time.sleep(10)
-driver.quit()
