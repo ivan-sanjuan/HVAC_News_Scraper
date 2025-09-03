@@ -24,15 +24,18 @@ class JarnNews:
             if self.page_num == 1: 
                 self.driver.get(self.url) 
             else: 
-                continue
+                try:
+                    page = page_section.find_element(By.LINK_TEXT,f'{self.page_num}')
+                    page.click()
+                except:
+                    print(f'No such page found.')
             news_section = WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'article-list')))
             self.news_blocks = news_section.find_elements(By.CLASS_NAME,'article-box')
             page_section = self.driver.find_element(By.CLASS_NAME,'js-pagerSeparate')
             if not self.check_dates():
                 break
             self.page_num += 1
-            page = page_section.find_element(By.LINK_TEXT,f'{self.page_num}')
-            page.click()
+            
         
     def open_new_tab(self,link):
         ActionChains(self.driver)\
@@ -42,7 +45,7 @@ class JarnNews:
                         .perform()
                         
     def get_news(self):
-        WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'article-detail-wrap')))
+        WebDriverWait(self.driver,2).until(EC.presence_of_element_located((By.CLASS_NAME,'article-detail-wrap')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         title = soup.find('h1',class_='articleTitle').text.strip()
@@ -75,7 +78,7 @@ class JarnNews:
             self.driver.switch_to.window(self.driver.window_handles[1])
             before_tab = self.driver.window_handles
             try:
-                WebDriverWait(self.driver,5).until(lambda e: len(e.window_handles) > len(before_tab))
+                WebDriverWait(self.driver,2).until(lambda e: len(e.window_handles) > len(before_tab))
             except:
                 pass
             news = self.get_news()
@@ -96,8 +99,7 @@ class JarnNews:
         return True
                 
     def scrape(self):
-        self.get_soup()
-        self.check_dates()               
+        self.get_soup()          
 
 all_news=[]
 def get_jarn(driver,coverage_days):
