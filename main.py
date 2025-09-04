@@ -172,8 +172,8 @@ def main(page:ft.Page):
                         coverage_days = int(coverage_input.value)
                     try:
                         scraper(driver,coverage_days=coverage_days)
-                    except Exception as e:
-                        print(f'An error has occured: {e}')
+                    except Exception as f:
+                        print(f'An error has occured: {f}')
                     duration = time.time() - start
                     status_2 = f"{scraper.__name__} completed in {duration:.2f} seconds"
                     append_log(status_2)
@@ -208,8 +208,8 @@ def main(page:ft.Page):
                     print(f'Skipping empty DataFrame: {path}')
             except pd.errors.EmptyDataError:
                 print(f'{path} has no content')
-            except Exception as e:
-                print(f'Error reading {path}: {e}')
+            except Exception as g:
+                print(f'Error reading {path}: {g}')
             except UnboundLocalError:
                 today=datetime.today()
                 print(f'NO NEW News at the moment: {today}')
