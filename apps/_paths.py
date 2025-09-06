@@ -21,6 +21,8 @@ def get_paths():
                 'csv/deltatrak_news.csv',
                 'csv/bitzer_news.csv',
                 'csv/jarn_news.csv',
-                'csv/ehpa_news.csv'
+                'csv/ehpa_news.csv',
+                'csv/contracting_business_news.csv',
+                'csv/achr_news.csv'
             ]
     return csv_paths

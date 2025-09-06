@@ -18,6 +18,8 @@ from .scraper_deltatrak import get_delta_trak_news
 from .scraper_bitzer import get_bitzer_news
 from .scraper_jarn import get_jarn
 from .scraper_EHPA import get_EHPA
+from .scraper_contracting_business import get_contracting_business
+from .scraper_ACHR import get_ACHR
 
 def get_scrapers():
     scrapers = [
@@ -25,7 +27,9 @@ def get_scrapers():
             get_refindustry_news,
             get_natural_refrigerants_news,
             get_jarn,
+            get_ACHR,
             get_EHPA,
+            get_contracting_business,
             get_trane_news,
             # get_trane_commercial,
             get_danfoss_news,
