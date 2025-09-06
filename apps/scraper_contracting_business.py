@@ -26,49 +26,89 @@ class ContractingBusinessNews:
             pass
         WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'grid-row')))
         html = self.driver.page_source
-        self.soup = BeautifulSoup(html,'html.parser')
-        self.get_headline()
-        news_section = self.soup.find('div',class_='content-list')
-        news_blocks = news_section.find('div',class_='item-row')
-        self.get_news(news_blocks)
+        soup = BeautifulSoup(html,'html.parser')
+        # self.get_headline()
+        news_section = soup.find('div',class_='grid-row')
+        news_blocks = soup.find_all('div',class_='item-row')
+        news_section_sel = self.driver.find_element(By.CLASS_NAME,'standard-blocks')
+        news_blocks_sel = self.driver.find_elements(By.CLASS_NAME,'item-row')
+        self.get_news(news_blocks,news_blocks_sel)
         
-    def get_headline(self):
-        section = self.soup.find('div',class_='content-list')
-        parsed_date = section.find('div',class_='date').text.strip()
-        parsed_date_obj = datetime.strptime(parsed_date,'%b. %d, %Y')
-        publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-        if parsed_date_obj >= self.date_limit:
-            lock = self.get_label(section)
-            link = self.driver.find_element(By.CLASS_NAME,'title-wrapper')
-            hlink = link.get_attribute('href')
-            self.open_new_tab(link)
-            WebDriverWait(self.driver,3).until(lambda e: len(e.window_handles)>1)
-            headline = self.get_news_details(lock)
-            title = headline.get('title')
-            summary = headline.get('summary')
-            self.driver.close()
-            self.driver.switch_to.window(self.driver.window_handles[0])
-            self.latest_news.append(
-                {
-                'PublishDate':publish_date,
-                'Source': 'Contracting Business - Residential',
-                'Type': 'Industry News',
-                'Title': title,
-                'Summary': summary,
-                'Link': hlink
-                }
-            )
+    # def get_headline(self):
+    #     section = self.soup.find('div',class_='content-list')
+    #     parsed_date = section.find('div',class_='date').text.strip()
+    #     parsed_date_obj = datetime.strptime(parsed_date,'%b. %d, %Y')
+    #     publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+    #     if parsed_date_obj >= self.date_limit:
+    #         lock = self.get_label(section)
+    #         link = self.driver.find_element(By.CLASS_NAME,'title-wrapper')
+    #         hlink = link.get_attribute('href')
+    #         self.open_new_tab(link)
+    #         WebDriverWait(self.driver,3).until(lambda e: len(e.window_handles)>1)
+    #         headline = self.get_news_details(lock)
+    #         title = headline.get('title')
+    #         summary = headline.get('summary')
+    #         self.driver.close()
+    #         self.driver.switch_to.window(self.driver.window_handles[0])
+    #         self.latest_news.append(
+    #             {
+    #             'PublishDate':publish_date,
+    #             'Source': 'Contracting Business - Residential',
+    #             'Type': 'Industry News',
+    #             'Title': title,
+    #             'Summary': summary,
+    #             'Link': hlink
+    #             }
+    #         )
+    
+    def clean_date(self,date_str):
+        cleaned = date_str.strip()
+        cleaned = cleaned.replace('.','')
+        if cleaned.startswith('Sept'):
+            cleaned = cleaned.replace('Sept','Sep')
+        else:
+            pass
+        date_formats = [
+            '%b %d, %Y',
+            '%B %d, %Y',
+        ]
+        for format in date_formats:
+            try:
+                cleaned_date = datetime.strptime(cleaned,format)
+                return cleaned_date
+            except ValueError:
+                continue
             
-    def get_news(self,section):
-        for news in section:
-            parsed_date = news.find('div',class_='date').text.strip()
-            parsed_date_obj = datetime.strptime(parsed_date,'%b. %d, %Y')
+    def get_news(self,section,section_sel):
+        for news, sect in zip(section,section_sel):
+            parsed_date = news.find('div',class_='date').text
+            parsed_date_obj = self.clean_date(parsed_date)
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+            if parsed_date_obj >= self.date_limit:
+                link_sel = sect.find_element(By.CLASS_NAME,'title-wrapper')
+                link = link_sel.get_attribute('href')
+                self.open_new_tab(link_sel)
+                # WebDriverWait(self.driver,5).until(lambda e: len(e.window_handles) > 1)
+                standard_news = self.get_news_details()
+                title = standard_news.get('title')
+                summary = standard_news.get('summary')
+                self.driver.close()
+                self.driver.switch_to.window(self.driver.window_handles[0])
+                self.latest_news.append(
+                    {
+                    'PublishDate':publish_date,
+                    'Source': 'Contracting Business - Residential',
+                    'Type': 'Industry News',
+                    'Title': title,
+                    'Summary': summary,
+                    'Link': link
+                    }
+                )
         
-    def get_label(self,section):
-        label = section.find('div',class_='section-and-label')
-        lock = label.find('div',class_='lock')
-        if lock:
+    def get_label(self):
+        label = self.soup.find('div',class_='above-line')
+        sponsor_tag = label.find('div',class_='sponsored-label')
+        if sponsor_tag:
             return True
         else:
             return False
@@ -80,35 +120,23 @@ class ContractingBusinessNews:
                     .key_up(Keys.CONTROL)\
                         .perform()
                         
-    def get_news_details(self,lock):
-        if lock == False:
-            self.driver.switch_to.window(self.driver.window_handles[1])
-            try:
-                WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.CLASS_NAME,'continue'))).click()
-            except:
-                pass
-            WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'above-line')))
-            html = self.driver.page_source
-            soup = BeautifulSoup(html,'html.parser')
-            title = soup.find('h1',class_='title-text').text.strip()
-            summary = soup.find('div',class_='html').find('p').get_text(strip=True)
-            return ({'title':title,'summary':summary})
+    def get_news_details(self):
+        self.driver.switch_to.window(self.driver.window_handles[1])
+        try:
+            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.CLASS_NAME,'continue'))).click()
+        except:
+            pass
+        WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'above-line')))
+        html = self.driver.page_source
+        self.soup = BeautifulSoup(html,'html.parser')
+        sponsor_tag = self.get_label()
+        extracted_title = self.soup.find('h1',class_='title-text').text.strip()
+        summary = self.soup.find('div',class_='html').find('p').get_text(strip=True)
+        if sponsor_tag == True:
+            title = f'--SPONSORED NEWS POST-- {extracted_title}'
         else:
-            self.driver.switch_to.window(self.driver.window_handles[1])
-            try:
-                WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.CLASS_NAME,'continue'))).click()
-            except:
-                pass
-            WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'above-line')))
-            html = self.driver.page_source
-            soup = BeautifulSoup(html,'html.parser')
-            title = soup.find('h1',class_='title-text').text.strip()
-            summary = soup.find('div',class_='html').find('p').get_text(strip=True)
-            if summary:
-                summary = summary
-            else:
-                summary = "Article is locked -- can't extract summary."
-            return ({'title':title,'summary':summary})
+            title = extracted_title
+        return ({'title':title,'summary':summary})
         
     def scrape(self):
         self.get_soup()
