@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from datetime import datetime, timedelta
 import win32com.client as outlook
 from pandas.errors import EmptyDataError
+import threading
 import pythoncom
 import flet as ft
 import asyncio
@@ -108,7 +109,11 @@ def main(page:ft.Page):
         scraping_active = False
         print('Stopping scrape... Please wait.')
     
+    # def start_scraper_thread(e):
+    #     threading.Thread(target=scrape_all, daemon=True).start()
+    
     def scrape_all(e):
+        # start_scraper_thread()
         output_section.controls.clear()
         scrape_button_disabled()
         page.update()
