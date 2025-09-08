@@ -109,11 +109,7 @@ def main(page:ft.Page):
         scraping_active = False
         print('Stopping scrape... Please wait.')
     
-    # def start_scraper_thread(e):
-    #     threading.Thread(target=scrape_all, daemon=True).start()
-    
     def scrape_all(e):
-        # start_scraper_thread()
         output_section.controls.clear()
         scrape_button_disabled()
         page.update()
@@ -361,7 +357,7 @@ def main(page:ft.Page):
     def run_background_scraper(e):
         threading.Thread(
             target=scrape_all,
-            args=e,
+            args=(e,),
             daemon=True
         ).start()
     
@@ -430,7 +426,7 @@ def main(page:ft.Page):
             elevation=5,
             width=200,
             height=20,
-            on_click=scrape_all,
+            on_click=run_background_scraper,
             bgcolor='#6AADCD',
             visible=True,
             style=ft.ButtonStyle(
