@@ -357,6 +357,13 @@ def main(page:ft.Page):
     def save_csv(e):
         df = pd.read_csv('csv/combined_news.csv')
         df.to_csv(os.path.expanduser("~"))
+        
+    def run_background_scraper(e):
+        threading.Thread(
+            target=scrape_all,
+            args=e,
+            daemon=True
+        ).start()
     
     search_field = ft.TextField(
         border_radius=10,
