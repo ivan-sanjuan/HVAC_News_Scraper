@@ -39,6 +39,7 @@ class ACRJournal:
                     pagination.find_element(By.LINK_TEXT,f'{self.page_num}').click()
             try:
                 WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.ID,'accept-btn'))).click()
+                print('Accepted cookies.')
             except:
                 pass
             try:
@@ -92,6 +93,7 @@ class ACRJournal:
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         title = soup.find('h1',class_='page-title').text.strip()
+        print(f'Fetching News: {title}')
         summary_block = soup.find('div',class_='post-body')
         paragraphs = summary_block.find_all('p')
         for p in paragraphs:
