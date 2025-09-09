@@ -30,9 +30,8 @@ class ContractingBusinessNews:
             print('Ads not found.')
             pass
         WebDriverWait(self.driver,10).until(EC.presence_of_element_located((By.CLASS_NAME,'item-row')))
-        news_blocks_sel = self.driver.find_elements(By.CLASS_NAME,'item-row')
         self.scroll_each_news()
-        time.sleep(5)
+        news_blocks_sel = self.driver.find_elements(By.CLASS_NAME,'item-row')
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         news_blocks = soup.find_all('div',class_='item-row')
@@ -42,16 +41,10 @@ class ContractingBusinessNews:
         bottom = self.driver.find_element(By.CLASS_NAME,'load-more')
         self.driver.execute_script("arguments[0].scrollIntoView();",bottom)
         print('Mimicking a human scrolling through the news.')
-        time.sleep(1)
-        try:
-            blocks = self.driver.find_elements(By.CLASS_NAME,'item-row')
-        except StaleElementReferenceException:
-            time.sleep(1)
-            blocks = self.driver.find_elements(By.CLASS_NAME,'item-row')
-        for news in blocks:
-            link_sel = news.find_element(By.CLASS_NAME,'title-wrapper')
-            self.driver.execute_script("arguments[0].scrollIntoView();",link_sel)
-            time.sleep(1)
+        time.sleep(3)
+        top = self.driver.find_element(By.CLASS_NAME,'navbar')
+        self.driver.execute_script("arguments[0].scrollIntoView();",top)
+        time.sleep(2)
 
     def clean_date(self,date_str):
         cleaned = date_str.replace('.','')
@@ -150,21 +143,11 @@ class ContractingBusinessNews:
         self.get_soup()
 
 sites = [    
-    {'url':'https://www.contractingbusiness.com/residential-hvac','source':'Contracting Business - Residential'},
-    {'url':'https://www.contractingbusiness.com/commercial-hvac','source':'Contracting Business - Commercial'},
-    {'url':'https://www.contractingbusiness.com/refrigeration','source':'Contracting Business - Refrigeration'},
-    {'url':'https://www.contractingbusiness.com/industry-news','source':'Contracting Business - IndustryNews'},
-    {'url':'https://www.contractingbusiness.com/technology','source':'Contracting Business - Technology'},
-    {'url':'https://www.contractingbusiness.com/product-news','source':'Contracting Business - Product News'},
-    {'url':'https://www.contractormag.com/management','source':'Contractor Mag - Management'},
-    {'url':'https://www.contractormag.com/codes','source':'Contractor Mag - Codes'},
-    {'url':'https://www.contractormag.com/hydronics','source':'Contractor Mag - Hydronics'},
-    {'url':'https://www.contractormag.com/technology','source':'Contractor Mag - Technology'},
-    {'url':'https://www.contractormag.com/tools','source':'Contractor Mag - Tools'}
+    {'url':'https://www.fleetowner.com/refrigerated-transporter/cold-storage-logistics','source':'Fleet Owner'}
 ]
 
 all_news = []        
-def get_contracting_business(driver,coverage_days):
+def get_fleet_owner(driver,coverage_days):
     driver.set_window_size(1920, 1080)
     for news in sites:
         try:
@@ -176,18 +159,7 @@ def get_contracting_business(driver,coverage_days):
         except:
             pass
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/contracting_business_news.csv',index=False)
-    
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_contracting_business(driver,coverage_days=30)
+    df.to_csv('csv/fleet_owner_news.csv',index=False)
 
-time.sleep(10)
-driver.quit()
+
 

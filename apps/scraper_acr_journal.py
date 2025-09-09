@@ -151,15 +151,3 @@ def get_acr_journal(driver,coverage_days):
     df = pd.DataFrame(all_news)
     df.to_csv('csv/acr_journal_news.csv',index=False)
 
-# options = Options()
-# # options.add_argument('--headless=new')
-# options.add_argument('--disable-gpu')
-# options.add_argument('--window-size=1920x1080')
-# options.add_argument('--log-level=3')
-# options.add_argument("--disable-blink-features=AutomationControlled")
-# options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-# driver = webdriver.Chrome(options=options)
-# get_acr_journal(driver,coverage_days=3)
-
-# # time.sleep(10)
-# driver.quit()
