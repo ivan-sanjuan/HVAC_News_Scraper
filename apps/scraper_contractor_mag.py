@@ -11,7 +11,7 @@ from datetime import timedelta, datetime
 import pandas as pd
 import time
 
-class ContractingBusinessNews:
+class ContractorMag:
     def __init__(self,driver,coverage_days,url,source):
         self.driver = driver
         self.coverage = coverage_days
@@ -150,26 +150,25 @@ class ContractingBusinessNews:
         self.get_soup()
 
 sites = [    
-    {'url':'https://www.contractingbusiness.com/residential-hvac','source':'Contracting Business - Residential'},
-    {'url':'https://www.contractingbusiness.com/commercial-hvac','source':'Contracting Business - Commercial'},
-    {'url':'https://www.contractingbusiness.com/refrigeration','source':'Contracting Business - Refrigeration'},
-    {'url':'https://www.contractingbusiness.com/industry-news','source':'Contracting Business - IndustryNews'},
-    {'url':'https://www.contractingbusiness.com/technology','source':'Contracting Business - Technology'},
-    {'url':'https://www.contractingbusiness.com/product-news','source':'Contracting Business - Product News'},
+    {'url':'https://www.contractormag.com/management','source':'Contractor Mag - Management'},
+    {'url':'https://www.contractormag.com/codes','source':'Contractor Mag - Codes'},
+    {'url':'https://www.contractormag.com/hydronics','source':'Contractor Mag - Hydronics'},
+    {'url':'https://www.contractormag.com/technology','source':'Contractor Mag - Technology'},
+    {'url':'https://www.contractormag.com/tools','source':'Contractor Mag - Tools'}
 ]
 
 all_news = []        
-def get_contracting_business(driver,coverage_days):
+def get_contractor_mag(driver,coverage_days):
     driver.set_window_size(1920, 1080)
     for news in sites:
         try:
             url = news.get('url')
             source = news.get('source')
-            news = ContractingBusinessNews(driver,coverage_days,url,source)
+            news = ContractorMag(driver,coverage_days,url,source)
             news.scrape()
             all_news.extend(news.latest_news)
         except:
             pass
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/contracting_business_news.csv',index=False)
+    df.to_csv('csv/contractor_mag_news.csv',index=False)
 
