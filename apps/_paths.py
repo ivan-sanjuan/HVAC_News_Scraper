@@ -26,6 +26,7 @@ def get_paths():
                 'csv/contractor_mag_news.csv',
                 'csv/achr_news.csv',
                 'csv/acr_journal_news.csv',
-                'csv/fleet_owner_news.csv'
+                'csv/fleet_owner_news.csv',
+                'csv/rac_plus_news.csv'
             ]
     return csv_paths
