@@ -36,14 +36,3 @@ def get_refrigerated_frozen_food(driver,coverage_days):
     news = RefrigeratedFrozenFood(driver,coverage_days,url)
     news.scrape()
 
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_refrigerated_frozen_food(driver,coverage_days=30)
-
-driver.quit()
