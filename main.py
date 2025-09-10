@@ -138,6 +138,7 @@ def main(page:ft.Page):
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
         driver = webdriver.Chrome(options=options)
+        driver.set_window_size(1920, 1080)
         scrapers = get_scrapers()
         csv_paths = get_paths()
         for csv in csv_paths:
