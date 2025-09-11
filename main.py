@@ -103,11 +103,19 @@ def main(page:ft.Page):
     page.window.bgcolor = ft.Colors.TRANSPARENT
     page.bgcolor = ft.Colors.TRANSPARENT
     page.update()
-        
+    color_primary_dark = '#1C1C52'
+    color_primary = '#0F3CFF'
+    color_neutral = '#3D3D34'
+    color_neutral_light = '#AAA089'
+    color_neutral_lighter = '#D5D0C5'
+    color_tint_mint = '#93C7A1'
+    color_tint_lilac = '#CECFE9'
+    color_tint_orange = '#DF8369'
+    
     def stop_scraping(e):
         global scraping_active
         scraping_active = False
-        print('Stopping scrape... Please wait.')
+        search_status.value = 'Run will be stopped after this function.. Please wait.'
     
     def scrape_all(e):
         output_section.controls.clear()
@@ -272,20 +280,23 @@ def main(page:ft.Page):
         return report
     
     def send_to_outlook(e):
-        pythoncom.CoInitialize()
-        today=datetime.today()
-        today_formatted=today.strftime('%B %d, %Y')
-        olApp = outlook.Dispatch(f'Outlook.Application')
-        mail_item = olApp.CreateItem(0)
-        mail_item.Subject = f'Scraped News for {today_formatted}'
-        create_report()
-        today_csv=datetime.today()
-        today_csv_formatted=today_csv.strftime('%Y-%m-%d')
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        filename_scraped_news = os.path.join(base_dir, 'csv', f'scraped_news_{today_csv_formatted}.csv')
-        mail_item.Attachments.Add(filename_scraped_news)
-        mail_item.Display()
-        pythoncom.CoUninitialize()
+        try:
+            pythoncom.CoInitialize()
+            today=datetime.today()
+            today_formatted=today.strftime('%B %d, %Y')
+            olApp = outlook.Dispatch(f'Outlook.Application')
+            mail_item = olApp.CreateItem(0)
+            mail_item.Subject = f'Scraped News for {today_formatted}'
+            create_report()
+            today_csv=datetime.today()
+            today_csv_formatted=today_csv.strftime('%Y-%m-%d')
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            filename_scraped_news = os.path.join(base_dir, 'csv', f'scraped_news_{today_csv_formatted}.csv')
+            mail_item.Attachments.Add(filename_scraped_news)
+            mail_item.Display()
+            pythoncom.CoUninitialize()
+        except EmptyDataError:
+            search_status.value = 'No currently saved data to send.'
 
     def report_issue(e):
         pythoncom.CoInitialize()
@@ -302,8 +313,8 @@ def main(page:ft.Page):
         scrape_running_button.disabled = False
         search_field.disabled = True
         coverage_input.disabled = True
-        search_field.bgcolor = "#888888"
-        coverage_input.bgcolor = "#888888"
+        search_field.bgcolor = color_neutral_light
+        coverage_input.bgcolor = color_neutral_light
         send_report.disabled = True
         send_report.visible = False
         page.update()
@@ -365,14 +376,14 @@ def main(page:ft.Page):
     search_field = ft.TextField(
         border_radius=10,
         height=50,
-        label='Search Keywords',
+        label='SEARCH KEYWORDS',
         hint_text="ex. acquisitions",
-        bgcolor='#888888',
+        bgcolor=color_neutral_light,
         color='#354850',
         disabled=True,
         width=400,
         border_width=2,
-        focused_border_color="#AB5637",
+        focused_border_color=color_tint_mint,
         on_change=lambda e: filter_items(e.control.value),
         label_style=ft.TextStyle(
             color='#354850',
@@ -393,7 +404,7 @@ def main(page:ft.Page):
         color='#354850',
         border_width=2,
         border_radius=10,
-        focused_border_color='#AB5637',
+        focused_border_color=color_tint_mint,
         text_align=ft.TextAlign.CENTER,
         keyboard_type=ft.KeyboardType.NUMBER,
         on_change=validate_number,
@@ -412,7 +423,7 @@ def main(page:ft.Page):
     
     progress_bar = ft.ProgressBar(
         visible=False,
-        color = "#6AADCD",
+        color = color_tint_lilac,
         bar_height=20,
         border_radius=ft.border_radius.all(10)
     )
@@ -428,7 +439,7 @@ def main(page:ft.Page):
             width=200,
             height=20,
             on_click=run_background_scraper,
-            bgcolor='#6AADCD',
+            bgcolor=color_tint_mint,
             visible=True,
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=30),
@@ -448,7 +459,7 @@ def main(page:ft.Page):
             width=200,
             height=20,
             on_click=stop_scraping,
-            bgcolor='#AB5637',
+            bgcolor=color_tint_orange,
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=30),
                 text_style=ft.TextStyle(size=18, weight=ft.FontWeight.NORMAL),
@@ -469,7 +480,7 @@ def main(page:ft.Page):
             width=200,
             height=20,
             on_click=send_to_outlook,
-            bgcolor='#DEDAC6',
+            bgcolor=color_tint_lilac,
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=30),
                 text_style=ft.TextStyle(size=18, weight=ft.FontWeight.NORMAL),
@@ -488,7 +499,7 @@ def main(page:ft.Page):
             width=190,
             height=20,
             on_click=reload_results,
-            bgcolor='#DEDAC6',
+            bgcolor=color_tint_lilac,
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=10),
                 text_style=ft.TextStyle(size=14, weight=ft.FontWeight.NORMAL),
@@ -507,7 +518,7 @@ def main(page:ft.Page):
             width=200,
             height=20,
             on_click=save_csv,
-            bgcolor='#DEDAC6',
+            bgcolor=color_tint_lilac,
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=10),
                 text_style=ft.TextStyle(size=14, weight=ft.FontWeight.NORMAL),
@@ -537,14 +548,14 @@ def main(page:ft.Page):
         icon=ft.Icons.CLOSE_OUTLINED,
         icon_color='#DEDAC6',
         on_click=destroy_window,
-        hover_color="#AB5637"
+        hover_color=color_tint_orange
     )
     
     minimize_button = ft.IconButton(
         icon=ft.Icons.MINIMIZE_OUTLINED,
         icon_color='#DEDAC6',
         on_click=minimize_window,
-        hover_color="#AB5637"
+        hover_color=color_tint_orange
     )
     
     window_controls = ft.Row(
@@ -562,19 +573,18 @@ def main(page:ft.Page):
     tool_name = ft.Text(
         value='HVACR News - Scraper Tool',
         color='#DEDAC6',
-        weight=ft.FontWeight.W_500
     )
 
     container = ft.Container(
         width = 1500,
         height = 800,
-        bgcolor="#2B2B2B",
+        bgcolor=color_primary_dark,
         border_radius=15,
         content=ft.Column(
             controls=[
                 ft.WindowDragArea(
                     ft.Container(
-                        bgcolor="#78655E",
+                        bgcolor=color_primary,
                         width=1500,
                         height=35,                                      
                         content=ft.Row(
@@ -595,7 +605,7 @@ def main(page:ft.Page):
                     )
                 ),
                 ft.Container(  ####-----CONTROLS SECTION-----####
-                    bgcolor="#2B2B2B",
+                    bgcolor=color_primary_dark,
                     width=1500,
                         content=ft.Row(
                             controls=[
@@ -640,7 +650,7 @@ def main(page:ft.Page):
                     padding = ft.padding.all(15),
                     height=570,
                     width=1500,
-                    bgcolor='#DEDAC6',
+                    bgcolor=color_neutral_lighter,
                     on_hover=refresh_time,
                     content=output_section
                     
@@ -658,7 +668,7 @@ def main(page:ft.Page):
                                 on_click=report_issue,
                                 icon=ft.Icons.REPORT_PROBLEM_OUTLINED,
                                 style=ft.ButtonStyle(
-                                    color='#ffffff'
+                                    color=color_tint_orange
                                 )
                             ),
                         ]
