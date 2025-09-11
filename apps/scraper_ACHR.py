@@ -58,6 +58,7 @@ class ACHRNews:
             self.driver.execute_script("arguments[0].scrollIntoView();",sect)
             title_block = news.find('h2',class_='article-summary__headline').find('a')
             title = title_block.text.strip()
+            print(f'Fetching: {title}')
             link = title_block.get('href')
             summary_block = news.find('div',class_='article-summary__teaser')
             p_tag = summary_block.find('p')

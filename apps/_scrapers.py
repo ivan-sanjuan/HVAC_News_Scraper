@@ -25,6 +25,7 @@ from .scraper_acr_journal import get_acr_journal
 from .scraper_fleet_owner import get_fleet_owner
 from .scraper_rac_plus import get_rac_plus
 from .scraper_PHCP_pros import get_PHCP_pros
+from .scraper_HV_UK import get_HV_UK
 
 def get_scrapers():
     scrapers = [
@@ -40,6 +41,7 @@ def get_scrapers():
             get_fleet_owner,
             get_rac_plus,
             get_PHCP_pros,
+            get_HV_UK,
             get_trane_news,
             # get_trane_commercial,
             get_danfoss_news,

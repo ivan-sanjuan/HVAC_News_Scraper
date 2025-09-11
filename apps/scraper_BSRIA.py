@@ -13,6 +13,16 @@ import pandas as pd
 import time
 
 class BSRIANews:
+    def __init__(self,driver,coverage_days,url):
+        self.driver = driver
+        self.coverage = coverage_days
+        self.url = url
+        self.latest_news = []
+        self.date_limit = datetime.today()-timedelta(days=self.coverage)
+    
+    def get_soup(self):
+        self.driver.get(self.url)
+        
 
 def get_BSRIA(driver,coverage_days):
     driver.set_window_size(1920, 1080)

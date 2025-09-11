@@ -50,7 +50,7 @@ class JarnNews:
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         title = soup.find('h1',class_='articleTitle').text.strip()
-        print(f'Fetching News: {title}')
+        print(f'Fetching: {title}')
         summary_block = soup.find('div', class_='article-detail-main')
         if not summary_block:
             return ({'title': title, 'summary': 'Summary block not found.'})
