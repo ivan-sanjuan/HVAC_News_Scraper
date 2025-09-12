@@ -373,6 +373,13 @@ def main(page:ft.Page):
             daemon=True
         ).start()
     
+    def run_background_filter(e):
+        threading.Thread(
+            target=filter_items,
+            args=(e,),
+            daemon=True
+        ).start()
+    
     search_field = ft.TextField(
         border_radius=10,
         height=50,
@@ -384,7 +391,7 @@ def main(page:ft.Page):
         width=400,
         border_width=2,
         focused_border_color=color_tint_mint,
-        on_change=lambda e: filter_items(e.control.value),
+        on_change=lambda e: run_background_filter(e.control.value),
         label_style=ft.TextStyle(
             color='#354850',
             size=12,
