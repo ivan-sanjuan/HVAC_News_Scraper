@@ -46,6 +46,7 @@ class DOENews:
                     publish_date = parsed_date_obj.strftime('%Y-%m-%d')
                     if parsed_date_obj < self.date_limit:
                         self.driver.close()
+                        self.driver.switch_to.window(self.driver.window_handles[0])
                         return False
                     title = soup.find('div',class_='page-title-outside-hero').get_text(strip=True)
                     print(f'Fetching: {title}')
@@ -62,7 +63,7 @@ class DOENews:
                         else:
                             summary = paragraphs[0].get_text(strip=True)
                     except IndexError:
-                        pass
+                        summary = 'Unable to parse summary, please visit the news page instead.'
                     self.append(publish_date,title,summary,link)
                     self.driver.close()
                     self.driver.switch_to.window(self.driver.window_handles[0])
@@ -127,7 +128,7 @@ options.add_argument('--log-level=3')
 options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
 driver = webdriver.Chrome(options=options)
-get_DOE(driver,coverage_days=30)
+get_DOE(driver,coverage_days=10)
 
 time.sleep(10)
 driver.quit()
