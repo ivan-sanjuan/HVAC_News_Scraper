@@ -29,6 +29,7 @@ from .scraper_HV_UK import get_HV_UK
 from .scraper_climate_control import get_climate_control_news
 from .scraper_DOE import get_DOE
 from .scraper_iea import get_IEA
+from .scraper_HPA import get_HPA
 
 def get_scrapers():
     scrapers = [
@@ -48,6 +49,7 @@ def get_scrapers():
             get_climate_control_news,
             get_DOE,
             get_IEA,
+            get_HPA,
             get_trane_news,
             # get_trane_commercial,
             get_danfoss_news,

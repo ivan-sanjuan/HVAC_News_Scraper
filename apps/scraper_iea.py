@@ -37,7 +37,7 @@ class IEANews:
             if parsed_date_obj >= self.date_limit:
                 button = sect.find_element(By.CLASS_NAME,'m-news-detailed-listing__link')
                 link = button.get_attribute('href')
-                self.driver.execute_script("arguments[0].scrollIntoView",button)
+                self.driver.execute_script("arguments[0].scrollIntoView();",button)
                 self.open_in_new_tab(button)
                 self.driver_wait(lambda e: len(e.window_handles) > 1)
                 self.driver.switch_to.window(self.driver.window_handles[1])
@@ -49,6 +49,7 @@ class IEANews:
                 except AttributeError:
                     title = soup.find('header',class_='o-hero-article__title').find('h1').get_text(strip=True)
                 summary_block = soup.find('div',class_='m-block--text')
+                print(f'Fetching: {title}')
                 paragraphs = summary_block.find_all('p')
                 for sum in paragraphs:
                     para = sum.get_text(strip=True)

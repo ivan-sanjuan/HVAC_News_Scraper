@@ -139,6 +139,9 @@ def main(page:ft.Page):
             return f"{hours:02}:{minutes:02}:{seconds:02}"
         
         options = Options()
+        scrapers = get_scrapers()
+        if 'get_HPA' in scrapers:
+            options.page_load_strategy = 'eager'
         options.add_argument('--headless=new')
         options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1920x1080')
@@ -147,7 +150,6 @@ def main(page:ft.Page):
         options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
         driver = webdriver.Chrome(options=options)
         driver.set_window_size(1920, 1080)
-        scrapers = get_scrapers()
         csv_paths = get_paths()
         for csv in csv_paths:
             if os.path.isfile(csv):
@@ -197,10 +199,10 @@ def main(page:ft.Page):
             status_report_generation = 'SCRAPING COMPLETE, GENERATING REPORT...'
             total_time = runtime()
             report = f'TOTAL Runtime: {format_runtime(total_time)}'
+            driver.quit()
             append_log(status_report_generation)
             append_log(report)
             time.sleep(1)
-            driver.quit()
             search_status.value = report
             scrape_button_enabled()
             page.update()
