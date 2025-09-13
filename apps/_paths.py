@@ -31,6 +31,7 @@ def get_paths():
                 'csv/phcp_pros_news.csv',
                 'csv/HV_UK_news.csv',
                 'csv/climate_control_news.csv',
-                'csv/DOE_news.csv'
+                'csv/DOE_news.csv',
+                'csv/iea_news.csv'
             ]
     return csv_paths

@@ -36,6 +36,7 @@ class JarnNews:
             if not self.check_dates():
                 break
             self.page_num += 1
+
             
         
     def open_new_tab(self,link):
@@ -67,37 +68,40 @@ class JarnNews:
         
     def check_dates(self):
         for dates in self.news_blocks:
-            parsed_date = dates.find_element(By.CLASS_NAME,'data').text.strip()
-            parsed_date_obj = datetime.strptime(parsed_date,'%Y.%m.%d')
-            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj < self.date_limit:
-                return False
-            link_sel = dates.find_element(By.CLASS_NAME,'article-box-in')
-            self.driver.execute_script("arguments[0].scrollIntoView();", dates)
-            self.open_new_tab(link_sel)
-            link = link_sel.get_attribute('href')
-            time.sleep(1)
-            self.driver.switch_to.window(self.driver.window_handles[1])
-            before_tab = self.driver.window_handles
             try:
-                WebDriverWait(self.driver,2).until(lambda e: len(e.window_handles) > len(before_tab))
+                parsed_date = dates.find_element(By.CLASS_NAME,'data').text.strip()
+                parsed_date_obj = datetime.strptime(parsed_date,'%Y.%m.%d')
+                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                if parsed_date_obj < self.date_limit:
+                    return False
+                link_sel = dates.find_element(By.CLASS_NAME,'article-box-in')
+                self.driver.execute_script("arguments[0].scrollIntoView();", dates)
+                self.open_new_tab(link_sel)
+                link = link_sel.get_attribute('href')
+                time.sleep(1)
+                self.driver.switch_to.window(self.driver.window_handles[1])
+                before_tab = self.driver.window_handles
+                try:
+                    WebDriverWait(self.driver,2).until(lambda e: len(e.window_handles) > len(before_tab))
+                except:
+                    pass
+                news = self.get_news()
+                title = news.get('title')
+                summary = news.get('summary')
+                self.driver.close()
+                self.driver.switch_to.window(self.driver.window_handles[0])
+                self.latest_news.append(
+                    {
+                    'PublishDate':publish_date,
+                    'Source': self.source,
+                    'Type': 'Industry News',
+                    'Title': title,
+                    'Summary': summary,
+                    'Link': link
+                    }
+                )
             except:
                 pass
-            news = self.get_news()
-            title = news.get('title')
-            summary = news.get('summary')
-            self.driver.close()
-            self.driver.switch_to.window(self.driver.window_handles[0])
-            self.latest_news.append(
-                {
-                'PublishDate':publish_date,
-                'Source': self.source,
-                'Type': 'Industry News',
-                'Title': title,
-                'Summary': summary,
-                'Link': link
-                }
-            )
         return True
                 
     def scrape(self):
