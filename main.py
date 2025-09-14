@@ -140,9 +140,8 @@ def main(page:ft.Page):
         
         options = Options()
         scrapers = get_scrapers()
-        if 'get_HPA' in scrapers:
-            options.page_load_strategy = 'eager'
-        if 'get_embraco' in scrapers:
+        exceptions = ['get_HPA','get_embraco']
+        if any(exception in scrapers for exception in exceptions):
             options.page_load_strategy = 'eager'
         options.add_argument('--headless=new')
         options.add_argument('--disable-gpu')

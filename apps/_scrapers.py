@@ -33,6 +33,7 @@ from .scraper_HPA import get_HPA
 from .scraper_LG_HVAC import get_LGHVAC_NA
 from .scraper_LG_Electronics_NA import get_LG_Electronics_NA
 from .scraper_generac import get_generac
+from .scraper_nidec import get_nidec
 
 def get_scrapers():
     scrapers = [
@@ -70,6 +71,7 @@ def get_scrapers():
             get_carel,
             get_delta_trak_news,
             get_bitzer_news,
-            get_generac
+            get_generac,
+            get_nidec
         ]
     return scrapers
