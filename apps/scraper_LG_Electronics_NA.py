@@ -29,6 +29,7 @@ class LGElectronicsNA:
         soup = BeautifulSoup(html,'html.parser')
         news_section = soup.find('ul',class_='notice-list')
         news_blocks = news_section.find_all('li',class_='list')
+        self.get_news(news_blocks)
 
     def get_news(self,blocks):
         for news in blocks:
@@ -36,8 +37,50 @@ class LGElectronicsNA:
             parsed_date_obj = datetime.strptime(parsed_date,'%m/%d/%Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
             if parsed_date_obj >= self.date_limit:
-                
+                title = news.find('div',class_='head-title').find('a').get_text(strip=True)
+                button = self.driver.find_element(By.PARTIAL_LINK_TEXT,f'{title}')
+                link = button.get_attribute('href')
+                self.driver.execute_script("arguments[0].scrollIntoView();",button)
+                self.open_in_new_tab(button)
+                self.driver_wait(lambda e: len(e.window_handles) > 1)
+                self.driver.switch_to.window(self.driver.window_handles[1])
+                self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'contents')))
+                html = self.driver.page_source
+                soup = BeautifulSoup(html,'html.parser')
+                summary_block = soup.find('div',class_='contents')
+                paragraphs = summary_block.find_all('p')
+                for sum in paragraphs:
+                    para = sum.get_text(strip=True)
+                    if len(para) > 150:
+                        summary = para
+                        break
+                    else:
+                        continue
+                else:
+                    summary = 'Unable to parse summary, please visit the news page instead.'
+                self.append(publish_date,title,summary,link)
+                self.driver.close()
+                self.driver.switch_to.window(self.driver.window_handles[0])
+    
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate':publish_date,
+            'Source': 'LG Electronics - NA',
+            'Type': 'Company News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
+             
     def open_in_new_tab(self,button):
+        ActionChains(self.driver)\
+            .key_down(Keys.CONTROL)\
+                .click(button)\
+                    .key_up(Keys.CONTROL)\
+                        .perform()
         
     def driver_wait(self,condition):
         try:
@@ -46,7 +89,12 @@ class LGElectronicsNA:
             pass
         
     def scrape(self):
-        self.get_soup()
+        try:
+            self.get_soup()
+        except:
+            time.sleep(10)
+            self.get_soup()
+            
 
 all_news = []
 def get_LG_Electronics_NA(driver,coverage_days):
@@ -58,16 +106,3 @@ def get_LG_Electronics_NA(driver,coverage_days):
     df = pd.DataFrame(all_news)
     df.to_csv('csv/LG_Electronics_NA.csv',index=False)
     
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-options.page_load_strategy = 'eager'
-driver = webdriver.Chrome(options=options)
-get_LG_Electronics_NA(driver,coverage_days=120)
-
-time.sleep(10)
-driver.quit()

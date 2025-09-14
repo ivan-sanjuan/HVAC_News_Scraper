@@ -278,7 +278,7 @@ def main(page:ft.Page):
         today_csv_formatted=today_csv.strftime('%Y-%m-%d')
         combined_news = pd.read_csv('csv/combined_news.csv')
         df = pd.DataFrame(combined_news)
-        report = df.to_csv(f'csv/scraped_news_{today_csv_formatted}.csv', index=False)
+        report = df.to_csv(f'csv/Reports/scraped_news_{today_csv_formatted}.csv', index=False)
         return report
     
     def send_to_outlook(e):
@@ -293,7 +293,7 @@ def main(page:ft.Page):
             today_csv=datetime.today()
             today_csv_formatted=today_csv.strftime('%Y-%m-%d')
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            filename_scraped_news = os.path.join(base_dir, 'csv', f'scraped_news_{today_csv_formatted}.csv')
+            filename_scraped_news = os.path.join(base_dir, 'csv/Reports', f'scraped_news_{today_csv_formatted}.csv')
             mail_item.Attachments.Add(filename_scraped_news)
             mail_item.Display()
             pythoncom.CoUninitialize()
