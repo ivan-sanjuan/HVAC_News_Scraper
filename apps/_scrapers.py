@@ -30,6 +30,7 @@ from .scraper_climate_control import get_climate_control_news
 from .scraper_DOE import get_DOE
 from .scraper_iea import get_IEA
 from .scraper_HPA import get_HPA
+from .scraper_LG_HVAC import get_LGHVAC_NA
 
 def get_scrapers():
     scrapers = [
@@ -54,6 +55,7 @@ def get_scrapers():
             # get_trane_commercial,
             get_danfoss_news,
             get_LG_news,
+            get_LGHVAC_NA,
             get_copeland_news,
             get_carrier_news,
             get_viessmann_news,

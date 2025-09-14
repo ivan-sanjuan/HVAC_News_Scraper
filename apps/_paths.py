@@ -33,6 +33,7 @@ def get_paths():
                 'csv/climate_control_news.csv',
                 'csv/DOE_news.csv',
                 'csv/iea_news.csv',
-                'csv/hpa_news.csv'
+                'csv/hpa_news.csv',
+                'csv/LG_HVAC_news.csv'
             ]
     return csv_paths

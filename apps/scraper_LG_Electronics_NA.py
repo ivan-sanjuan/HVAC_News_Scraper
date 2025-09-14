@@ -14,47 +14,31 @@ import time
 import pyautogui
 import pyperclip
 
-class LGHVACNews:
+class LGElectronicsNA:
     def __init__(self,driver,coverage_days,url):
         self.driver = driver
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
-    
+
     def get_soup(self):
         self.driver.get(self.url)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'articles-list')))
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'notice-list')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        news_section_bs4 = soup.find('ol',class_='articles-list')
-        blocks_bs4 = news_section_bs4.find_all('li',class_='item')
-        self.get_news(blocks_bs4)
-        
-    def get_news(self,blocks_bs4):
-        for news in blocks_bs4:
-            parsed_date = news.find('time').text.strip().split(maxsplit=1)[1]
-            parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+        news_section = soup.find('ul',class_='notice-list')
+        news_blocks = news_section.find_all('li',class_='list')
+
+    def get_news(self,blocks):
+        for news in blocks:
+            parsed_date = news.find('p',class_='date').text.strip()
+            parsed_date_obj = datetime.strptime(parsed_date,'%m/%d/%Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
             if parsed_date_obj >= self.date_limit:
-                link = news.find('a',class_='learn-more-link').get('href')
-                title = news.find('h4',class_='title').text.strip()
-                summary = 'LG HVAC News link always leads to 3rd party site - please visit the site instead.'
-                self.append(publish_date,title,summary,link)
-
-    def append(self,publish_date,title,summary,link):
-        print(f'Fetching: {title}')
-        self.latest_news.append(
-            {
-            'PublishDate':publish_date,
-            'Source': 'LG HVAC - NA',
-            'Type': 'Company News',
-            'Title': title,
-            'Summary': summary,
-            'Link': link
-            }
-        )
-
+                
+    def open_in_new_tab(self,button):
+        
     def driver_wait(self,condition):
         try:
             WebDriverWait(self.driver,5).until(condition)
@@ -64,13 +48,26 @@ class LGHVACNews:
     def scrape(self):
         self.get_soup()
 
-all_news=[]
-def get_LGHVAC_NA(driver,coverage_days):
+all_news = []
+def get_LG_Electronics_NA(driver,coverage_days):
     driver.set_window_size(1920, 1080)
-    url = 'https://lghvac.com/about-lg/'
-    news = LGHVACNews(driver,coverage_days,url)
+    url = "https://www.lg.com/us/press-release"
+    news = LGElectronicsNA(driver,coverage_days,url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/LG_HVAC_NA_news.csv',index=False)
+    df.to_csv('csv/LG_Electronics_NA.csv',index=False)
+    
+options = Options()
+# options.add_argument('--headless=new')
+options.add_argument('--disable-gpu')
+options.add_argument('--window-size=1920x1080')
+options.add_argument('--log-level=3')
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
+options.page_load_strategy = 'eager'
+driver = webdriver.Chrome(options=options)
+get_LG_Electronics_NA(driver,coverage_days=120)
 
+time.sleep(10)
+driver.quit()
