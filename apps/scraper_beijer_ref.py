@@ -12,54 +12,36 @@ from datetime import timedelta, datetime
 import pandas as pd
 import time
 
-class NidecNews:
+class BeijerRefNews:
     def __init__(self,driver,coverage_days,url):
         self.driver = driver
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
-        self.root = 'https://www.nidec.com'
         
     def get_soup(self):
         self.driver.get(self.url)
-        self.driver_wait(EC.presence_of_element_located((By.ID,'main')))
-        # button = self.driver.find_element(By.CLASS_NAME,'title-lv2')
-        # self.driver.execute_script("arguments[0].scrollIntoView();",button)
         time.sleep(15)
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'collection_pressreleases')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-        all_sections = []
-        for month in months:
-            section = soup.find('section',id=f'{month}')
-            if section:
-                news = section.find_all('li')
-                all_sections.extend(news)
-        self.get_news(all_sections)
+        news_sel = self.driver.find_elements(By.CLASS_NAME,'news-arcive_card')
+        self.get_news(news_sel)
 
     def get_news(self,blocks):
         for news in blocks:
-            parsed_date = news.find('time',class_='date').get_text(strip=True)
-            parsed_date_obj = datetime.strptime(parsed_date,'%d/%m/%Y')
-            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.date_limit:
-                title_block = news.find('a',class_='description')
-                title = title_block.get_text(strip=True)
-                link = title_block.get('href')
-                if not link:
-                    continue
-                elif not link.startswith('http'):
-                    link=f'{self.root}{link}'
-                summary = 'Unable to parse summary, please visit the news page instead.'
-                self.append(publish_date,title,summary,link)
+            parsed_date = news.find_element(By.CLASS_NAME,'text-style-tagline').text.strip()
+            if len(parsed_date) > 20:
+                parsed_date = parsed_date.split(maxsplit=3)[0:3]
+            print(parsed_date)
 
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
         self.latest_news.append(
             {
             'PublishDate':publish_date,
-            'Source': 'Nidec',
+            'Source': 'Beijer Ref',
             'Type': 'Company News',
             'Title': title,
             'Summary': summary,
@@ -78,11 +60,25 @@ class NidecNews:
         self.get_soup()
         
 all_news = []
-def get_nidec(driver,coverage_days):
+def get_beijer_ref(driver,coverage_days):
     driver.set_window_size(1920, 1080)
-    url='https://www.nidec.com/en/corporate/news/'
-    news = NidecNews(driver,coverage_days,url)
+    url='https://www.beijerref.com/news'
+    news = BeijerRefNews(driver,coverage_days,url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/nidec_news.csv',index=False)
+    df.to_csv('csv/beijer_ref_news.csv',index=False)
+
+options = Options()
+# options.add_argument('--headless=new')
+options.add_argument('--disable-gpu')
+options.add_argument('--window-size=1920x1080')
+options.add_argument('--log-level=3')
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
+options.page_load_strategy = 'eager'
+driver = webdriver.Chrome(options=options)
+get_beijer_ref(driver,coverage_days=15)
+
+time.sleep(10)
+driver.quit()
