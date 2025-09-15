@@ -22,19 +22,27 @@ class BeijerRefNews:
         
     def get_soup(self):
         self.driver.get(self.url)
-        time.sleep(15)
+        time.sleep(5)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'collection_pressreleases')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        news_sel = self.driver.find_elements(By.CLASS_NAME,'news-arcive_card')
+        news_sel = self.driver.find_elements(By.CLASS_NAME,'news-arcive_item')
         self.get_news(news_sel)
 
     def get_news(self,blocks):
         for news in blocks:
             parsed_date = news.find_element(By.CLASS_NAME,'text-style-tagline').text.strip()
             if len(parsed_date) > 20:
-                parsed_date = parsed_date.split(maxsplit=3)[0:3]
-            print(parsed_date)
+                result_list = parsed_date.split(maxsplit=3)[0:3]
+                separator = ' '
+                parsed_date = separator.join(result_list) 
+            parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+            if parsed_date_obj >= self.date_limit:
+                link = news.find_element(By.CLASS_NAME,'button').get_attribute('href')
+                title = news.find_element(By.TAG_NAME,'h2').text.strip()
+                summary = news.find_element(By.CLASS_NAME, 'line-clamp_3').text.strip()
+                self.append(publish_date,title,summary,link)
 
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
@@ -78,7 +86,7 @@ options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
 options.page_load_strategy = 'eager'
 driver = webdriver.Chrome(options=options)
-get_beijer_ref(driver,coverage_days=15)
+get_beijer_ref(driver,coverage_days=360)
 
 time.sleep(10)
 driver.quit()
