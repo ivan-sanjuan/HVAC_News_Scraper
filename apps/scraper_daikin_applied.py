@@ -12,7 +12,7 @@ from datetime import timedelta, datetime
 import pandas as pd
 import time
 
-class BeijerRefNews:
+class DaikinAppliedNews:
     def __init__(self,driver,coverage_days,url):
         self.driver = driver
         self.coverage = coverage_days
@@ -22,25 +22,22 @@ class BeijerRefNews:
         
     def get_soup(self):
         self.driver.get(self.url)
-        time.sleep(5)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'collection_pressreleases')))
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'blog-list-columns')))
         html = self.driver.page_source
-        news_sel = self.driver.find_elements(By.CLASS_NAME,'news-arcive_item')
-        self.get_news(news_sel)
+        soup = BeautifulSoup(html,'html.parser')
+        news_section = soup.find('div',class_='blog-list-columns')
+        news_blocks = news_section.find_all('article',class_='blog-list-item')
+        self.get_news(news_blocks)
 
     def get_news(self,blocks):
         for news in blocks:
-            parsed_date = news.find_element(By.CLASS_NAME,'text-style-tagline').text.strip()
-            if len(parsed_date) > 20:
-                result_list = parsed_date.split(maxsplit=3)[0:3]
-                separator = ' '
-                parsed_date = separator.join(result_list) 
-            parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+            parsed_date = news.find('time',class_='blog-post-date').get_text(strip=True)
+            parsed_date_obj = datetime.strptime(parsed_date,'%d/%m/%Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
             if parsed_date_obj >= self.date_limit:
-                link = news.find_element(By.CLASS_NAME,'button').get_attribute('href')
-                title = news.find_element(By.TAG_NAME,'h2').text.strip()
-                summary = news.find_element(By.CLASS_NAME, 'line-clamp_3').text.strip()
+                link = news.find('a',class_='link').get('href')
+                title = news.find('h2',class_='blog-item-heading').get_text(strip=True)
+                summary = news.find('div',class_='blog-item-abstract').find('div',class_='text-content').get_text(strip=True)
                 self.append(publish_date,title,summary,link)
 
     def append(self,publish_date,title,summary,link):
@@ -48,7 +45,7 @@ class BeijerRefNews:
         self.latest_news.append(
             {
             'PublishDate':publish_date,
-            'Source': 'Beijer Ref',
+            'Source': 'Daikin-Applied',
             'Type': 'Company News',
             'Title': title,
             'Summary': summary,
@@ -67,11 +64,11 @@ class BeijerRefNews:
         self.get_soup()
         
 all_news = []
-def get_beijer_ref(driver,coverage_days):
+def get_daikin_applied(driver,coverage_days):
     driver.set_window_size(1920, 1080)
-    url='https://www.beijerref.com/news'
-    news = BeijerRefNews(driver,coverage_days,url)
+    url='https://blog.daikinapplied.eu/news-center'
+    news = DaikinAppliedNews(driver,coverage_days,url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/beijer_ref_news.csv',index=False)
+    df.to_csv('csv/daikin_applied_news.csv',index=False)

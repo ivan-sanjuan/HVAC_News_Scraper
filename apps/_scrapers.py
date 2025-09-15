@@ -34,6 +34,12 @@ from .scraper_LG_HVAC import get_LGHVAC_NA
 from .scraper_LG_Electronics_NA import get_LG_Electronics_NA
 from .scraper_generac import get_generac
 from .scraper_nidec import get_nidec
+from .scraper_beijer_ref import get_beijer_ref
+from .scraper_daikin_corporate import get_daikin_corporate
+from .scraper_daikin_europe import get_daikin_EU
+from .scraper_daikin_applied import get_daikin_applied
+from .scraper_GEA import get_GEA
+from .scraper_stiebel_eltron import get_stiebel_eltron
 
 def get_scrapers():
     scrapers = [
@@ -72,6 +78,12 @@ def get_scrapers():
             get_delta_trak_news,
             get_bitzer_news,
             get_generac,
-            get_nidec
+            get_nidec,
+            get_beijer_ref,
+            get_daikin_corporate,
+            get_daikin_EU,
+            get_daikin_applied,
+            get_GEA,
+            get_stiebel_eltron
         ]
     return scrapers

@@ -37,6 +37,12 @@ def get_paths():
                 'csv/LG_HVAC_NA_news.csv',
                 'csv/LG_Electronics_NA.csv',
                 'csv/generac_news.csv',
-                'csv/nidec_news.csv'
+                'csv/nidec_news.csv',
+                'csv/beijer_ref_news.csv',
+                'csv/daikin_corporate_news.csv',
+                'csv/daikin_europe_news.csv',
+                'csv/daikin_applied_news.csv',
+                'csv/GEA_news.csv',
+                'csv/stiebel_eltron_news.csv'
             ]
     return csv_paths

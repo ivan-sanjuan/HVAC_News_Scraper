@@ -12,35 +12,51 @@ from datetime import timedelta, datetime
 import pandas as pd
 import time
 
-class BeijerRefNews:
+class DaikinCorporateNews:
     def __init__(self,driver,coverage_days,url):
         self.driver = driver
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.root = 'https://www.daikin.com'
         
     def get_soup(self):
         self.driver.get(self.url)
-        time.sleep(5)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'collection_pressreleases')))
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'g-contents')))
         html = self.driver.page_source
-        news_sel = self.driver.find_elements(By.CLASS_NAME,'news-arcive_item')
-        self.get_news(news_sel)
-
+        soup = BeautifulSoup(html,'html.parser')
+        news_section = soup.find('div',class_='g-contents')
+        news_blocks = news_section.find_all('div',class_='_record')
+        self.get_news(news_blocks)
+    
     def get_news(self,blocks):
         for news in blocks:
-            parsed_date = news.find_element(By.CLASS_NAME,'text-style-tagline').text.strip()
-            if len(parsed_date) > 20:
-                result_list = parsed_date.split(maxsplit=3)[0:3]
-                separator = ' '
-                parsed_date = separator.join(result_list) 
-            parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+            parsed_date = news.find('p','_date').get_text(strip=True)
+            parsed_date_obj = datetime.strptime(parsed_date,'%d %B %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
             if parsed_date_obj >= self.date_limit:
-                link = news.find_element(By.CLASS_NAME,'button').get_attribute('href')
-                title = news.find_element(By.TAG_NAME,'h2').text.strip()
-                summary = news.find_element(By.CLASS_NAME, 'line-clamp_3').text.strip()
+                title_block = news.find('p',class_='_title')
+                title = title_block.get_text(strip=True)
+                partial_link = title_block.find('a').get('href')
+                link = f'{self.root}{partial_link}'
+                self.driver.switch_to.new_window('tab')
+                self.driver.get(link)
+                self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'g-container')))
+                html = self.driver.page_source
+                soup = BeautifulSoup(html,'html.parser')
+                paragraphs = soup.find_all('p',class_='g-p')
+                for sum in paragraphs:
+                    para = sum.get_text(strip=True)
+                    if len(para) > 150:
+                        summary = para
+                        break
+                    else:
+                        continue
+                else:
+                    summary = 'Unable to parse summary, please visit the news page instead.'
+                self.driver.close()
+                self.driver.switch_to.window(self.driver.window_handles[0])
                 self.append(publish_date,title,summary,link)
 
     def append(self,publish_date,title,summary,link):
@@ -48,7 +64,7 @@ class BeijerRefNews:
         self.latest_news.append(
             {
             'PublishDate':publish_date,
-            'Source': 'Beijer Ref',
+            'Source': 'Daikin-Corporate',
             'Type': 'Company News',
             'Title': title,
             'Summary': summary,
@@ -67,11 +83,12 @@ class BeijerRefNews:
         self.get_soup()
         
 all_news = []
-def get_beijer_ref(driver,coverage_days):
+def get_daikin_corporate(driver,coverage_days):
     driver.set_window_size(1920, 1080)
-    url='https://www.beijerref.com/news'
-    news = BeijerRefNews(driver,coverage_days,url)
+    url='https://www.daikin.com/news'
+    news = DaikinCorporateNews(driver,coverage_days,url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/beijer_ref_news.csv',index=False)
+    df.to_csv('csv/daikin_corporate_news.csv',index=False)
+
