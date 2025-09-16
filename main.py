@@ -28,9 +28,9 @@ class UILogStream:
             pass
         
 class ScrapedData:
-    def __init__(self,e,dataframe,output_section,page):
+    def __init__(self,e,dataframe,page):
         self.df = dataframe
-        self.output_section = output_section
+        self.scrape_result = None
         self.page = page
     
     def open_link(self, e):
@@ -40,8 +40,6 @@ class ScrapedData:
             return [ft.DataColumn(ft.Text(col)) for col in self.df.columns]
         
     def rows(self):
-        
-
         rows = []
         for index, row in self.df.iterrows():
             row_cells = []
@@ -71,7 +69,7 @@ class ScrapedData:
         return rows
     
     def output(self):        
-        scrape_result = ft.DataTable(
+        self.scrape_result = ft.DataTable(
                         columns=self.headers(),
                         sort_column_index=0,
                         sort_ascending=True,
@@ -84,13 +82,10 @@ class ScrapedData:
                         border=ft.border.all(1, '#78655E'),
                         width=1500
                         )
-        self.output_section.controls.append(scrape_result)
-        self.page.update()
+        return self.scrape_result
         
     def run(self):
-        self.headers()
-        self.rows()
-        self.output()
+        return self.output()
   
 def main(page:ft.Page):
     page.window.width = 1500
@@ -117,17 +112,51 @@ def main(page:ft.Page):
         global scraping_active
         scraping_active = False
         search_status.value = 'Run will be stopped after this function.. Please wait.'
+
+    async def poll_ui():
+        while True:
+            while not ui_queue.empty():
+                msg_type, payload = ui_queue.get()
+
+                if msg_type == "log":
+                    log_list.controls.append(ft.Text(payload, color='#DEDAC6'))
+                    sys.stdout = UILogStream(append_log)
+
+                elif msg_type == "status":
+                    search_status.value = payload
+
+                elif msg_type == "progress":
+                    progress_bar.value = payload
+
+                elif msg_type == "show_progress":
+                    progress_bar.visible = payload
+
+                elif msg_type == "display_output":
+                    output_section.controls.clear()
+                    output_section.controls.append(payload)
+
+                elif msg_type == "clear_output":
+                    output_section.controls.clear()
+
+                elif msg_type == "done":
+                    send_report.disabled = False
+
+            page.update()
+            await asyncio.sleep(0.1)  # yield control back to event loop
         
     def append_log(message):
             log_list.controls.append(ft.Text(message,color='#DEDAC6'))
             sys.stdout = UILogStream(append_log)
             # sys.stderr = UILogStream(append_log)
             log_list.update()
+        
+    def start_scraping(e):
+        threading.Thread(target=scrape_all, daemon=True).start()
+        page.run_task(poll_ui)
     
-    def scrape_all(e):
-        output_section.controls.clear()
+    def scrape_all():
+        ui_queue.put(('clear_output','clear'))
         scrape_button_disabled()
-        page.update()
         
         def runtime():
             total_seconds = sum(total_duration)
@@ -167,19 +196,16 @@ def main(page:ft.Page):
             total_tasks = len(scrapers)
             for i, scraper in enumerate(scrapers):
                 if scraping_active == True:
-                    search_status.value = 'Starting to scrape..'
+                    ui_queue.put(('status', 'Starting to scrape..'))
                     start = time.time()
                     if i == 0:
-                        append_log(search_status.value)
+                        ui_queue.put(('log', 'Starting to scrape.'))
                     else:
                         pass
-                    progress_bar.visible = True
-                    status_1 = f"Running {scraper.__name__}... ({i+1} of {total_tasks})"
-                    search_status.value = f'Running {scraper.__name__}... ({i+1} of {total_tasks})'
-                    search_status.update()
-                    append_log(status_1)
-                    progress_bar.value = (i+1)/total_tasks
-                    progress_bar.update()
+                    ui_queue.put(('show_progress',True))
+                    ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+                    ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+                    ui_queue.put(('progress',(i+1)/total_tasks))
                     if coverage_input.value == '' or coverage_input.value == '0':
                         coverage_days = 1
                     else:
@@ -189,12 +215,9 @@ def main(page:ft.Page):
                     except Exception as f:
                         print(f'An error has occured: {f}')
                     duration = time.time() - start
-                    status_2 = f"{scraper.__name__} completed in {duration:.2f} seconds"
-                    append_log(status_2)
-                    progress_bar.value = (i+1)/total_tasks
-                    progress_bar.update()
+                    ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
+                    ui_queue.put(('progress',(i+1)/total_tasks))
                     total_duration.append(duration)
-                    time.sleep(2)
                 else:
                     break
         finally:
@@ -202,12 +225,10 @@ def main(page:ft.Page):
             total_time = runtime()
             report = f'TOTAL Runtime: {format_runtime(total_time)}'
             driver.quit()
-            append_log(status_report_generation)
-            append_log(report)
-            time.sleep(1)
-            search_status.value = report
+            ui_queue.put(('log',status_report_generation))
+            ui_queue.put(('log',report))
+            ui_queue.put(('status',report))
             scrape_button_enabled()
-            page.update()
         
         valid_dfs = []
         for path in csv_paths:
@@ -233,17 +254,28 @@ def main(page:ft.Page):
             combined_df.to_csv(filename_scraped_news, index=False)
             combined_csv = pd.read_csv(filename_scraped_news)
             combined_csv_df = pd.DataFrame(combined_csv)
-            initial_scrape = ScrapedData(e,combined_csv_df,output_section,page)
-            initial_scrape.run()
+            scraped_data = ScrapedData(None,combined_csv_df,page)
+            ui_queue.put(("display_output", scraped_data.run()))
         else:
             today=datetime.today()
             today_formatted=today.strftime('%B %d, %Y | %X')
             print(f'NO NEW News at the moment: {today_formatted}')
-            search_status.value = f'No NEW News at the moment: {today_formatted}'
+            ui_queue.put('status',f'No NEW News at the moment: {today_formatted}')
+    
+    def reload_results(e):
+        try:
+            df = pd.read_csv('csv/combined_news.csv')
+            results = ScrapedData(None,df,page)
+            result = results.run()
+            output_section.controls = [result,]
+            page.update()
+            scrape_button_enabled()
+        except EmptyDataError:
+            search_status.value = 'No results to display.'
             search_status.update()
     
     def filter_items(e):
-        output_section.controls.clear()
+        ui_queue.put(('clear_output','clear'))
         query = e.strip().lower()
         filename_scraped_news = f'csv/combined_news.csv'
         df = pd.read_csv(filename_scraped_news)
@@ -257,14 +289,15 @@ def main(page:ft.Page):
             axis=1
             )
         ]
-        filtered_result = ScrapedData(e,filtered_df,output_section,page)
-        filtered_result.run()
+        filtered_result = ScrapedData(None,filtered_df,page)
+        ui_queue.put(("display_output",filtered_result.run()))
         
     def minimize_window(e):
         page.window.minimized = True
         page.update()
         
     def destroy_window(e):
+        page.window.visible = False
         page.window.destroy()
         page.update()
         
@@ -338,6 +371,7 @@ def main(page:ft.Page):
         page.update()
         
     max_value = 30
+    
     def validate_number(e):
         try:
             value=int(e.control.value)
@@ -350,39 +384,23 @@ def main(page:ft.Page):
             search_status.value = "you can leave it blank (i'll still change it to 1 :D)"
         search_status.update()
     
-    output_section = ft.Column(
-        scroll="auto",
-        controls=[]
-    )
     
-    def reload_results(e):
-        try:
-            output_section.controls.clear()
-            df = pd.read_csv('csv/combined_news.csv')
-            results = ScrapedData(e,df,output_section,page)
-            results.run()
-            scrape_button_enabled()
-        except EmptyDataError:
-            search_status.value = 'No results to display.'
-            search_status.update()
             
     def save_csv(e):
         df = pd.read_csv('csv/combined_news.csv')
         df.to_csv(os.path.expanduser("~"))
         
-    def run_background_scraper(e):
-        threading.Thread(
-            target=scrape_all,
-            args=(e,),
-            daemon=True
-        ).start()
-    
-    def run_background_filter(e):
-        threading.Thread(
-            target=filter_items,
-            args=(e,),
-            daemon=True
-        ).start()
+    # def run_background_scraper(e):
+    #     threading.Thread(
+    #         target=start_scraping,
+    #         args=(e,),
+    #         daemon=True
+    #     ).start()
+        
+    output_section = ft.Column(
+        scroll="auto",
+        controls=[]
+    )
     
     search_field = ft.TextField(
         border_radius=10,
@@ -395,7 +413,7 @@ def main(page:ft.Page):
         width=400,
         border_width=2,
         focused_border_color=color_tint_mint,
-        on_change=lambda e: run_background_filter(e.control.value),
+        on_change=lambda e: filter_items(e.control.value),
         label_style=ft.TextStyle(
             color='#354850',
             size=12,
@@ -449,7 +467,7 @@ def main(page:ft.Page):
             elevation=5,
             width=200,
             height=20,
-            on_click=run_background_scraper,
+            on_click=start_scraping,
             bgcolor=color_tint_mint,
             visible=True,
             style=ft.ButtonStyle(
