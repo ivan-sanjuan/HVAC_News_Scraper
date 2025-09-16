@@ -14,7 +14,7 @@ import time
 import pandas as pd
 import sys
 import os
-
+import queue
 
 class UILogStream:
         def __init__(self, log_func):
@@ -111,22 +111,23 @@ def main(page:ft.Page):
     color_tint_mint = '#93C7A1'
     color_tint_lilac = '#CECFE9'
     color_tint_orange = '#DF8369'
+    ui_queue = queue.Queue()
     
     def stop_scraping(e):
         global scraping_active
         scraping_active = False
         search_status.value = 'Run will be stopped after this function.. Please wait.'
+        
+    def append_log(message):
+            log_list.controls.append(ft.Text(message,color='#DEDAC6'))
+            sys.stdout = UILogStream(append_log)
+            # sys.stderr = UILogStream(append_log)
+            log_list.update()
     
     def scrape_all(e):
         output_section.controls.clear()
         scrape_button_disabled()
         page.update()
-        
-        def append_log(message):
-            log_list.controls.append(ft.Text(message,color='#DEDAC6'))
-            sys.stdout = UILogStream(append_log)
-            # sys.stderr = UILogStream(append_log)
-            log_list.update()
         
         def runtime():
             total_seconds = sum(total_duration)
