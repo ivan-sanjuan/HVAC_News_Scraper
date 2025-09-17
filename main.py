@@ -15,6 +15,8 @@ import pandas as pd
 import sys
 import os
 import queue
+import io
+import sys
 
 class UILogStream:
         def __init__(self, log_func):
@@ -290,13 +292,21 @@ def main(page:ft.Page):
             )
         ]
         filtered_result = ScrapedData(None,filtered_df,page)
+        output_section.controls = [filtered_result.run()]
+        page.update()
         ui_queue.put(("display_output",filtered_result.run()))
         
     def minimize_window(e):
         page.window.minimized = True
         page.update()
-        
-    def destroy_window(e):
+    
+    def closing_window(e):
+        threading.Thread(
+            target=destroy_window,
+            daemon=True
+        ).start()
+    
+    def destroy_window():
         page.window.visible = False
         page.window.destroy()
         page.update()
@@ -390,12 +400,12 @@ def main(page:ft.Page):
         df = pd.read_csv('csv/combined_news.csv')
         df.to_csv(os.path.expanduser("~"))
         
-    # def run_background_scraper(e):
-    #     threading.Thread(
-    #         target=start_scraping,
-    #         args=(e,),
-    #         daemon=True
-    #     ).start()
+    def stopping_scrape(e):
+        threading.Thread(
+            target=stop_scraping,
+            args=(e,),
+            daemon=True
+        ).start()
         
     output_section = ft.Column(
         scroll="auto",
@@ -487,7 +497,7 @@ def main(page:ft.Page):
             icon_color="#DEDAC6",
             width=200,
             height=20,
-            on_click=stop_scraping,
+            on_click=stopping_scrape,
             bgcolor=color_tint_orange,
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=30),
@@ -576,7 +586,7 @@ def main(page:ft.Page):
     close_button = ft.IconButton(
         icon=ft.Icons.CLOSE_OUTLINED,
         icon_color='#DEDAC6',
-        on_click=destroy_window,
+        on_click=closing_window,
         hover_color=color_tint_orange
     )
     

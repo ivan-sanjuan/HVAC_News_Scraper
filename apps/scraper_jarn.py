@@ -105,7 +105,10 @@ class JarnNews:
         return True
                 
     def scrape(self):
-        self.get_soup()          
+        try:
+            self.get_soup()
+        except:
+            pass          
 
 sources = [
     {'url':'https://www.ejarn.com/category/eJarn_news_index','source':'JARN News'},
