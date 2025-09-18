@@ -62,7 +62,7 @@ class ScrapedData:
                 if header == "Title":
                     cell_widget = ft.Container(
                         content=cell_content,
-                        width=600
+                        width=450
                     )
                 else:
                     cell_widget = cell_content
@@ -74,6 +74,7 @@ class ScrapedData:
     def output(self):        
         self.scrape_result = ft.DataTable(
                         columns=self.headers(),
+                        heading_text_style=ft.TextStyle(color="#ffffff",weight=ft.FontWeight.BOLD),
                         sort_column_index=0,
                         sort_ascending=True,
                         bgcolor='#DEDAC6',
@@ -467,7 +468,7 @@ def main(page:ft.Page):
         border_radius=10,
         height=50,
         label='SEARCH KEYWORDS',
-        hint_text="ex. acquisitions",
+        hint_text='''ex. acquisitions, farm to fork''',
         bgcolor=color_neutral_light,
         color='#354850',
         disabled=True,
