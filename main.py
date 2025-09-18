@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from datetime import datetime, timedelta
 import win32com.client as outlook
 from pandas.errors import EmptyDataError
+from functools import partial
 import threading
 import pythoncom
 import flet as ft
@@ -108,7 +109,8 @@ def main(page:ft.Page):
     color_tint_mint = '#93C7A1'
     color_tint_lilac = '#CECFE9'
     color_tint_orange = '#DF8369'
-    ui_queue = queue.Queue()
+    ui_queue = asyncio.Queue()
+    
     
     def stop_scraping(e):
         global scraping_active
@@ -117,34 +119,34 @@ def main(page:ft.Page):
 
     async def poll_ui():
         while True:
-            while not ui_queue.empty():
-                msg_type, payload = ui_queue.get()
+            msg_type, payload = await ui_queue.get()
+            # print(f"Received UI message: {msg_type} → {payload}")
+            if msg_type == "log":
+                log_list.controls.append(ft.Text(payload, color='#DEDAC6'))
+                sys.stdout = UILogStream(append_log)
 
-                if msg_type == "log":
-                    log_list.controls.append(ft.Text(payload, color='#DEDAC6'))
-                    sys.stdout = UILogStream(append_log)
+            elif msg_type == "status":
+                search_status.value = payload
 
-                elif msg_type == "status":
-                    search_status.value = payload
+            elif msg_type == "progress":
+                progress_bar.value = payload
 
-                elif msg_type == "progress":
-                    progress_bar.value = payload
+            elif msg_type == "show_progress":
+                progress_bar.visible = payload
 
-                elif msg_type == "show_progress":
-                    progress_bar.visible = payload
+            elif msg_type == "display_output":
+                output_section.controls.clear()
+                output_section.controls.append(payload)
 
-                elif msg_type == "display_output":
-                    output_section.controls.clear()
-                    output_section.controls.append(payload)
+            elif msg_type == "clear_output":
+                output_section.controls.clear()
 
-                elif msg_type == "clear_output":
-                    output_section.controls.clear()
-
-                elif msg_type == "done":
-                    send_report.disabled = False
+            elif msg_type == "done":
+                send_report.disabled = False
 
             page.update()
-            await asyncio.sleep(0.1)  # yield control back to event loop
+            await asyncio.sleep(0.1)
+            
         
     def append_log(message):
             log_list.controls.append(ft.Text(message,color='#DEDAC6'))
@@ -153,11 +155,15 @@ def main(page:ft.Page):
             log_list.update()
         
     def start_scraping(e):
-        threading.Thread(target=scrape_all, daemon=True).start()
         page.run_task(poll_ui)
+        page.run_task(scrape_all)
+        
+    async def call_scrape_function(scraper,driver,coverage_days):
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None,scraper,driver,coverage_days)
     
-    def scrape_all():
-        ui_queue.put(('clear_output','clear'))
+    async def scrape_all():
+        await ui_queue.put(('clear_output','clear'))
         scrape_button_disabled()
         
         def runtime():
@@ -188,9 +194,11 @@ def main(page:ft.Page):
             if os.path.isfile(csv):
                 empty = []
                 empty_df = pd.DataFrame(empty)
-                empty_df.to_csv(csv, index=False)
+                await save_csv_async(empty_df,csv)
+                
             else:
                 continue
+            await asyncio.sleep(0.1)
         try:
             global scraping_active
             scraping_active = True
@@ -198,28 +206,31 @@ def main(page:ft.Page):
             total_tasks = len(scrapers)
             for i, scraper in enumerate(scrapers):
                 if scraping_active == True:
-                    ui_queue.put(('status', 'Starting to scrape..'))
+                    await ui_queue.put(('status', 'Starting to scrape..'))
                     start = time.time()
                     if i == 0:
-                        ui_queue.put(('log', 'Starting to scrape.'))
+                        await ui_queue.put(('log', 'Starting to scrape.'))
                     else:
                         pass
-                    ui_queue.put(('show_progress',True))
-                    ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
-                    ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
-                    ui_queue.put(('progress',(i+1)/total_tasks))
+                    await ui_queue.put(('show_progress',True))
+                    await ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+                    await ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+                    await ui_queue.put(('progress',(i+1)/total_tasks))
                     if coverage_input.value == '' or coverage_input.value == '0':
                         coverage_days = 1
                     else:
                         coverage_days = int(coverage_input.value)
                     try:
-                        scraper(driver,coverage_days=coverage_days)
+                        loop = asyncio.get_running_loop()
+                        await loop.run_in_executor(None,scraper,driver,coverage_days)
+                        await asyncio.sleep(0.1)
                     except Exception as f:
                         print(f'An error has occured: {f}')
                     duration = time.time() - start
-                    ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
-                    ui_queue.put(('progress',(i+1)/total_tasks))
+                    await ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
+                    await ui_queue.put(('progress',(i+1)/total_tasks))
                     total_duration.append(duration)
+                    await asyncio.sleep(0.1)
                 else:
                     break
         finally:
@@ -227,10 +238,11 @@ def main(page:ft.Page):
             total_time = runtime()
             report = f'TOTAL Runtime: {format_runtime(total_time)}'
             driver.quit()
-            ui_queue.put(('log',status_report_generation))
-            ui_queue.put(('log',report))
-            ui_queue.put(('status',report))
+            await ui_queue.put(('log',status_report_generation))
+            await ui_queue.put(('log',report))
+            await ui_queue.put(('status',report))
             scrape_button_enabled()
+            await asyncio.sleep(0.1)
         
         valid_dfs = []
         for path in csv_paths:
@@ -238,7 +250,7 @@ def main(page:ft.Page):
                 print(f'Skipping empty file: {path}')
                 continue
             try:
-                df = pd.read_csv(path)
+                df = await read_csv_async(path)
                 if not df.empty:
                     valid_dfs.append(df)
                 else:
@@ -250,23 +262,27 @@ def main(page:ft.Page):
             except UnboundLocalError:
                 today=datetime.today()
                 print(f'NO NEW News at the moment: {today}')
+            await asyncio.sleep(0.1)
         if len(valid_dfs) > 0:
             combined_df = pd.concat(valid_dfs, ignore_index=True)
-            filename_scraped_news = f'csv/combined_news.csv'
-            combined_df.to_csv(filename_scraped_news, index=False)
-            combined_csv = pd.read_csv(filename_scraped_news)
+            await save_csv_async(combined_df,'csv/combined_news.csv')
+            combined_csv = await read_csv_async('csv/combined_news.csv')
             combined_csv_df = pd.DataFrame(combined_csv)
             scraped_data = ScrapedData(None,combined_csv_df,page)
-            ui_queue.put(("display_output", scraped_data.run()))
+            await ui_queue.put(("display_output", scraped_data.run()))
+            await asyncio.sleep(0.1)
         else:
             today=datetime.today()
             today_formatted=today.strftime('%B %d, %Y | %X')
             print(f'NO NEW News at the moment: {today_formatted}')
-            ui_queue.put('status',f'No NEW News at the moment: {today_formatted}')
+            await ui_queue.put('status',f'No NEW News at the moment: {today_formatted}')
+            await asyncio.sleep(0.1)
     
-    def reload_results(e):
+    async def reload_results(e):
         try:
-            df = pd.read_csv('csv/combined_news.csv')
+            df = await read_csv_async('csv/combined_news.csv')
+            if df.empty:
+                raise EmptyDataError
             results = ScrapedData(None,df,page)
             result = results.run()
             output_section.controls = [result,]
@@ -276,11 +292,11 @@ def main(page:ft.Page):
             search_status.value = 'No results to display.'
             search_status.update()
     
-    def filter_items(e):
-        ui_queue.put(('clear_output','clear'))
+    async def filter_items(e):
+        await ui_queue.put(('clear_output','clear'))
         query = e.strip().lower()
         filename_scraped_news = f'csv/combined_news.csv'
-        df = pd.read_csv(filename_scraped_news)
+        df = await read_csv_async(filename_scraped_news)
         filtered_df = df[
             df.apply(
             lambda row: 
@@ -294,7 +310,16 @@ def main(page:ft.Page):
         filtered_result = ScrapedData(None,filtered_df,page)
         output_section.controls = [filtered_result.run()]
         page.update()
-        ui_queue.put(("display_output",filtered_result.run()))
+        await ui_queue.put(("display_output",filtered_result.run()))
+        
+    async def save_csv_async(data,file_path):
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None,partial(data.to_csv,file_path,index=False))
+    
+    async def read_csv_async(file_path):
+        loop = asyncio.get_running_loop()
+        df = await loop.run_in_executor(None,pd.read_csv,file_path)
+        return df
         
     def minimize_window(e):
         page.window.minimized = True
@@ -318,13 +343,12 @@ def main(page:ft.Page):
             time.sleep(1)
             page.update()
 
-    def create_report():
+    async def create_report():
         today_csv=datetime.today()
         today_csv_formatted=today_csv.strftime('%Y-%m-%d')
-        combined_news = pd.read_csv('csv/combined_news.csv')
+        combined_news = await read_csv_async('csv/combined_news.csv')
         df = pd.DataFrame(combined_news)
-        report = df.to_csv(f'csv/Reports/scraped_news_{today_csv_formatted}.csv', index=False)
-        return report
+        await save_csv_async(df,f'csv/Reports/scraped_news_{today_csv_formatted}.csv')
     
     def send_to_outlook(e):
         try:
@@ -394,8 +418,9 @@ def main(page:ft.Page):
             search_status.value = "you can leave it blank (i'll still change it to 1 :D)"
         search_status.update()
     
-    
-            
+    async def handle_search_change(e):
+        await filter_items(e.control.value)
+          
     def save_csv(e):
         df = pd.read_csv('csv/combined_news.csv')
         df.to_csv(os.path.expanduser("~"))
@@ -407,10 +432,36 @@ def main(page:ft.Page):
             daemon=True
         ).start()
         
+        
+    file_picker = ft.FilePicker()
+    page.overlay.append(file_picker)
+    async def save_and_export(path):
+        df = await read_csv_async('csv/combined_news.csv')
+        await save_csv_async(df, path)
+
+    def handle_save_click(e):
+        file_picker.save_file(
+            dialog_title="Save scraped results",
+            file_name="scraped_results.csv",
+            allowed_extensions=["csv"]
+        )
+
+    def on_save_result(e: ft.FilePickerResultEvent):
+        print('saving')
+        if e.path:
+            page.run_task(lambda: save_and_export(e.path))
+
+    file_picker.on_result = on_save_result
+
+
+    
     output_section = ft.Column(
         scroll="auto",
         controls=[]
     )
+    
+    file_picker = ft.FilePicker()
+    page.overlay.append(file_picker)
     
     search_field = ft.TextField(
         border_radius=10,
@@ -423,7 +474,7 @@ def main(page:ft.Page):
         width=400,
         border_width=2,
         focused_border_color=color_tint_mint,
-        on_change=lambda e: filter_items(e.control.value),
+        on_change=handle_search_change,
         label_style=ft.TextStyle(
             color='#354850',
             size=12,
@@ -556,7 +607,7 @@ def main(page:ft.Page):
             elevation=5,
             width=200,
             height=20,
-            on_click=save_csv,
+            on_click=handle_save_click,
             bgcolor=color_tint_lilac,
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=10),
@@ -690,7 +741,7 @@ def main(page:ft.Page):
                     height=570,
                     width=1500,
                     bgcolor=color_neutral_lighter,
-                    on_hover=refresh_time,
+                    # on_hover=refresh_time,
                     content=output_section
                     
                 ),
