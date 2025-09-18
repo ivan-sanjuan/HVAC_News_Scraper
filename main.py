@@ -156,6 +156,7 @@ def main(page:ft.Page):
             log_list.update()
         
     def start_scraping(e):
+        scrape_button_disabled()
         page.run_task(poll_ui)
         page.run_task(scrape_all)
         
@@ -165,7 +166,6 @@ def main(page:ft.Page):
     
     async def scrape_all():
         await ui_queue.put(('clear_output','clear'))
-        scrape_button_disabled()
         
         def runtime():
             total_seconds = sum(total_duration)
