@@ -166,6 +166,7 @@ def main(page:ft.Page):
     
     async def scrape_all():
         await ui_queue.put(('clear_output','clear'))
+        await ui_queue.put(('show_progress',True))
         
         def runtime():
             total_seconds = sum(total_duration)
@@ -196,7 +197,6 @@ def main(page:ft.Page):
                 empty = []
                 empty_df = pd.DataFrame(empty)
                 await save_csv_async(empty_df,csv)
-                
             else:
                 continue
             await asyncio.sleep(0.1)
@@ -213,7 +213,6 @@ def main(page:ft.Page):
                         await ui_queue.put(('log', 'Starting to scrape.'))
                     else:
                         pass
-                    await ui_queue.put(('show_progress',True))
                     await ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
                     await ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
                     await ui_queue.put(('progress',(i+1)/total_tasks))
@@ -351,7 +350,7 @@ def main(page:ft.Page):
         df = pd.DataFrame(combined_news)
         await save_csv_async(df,f'csv/Reports/scraped_news_{today_csv_formatted}.csv')
     
-    def send_to_outlook(e):
+    async def send_to_outlook(e):
         try:
             pythoncom.CoInitialize()
             today=datetime.today()
@@ -359,7 +358,7 @@ def main(page:ft.Page):
             olApp = outlook.Dispatch(f'Outlook.Application')
             mail_item = olApp.CreateItem(0)
             mail_item.Subject = f'Scraped News for {today_formatted}'
-            create_report()
+            await create_report()
             today_csv=datetime.today()
             today_csv_formatted=today_csv.strftime('%Y-%m-%d')
             base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -421,10 +420,6 @@ def main(page:ft.Page):
     
     async def handle_search_change(e):
         await filter_items(e.control.value)
-          
-    def save_csv(e):
-        df = pd.read_csv('csv/combined_news.csv')
-        df.to_csv(os.path.expanduser("~"))
         
     def stopping_scrape(e):
         threading.Thread(

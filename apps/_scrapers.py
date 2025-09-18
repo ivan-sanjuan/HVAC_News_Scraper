@@ -40,6 +40,10 @@ from .scraper_daikin_europe import get_daikin_EU
 from .scraper_daikin_applied import get_daikin_applied
 from .scraper_GEA import get_GEA
 from .scraper_stiebel_eltron import get_stiebel_eltron
+from .scraper_resideo import get_resideo
+from .scraper_residio_investor import get_resideo_investor
+from .scraper_spx import get_SPX
+from .scraper_rheem import get_rheem
 
 def get_scrapers():
     scrapers = [
@@ -84,6 +88,10 @@ def get_scrapers():
             get_daikin_EU,
             get_daikin_applied,
             get_GEA,
-            get_stiebel_eltron
+            get_stiebel_eltron,
+            get_resideo,
+            get_resideo_investor,
+            get_SPX,
+            get_rheem
         ]
     return scrapers

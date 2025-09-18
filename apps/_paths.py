@@ -43,6 +43,10 @@ def get_paths():
                 'csv/daikin_europe_news.csv',
                 'csv/daikin_applied_news.csv',
                 'csv/GEA_news.csv',
-                'csv/stiebel_eltron_news.csv'
+                'csv/stiebel_eltron_news.csv',
+                'csv/resideo_news.csv',
+                'csv/resideo_investor_news.csv',
+                'csv/spx_news.csv',
+                'csv/rheem_news.csv'
             ]
     return csv_paths
