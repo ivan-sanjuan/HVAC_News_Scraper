@@ -45,6 +45,11 @@ from .scraper_residio_investor import get_resideo_investor
 from .scraper_spx import get_SPX
 from .scraper_rheem import get_rheem
 from .scraper_hussman import get_hussmann
+from .scraper_panasonic_hvac import get_panasonic_hvac
+from .scraper_panasonic_global import get_panasonic_global
+from .scraper_panasonic_uk import get_panasonic_uk
+from .scraper_atmoszero import get_atmoszero
+from .scraper_mesa_labs import get_mesa_labs
 
 def get_scrapers():
     scrapers = [
@@ -94,6 +99,11 @@ def get_scrapers():
             get_resideo_investor,
             get_SPX,
             get_rheem,
-            get_hussmann
+            get_hussmann,
+            get_panasonic_global,
+            get_panasonic_hvac,
+            get_panasonic_uk,
+            get_atmoszero,
+            get_mesa_labs
         ]
     return scrapers

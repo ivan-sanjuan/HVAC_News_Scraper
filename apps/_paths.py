@@ -48,6 +48,11 @@ def get_paths():
                 'csv/resideo_investor_news.csv',
                 'csv/spx_news.csv',
                 'csv/rheem_news.csv',
-                'csv/hussmann_news.csv'
+                'csv/hussmann_news.csv',
+                'csv/panasonic_hvac_news.csv',
+                'csv/panasonic_global_news.csv',
+                'csv/panasonic_uk_news.csv',
+                'csv/atmoszero_news.csv',
+                'csv/mesa_labs_news.csv'
             ]
     return csv_paths

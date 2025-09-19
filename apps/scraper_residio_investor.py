@@ -32,31 +32,34 @@ class ResideoInvestorNews:
     
     def get_news(self,block):
         for news in block:
-            parsed_date = news.find('div',class_='evergreen-news-date').get_text(strip=True)
-            parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
-            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.date_limit:
-                partial_link = news.find('a',class_='evergreen-news-link').get('href')
-                link = f'{self.root}{partial_link}'
-                self.driver.switch_to.new_window('tab')
-                self.driver.get(link)
-                self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'evergreen-news-details-item')))
-                html = self.driver.page_source
-                soup = BeautifulSoup(html,'html.parser')
-                title = soup.find('h3',class_='evergreen-item-detail-title').get_text(strip=True)
-                summary_block = soup.find('div',class_='evergreen-news-body')
-                paragraphs = summary_block.find_all('p')
-                summary = None
-                for p in paragraphs:
-                    para = p.get_text(strip=True)
-                    if len(para) > 350:
-                        summary = para
-                        break
-                if not summary:
-                    summary = 'Unable to parse summary, please visit the news page instead.'
-                self.driver.close()
-                self.driver.switch_to.window(self.driver.window_handles[0])
-                self.append(publish_date,title,summary,link)
+            try:
+                parsed_date = news.find('div',class_='evergreen-news-date').get_text(strip=True)
+                parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                if parsed_date_obj >= self.date_limit:
+                    partial_link = news.find('a',class_='evergreen-news-link').get('href')
+                    link = f'{self.root}{partial_link}'
+                    self.driver.switch_to.new_window('tab')
+                    self.driver.get(link)
+                    self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'evergreen-news-details-item')))
+                    html = self.driver.page_source
+                    soup = BeautifulSoup(html,'html.parser')
+                    title = soup.find('h3',class_='evergreen-item-detail-title').get_text(strip=True)
+                    summary_block = soup.find('div',class_='evergreen-news-body')
+                    paragraphs = summary_block.find_all('p')
+                    summary = None
+                    for p in paragraphs:
+                        para = p.get_text(strip=True)
+                        if len(para) > 350:
+                            summary = para
+                            break
+                    if not summary:
+                        summary = 'Unable to parse summary, please visit the news page instead.'
+                    self.driver.close()
+                    self.driver.switch_to.window(self.driver.window_handles[0])
+                    self.append(publish_date,title,summary,link)
+            except Exception as e:
+                print(f'Error while parsing the news entry: {e}')
 
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')

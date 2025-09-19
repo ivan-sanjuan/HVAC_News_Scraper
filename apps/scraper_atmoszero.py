@@ -19,6 +19,49 @@ class AtmosZeroNews:
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        
+    def get_soup(self):
+        self.driver.get(self.url)
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'elementor-widget-container')))
+        html = self.driver.page_source
+        soup = BeautifulSoup(html,'html.parser')
+        news_blocks = soup.find_all('div',{'data-elementor-type':'loop-item'})
+        self.get_news(news_blocks)
+
+    def get_news(self,blocks):
+        for news in blocks:
+            try:
+                parsed_date = news.find('div',class_='date-change')
+                if parsed_date:
+                    parsed_date = parsed_date.find('p',class_='elementor-size-default').get_text(strip=True)
+                    parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+                    publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                    link = news.find('a').get('href')
+                    if parsed_date_obj >= self.date_limit:
+                        if link.startswith('https://atmoszero.energy/press-release/'):
+                            self.driver.switch_to.new_window('tab')
+                            self.driver.get(link)
+                            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'site-main')))
+                            html = self.driver.page_source
+                            soup = BeautifulSoup(html,'html.parser')
+                            title = soup.find('h1',class_='elementor-heading-title').get_text(strip=True)
+                            paragraphs = soup.find_all('p')
+                            summary = None
+                            for p in paragraphs:
+                                para = p.get_text(strip=True)
+                                if len(para) > 200:
+                                    summary = para
+                                    break
+                            if not summary:
+                                summary = 'Unable to parse summary, please visit the news page instead.'
+                            self.driver.close()
+                            self.driver.switch_to.window(self.driver.window_handles[0])
+                        else:
+                            title = news.find('div',{'data-widget_type':'text-editor.default'}).get_text(strip=True)
+                            summary = 'Article leads to a 3rd-Party site, please visit the news page instead.'
+                        self.append(publish_date,title,summary,link)
+            except Exception as e:
+                print(f'An error has occured: {e}')
 
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
@@ -51,16 +94,3 @@ def get_atmoszero(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/atmoszero_news.csv',index=False)
-
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_atmoszero(driver,coverage_days=360)
-
-time.sleep(10)
-driver.quit()

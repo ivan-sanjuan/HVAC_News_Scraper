@@ -30,30 +30,33 @@ class RheemNews:
     
     def get_news(self,blocks):
         for news in blocks:
-            parsed_date = news.find('div',class_='rmc-story__content__actions').get_text(strip=True)
-            parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
-            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.date_limit:
-                link = news.get('href')
-                self.driver.switch_to.new_window('tab')
-                self.driver.get(link)
-                self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'rmc-blog__article_preview__content-wrapper')))
-                html = self.driver.page_source
-                soup = BeautifulSoup(html,'html.parser')
-                title = soup.find('h1',class_='rmc-ty-display-sm').get_text(strip=True)
-                paragraphs = soup.find_all('p')
-                summary = None
-                for p in paragraphs:
-                    para = p.get_text(strip=True)
-                    if len(para) > 200:
-                        summary = para
-                        break
-                if not summary:
-                    summary = 'Unable to parse summary, please visit the news page instead.'
-                self.driver.close()
-                self.driver.switch_to.window(self.driver.window_handles[0])
-                self.append(publish_date,title,summary,link)
-        
+            try:
+                parsed_date = news.find('div',class_='rmc-story__content__actions').get_text(strip=True)
+                parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                if parsed_date_obj >= self.date_limit:
+                    link = news.get('href')
+                    self.driver.switch_to.new_window('tab')
+                    self.driver.get(link)
+                    self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'rmc-blog__article_preview__content-wrapper')))
+                    html = self.driver.page_source
+                    soup = BeautifulSoup(html,'html.parser')
+                    title = soup.find('h1',class_='rmc-ty-display-sm').get_text(strip=True)
+                    paragraphs = soup.find_all('p')
+                    summary = None
+                    for p in paragraphs:
+                        para = p.get_text(strip=True)
+                        if len(para) > 200:
+                            summary = para
+                            break
+                    if not summary:
+                        summary = 'Unable to parse summary, please visit the news page instead.'
+                    self.driver.close()
+                    self.driver.switch_to.window(self.driver.window_handles[0])
+                    self.append(publish_date,title,summary,link)
+            except Exception as e:
+                print('An error has occured:')
+            
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
         self.latest_news.append(

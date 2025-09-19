@@ -34,31 +34,34 @@ class ResideoNews:
 
     def get_news(self,blocks):
         for news in blocks:
-            parsed_date = news.find('div',class_='rde-coveo-item-date').text.strip()
-            parsed_date_obj = datetime.strptime(parsed_date,'%m/%d/%Y')
-            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.date_limit:
-                partial_link = news.find('a',class_='CoveoResultLink').get('href')
-                link = f'{self.root}{partial_link}'
-                self.driver.switch_to.new_window('tab')
-                self.driver.get(link)
-                self.driver_wait(EC.presence_of_element_located((By.CSS_SELECTOR,'loaded')))
-                html = self.driver.page_source
-                soup = BeautifulSoup(html,'html.parser')
-                title = soup.find('h1',class_='article-title').get_text(strip=True)
-                summary_block = soup.find('div',class_='score-content-spot')
-                paragraphs = soup.find_all('p')
-                summary = None
-                for p in paragraphs:
-                    para = p.get_text(strip=True)
-                    if len(para) > 200:
-                        summary = para
-                        break
-                if not summary:
-                    summary = 'Unable to parse summary, please visit the news page instead.'
-                self.driver.close()
-                self.driver.switch_to.window(self.driver.window_handles[0])
-                self.append(publish_date,title,summary,link)
+            try:
+                parsed_date = news.find('div',class_='rde-coveo-item-date').text.strip()
+                parsed_date_obj = datetime.strptime(parsed_date,'%m/%d/%Y')
+                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                if parsed_date_obj >= self.date_limit:
+                    partial_link = news.find('a',class_='CoveoResultLink').get('href')
+                    link = f'{self.root}{partial_link}'
+                    self.driver.switch_to.new_window('tab')
+                    self.driver.get(link)
+                    self.driver_wait(EC.presence_of_element_located((By.CSS_SELECTOR,'loaded')))
+                    html = self.driver.page_source
+                    soup = BeautifulSoup(html,'html.parser')
+                    title = soup.find('h1',class_='article-title').get_text(strip=True)
+                    summary_block = soup.find('div',class_='score-content-spot')
+                    paragraphs = soup.find_all('p')
+                    summary = None
+                    for p in paragraphs:
+                        para = p.get_text(strip=True)
+                        if len(para) > 200:
+                            summary = para
+                            break
+                    if not summary:
+                        summary = 'Unable to parse summary, please visit the news page instead.'
+                    self.driver.close()
+                    self.driver.switch_to.window(self.driver.window_handles[0])
+                    self.append(publish_date,title,summary,link)
+            except Exception as e:
+                print(f'An error has occured: {e}')
 
     def driver_wait(self,condition):
         try:
