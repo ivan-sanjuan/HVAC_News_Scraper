@@ -47,6 +47,7 @@ def get_paths():
                 'csv/resideo_news.csv',
                 'csv/resideo_investor_news.csv',
                 'csv/spx_news.csv',
-                'csv/rheem_news.csv'
+                'csv/rheem_news.csv',
+                'csv/hussmann_news.csv'
             ]
     return csv_paths

@@ -44,6 +44,7 @@ from .scraper_resideo import get_resideo
 from .scraper_residio_investor import get_resideo_investor
 from .scraper_spx import get_SPX
 from .scraper_rheem import get_rheem
+from .scraper_hussman import get_hussmann
 
 def get_scrapers():
     scrapers = [
@@ -92,6 +93,7 @@ def get_scrapers():
             get_resideo,
             get_resideo_investor,
             get_SPX,
-            get_rheem
+            get_rheem,
+            get_hussmann
         ]
     return scrapers
