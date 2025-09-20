@@ -56,6 +56,9 @@ from .scraper_mitsubishi_electric_sci import get_mitsubishi_electric_sci
 from .scraper_parker_sporlan import get_parker_sporlan
 from .scraper_rechi import get_rechi
 from .scraper_schott import get_schott
+from .scraper_secop import get_secop
+from .scraper_sensata import get_sensata
+from .scraper_tive import get_tive
 
 def get_scrapers():
     scrapers = [
@@ -116,6 +119,9 @@ def get_scrapers():
             get_mitsubishi_electric_sci,
             get_parker_sporlan,
             get_rechi,
-            get_schott
+            get_schott,
+            get_secop,
+            get_sensata,
+            get_tive
         ]
     return scrapers
