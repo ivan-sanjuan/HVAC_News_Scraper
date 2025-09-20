@@ -13,23 +13,42 @@ from datetime import timedelta, datetime
 import pandas as pd
 import time
 
-class MitsubishiHVACNews:
+class MitsubishiSCINews:
     def __init__(self,driver,coverage_days,url):
         self.driver = driver
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
-        self.root = 'https://www.mitsubishicomfort.com/'
+        self.root = 'https://www.siamcompressor.com/'
         
     def get_soup(self):
+        self.driver.get(self.url)
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'fiscal-news-list')))
+        html = self.driver.page_source
+        soup = BeautifulSoup(html,'html.parser')
+        news_section = soup.find('div',class_='fiscal-news-list')
+        news_blocks = news_section.find_all('article',class_='single-news-element')
+        self.get_news(news_blocks)
+    
+    def get_news(self,blocks):
+        for news in blocks:
+            parsed_date = news.find('div',class_='section-title').text.strip()
+            parsed_date_obj = datetime.strptime(parsed_date,'%d %b %Y')
+            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+            if parsed_date_obj >= self.date_limit:
+                link = news.find('a').get('href')
+                link = urljoin(self.root,link)
+                title = news.find('div',class_='title-news').text.strip()
+                summary = news.find('p').text.strip()
+                self.append(publish_date,title,summary,link)
 
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
         self.latest_news.append(
             {
             'PublishDate':publish_date,
-            'Source': 'Mitsubishi Electric-HVAC',
+            'Source': 'Mitsubishi Electric-SCI',
             'Type': 'Company News',
             'Title': title,
             'Summary': summary,
@@ -47,24 +66,11 @@ class MitsubishiHVACNews:
         self.get_soup()
 
 all_news = []
-def get_mitsubishi_electric_hvac(driver,coverage_days):
+def get_mitsubishi_electric_sci(driver,coverage_days):
     driver.set_window_size(1920, 1080)
-    url = 'https://www.mitsubishicomfort.com/press-releases'
-    news = MitsubishiHVACNews(driver,coverage_days,url)
+    url = 'https://www.siamcompressor.com/siamcompressor/en/news-events'
+    news = MitsubishiSCINews(driver,coverage_days,url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/mitsubishi_electric_hvac_news.csv',index=False)
-
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_mitsubishi_electric_hvac(driver,coverage_days=120)
-
-time.sleep(10)
-driver.quit()
+    df.to_csv('csv/mitsubishi_electric_sci_news.csv',index=False)

@@ -50,6 +50,12 @@ from .scraper_panasonic_global import get_panasonic_global
 from .scraper_panasonic_uk import get_panasonic_uk
 from .scraper_atmoszero import get_atmoszero
 from .scraper_mesa_labs import get_mesa_labs
+from .scraper_mitsubishi_electric_hvac import get_mitsubishi_electric_hvac
+from .scraper_mitsubishi_electric_global import get_mitsubishi_electric_global
+from .scraper_mitsubishi_electric_sci import get_mitsubishi_electric_sci
+from .scraper_parker_sporlan import get_parker_sporlan
+from .scraper_rechi import get_rechi
+from .scraper_schott import get_schott
 
 def get_scrapers():
     scrapers = [
@@ -104,6 +110,12 @@ def get_scrapers():
             get_panasonic_hvac,
             get_panasonic_uk,
             get_atmoszero,
-            get_mesa_labs
+            get_mesa_labs,
+            get_mitsubishi_electric_global,
+            get_mitsubishi_electric_hvac,
+            get_mitsubishi_electric_sci,
+            get_parker_sporlan,
+            get_rechi,
+            get_schott
         ]
     return scrapers

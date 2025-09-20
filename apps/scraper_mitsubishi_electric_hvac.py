@@ -13,42 +13,40 @@ from datetime import timedelta, datetime
 import pandas as pd
 import time
 
-class MesaLabsNews:
+class MitsubishiHVACNews:
     def __init__(self,driver,coverage_days,url):
         self.driver = driver
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
-        self.root = 'https://investors.mesalabs.com/'
+        self.root = 'https://www.mitsubishicomfort.com/'
         
     def get_soup(self):
         self.driver.get(self.url)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'evergreen-news-content-list')))
+        self.driver_wait(EC.presence_of_element_located((By.ID,'first_section')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        news_section = soup.find('div',class_='evergreen-news-content-list')
-        news_blocks = news_section.find_all('div',{'role':'listitem'})
+        news_blocks = soup.find_all('div',{'style':'width:clamp(280px, 70vw, 450px)'})
         self.get_news(news_blocks)
     
     def get_news(self,blocks):
         for news in blocks:
             try:
-                parsed_date = news.find('div',class_='evergreen-news-date').get_text(strip=True)
-                parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+                parsed_date = news.find('p',class_='footnote').get_text(strip=True)
+                parsed_date_obj = datetime.strptime(parsed_date,'%b %d, %Y')
                 publish_date = parsed_date_obj.strftime('%Y-%m-%d')
                 if parsed_date_obj >= self.date_limit:
-                    link = news.find('a',class_='evergreen-news-headline-link').get('href')
+                    link = news.find('a').get('href')
                     link = urljoin(self.root,link)
+                    title = news.find('h6').text.strip()
                     self.driver.switch_to.new_window('tab')
                     self.driver.get(link)
-                    self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'evergreen-item-container')))
+                    self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'article-body')))
                     html = self.driver.page_source
                     soup = BeautifulSoup(html,'html.parser')
-                    title = soup.find('h3',class_='evergreen-news-title').get_text(strip=True)
-                    summary_block = soup.find('div',class_='evergreen-news-body')
+                    paragraphs = soup.find_all('p')
                     summary = None
-                    paragraphs = summary_block.find_all('p')
                     for p in paragraphs:
                         para = p.get_text(strip=True)
                         if len(para) > 200:
@@ -67,7 +65,7 @@ class MesaLabsNews:
         self.latest_news.append(
             {
             'PublishDate':publish_date,
-            'Source': 'Mesa Labs',
+            'Source': 'Mitsubishi Electric-HVAC',
             'Type': 'Company News',
             'Title': title,
             'Summary': summary,
@@ -85,11 +83,11 @@ class MesaLabsNews:
         self.get_soup()
 
 all_news = []
-def get_mesa_labs(driver,coverage_days):
+def get_mitsubishi_electric_hvac(driver,coverage_days):
     driver.set_window_size(1920, 1080)
-    url = 'https://investors.mesalabs.com/news/default.aspx'
-    news = MesaLabsNews(driver,coverage_days,url)
+    url = 'https://www.mitsubishicomfort.com/press-releases'
+    news = MitsubishiHVACNews(driver,coverage_days,url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/mesa_labs_news.csv',index=False)
+    df.to_csv('csv/mitsubishi_electric_hvac_news.csv',index=False)

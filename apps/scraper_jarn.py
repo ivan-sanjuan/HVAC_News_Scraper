@@ -100,8 +100,8 @@ class JarnNews:
                     'Link': link
                     }
                 )
-            except:
-                pass
+            except Exception as e:
+                print(f'An error has occured: {e}')
         return True
                 
     def scrape(self):

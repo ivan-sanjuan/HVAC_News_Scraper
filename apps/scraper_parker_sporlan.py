@@ -13,48 +13,52 @@ from datetime import timedelta, datetime
 import pandas as pd
 import time
 
-class MesaLabsNews:
+class ParkerSporlanNews:
     def __init__(self,driver,coverage_days,url):
         self.driver = driver
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
-        self.root = 'https://investors.mesalabs.com/'
+        self.root = 'https://www.parker.com/'
         
     def get_soup(self):
         self.driver.get(self.url)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'evergreen-news-content-list')))
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'cmp-news-v2-component__container')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        news_section = soup.find('div',class_='evergreen-news-content-list')
-        news_blocks = news_section.find_all('div',{'role':'listitem'})
+        news_section = soup.find('div',class_='cmp-news-v2-component__container')
+        news_blocks = news_section.find_all('div',class_='cmp-news-v2-component__list')
         self.get_news(news_blocks)
     
     def get_news(self,blocks):
         for news in blocks:
             try:
-                parsed_date = news.find('div',class_='evergreen-news-date').get_text(strip=True)
+                parsed_date = news.find('span',class_='cmp-news-v2-component__author-date').text.strip()
                 parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
                 publish_date = parsed_date_obj.strftime('%Y-%m-%d')
                 if parsed_date_obj >= self.date_limit:
-                    link = news.find('a',class_='evergreen-news-headline-link').get('href')
-                    link = urljoin(self.root,link)
-                    self.driver.switch_to.new_window('tab')
-                    self.driver.get(link)
-                    self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'evergreen-item-container')))
-                    html = self.driver.page_source
-                    soup = BeautifulSoup(html,'html.parser')
-                    title = soup.find('h3',class_='evergreen-news-title').get_text(strip=True)
-                    summary_block = soup.find('div',class_='evergreen-news-body')
-                    summary = None
-                    paragraphs = summary_block.find_all('p')
-                    for p in paragraphs:
-                        para = p.get_text(strip=True)
-                        if len(para) > 200:
-                            summary = para
-                            break
-                    if not summary:
+                    title_block = news.find('a',class_='cmp-news-v2-component__list-title-link')
+                    title = title_block.text.strip()
+                    link = title_block.get('href')
+                    if link.startswith('/'):
+                        link = urljoin(self.root,link)
+                    if link.startswith(self.root):
+                        self.driver.switch_to.new_window('tab')
+                        self.driver.get(link)
+                        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'aem-container')))
+                        html = self.driver.page_source
+                        soup = BeautifulSoup(html,'html.parser')
+                        paragraphs = soup.find_all('p')
+                        summary = None
+                        for p in paragraphs:
+                            para = p.text.strip()
+                            if len(para) > 200:
+                                summary = para
+                                break
+                        if not summary:
+                            summary = 'Unable to parse summary, please visit the news page instead.'
+                    else:
                         summary = 'Unable to parse summary, please visit the news page instead.'
                     self.driver.close()
                     self.driver.switch_to.window(self.driver.window_handles[0])
@@ -67,7 +71,7 @@ class MesaLabsNews:
         self.latest_news.append(
             {
             'PublishDate':publish_date,
-            'Source': 'Mesa Labs',
+            'Source': 'Parker Sporlan',
             'Type': 'Company News',
             'Title': title,
             'Summary': summary,
@@ -85,11 +89,11 @@ class MesaLabsNews:
         self.get_soup()
 
 all_news = []
-def get_mesa_labs(driver,coverage_days):
+def get_parker_sporlan(driver,coverage_days):
     driver.set_window_size(1920, 1080)
-    url = 'https://investors.mesalabs.com/news/default.aspx'
-    news = MesaLabsNews(driver,coverage_days,url)
+    url = 'https://www.parker.com/us/en/about-parker/newsroom/news-release-details.html'
+    news = ParkerSporlanNews(driver,coverage_days,url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/mesa_labs_news.csv',index=False)
+    df.to_csv('csv/parker_sporlan_news.csv',index=False)
