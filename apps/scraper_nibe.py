@@ -21,6 +21,49 @@ class NibeNews:
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
         self.root = 'https://www.nibe.eu/'
+        
+    def get_soup(self):
+        self.driver.get(self.url)
+        button = self.driver_wait(EC.element_to_be_clickable((By.ID,'onetrust-accept-btn-handler')))
+        if button:
+            button.click()
+            print('Pop-up closed.')
+        html = self.driver.page_source
+        soup = BeautifulSoup(html,'html.parser')
+        news_section = soup.find('div',class_='nb-card-items')
+        news_blocks = news_section.find_all('div',class_='nb-card-item')
+        self.get_news(news_blocks)
+
+    def get_news(self,blocks):
+        for news in blocks:
+            try:
+                parsed_date = news.find('p',class_='nb-card-text').text.strip()
+                if len(parsed_date) > 4:
+                    parsed_date_obj = datetime.strptime(parsed_date,'%d/%m/%Y')
+                    publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                    if parsed_date_obj >= self.date_limit:
+                        title = news.find('h3',class_='nb-card-header').text.strip()
+                        link = news.find('a',class_='nb-card-link').get('href')
+                        link = urljoin(self.root,link)
+                        self.driver.switch_to.new_window('tab')
+                        self.driver.get(link)
+                        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'nb-text-columns')))
+                        html = self.driver.page_source
+                        soup = BeautifulSoup(html,'html.parser')
+                        paragraphs = soup.find_all('p')
+                        summary = None
+                        for p in paragraphs:
+                            para = p.text.strip()
+                            if len(para) > 200:
+                                summary = para
+                                break
+                        if not summary:
+                            summary = 'Link leads to a 3rd party site, please visit the news page instead.'
+                        self.driver.close()
+                        self.driver.switch_to.window(self.driver.window_handles[0])
+                        self.append(publish_date,title,summary,link)
+            except Exception as e:
+                print(f'An error has occured: {e}')
 
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
@@ -53,16 +96,3 @@ def get_nibe(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/nibe_news.csv',index=False)
-
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_nibe(driver,coverage_days=360)
-
-time.sleep(10)
-driver.quit()

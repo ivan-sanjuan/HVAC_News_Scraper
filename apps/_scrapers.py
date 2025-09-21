@@ -59,6 +59,8 @@ from .scraper_schott import get_schott
 from .scraper_secop import get_secop
 from .scraper_sensata import get_sensata
 from .scraper_tive import get_tive
+from .scraper_nibe import get_nibe
+from .scraper_tecumseh import get_tecumseh
 
 def get_scrapers():
     scrapers = [
@@ -122,6 +124,8 @@ def get_scrapers():
             get_schott,
             get_secop,
             get_sensata,
-            get_tive
+            get_tive,
+            get_nibe,
+            get_tecumseh
         ]
     return scrapers
