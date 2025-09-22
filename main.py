@@ -180,7 +180,7 @@ def main(page:ft.Page):
         
         options = Options()
         scrapers = get_scrapers()
-        exceptions = ['get_HPA','get_embraco','get_mitsubishi_electric_hvac']
+        exceptions = ['get_HPA','get_embraco','get_mitsubishi_electric_hvac','get_sanhua','get_sanhua_group']
         if any(exception in scrapers for exception in exceptions):
             options.page_load_strategy = 'eager'
         options.add_argument('--headless=new')

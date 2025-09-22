@@ -13,55 +13,54 @@ from datetime import timedelta, datetime
 import pandas as pd
 import time
 
-class NibeNews:
+class MideaNews:
     def __init__(self,driver,coverage_days,url):
         self.driver = driver
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
-        self.root = 'https://www.nibe.eu/'
+        self.root = 'https://mbt.midea.com/'
         
     def get_soup(self):
         self.driver.get(self.url)
         button = self.driver_wait(EC.element_to_be_clickable((By.ID,'onetrust-accept-btn-handler')))
         if button:
-            button.click()
+            self.driver.execute_script("arguments[0].click();",button)
             print('Pop-up closed.')
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        news_section = soup.find('div',class_='nb-card-items')
-        news_blocks = news_section.find_all('div',class_='nb-card-item')
+        news_section = soup.find('ul',class_='news-list')
+        news_blocks = news_section.find_all('li',class_='news-item')
         self.get_news(news_blocks)
-
+    
     def get_news(self,blocks):
         for news in blocks:
             try:
-                parsed_date = news.find('p',class_='nb-card-text').text.strip()
-                if len(parsed_date) > 4:
-                    parsed_date_obj = datetime.strptime(parsed_date,'%d/%m/%Y')
-                    publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-                    if parsed_date_obj >= self.date_limit:
-                        title = news.find('h3',class_='nb-card-header').text.strip()
-                        link = news.find('a',class_='nb-card-link').get('href')
-                        link = urljoin(self.root,link)
-                        self.driver.switch_to.new_window('tab')
-                        self.driver.get(link)
-                        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'nb-text-columns')))
-                        html = self.driver.page_source
-                        soup = BeautifulSoup(html,'html.parser')
-                        paragraphs = soup.find_all('p')
-                        summary = None
-                        for p in paragraphs:
-                            para = p.text.strip()
-                            if len(para) > 200:
-                                summary = para
-                                break
-                        if not summary:
-                            summary = 'Unable to parse summary, please visit the news page instead.'
-                        self.driver.close()
-                        self.driver.switch_to.window(self.driver.window_handles[0])
-                        self.append(publish_date,title,summary,link)
+                parsed_date = news.find('span',class_='news-item-date').text.replace(' - News','').strip()
+                parsed_date_obj = datetime.strptime(parsed_date,'%Y/%m/%d')
+                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                if parsed_date_obj >= self.date_limit:
+                    title = news.find('h4',class_='news-item-title').text.strip()
+                    link = news.find('a',class_='news-item-link').get('href')
+                    link = urljoin(self.root,link)
+                    self.driver.switch_to.new_window('tab')
+                    self.driver.get(link)
+                    self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'rich-text-main')))
+                    html = self.driver.page_source
+                    soup = BeautifulSoup(html,'html.parser')
+                    paragraphs = soup.find_all('p')
+                    summary = None
+                    for p in paragraphs:
+                        para = p.text.strip()
+                        if len(para) > 200:
+                            summary = para
+                            break
+                    if not summary:
+                        summary = 'Unable to parse summary, please visit the news page instead.'
+                    self.driver.close()
+                    self.driver.switch_to.window(self.driver.window_handles[0])
+                    self.append(publish_date,title,summary,link)
             except Exception as e:
                 print(f'An error has occured: {e}')
 
@@ -70,7 +69,7 @@ class NibeNews:
         self.latest_news.append(
             {
             'PublishDate':publish_date,
-            'Source': 'Nibe',
+            'Source': 'Midea',
             'Type': 'Company News',
             'Title': title,
             'Summary': summary,
@@ -88,11 +87,11 @@ class NibeNews:
         self.get_soup()
 
 all_news = []
-def get_nibe(driver,coverage_days):
+def get_midea(driver,coverage_days):
     driver.set_window_size(1920, 1080)
-    url = 'https://www.nibe.eu/en-gb/about-nibe/nibe-news'
-    news = NibeNews(driver,coverage_days,url)
+    url = 'https://mbt.midea.com/global/news'
+    news = MideaNews(driver,coverage_days,url)
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/nibe_news.csv',index=False)
+    df.to_csv('csv/midea_news.csv',index=False)

@@ -61,6 +61,12 @@ from .scraper_sensata import get_sensata
 from .scraper_tive import get_tive
 from .scraper_nibe import get_nibe
 from .scraper_tecumseh import get_tecumseh
+from .scraper_watsco import get_watsco
+from .scraper_sanhua import get_sanhua
+from .scraper_sanhua_group import get_sanhua_group
+from .scraper_icm_controls import get_icm_controls
+from .scraper_midea import get_midea
+from .scraper_rees_scientific import get_rees_scientific
 
 def get_scrapers():
     scrapers = [
@@ -126,6 +132,12 @@ def get_scrapers():
             get_sensata,
             get_tive,
             get_nibe,
-            get_tecumseh
+            get_tecumseh,
+            get_watsco,
+            get_sanhua,
+            get_sanhua_group,
+            get_icm_controls,
+            get_midea,
+            get_rees_scientific
         ]
     return scrapers

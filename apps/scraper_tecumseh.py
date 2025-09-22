@@ -49,7 +49,7 @@ class TecumsehNews:
                         summary = para
                         break
                 if not summary:
-                    summary = 'Link leads to a 3rd party site, please visit the news page instead.'
+                    summary = 'Unable to parse summary, please visit the news page instead.'
                 self.driver.close()
                 self.driver.switch_to.window(self.driver.window_handles[0])
                 self.append(self.publish_date,title,summary,link)
@@ -95,16 +95,3 @@ def get_tecumseh(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/tecumseh_news.csv',index=False)
-
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_tecumseh(driver,coverage_days=360)
-
-time.sleep(10)
-driver.quit()
