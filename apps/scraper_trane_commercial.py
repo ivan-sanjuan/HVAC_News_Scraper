@@ -22,22 +22,26 @@ class TraneCommercialNews:
         
     def get_soup(self):
         self.driver.get(self.url)
-        time.sleep(3)
-        self.driver_wait(EC.text_to_be_present_in_element((By.CLASS_NAME,'yxt-FilterOptions-label'),'Content Type'))
-        search_button = self.driver_wait(EC.presence_of_element_located((By.CSS_SELECTOR,'[aria-label="Conduct a search"]')))
-        self.driver.execute_script("arguments[0].scrollIntoView();",search_button)
-        time.sleep(3)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'content')))
+        time.sleep(10)
+        # WebDriverWait(self.driver,60).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,'[data-eventtype="TITLE_CLICK"]')))
+        # self.driver_wait(EC.presence_of_all_elements_located((By.CSS_SELECTOR,'[data-eventtype="TITLE_CLICK"]')))
+        # search_button = self.driver_wait(EC.presence_of_all_elements_located((By.CSS_SELECTOR,'[data-eventtype="TITLE_CLICK"]')))
+        # self.driver.execute_script("arguments[0].scrollIntoView();",search_button)
+        # self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'content')))
+        section = self.driver.find_elements(By.CSS_SELECTOR,'[data-component="Card"]')
+        print(section)
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         news_blocks = soup.find_all('div',{'data-prop':'result'})
         news_blocks_sel = self.driver.find_elements(By.CSS_SELECTOR,'[data-component="Card"]')
-        link_list = soup.find_all('a',{'data-eventtype':'TITLE_CLICK'})
-        print(link_list)
+        link_list = self.driver.find_elements(By.CSS_SELECTOR,'[data-eventtype="TITLE_CLICK"]')
+        # link_list = soup.find_all('a')
         for url in link_list:
-            link = url.get('href')
-            link = urljoin(self.root,link)
-            print(link)
+            link = url.get_attribute('href')
+            if link:
+                if link.startswith('/commercial/north-america/us/en/about-us/newsroom/') or link.startswith(f'https://www.trane.com/commercial/north-america/us/en/about-us/newsroom/'):
+                    link = urljoin(self.root,link)
+                    print(link)
         # self.get_news(news_blocks)
 
     def get_news(self,blocks):
@@ -109,7 +113,7 @@ options.add_argument('--window-size=1920x1080')
 options.add_argument('--log-level=3')
 options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-# options.page_load_strategy = 'eager'
+options.page_load_strategy = 'eager'
 driver = webdriver.Chrome(options=options)
 get_trane_commercial(driver,coverage_days=30)
 

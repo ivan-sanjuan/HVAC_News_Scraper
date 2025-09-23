@@ -5,9 +5,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from datetime import date, timedelta, datetime
+from urllib.parse import urljoin
 import pandas as pd
 import time
-
 
 class NaturalRefrigerants:
     def __init__(self,driver,coverage_days,news_url):
@@ -17,6 +17,7 @@ class NaturalRefrigerants:
         self.today = date.today()
         self.latest_news = []
         self.page_num = 1
+        self.root = 'https://naturalrefrigerants.com/'
         
     def get_soup(self):
         url = self.news_url
@@ -25,35 +26,45 @@ class NaturalRefrigerants:
         WebDriverWait(self.driver,timeout=5).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'elementor-grid-item'))
         )
-        self.html = self.driver.page_source
-        self.soup = BeautifulSoup(self.html,'html.parser')
-        self.news_section = self.soup.find('div', class_='elementor-posts-container')
-        self.news_blocks = self.news_section.find_all('article', class_='elementor-grid-item')
+        html = self.driver.page_source
+        soup = BeautifulSoup(html,'html.parser')
+        news_section = soup.find('div', class_='elementor-posts-container')
+        news_blocks = news_section.find_all('article', class_='elementor-grid-item')
+        self.get_news(news_blocks)
         
-    def get_news(self):
-        for news in self.news_blocks:
+    def get_news(self,blocks):
+        for news in blocks:
             parsed_date = news.find('span', class_='elementor-post-info__item').find('time').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
-            self.publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
             if parsed_date_obj.date() > self.today - timedelta(days=self.coverage_days):
-                self.link = news.find('h2', class_='elementor-heading-title').find('a').get('href')
-                self.title = news.find('h2', class_='elementor-heading-title').find('a')
-                self.summary = news.find('div', class_='elementor-widget-theme-post-excerpt').find('div', class_='elementor-widget-container')
-            
-                self.latest_news.append(
-                    {
-                    'PublishDate': self.publish_date,
-                    'Source': 'Natural Refrigerants',
-                    'Type': 'Industry News',
-                    'Title': self.title.text.strip(),
-                    'Summary': self.summary.text.strip(),
-                    'Link': self.link
-                    }
-                )
+                link = news.find('h2', class_='elementor-heading-title').find('a').get('href')
+                link = urljoin(self.root,link)
+                title = news.find('h2',class_='elementor-heading-title').text.strip()
+                summary = news.find('div', class_='elementor-widget-theme-post-excerpt').text.strip()
+                self.append(publish_date,title,summary,link)
+    
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate':publish_date,
+            'Source': 'Natural Refrigerants',
+            'Type': 'Industry News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
+
+    def driver_wait(self,condition):
+        try:
+            return WebDriverWait(self.driver,5).until(condition)
+        except:
+            pass
     
     def scrape(self):
         self.get_soup()
-        self.get_news()
         
 all_news = []
 def get_natural_refrigerants_news(driver, coverage_days):
@@ -64,4 +75,3 @@ def get_natural_refrigerants_news(driver, coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/natural_refrigerants_news.csv', index=False)
-

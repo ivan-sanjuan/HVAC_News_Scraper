@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
+from urllib.parse import urljoin
 import pandas as pd
 import time
 
@@ -18,81 +19,80 @@ class EHPANews:
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
         self.page_num = 1
-        
-    def open_new_tab(self,link):
-        ActionChains(self.driver)\
-            .key_down(Keys.CONTROL)\
-                .click(link)\
-                    .key_up(Keys.CONTROL)\
-                        .perform()
+        self.root = 'https://www.ehpa.org/'
     
     def get_summary(self):
-        try:
-            WebDriverWait(self.driver,2).until(EC.text_to_be_present_in_element((By.CLASS_NAME,'elementor-widget-theme-post-content')))
-        except:
-            pass
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'elementor-widget-container')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        title = soup.find('h1',class_='elementor-heading-title').text.strip()
-        summary_block = soup.find('div',class_='elementor-widget-theme-post-content')
-        print(f'Fetching News: {title}')
-        paragraphs = summary_block.find_all('p')
-        for sum in paragraphs:
-            if len(sum.text.strip()) > 150:
-                summary = sum.text.strip()
-                return ({'title':title,'summary':summary})
-            else:
-                pass
-        summary = paragraphs[0].text.strip()
-        return ({'title':title,'summary':summary})
+        paragraphs = soup.find_all('p')
+        summary = None
+        for p in paragraphs:
+            para = p.text.strip()
+            if len(para) > 200:
+                summary = para
+                break
+        if not summary:
+            summary = 'Unable to parse summary, please visit the news page instead.'
+        return summary
         
                 
     def get_soup(self):
         self.driver.get(self.url)
         try:
             print('Waiting for the cookie pop-up.')
-            WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'cky-btn-accept'))).click()
-            print('Accepted cookies.')
+            cookies = self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'cky-btn-accept')))
+            if cookies:
+                self.driver.execute_script("argumens[0].click();",cookies)
+                print('Accepted cookies.')
         except:
             print("Cookie pop-up did not show up.")
             pass
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         news_section = soup.find('div',class_='jet-listing-grid')
-        self.news_block = news_section.find_all('div',class_='jet-equal-columns')
-        self.news_block_sel = self.driver.find_elements(By.CLASS_NAME,'jet-equal-columns')
+        news_block = news_section.find_all('div',class_='jet-equal-columns')
+        news_block_sel = self.driver.find_elements(By.CLASS_NAME,'jet-equal-columns')
+        self.get_news(news_block,news_block_sel)
 
-    def get_news(self):
-        for news, section in zip(self.news_block,self.news_block_sel):
+    def get_news(self,bs4_blocks,sel_blocks):
+        for news, section in zip(bs4_blocks,sel_blocks):
             parsed_date = news.find('div',class_='elementor-widget-heading').get_text(strip=True)
             parsed_date_obj = datetime.strptime(parsed_date,'%d %b %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
             if parsed_date_obj >= self.date_limit:
                 self.driver.execute_script("arguments[0].scrollIntoView();",section)
                 link = news.find('div',class_='elementor-widget-image').find('div').find('a').get('href')
+                link = urljoin(self.root,link)
+                title = news.find('div',class_='title-block-card').text.strip()
                 self.driver.switch_to.new_window('tab')
                 self.driver.get(link)
-                current_tab = self.driver.window_handles
-                WebDriverWait(self.driver,3).until(lambda e: len(e.window_handles) > 0)
-                news = self.get_summary()
-                title = news.get('title')
-                summary = news.get('summary')
+                summary = self.get_summary()
                 self.driver.close()
                 self.driver.switch_to.window(self.driver.window_handles[0])
-                self.latest_news.append(
-                    {
-                    'PublishDate':publish_date,
-                    'Source': 'EHPA',
-                    'Type': 'Industry News',
-                    'Title': title,
-                    'Summary': summary,
-                    'Link': link
-                    }
-                )
+                self.append(publish_date,title,summary,link)
 
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate':publish_date,
+            'Source': 'EHPA',
+            'Type': 'Industry News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
+
+    def driver_wait(self,condition):
+        try:
+            return WebDriverWait(self.driver,5).until(condition)
+        except:
+            pass
+    
     def scrape(self):
         self.get_soup()
-        self.get_news()
 
 all_news = []
 def get_EHPA(driver,coverage_days):
@@ -102,4 +102,5 @@ def get_EHPA(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/ehpa_news.csv',index=False)

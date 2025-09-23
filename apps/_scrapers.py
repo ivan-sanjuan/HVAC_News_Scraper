@@ -10,7 +10,7 @@ from .scraper_viessmann import get_viessmann_news
 from .scraper_lennox import get_lennox_news
 from .scraper_BDR_thermea import get_BDRthermea_news
 from .scraper_honeywell import get_honeywell_news
-from .scraper_trane_commercial import get_trane_commercial
+# from .scraper_trane_commercial import get_trane_commercial
 from .scraper_thermoking import get_thermoking
 from .scraper_thermoking_europe import get_thermoking_europe
 from .scraper_carel import get_carel
@@ -88,7 +88,6 @@ def get_scrapers():
             get_IEA,
             get_HPA,
             get_trane_news,
-            # get_trane_commercial,
             get_danfoss_news,
             get_LG_news,
             get_LGHVAC_NA,

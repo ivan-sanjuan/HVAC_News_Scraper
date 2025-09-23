@@ -1,5 +1,6 @@
 from apps._scrapers import get_scrapers
 from apps._paths import get_paths
+from apps._exceptions import get_exceptions
 from apps import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -121,7 +122,7 @@ def main(page:ft.Page):
     async def poll_ui():
         while True:
             msg_type, payload = await ui_queue.get()
-            # print(f"Received UI message: {msg_type} → {payload}")
+
             if msg_type == "log":
                 log_list.controls.append(ft.Text(payload, color='#DEDAC6'))
                 sys.stdout = UILogStream(append_log)
@@ -180,7 +181,7 @@ def main(page:ft.Page):
         
         options = Options()
         scrapers = get_scrapers()
-        exceptions = ['get_HPA','get_embraco','get_mitsubishi_electric_hvac','get_sanhua','get_sanhua_group']
+        exceptions = get_exceptions()
         if any(exception in scrapers for exception in exceptions):
             options.page_load_strategy = 'eager'
         options.add_argument('--headless=new')
@@ -256,7 +257,8 @@ def main(page:ft.Page):
                 else:
                     print(f'Skipping empty DataFrame: {path}')
             except pd.errors.EmptyDataError:
-                print(f'{path} has no content')
+                pass
+                # print(f'{path} has no content')
             except Exception as g:
                 print(f'Error reading {path}: {g}')
             except UnboundLocalError:
@@ -275,7 +277,7 @@ def main(page:ft.Page):
             today=datetime.today()
             today_formatted=today.strftime('%B %d, %Y | %X')
             print(f'NO NEW News at the moment: {today_formatted}')
-            await ui_queue.put('status',f'No NEW News at the moment: {today_formatted}')
+            await ui_queue.put({'msg_type':'status','payload':f'No NEW News at the moment: {today_formatted}'})
             await asyncio.sleep(0.1)
     
     async def reload_results(e):

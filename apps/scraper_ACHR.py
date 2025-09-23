@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
+from urllib.parse import urljoin
 import pandas as pd
 import time
 
@@ -19,23 +20,24 @@ class ACHRNews:
         self.source = source
         self.page_num = 1
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.root = 'https://www.achrnews.com/'
     
     def get_soup(self):
+        print(f'Getting: {self.source}')
         while True:
             if self.page_num == 1:
                 self.driver.get(self.url)
                 try:
-                    cookies = WebDriverWait(self.driver,3).until(EC.element_to_be_clickable,((By.ID,'onetrust-accept-btn-handler')))
+                    cookies = self.driver_wait(EC.element_to_be_clickable,(By.ID,'onetrust-accept-btn-handler'))
                     self.driver.execute_script("arguments[0].scrollIntoView();",cookies)
                     self.driver.execute_script("arguments[0].click();",cookies)
                 except:
                     pass
-                try:
-                    WebDriverWait(self.driver,3).until(EC.element_to_be_clickable((By.ID,'onesignal-slidedown-cancel-button'))).click()
-                except:
-                    pass
+                signal = self.driver_wait(EC.element_to_be_clickable((By.ID,'onesignal-slidedown-cancel-button')))
+                if signal:
+                    self.driver.execute_script("arguments[0].click();",signal)
             else:
-                time.sleep(3)
+                time.sleep(1)
             html = self.driver.page_source
             soup = BeautifulSoup(html,'html.parser')
             news_section = soup.find('div',class_='records')
@@ -46,7 +48,7 @@ class ACHRNews:
             self.page_num += 1
             pagination = self.driver.find_element(By.CLASS_NAME,'pagination')
             next_page = pagination.find_element(By.LINK_TEXT,f'{self.page_num}')
-            next_page.click()
+            self.driver.execute_script("arguments[0].click();",next_page)
         
     def get_news(self):
         for news, sect in zip(self.news_blocks,self.news_blocks_sel):
@@ -58,28 +60,41 @@ class ACHRNews:
             self.driver.execute_script("arguments[0].scrollIntoView();",sect)
             title_block = news.find('h2',class_='article-summary__headline').find('a')
             title = title_block.text.strip()
-            print(f'Fetching: {title}')
             link = title_block.get('href')
+            link = urljoin(self.root,link)
             summary_block = news.find('div',class_='article-summary__teaser')
             p_tag = summary_block.find('p')
             if p_tag:
                 summary = summary_block.find('p').text.strip()
             else:
                 summary = summary_block.text.strip()
-            self.latest_news.append(
-                {
-                'PublishDate':publish_date,
-                'Source': self.source,
-                'Type': 'Industry News',
-                'Title': title,
-                'Summary': summary,
-                'Link': link
-                }
-            )
+            self.append(publish_date,title,summary,link)
         return True
         
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate':publish_date,
+            'Source': self.source,
+            'Type': 'Industry News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
+
+    def driver_wait(self,condition):
+        try:
+            return WebDriverWait(self.driver,5).until(condition)
+        except:
+            pass
+
     def scrape(self):
-        self.get_soup()
+        try:
+            self.get_soup()
+        except Exception as e:
+            print(f'An error has occured: {e}')
 
 sections = [
     {'url':'https://www.achrnews.com/articles/topic/2722','source':'ACHR-Breaking News'},
@@ -97,5 +112,5 @@ def get_ACHR(driver,coverage_days):
         content.scrape()
         all_news.extend(content.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/achr_news.csv',index=False)
-

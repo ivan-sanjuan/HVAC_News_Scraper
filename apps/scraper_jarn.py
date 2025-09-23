@@ -78,7 +78,6 @@ class JarnNews:
                 self.driver.execute_script("arguments[0].scrollIntoView();", dates)
                 self.open_new_tab(link_sel)
                 link = link_sel.get_attribute('href')
-                time.sleep(1)
                 self.driver.switch_to.window(self.driver.window_handles[1])
                 before_tab = self.driver.window_handles
                 try:
@@ -126,4 +125,3 @@ def get_jarn(driver,coverage_days):
         all_news.extend(site.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/jarn_news.csv',index=False)
-

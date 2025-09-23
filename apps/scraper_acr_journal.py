@@ -10,6 +10,7 @@ import threading
 from threading import Event, Lock
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
+from urllib.parse import urljoin
 import pandas as pd
 import time
 
@@ -21,122 +22,76 @@ class ACRJournal:
         self.latest_news = []
         self.page_num = 1
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.root = 'https://www.acrjournal.uk/'
 
     def get_soup(self):
-        threading.Thread(target=self.popup_watcher,args=((By.CLASS_NAME,'modal-content'),),daemon=True).start()
         while True:
             if self.page_num == 1:
                 self.driver.get(self.url)
-                try:
-                    WebDriverWait(self.driver,20).until(EC.presence_of_element_located((By.CLASS_NAME,'modal-content')))
-                except:
-                    pass
+                cookies = self.driver_wait(EC.element_to_be_clickable((By.ID,'accept-btn')))
+                if cookies:
+                    self.driver.execute_script("arguments[0].click();",cookies)
+                    print('Pop-up closed.')
             else:
-                pagination = self.driver.find_element(By.CLASS_NAME,'pagination-container')
-                try:
-                    time.sleep(2)
-                    self.driver.execute_script("arguments[0].scrollIntoView();",pagination)
-                    pagination.find_element(By.LINK_TEXT,f'{self.page_num}').click()
-                except ElementClickInterceptedException:
-                    time.sleep(2)
-                    self.driver.execute_script("arguments[0].scrollIntoView();",pagination)
-                    pagination.find_element(By.LINK_TEXT,f'{self.page_num}').click()
-            try:
-                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.ID,'accept-btn'))).click()
-                print('Accepted cookies.')
-            except:
-                pass
-            try:
-                news_section_sel = WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'paged-list-news')))
-            except:
-                pass
+                self.driver.get(f'https://www.acrjournal.uk/news/?CurrentPage={self.page_num}')
+                print(f'Opening: Page {self.page_num}')
+            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'paged-list-news')))
             html = self.driver.page_source
             soup = BeautifulSoup(html,'html.parser')
             news_section = soup.find('div',class_='paged-list-news')
-            self.news_blocks = news_section.find_all('div',class_='card')
-            self.news_blocks_sel = news_section_sel.find_elements(By.CLASS_NAME,'card')
-            if not self.get_news():
+            news_blocks = news_section.find_all('div',class_='card-body')
+            if not self.get_news(news_blocks):
                 break
             self.page_num += 1
-
-    def get_news(self):
-        for news, sect in zip(self.news_blocks,self.news_blocks_sel):
-            parsed_date = news.find('p',class_='text-muted').get_text(strip=True)
+    
+    def get_news(self,blocks):
+        for news in blocks:
+            parsed_date = news.find('p').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%d %B %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj < self.date_limit:
+            if parsed_date_obj <= self.date_limit:
                 return False
-            link_segment = news.find('h5',class_='card-title').find('a').get('href')
-            root_url = 'https://www.acrjournal.uk'
-            self.scroll_and_click(sect)
-            WebDriverWait(self.driver,5).until(lambda e: len(e.window_handles) > 1)
-            self.driver.switch_to.window(self.driver.window_handles[1])
-            news = self.get_details()
-            title = news.get('title')
-            summary = news.get('summary')
+            title_block = news.find('h5').find('a')
+            title = title_block.text.strip()
+            link = title_block.get('href')
+            link = urljoin(self.root,link)
+            self.driver.switch_to.new_window('tab')
+            self.driver.get(link)
+            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'post-body-container')))
+            html = self.driver.page_source
+            soup = BeautifulSoup(html,'html.parser')
+            paragraphs = soup.find_all('p')
+            summary = None
+            for p in paragraphs:
+                para = p.text.strip()
+                if len(para) > 200:
+                    summary = para
+                    break
+            if not summary:
+                summary = 'Unable to parse summary, please visit the news page instead.'
             self.driver.close()
             self.driver.switch_to.window(self.driver.window_handles[0])
-            WebDriverWait(self.driver,5).until(lambda e: len(e.window_handles) == 1)
-            self.latest_news.append(
-                {
-                'PublishDate':publish_date,
-                'Source': 'ACR Journal',
-                'Type': 'Industry News',
-                'Title': title,
-                'Summary': summary,
-                'Link': f'{root_url}{link_segment}'
-                }
-            )
+            self.append(publish_date,title,summary,link)
         return True
-    
-    def get_details(self):
+            
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate':publish_date,
+            'Source': 'ACR Journal',
+            'Type': 'Company News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
+
+    def driver_wait(self,condition):
         try:
-            WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'post-body-container')))
+            return WebDriverWait(self.driver,5).until(condition)
         except:
             pass
-        html = self.driver.page_source
-        soup = BeautifulSoup(html,'html.parser')
-        title = soup.find('h1',class_='page-title').text.strip()
-        print(f'Fetching News: {title}')
-        summary_block = soup.find('div',class_='post-body')
-        paragraphs = summary_block.find_all('p')
-        for p in paragraphs:
-            para = p.get_text(strip=True)
-            if len(para) > 150:
-                summary = para
-                break
-            else:
-                continue
-        else:
-            summary = paragraphs[0].get_text(strip=True)
-        return ({'title':title,'summary':summary})
-    
-    def scroll_and_click(self,sect):
-        link = sect.find_element(By.CLASS_NAME,'card-title').find_element(By.CSS_SELECTOR,'a')
-        self.driver.execute_script("arguments[0].scrollIntoView();",link)
-        self.click_to_new_tab(link)
-       
-    def click_to_new_tab(self,link):
-        ActionChains(self.driver)\
-            .key_down(Keys.CONTROL)\
-                .click(link)\
-                    .key_up(Keys.CONTROL)\
-                        .perform()
-    
-    def popup_watcher(self,selector):
-        watcher = True
-        while watcher == True:
-            try:
-                popup = self.driver.find_element(*selector)
-                if popup.is_displayed():
-                    print('Pop-up detected.')
-                    close_btn = popup.find_element(By.LINK_TEXT,'Dismiss')
-                    close_btn.click()
-                print('Pop-up closed.')
-                watcher = False
-            except (NoSuchElementException, StaleElementReferenceException, ElementClickInterceptedException):
-                pass
-            time.sleep(1)
         
     def scrape(self):
         self.get_soup()
@@ -149,5 +104,5 @@ def get_acr_journal(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/acr_journal_news.csv',index=False)
-
