@@ -8,6 +8,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
+from urllib.parse import urljoin
 import pandas as pd
 import time
 
@@ -19,17 +20,18 @@ class ContractingBusinessNews:
         self.source = source
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.root = 'https://www.fleetowner.com/'
 
     def get_soup(self):
         self.driver.get(self.url)
         print(f'Opening: {self.source}')
         try:
-            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.CLASS_NAME,'continue'))).click()
+            self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'continue'))).click()
             print('Ads Closed.')
         except:
             print('Ads not found.')
             pass
-        WebDriverWait(self.driver,10).until(EC.presence_of_element_located((By.CLASS_NAME,'item-row')))
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'item-row')))
         self.scroll_each_news()
         news_blocks_sel = self.driver.find_elements(By.CLASS_NAME,'item-row')
         html = self.driver.page_source
@@ -41,10 +43,10 @@ class ContractingBusinessNews:
         bottom = self.driver.find_element(By.CLASS_NAME,'load-more')
         self.driver.execute_script("arguments[0].scrollIntoView();",bottom)
         print('Mimicking a human scrolling through the news.')
-        time.sleep(3)
+        time.sleep(0.5)
         top = self.driver.find_element(By.CLASS_NAME,'navbar')
         self.driver.execute_script("arguments[0].scrollIntoView();",top)
-        time.sleep(2)
+        time.sleep(1)
 
     def clean_date(self,date_str):
         cleaned = date_str.replace('.','')
@@ -63,18 +65,73 @@ class ContractingBusinessNews:
     def get_details(self,publish_date,sel_block):
         link_sel = sel_block.find_element(By.CLASS_NAME,'title-wrapper')
         link = link_sel.get_attribute('href')
+        link = urljoin(self.root,link)
         self.driver.execute_script("arguments[0].scrollIntoView();",link_sel)
         current_tabs = self.driver.window_handles
         self.driver.switch_to.new_window('tab')
         self.driver.get(link)
-        WebDriverWait(self.driver,10).until(lambda e: len(e.window_handles) > len(current_tabs))
+        self.driver_wait(lambda e: len(e.window_handles) > len(current_tabs))
         self.driver.switch_to.window(self.driver.window_handles[1])
         standard_news = self.get_news_details()
         title = standard_news.get('title')
-        print(f'Fetching News: {title}')
         summary = standard_news.get('summary')
         self.driver.close()
         self.driver.switch_to.window(self.driver.window_handles[0])
+        self.append(publish_date,title,summary,link)
+            
+    def get_news(self,section,section_sel):
+        page_num = 1
+        for news, sect in zip(section,section_sel):
+            self.driver_wait(lambda e: len(e.window_handles) == 1)
+            try:
+                parsed_date = news.find('div',class_='date').text.strip()
+                parsed_date_obj = self.clean_date(parsed_date)
+                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                if page_num == 1:
+                    if parsed_date_obj >= self.date_limit:
+                        self.get_details(publish_date,sect)
+                    continue
+                else:
+                    if parsed_date_obj >= self.date_limit:
+                        self.get_details(publish_date,sect)
+            except Exception as e:
+                print(f'An error has occured: {e}')
+            page_num += 1
+            
+    def get_label(self):
+        label = self.soup.find('div',class_='above-line')
+        sponsor_tag = label.find('div',class_='sponsored-label')
+        if sponsor_tag:
+            return True
+        else:
+            return False
+                        
+    def get_news_details(self):
+        try:
+            self.driver_wait(EC.visibility_of_element_located((By.CLASS_NAME,'title-text')))
+        except:
+            pass
+        html = self.driver.page_source
+        self.soup = BeautifulSoup(html,'html.parser')
+        sponsor_tag = self.get_label()
+        extracted_title = self.soup.find('h1',class_='title-text').text.strip()
+        paragraphs = self.soup.find_all('p')
+        summary = None
+        for p in paragraphs:
+            para = p.text.strip()
+            if len(para) > 200:
+                summary = para
+                break
+        if not summary:
+            summary = 'Unable to parse summary, please visit the news page instead.'
+        if sponsor_tag == True:
+            title = f'(SPONSORED NEWS POST) {extracted_title}'
+        else:
+            title = extracted_title
+        return ({'title':title,'summary':summary})
+    
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
         self.latest_news.append(
             {
             'PublishDate':publish_date,
@@ -85,60 +142,13 @@ class ContractingBusinessNews:
             'Link': link
             }
         )
-            
-    def get_news(self,section,section_sel):
-        page_num = 1
-        for news, sect in zip(section,section_sel):
-            WebDriverWait(self.driver,10).until(lambda e: len(e.window_handles) == 1)
-            try:
-                parsed_date = news.find('div',class_='date').get_text(strip=True)
-                parsed_date_obj = self.clean_date(parsed_date)
-                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-                if page_num == 1:
-                    if parsed_date_obj >= self.date_limit:
-                        self.get_details(publish_date,sect)
-                    continue
-                else:
-                    if parsed_date_obj >= self.date_limit:
-                        self.get_details(publish_date,sect)
-            except:
-                pass
-            page_num += 1
-            
-    def get_label(self):
-        label = self.soup.find('div',class_='above-line')
-        sponsor_tag = label.find('div',class_='sponsored-label')
-        if sponsor_tag:
-            return True
-        else:
-            return False
-        
-    def open_new_tab(self,link):
-        ActionChains(self.driver)\
-            .key_down(Keys.CONTROL)\
-                .click(link)\
-                    .key_up(Keys.CONTROL)\
-                        .perform()
-                        
-    def get_news_details(self):
+
+    def driver_wait(self,condition):
         try:
-            WebDriverWait(self.driver,3).until(EC.element_to_be_clickable((By.CLASS_NAME,'continue'))).click()
-            WebDriverWait(self.driver,3).until(EC.visibility_of_element_located((By.CLASS_NAME,'title-text')))
-            print('Making sure the page is fully loaded...')
+            return WebDriverWait(self.driver,5).until(condition)
         except:
             pass
-        time.sleep(3)
-        html = self.driver.page_source
-        self.soup = BeautifulSoup(html,'html.parser')
-        sponsor_tag = self.get_label()
-        extracted_title = self.soup.find('h1',class_='title-text').text.strip()
-        summary = self.soup.find('div',class_='html').find('p').get_text(strip=True)
-        if sponsor_tag == True:
-            title = f'(SPONSORED NEWS POST) {extracted_title}'
-        else:
-            title = extracted_title
-        return ({'title':title,'summary':summary})
-        
+     
     def scrape(self):
         self.get_soup()
 
@@ -159,7 +169,5 @@ def get_fleet_owner(driver,coverage_days):
         except:
             pass
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/fleet_owner_news.csv',index=False)
-
-
-

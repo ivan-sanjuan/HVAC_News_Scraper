@@ -37,7 +37,7 @@ class NaturalRefrigerants:
             parsed_date = news.find('span', class_='elementor-post-info__item').find('time').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj.date() > self.today - timedelta(days=self.coverage_days):
+            if parsed_date_obj.date() >= self.today - timedelta(days=self.coverage_days):
                 link = news.find('h2', class_='elementor-heading-title').find('a').get('href')
                 link = urljoin(self.root,link)
                 title = news.find('h2',class_='elementor-heading-title').text.strip()
@@ -74,4 +74,5 @@ def get_natural_refrigerants_news(driver, coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/natural_refrigerants_news.csv', index=False)

@@ -85,13 +85,16 @@ class ContractingBusinessNews:
             
     def get_news(self,section,section_sel):
         for news, sect in zip(section,section_sel):
-            parsed_date = news.find('div',class_='date')
-            if parsed_date:
-                parsed_date = parsed_date.text.strip()
-                parsed_date_obj = self.clean_date(parsed_date)
-                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-                if parsed_date_obj >= self.date_limit:
-                    self.get_details(publish_date,sect)
+            try:
+                parsed_date = news.find('div',class_='date')
+                if parsed_date:
+                    parsed_date = parsed_date.text.strip()
+                    parsed_date_obj = self.clean_date(parsed_date)
+                    publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                    if parsed_date_obj >= self.date_limit:
+                        self.get_details(publish_date,sect)
+            except Exception as e:
+                print(f'An error has occured: {e}')
             
     def get_label(self,soup):
         label = soup.find('div',class_='above-line')
@@ -152,10 +155,10 @@ sites = [
     {'url':'https://www.contractingbusiness.com/refrigeration','source':'Contracting Business - Refrigeration'},
     {'url':'https://www.contractingbusiness.com/industry-news','source':'Contracting Business - IndustryNews'},
     {'url':'https://www.contractingbusiness.com/technology','source':'Contracting Business - Technology'},
-    {'url':'https://www.contractingbusiness.com/product-news','source':'Contracting Business - Product News'},
+    {'url':'https://www.contractingbusiness.com/product-news','source':'Contracting Business - Product News'}
 ]
 
-all_news = []        
+all_news = []
 def get_contracting_business(driver,coverage_days):
     driver.set_window_size(1920, 1080)
     for site in sites:
@@ -167,17 +170,3 @@ def get_contracting_business(driver,coverage_days):
     df = pd.DataFrame(all_news)
     df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/contracting_business_news.csv',index=False)
-
-options = Options()
-options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-options.page_load_strategy = 'eager'
-driver = webdriver.Chrome(options=options)
-get_contracting_business(driver,coverage_days=10)
-
-time.sleep(5)
-driver.quit()

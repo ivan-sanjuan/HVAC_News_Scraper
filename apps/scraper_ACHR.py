@@ -27,6 +27,10 @@ class ACHRNews:
         while True:
             if self.page_num == 1:
                 self.driver.get(self.url)
+                input = self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'checkbox')))
+                if input:
+                    self.driver.execute_script("arguments[0].click();",input)
+                    time.sleep(10)
                 try:
                     cookies = self.driver_wait(EC.element_to_be_clickable,(By.ID,'onetrust-accept-btn-handler'))
                     self.driver.execute_script("arguments[0].scrollIntoView();",cookies)
@@ -55,7 +59,7 @@ class ACHRNews:
             parsed_date = news.find('div',class_='article-summary__post-date').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj < self.date_limit:
+            if parsed_date_obj <= self.date_limit:
                 return False
             self.driver.execute_script("arguments[0].scrollIntoView();",sect)
             title_block = news.find('h2',class_='article-summary__headline').find('a')
@@ -86,7 +90,7 @@ class ACHRNews:
 
     def driver_wait(self,condition):
         try:
-            return WebDriverWait(self.driver,5).until(condition)
+            return WebDriverWait(self.driver,20).until(condition)
         except:
             pass
 

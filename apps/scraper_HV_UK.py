@@ -9,6 +9,7 @@ from selenium.webdriver.common.keys import Keys
 import re
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
+from urllib.parse import urljoin
 import pandas as pd
 import time
 
@@ -18,83 +19,87 @@ class HVUKNews:
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
+        self.news_links = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.root = 'https://www.hvnplus.co.uk/'
     
-    def soup(self):
+    def get_soup(self):
         self.driver.get(self.url)
         try:
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.CLASS_NAME,'fc-primary-button'))).click()
+            self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'fc-primary-button'))).click()
             print('Pop-up closed.')
         except:
             pass
         print('Waiting for a banner blocking the news blocks to close..')
-        time.sleep(10)
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        all_news_list = soup.find_all('div',class_='cat-box-content')
-        news_blocks_1 = all_news_list[0].find_all('li')
-        self.get_news_1(news_blocks_1)
+        main = soup.find_all('div',class_='cat-box-content')
+        news_blocks_main = main[0].find_all('li')
+        news_blocks_secondary = main[1].find_all('li')
+        self.iterate_link_list(news_blocks_main)
+        self.iterate_link_list(news_blocks_secondary)
+        self.get_news()
+    
+    def get_news(self):
+        for news in self.news_links:
+            try:
+                self.driver.switch_to.new_window('tab')
+                self.driver.get(news)
+                self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'content-inner-wrap')))
+                html = self.driver.page_source
+                soup = BeautifulSoup(html,'html.parser')
+                parsed_date = soup.find('span',class_='tie-date').text.strip()
+                parsed_date = self.clean_ordinal_suffix(parsed_date)
+                parsed_date_obj = datetime.strptime(parsed_date,'%d %B %Y')
+                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                if parsed_date_obj >= self.date_limit:
+                    title = soup.find('h1',class_='entry-title').find('span',{'itemprop':'name'}).text.strip()
+                    paragraphs = soup.find_all('p')
+                    summary = None
+                    for p in paragraphs:
+                        para = p.text.strip()
+                        if len(para) > 200:
+                            summary = para
+                            break
+                    if not summary:
+                        summary = 'Unable to parse summary, please visit the news page instead.'
+                    self.driver.close()
+                    self.driver.switch_to.window(self.driver.window_handles[0])
+                    self.append(publish_date,title,summary,news)
+            except Exception as e:
+                print(f'An error has occured: {e}')
+    
+    def iterate_link_list(self,link_list):
+        for news in link_list:
+            link = news.find('a').get('href')
+            if link:
+                link = urljoin(self.root,link)
+                self.news_links.append(link)
         
-    def get_news_1(self,news_list):
-        for news in news_list:
-            link = news.find('div',class_='post-box-title').find('a').get('href')
-            details = self.get_details(link)
-            self.append(details)
-            
-    def append(self,details):
-        title = details.get('title')
-        summary = details.get('summary')
-        link = details.get('link')
-        publish_date = details.get('publish_date')
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
         self.latest_news.append(
-                {
-                'PublishDate':publish_date,
-                'Source': 'HV UK',
-                'Type': 'Industry News',
-                'Title': title,
-                'Summary': summary,
-                'Link': link
-                }
-            )      
-            
-    def get_details(self,link):
-        WebDriverWait(self.driver,5).until(lambda e: len(e.window_handles) == 1)
-        self.driver.switch_to.new_window('tab')
-        self.driver.get(link)
+            {
+            'PublishDate':publish_date,
+            'Source': 'HV UK',
+            'Type': 'Industry News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
+
+    def driver_wait(self,condition):
         try:
-            WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.ID,'main-content')))
+            return WebDriverWait(self.driver,5).until(condition)
         except:
             pass
-        html = self.driver.page_source
-        soup = BeautifulSoup(html,'html.parser')
-        parsed_date = soup.find('span',class_='tie-date').text.strip()
-        parsed_date_cleaned = self.clean_ordinal_suffix(parsed_date)
-        parsed_date_obj = datetime.strptime(parsed_date_cleaned,'%d %B %Y')
-        publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-        if parsed_date_obj >= self.date_limit:
-            title = soup.find('h1',class_='entry-title').text.strip()
-            print(f'Fetching News: {title}')
-            summary_block = soup.find('div',class_='post-inner')
-            paragraphs = summary_block.find_all('p')
-            for p in paragraphs:
-                para = p.get_text(strip=True)
-                if len(para) > 150:
-                    summary = para
-                    break
-                else:
-                    continue
-            else:
-                summary = paragraphs[0].get_text(strip=True)
-            self.driver.close()
-            self.driver.switch_to.window(self.driver.window_handles[0])
-                
-        return ({'publish_date':publish_date, 'title':title, 'summary':summary, 'link':link})
             
     def clean_ordinal_suffix(self,date_str):
         return re.sub(r'(\d+)(st|nd|rd|th)', r'\1', date_str)
-        
+
     def scrape(self):
-        self.soup()
+        self.get_soup()
 
 all_news = []
 def get_HV_UK(driver,coverage_days):
@@ -104,4 +109,19 @@ def get_HV_UK(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/HV_UK_news.csv',index=False)
+    
+options = Options()
+# options.add_argument('--headless=new')
+options.add_argument('--disable-gpu')
+options.add_argument('--window-size=1920x1080')
+options.add_argument('--log-level=3')
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36")
+options.page_load_strategy = 'eager'
+driver = webdriver.Chrome(options=options)
+get_HV_UK(driver,coverage_days=60)
+
+time.sleep(5)
+driver.quit()
