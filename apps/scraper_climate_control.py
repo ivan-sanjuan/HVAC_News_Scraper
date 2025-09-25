@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.keys import Keys
+from urllib.parse import urljoin
 import re
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
@@ -19,77 +20,60 @@ class ClimateControlNews:
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
-        self.root = 'https://www.climatecontrolnews.com.au'
+        self.root = 'https://www.climatecontrolnews.com.au/'
+        self.news_list = []
 
     def get_soup(self):
         self.driver.get(self.url)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'landing-area')))
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'landing-wrap')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        head_block = soup.find('div',class_='gallery-feature')
-        news_section = soup.find('div',class_='container-bg')
-        news_blocks = soup.find_all('div',class_='landing-card')
-        self.get_headline(head_block)
-        self.get_news_blocks(news_blocks)
-        
-    def get_news_blocks(self,blocks):
-        for news in blocks:
-            parsed_date = news.find('span',class_='landing-card-date-alt').get_text(strip=True)        
-            parsed_date_obj = datetime.strptime(parsed_date,'%d %b %Y')
-            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.date_limit:
-                badge = news.find('span',class_='badge')
-                if badge:
-                    continue
-                else:
-                    rel_url = news.find('h3',class_='h4').find('a').get('href')
-                    link = f'{self.root}{rel_url}'
-                    self.driver_wait(lambda e: len(e.window_handles) == 1)
-                    self.driver.switch_to.new_window('tab')
-                    self.driver.get(link)
-                    details = self.get_details()
-                    title = details.get('title')
-                    summary = details.get('summary')
-                    self.append(publish_date,title,summary,link)
-                    self.driver.close()
-                    self.driver.switch_to.window(self.driver.window_handles[0])
-        
-    def get_headline(self,block):
-        parsed_date = block.find('small',class_='text-hint').get_text(strip=True)        
-        parsed_date_obj = datetime.strptime(parsed_date,'%d %b %Y')
-        publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-        if parsed_date_obj >= self.date_limit:
-            rel_url = block.find('a',class_='gallery-link').get('href')
-            link = f'{self.root}{rel_url}'
+        news_section = soup.find('div',class_='landing-wrap')
+        headline_link = news_section.find('a', class_='gallery-link').get('href')
+        landing_cards = soup.find_all('div',class_='landing-card')
+        self.get_news(headline_link)
+        for url in landing_cards:
+            try:
+                link = url.find('p',class_='pull-right').find('a').get('href')
+                status = self.get_news(link)
+                if status == False:
+                    break
+            except Exception as e:
+                print(f'An error has occured: {e}')
+
+    def get_news(self,link):
+        try:
+            link = urljoin(self.root,link)
             self.driver.switch_to.new_window('tab')
             self.driver.get(link)
-            details = self.get_details()
-            title = details.get('title')
-            summary = details.get('summary')
-            self.append(publish_date,title,summary,link)
-        self.driver.close()
-        self.driver.switch_to.window(self.driver.window_handles[0])
-
-    def get_details(self):
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'article')))
-        html = self.driver.page_source
-        soup = BeautifulSoup(html,'html.parser')
-        title = soup.find('h1',class_='article-title').get_text(strip=True)
-        summary_block = soup.find('div',class_='article-content')
-        paragraphs = summary_block.find_all('p')
-        for sum in paragraphs:
-            para = sum.text.strip()
-            if len(para) > 160:
-                summary = para
-                break
+            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'article')))
+            html = self.driver.page_source
+            soup = BeautifulSoup(html,'html.parser')
+            parsed_date = soup.find('div',class_='article-author').text.strip().split(maxsplit=3)[3]
+            parsed_date = parsed_date.replace('| ','').strip()
+            parsed_date_obj = datetime.strptime(parsed_date,'%d %B %Y')
+            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+            if parsed_date_obj >= self.date_limit:
+                title = soup.find('h1',class_='article-title').text.strip()
+                paragraphs = soup.find_all('p')
+                summary = None
+                for p in paragraphs:
+                    para = p.text.strip()
+                    if len(para) > 200:
+                        summary = para
+                        break
+                if not summary:
+                    summary = 'Unable to parse summary, please visit the news page instead.'
+                self.append(publish_date,title,summary,link)
+                return True
             else:
-                continue
-        else:
-            summary = paragraphs[0].text.strip()
-        return ({'title':title,'summary':summary})
-        
-    
+                return False
+        finally:
+            self.driver.close()
+            self.driver.switch_to.window(self.driver.window_handles[0])
+            
     def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
         self.latest_news.append(
             {
             'PublishDate':publish_date,
@@ -118,4 +102,5 @@ def get_climate_control_news(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/climate_control_news.csv',index=False)

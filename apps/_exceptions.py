@@ -13,6 +13,10 @@ def get_exceptions():
         'get_contractor_mag',
         'get_fleet_owner',
         'get_rac_plus',
-        'get_PHCP_pros'
+        'get_PHCP_pros',
+        'get_HPA',
+        'get_climate_control_news',
+        'get_DOE',
+        'get_IEA'
     ]
     return exceptions

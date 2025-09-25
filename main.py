@@ -125,7 +125,7 @@ def main(page:ft.Page):
 
             if msg_type == "log":
                 log_list.controls.append(ft.Text(payload, color='#DEDAC6'))
-                sys.stdout = UILogStream(append_log)
+                # sys.stdout = UILogStream(append_log)
 
             elif msg_type == "status":
                 search_status.value = payload
@@ -152,7 +152,7 @@ def main(page:ft.Page):
         
     def append_log(message):
             log_list.controls.append(ft.Text(message,color='#DEDAC6'))
-            sys.stdout = UILogStream(append_log)
+            # sys.stdout = UILogStream(append_log)
             # sys.stderr = UILogStream(append_log)
             log_list.update()
         
