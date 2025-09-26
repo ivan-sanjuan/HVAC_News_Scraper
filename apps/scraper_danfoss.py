@@ -41,6 +41,7 @@ class DanfossNews:
         next.click()
     
     def get_soup(self):
+        print(f'📰Opening: Danfoss')
         while True:
             try:
                 if self.page_num == 1:

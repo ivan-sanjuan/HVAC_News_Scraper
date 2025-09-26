@@ -23,6 +23,7 @@ class MideaNews:
         self.root = 'https://mbt.midea.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Midea')
         self.driver.get(self.url)
         button = self.driver_wait(EC.element_to_be_clickable((By.ID,'onetrust-accept-btn-handler')))
         if button:

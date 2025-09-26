@@ -23,6 +23,7 @@ class SensataNews:
         self.root = 'https://www.sensata.com/'
 
     def get_soup(self):
+        print(f'📰Opening: Sensata')
         self.driver.get(self.url)
         button = self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'CybotCookiebotBannerCloseButton')))
         if button:

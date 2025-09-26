@@ -21,7 +21,7 @@ class CopelandNews:
 
     def get_soup(self):
         self.driver.get(self.news_url)
-        print(f'Getting {self.source}')
+        print(f'📰Opening: {self.source}')
         try:
             accept_cookies = self.driver_wait(EC.element_to_be_clickable((By.ID,'onetrust-accept-btn-handler')))
             self.driver.execute_script("arguments[0].click();",accept_cookies)

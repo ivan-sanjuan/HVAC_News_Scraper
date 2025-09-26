@@ -23,6 +23,7 @@ class MesaLabsNews:
         self.root = 'https://investors.mesalabs.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Mesa Labs')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'evergreen-news-content-list')))
         html = self.driver.page_source

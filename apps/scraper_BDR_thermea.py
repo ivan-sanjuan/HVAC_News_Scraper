@@ -18,6 +18,7 @@ class BDRthermeaNews:
         self.latest_news = []
     
     def get_soup(self):
+        print(f'📰Opening: BDR Thermea')
         self.driver.get(self.url)
         try:
             accept_cookie = WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.ID,'onetrust-accept-btn-handler')))

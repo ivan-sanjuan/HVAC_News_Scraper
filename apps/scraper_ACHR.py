@@ -23,7 +23,7 @@ class ACHRNews:
         self.root = 'https://www.achrnews.com/'
     
     def get_soup(self):
-        print(f'Getting: {self.source}')
+        print(f'📰Opening: {self.source}')
         while True:
             if self.page_num == 1:
                 self.driver.get(self.url)

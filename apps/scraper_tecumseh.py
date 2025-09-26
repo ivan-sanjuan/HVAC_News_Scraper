@@ -23,6 +23,7 @@ class TecumsehNews:
         self.root = 'https://www.tecumseh.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Tecumseh')
         self.driver.get(self.url)
         old_url = self.driver.current_url
         time.sleep(5)

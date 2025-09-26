@@ -23,6 +23,7 @@ class HPANews:
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
 
     def get_soup(self):
+        print(f'📰Opening: HPA')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'et_pb_posts')))
         html = self.driver.page_source
@@ -65,12 +66,12 @@ class HPANews:
                             break
                     if not summary:
                         summary = 'Unable to parse summary, please visit the news page instead.'
+                    self.append(publish_date,title,summary,link)
                     self.driver.close()
                     self.driver.switch_to.window(self.driver.window_handles[0])
-                    self.append(publish_date,title,summary,link)
             except Exception as e:
                 print(f'An error has occured: {e}')
-            
+                  
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
         self.latest_news.append(

@@ -23,6 +23,7 @@ class MitsubishiHVACNews:
         self.root = 'https://www.mitsubishicomfort.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Mitsubishi Electric - HVAC')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.ID,'first_section')))
         html = self.driver.page_source

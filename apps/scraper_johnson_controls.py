@@ -62,6 +62,7 @@ class JohnsonControlsNews:
             print(f"❌ Failed to click Accept All: {e}")
         
     def get_soup(self):
+        print(f'📰Opening: Johnson Controls')
         self.driver.get(self.url)
         self.click_accept_all()
         time.sleep(5)

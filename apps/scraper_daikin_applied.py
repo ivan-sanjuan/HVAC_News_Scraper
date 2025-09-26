@@ -21,6 +21,7 @@ class DaikinAppliedNews:
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
         
     def get_soup(self):
+        print(f'📰Opening: Daikin-Applied')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'blog-list-columns')))
         html = self.driver.page_source

@@ -23,6 +23,7 @@ class WatscoNews:
         self.root = 'https://investors.watsco.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Watsco')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'view-content')))
         html = self.driver.page_source

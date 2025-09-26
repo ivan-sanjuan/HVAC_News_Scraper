@@ -24,6 +24,7 @@ class PanasonicNews:
         self.root = 'https://www.panasonic.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Panasonic - HVAC')
         self.driver.get(self.url)
         self.popup_thread()
         time.sleep(3)

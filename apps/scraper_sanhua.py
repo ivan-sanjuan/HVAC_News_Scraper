@@ -24,6 +24,7 @@ class SanhuaNews:
         self.root = 'https://www.sanhuaeurope.com/en/news'
         
     def get_soup(self):
+        print(f'📰Opening: {self.source}')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'flickity-slider')))
         html = self.driver.page_source

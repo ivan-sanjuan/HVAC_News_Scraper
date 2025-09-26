@@ -23,6 +23,7 @@ class MitsubishiSCINews:
         self.root = 'https://www.siamcompressor.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Mitsubishi Electric - SCI')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'fiscal-news-list')))
         html = self.driver.page_source

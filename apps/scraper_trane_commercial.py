@@ -21,6 +21,7 @@ class TraneCommercialNews:
         self.root = 'https://www.trane.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Trane - Commercial')
         self.driver.get(self.url)
         time.sleep(10)
         # WebDriverWait(self.driver,60).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,'[data-eventtype="TITLE_CLICK"]')))

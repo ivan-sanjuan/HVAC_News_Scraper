@@ -67,14 +67,13 @@ from .scraper_sanhua_group import get_sanhua_group
 from .scraper_icm_controls import get_icm_controls
 from .scraper_midea import get_midea
 from .scraper_rees_scientific import get_rees_scientific
-
+# get_ACHR,
 def get_scrapers():
     scrapers = [
             get_cooling_post_news,
             get_refindustry_news,
             get_natural_refrigerants_news,
             get_jarn,
-            get_ACHR,
             get_EHPA,
             get_contracting_business,
             get_contractor_mag,
@@ -137,6 +136,6 @@ def get_scrapers():
             get_sanhua_group,
             get_icm_controls,
             get_midea,
-            get_rees_scientific
+            get_rees_scientific,
         ]
     return scrapers

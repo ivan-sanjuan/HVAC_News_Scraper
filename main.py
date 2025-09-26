@@ -1,13 +1,16 @@
 from apps._scrapers import get_scrapers
 from apps._paths import get_paths
 from apps._exceptions import get_exceptions
+from apps._useragents import user_agents
 from apps import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from datetime import datetime, timedelta
 import win32com.client as outlook
 from pandas.errors import EmptyDataError
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from functools import partial
+import random
 import threading
 import pythoncom
 import flet as ft
@@ -120,12 +123,12 @@ def main(page:ft.Page):
         search_status.value = 'Run will be stopped after this function.. Please wait.'
 
     async def poll_ui():
+        buffer = io.StringIO()
         while True:
             msg_type, payload = await ui_queue.get()
-
+            
             if msg_type == "log":
                 log_list.controls.append(ft.Text(payload, color='#DEDAC6'))
-                # sys.stdout = UILogStream(append_log)
 
             elif msg_type == "status":
                 search_status.value = payload
@@ -145,16 +148,29 @@ def main(page:ft.Page):
 
             elif msg_type == "done":
                 send_report.disabled = False
-
+                
+            elif msg_type == "start_log":
+                task = asyncio.create_task(append_log(buffer))
+                # await append_log(buffer)
+                
+            elif msg_type == "end_log":
+                print("Logging ended..")
+                task.cancel()
+                with open("scrape_log.txt", "w", encoding="utf-8") as f:
+                    f.write(buffer.getvalue())
+                
             page.update()
             await asyncio.sleep(0.1)
             
-        
-    def append_log(message):
-            log_list.controls.append(ft.Text(message,color='#DEDAC6'))
-            # sys.stdout = UILogStream(append_log)
-            # sys.stderr = UILogStream(append_log)
-            log_list.update()
+    async def append_log(buffer):
+        sys.stdout = buffer
+        print("Logging started..")
+        original_stdout = sys.stdout
+        output_section_log.controls.append(output_section_log_text)
+        while True:
+            output_section_log_text.value = buffer.getvalue()
+            page.update()
+            await asyncio.sleep(0.2)
         
     def start_scraping(e):
         scrape_button_disabled()
@@ -168,6 +184,7 @@ def main(page:ft.Page):
     async def scrape_all():
         await ui_queue.put(('clear_output','clear'))
         await ui_queue.put(('show_progress',True))
+        await ui_queue.put(('start_log','start'))
         
         def runtime():
             total_seconds = sum(total_duration)
@@ -182,14 +199,18 @@ def main(page:ft.Page):
         options = Options()
         scrapers = get_scrapers()
         exceptions = get_exceptions()
+        useragents = user_agents()
         if any(exception in scrapers for exception in exceptions):
             options.page_load_strategy = 'eager'
-        options.add_argument('--headless=new')
+        # options.add_argument('--headless=new')
+        await asyncio.sleep(0.5)
         options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1920x1080')
         options.add_argument('--log-level=3')
         options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
+        user_agent = random.choice(useragents)
+        print(f'User Agent: {user_agent}')
+        options.add_argument(f'user-agent={user_agent}')
         driver = webdriver.Chrome(options=options)
         driver.set_window_size(1920, 1080)
         csv_paths = get_paths()
@@ -207,38 +228,64 @@ def main(page:ft.Page):
             total_duration = []
             total_tasks = len(scrapers)
             for i, scraper in enumerate(scrapers):
-                if scraping_active == True:
-                    await ui_queue.put(('status', 'Starting to scrape..'))
-                    start = time.time()
-                    if i == 0:
-                        await ui_queue.put(('log', 'Starting to scrape.'))
-                    else:
-                        pass
-                    await ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
-                    await ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
-                    await ui_queue.put(('progress',(i+1)/total_tasks))
-                    if coverage_input.value == '' or coverage_input.value == '0':
-                        coverage_days = 1
-                    else:
-                        coverage_days = int(coverage_input.value)
-                    try:
-                        loop = asyncio.get_running_loop()
-                        await loop.run_in_executor(None,scraper,driver,coverage_days)
+                try:
+                    if scraping_active == True:
+                        await ui_queue.put(('status', 'Starting to scrape..'))
+                        start = time.time()
+                        if i == 0:
+                            await ui_queue.put(('log', 'Starting to scrape.'))
+                        else:
+                            pass
+                        await ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+                        await ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+                        await ui_queue.put(('progress',(i+1)/total_tasks))
+                        if coverage_input.value == '' or coverage_input.value == '0':
+                            coverage_days = 1
+                        else:
+                            coverage_days = int(coverage_input.value)
+                        try:
+                            loop = asyncio.get_running_loop()
+                            await loop.run_in_executor(None,scraper,driver,coverage_days)
+                            await asyncio.sleep(0.1)
+                        except Exception as f:
+                            print(f'An error has occured: {f}')
+                        duration = time.time() - start
+                        await ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
+                        await ui_queue.put(('progress',(i+1)/total_tasks))
+                        total_duration.append(duration)
                         await asyncio.sleep(0.1)
-                    except Exception as f:
-                        print(f'An error has occured: {f}')
-                    duration = time.time() - start
-                    await ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
-                    await ui_queue.put(('progress',(i+1)/total_tasks))
-                    total_duration.append(duration)
-                    await asyncio.sleep(0.1)
-                else:
-                    break
+                    else:
+                        await ui_queue.put(('end_log','end'))
+                        break
+                except TimeoutException:
+                    print('Session Timed out, retrying to revive WebDriver')
+                    new_driver = webdriver.Chrome(options=options)
+                    new_driver.set_page_load_timeout(10)
+                    backup = asyncio.get_running_loop()
+                    await backup.run_in_executor(None,backup_scraper,i,scraper,new_driver,total_tasks)
+                except WebDriverException:
+                    print('WebDriver exception, retrying to revive WebDriver')
+                    new_driver2 = webdriver.Chrome(options=options)
+                    new_driver2.set_page_load_timeout(10)
+                    backup = asyncio.get_running_loop()
+                    await backup.run_in_executor(None,backup_scraper,i,scraper,new_driver2,total_tasks)
         finally:
             status_report_generation = 'SCRAPING COMPLETE, GENERATING REPORT...'
             total_time = runtime()
             report = f'TOTAL Runtime: {format_runtime(total_time)}'
-            driver.quit()
+            try:
+                driver.quit()
+            except:
+                pass
+            try:
+                new_driver.quit()
+            except:
+                pass
+            try:
+                new_driver2.quit()
+            except:
+                pass
+            await ui_queue.put(('end_log','end'))
             await ui_queue.put(('log',status_report_generation))
             await ui_queue.put(('log',report))
             await ui_queue.put(('status',report))
@@ -251,6 +298,7 @@ def main(page:ft.Page):
                 print(f'Skipping empty file: {path}')
                 continue
             try:
+                today=datetime.today()
                 df = await read_csv_async(path)
                 if not df.empty:
                     valid_dfs.append(df)
@@ -258,13 +306,12 @@ def main(page:ft.Page):
                     print(f'Skipping empty DataFrame: {path}')
             except pd.errors.EmptyDataError:
                 pass
-                # print(f'{path} has no content')
             except Exception as g:
                 print(f'Error reading {path}: {g}')
             except UnboundLocalError:
-                today=datetime.today()
                 print(f'NO NEW News at the moment: {today}')
             await asyncio.sleep(0.1)
+            
         if len(valid_dfs) > 0:
             combined_df = pd.concat(valid_dfs, ignore_index=True)
             await save_csv_async(combined_df,'csv/combined_news.csv')
@@ -279,6 +326,31 @@ def main(page:ft.Page):
             print(f'NO NEW News at the moment: {today_formatted}')
             await ui_queue.put({'msg_type':'status','payload':f'No NEW News at the moment: {today_formatted}'})
             await asyncio.sleep(0.1)
+    
+    async def backup_scraper(i,scraper,driver,total_tasks):
+        await ui_queue.put(('status', 'Starting to scrape..'))
+        start = time.time()
+        if i == 0:
+            await ui_queue.put(('log', 'Starting to scrape.'))
+        else:
+            pass
+        await ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+        await ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+        await ui_queue.put(('progress',(i+1)/total_tasks))
+        if coverage_input.value == '' or coverage_input.value == '0':
+            coverage_days = 1
+        else:
+            coverage_days = int(coverage_input.value)
+        try:
+            loop = asyncio.get_running_loop()
+            await loop.run_in_executor(None,scraper,driver,coverage_days)
+            await asyncio.sleep(0.1)
+        except Exception as f:
+            print(f'An error has occured: {f}')
+        duration = time.time() - start
+        await ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
+        await ui_queue.put(('progress',(i+1)/total_tasks))
+        await asyncio.sleep(0.1)
     
     async def reload_results(e):
         try:
@@ -390,6 +462,7 @@ def main(page:ft.Page):
         coverage_input.bgcolor = color_neutral_light
         send_report.disabled = True
         send_report.visible = False
+        output_section_log.visible = True
         page.update()
     
     def scrape_button_enabled():
@@ -404,6 +477,7 @@ def main(page:ft.Page):
         coverage_input.bgcolor = "#ffffff"
         send_report.disabled = False
         send_report.visible = True
+        output_section_log.visible = False
         page.update()
         
     max_value = 30
@@ -451,11 +525,34 @@ def main(page:ft.Page):
 
     file_picker.on_result = on_save_result
 
-
+    output_section_log_text = ft.Text(
+        size=16,
+        value='', 
+        color="#474747",
+        weight=ft.FontWeight.W_400
+        )
     
     output_section = ft.Column(
         scroll="auto",
         controls=[]
+    )
+    
+    output_section_log = ft.ListView(
+        height=570,
+        expand=False,
+        spacing=3,
+        auto_scroll=True,
+        visible=False,
+        padding=ft.padding.only(top=15,bottom=15,right=15,left=15)
+    )
+    
+    output_section_stack = ft.Stack(
+        height=570,
+        width=1500,
+        controls=[
+            output_section,
+            output_section_log
+        ]
     )
     
     file_picker = ft.FilePicker()
@@ -740,7 +837,7 @@ def main(page:ft.Page):
                     width=1500,
                     bgcolor=color_neutral_lighter,
                     # on_hover=refresh_time,
-                    content=output_section
+                    content=output_section_stack
                     
                 ),
                 ft.Container(

@@ -23,6 +23,7 @@ class TiveNews:
         self.root = 'https://www.tive.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Tive')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'press_content')))
         html = self.driver.page_source

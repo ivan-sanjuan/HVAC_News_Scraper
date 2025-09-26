@@ -22,6 +22,7 @@ class StiebelEltronNews:
         self.root = 'https://www.stiebel-eltron.com'
         
     def get_soup(self):
+        print(f'📰Opening: Stiebel Eltron')
         self.driver.get(self.url)
         button = self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'ppms_cm_agree-to-all')))
         try:

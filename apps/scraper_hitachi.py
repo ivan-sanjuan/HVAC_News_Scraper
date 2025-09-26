@@ -21,6 +21,7 @@ class HitachiNews:
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
 
     def get_soup(self):
+        print(f'📰Opening: Hitachi')
         self.driver.get(self.url)
         time.sleep(10)
         self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'trustarc-acceptall-btn'))).click()

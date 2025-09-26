@@ -23,6 +23,7 @@ class PHCPprosNews:
         self.root = 'https://www.phcppros.com/'
 
     def get_soup(self):
+        print(f'📰Opening: PHCP Pros')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'records')))
         records = self.driver.find_elements(By.CLASS_NAME,'article-summary')
@@ -64,7 +65,7 @@ class PHCPprosNews:
                     self.driver.switch_to.window(self.driver.window_handles[0])
                     self.append(publish_date,link,title,summary)
             except Exception as e:
-                print(f'An error has occured: {e}')
+                print(f'An error has occured: {e}')      
                 
     def append(self,publish_date,link,title,summary):
         print(f'Fetching: {title}')

@@ -18,6 +18,7 @@ class HoneywellNews:
         self.latest_news = []
     
     def prepare_page(self):
+        print(f'📰Opening: Honeywell')
         self.driver.get(self.url)
         WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.ID,'swiftype-result')))
         time.sleep(5)

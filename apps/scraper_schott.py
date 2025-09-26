@@ -23,6 +23,7 @@ class SchottNews:
         self.root = 'https://www.schott.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Schott')
         self.driver.get(self.url)
         time.sleep(5)
         button = self.driver_wait(EC.element_to_be_clickable((By.XPATH,"//button[text()='Accept all']")))

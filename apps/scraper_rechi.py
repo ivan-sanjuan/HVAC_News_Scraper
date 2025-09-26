@@ -23,6 +23,7 @@ class RechiNews:
         self.root = 'https://www.rechi.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Rechi')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'table')))
         html = self.driver.page_source

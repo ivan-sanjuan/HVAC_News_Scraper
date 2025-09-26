@@ -23,6 +23,7 @@ class SanhuaGroupNews:
         self.root = 'https://www.sanhuagroup.com/en/'
         
     def get_soup(self):
+        print(f'📰Opening: Sanhua Group')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'job_box4')))
         html = self.driver.page_source

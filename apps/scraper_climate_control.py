@@ -24,6 +24,7 @@ class ClimateControlNews:
         self.news_list = []
 
     def get_soup(self):
+        print(f'📰Opening: Climate Control')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'landing-wrap')))
         html = self.driver.page_source

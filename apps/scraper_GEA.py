@@ -22,6 +22,7 @@ class GEANews:
         self.root = 'https://www.gea.com'
         
     def get_soup(self):
+        print(f'📰Opening: GEA')
         self.driver.get(self.url)
         self.driver_wait(EC.element_to_be_clickable((By.ID,'onetrust-accept-btn-handler')))
         html = self.driver.page_source

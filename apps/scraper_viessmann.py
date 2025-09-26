@@ -19,6 +19,7 @@ class ViessmannNews:
         self.page_num = 1
 
     def get_soup(self):
+        print(f'📰Opening: Viessmann')
         self.driver.get(self.news_url)
         try:
             button = self.driver.find_element(By.CSS_SELECTOR, '[data-testid="uc-accept-all-button"]')

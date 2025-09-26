@@ -24,6 +24,7 @@ class GeneracNews:
         self.root = 'https://www.generac.com'
         
     def get_soup(self):
+        print(f'📰Opening: Generac')
         self.driver.get(self.url)
         button = self.driver_wait(EC.element_to_be_clickable((By.ID,'onetrust-accept-btn-handler')))
         try:

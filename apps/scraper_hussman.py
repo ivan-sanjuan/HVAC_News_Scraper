@@ -23,6 +23,7 @@ class HussmannNews:
         self.root = 'https://www.hussmann.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Hussman')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'search-result-list')))
         html = self.driver.page_source

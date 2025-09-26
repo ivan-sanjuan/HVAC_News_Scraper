@@ -17,6 +17,7 @@ class CarelNews:
         self.date_limit = datetime.today()-timedelta(days=self.coverage_days)
 
     def get_soup(self):
+        print(f'📰Opening: Carel')
         self.driver.get(self.url)
         WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'portlet-body')))
         time.sleep(5)

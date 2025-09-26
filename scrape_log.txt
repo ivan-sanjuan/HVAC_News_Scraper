@@ -1,0 +1,355 @@
+Logging started..
+User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36
+📰Opening: CoolingPost-World
+Fetching: Joint guide on Ecodesign requirements for fans
+Fetching: Daikin plans to produce heat exchangers using recycled aluminium
+Fetching: Bluu Unit adds KKL Holding GmbH
+Fetching: Bosch halts Polish heat pump factory plans
+Fetching: Acquisitions create major refrigeration group
+Fetching: Two dead in Iowa legionnaires’ disease outbreak
+📰Opening: CoolingPost-UK
+Fetching: Samsung adds Duftons as distributor
+Fetching: ADA appoints Eaton-Smith as technical project director
+Fetching: Nominations invited for J&E Hall Gold Medal
+Fetching: Daikin UK transfers after-sales to Robert Heath
+📰Opening: CoolingPost-Products
+📰Opening: CoolingPost-Features
+Fetching: Copeland ammonia chiller has dairy date
+Fetching: Carrier R290 heat pump secures hotel booking
+📰Opening: CoolingPost-Blog
+📰Opening: CoolingPost-T&E
+📰Opening: RefIndustry
+Fetching: Trane launches connected service agreements across EMEA
+Fetching: Pete Curtis appointed BESA President, urges culture shift in UK building services
+Fetching: Qvantum appoints Sandra Trittin to board of directors
+Fetching: Carrier Transicold launches REN Program to upgrade mid-life reefers
+Fetching: UNEP and COP30 launch global ‘Beat the Heat’ drive for sustainable cooling
+Fetching: Clivet launches AQUA F monobloc heat pump for domestic hot water
+Fetching: Low-GWP Shift and Food Sector Growth Drive Global Refrigeration Oil Market
+Fetching: Thermo King launches TX-Series truck refrigeration units in EMEA
+Cookies Accepted.
+RefIndustry News, Page: 2
+Fetching: Trane launches connected service agreements across EMEA
+Fetching: Pete Curtis appointed BESA President, urges culture shift in UK building services
+Fetching: Qvantum appoints Sandra Trittin to board of directors
+Fetching: Carrier Transicold launches REN Program to upgrade mid-life reefers
+Fetching: UNEP and COP30 launch global ‘Beat the Heat’ drive for sustainable cooling
+Fetching: Clivet launches AQUA F monobloc heat pump for domestic hot water
+Fetching: Low-GWP Shift and Food Sector Growth Drive Global Refrigeration Oil Market
+Fetching: Thermo King launches TX-Series truck refrigeration units in EMEA
+No cookie block found.
+RefIndustry News, Page: 3
+Fetching: Johnson Controls names Todd Grabowski president of Americas
+Fetching: Carrier achieves first DOE-validated 10–14-ton rooftop unit in U.S.
+Fetching: Carrier Transicold launches Pulsor eCool electric unit in India
+Fetching: Solid-state cooling technologies forecasted to grow in global demand through 2046
+Fetching: Australia’s 2035 climate target highlights HVAC&R electrification and HFC phase-down
+Fetching: MOON-TECH wins top prize in Shandong for industrial heat pump project
+Fetching: Austria wins Refrigeration and Air Conditioning gold at EuroSkills 2025
+Fetching: ACT tests high-power cold plate for AI and HPC chip cooling in the US
+Fetching: Castell Howell Deploys 20 Carrier Supra HE 13 MT Units in UK Fleet
+No cookie block found.
+RefIndustry News, Page: 4
+Fetching: Refrigeration compressor market to hit USD 40.43 bn by 2032
+Fetching: ECHA updates PFAS restriction proposal under REACH
+Fetching: Bluefors signs helium-3 supply agreement with Interlune for quantum cooling
+Fetching: Rheem introduces Endeavor Line
+Fetching: Trane Technologies launches AI-based controls for HVAC optimization
+Fetching: Nominations open for 2025 J&E Hall Gold Medal award
+Fetching: Refrigerants market to reach $36.7 billion by 2030, driven by AC demand and natural alternatives
+📰Opening: Natural Refrigerants
+Fetching: ATMO MAC: China to Lead the Transition to Natural Refrigerants in Electric Vehicles, Says S&P Global Mobility
+Fetching: IAA Mobility 2025: Nidec AMEC Showcases R290 Thermal Management Module for EVs
+Fetching: SCM Ref NZ has Supplied Over 80 Transcritical CO2 Systems in New Zealand, According to Product Development Manager
+Fetching: Takeda’s Butane–Water High-Temperature Heat Pump Has Commenced Operation at Its Vienna Manufacturing Facility
+Fetching: Tesco Expands Use of ECOOLTEC’s Hydrocarbon/CO2 Transport Refrigeration Units
+Fetching: High-Temperature CO2 Heat Pump Team Is Runner-Up in New York’s Empire Technology Prize
+Fetching: Nokia’s R&D and Manufacturing Campus in Finland Has ‘One of the World’s Largest CO2 District Heating and Cooling Plants’
+📰Opening: JARN
+Fetching: Key steps to decarbonisation highlighted as EU funded project closes
+Fetching: Alfa Laval and Aalborg CSP launch header-and-coil heat exchanger for large-scale energy storage systems
+Fetching: Thermo King Showcases Electric Passenger Comfort Solutions at Busworld Brussels 2025
+Fetching: JERA and DENSO Begin Japan’s First Demonstration of SOEC Hydrogen Production at a JERA Thermal Power Station
+Fetching: Daikin U.S. Corporation to Lead Building Decarbonization and Energy Resiliency Discussions at NYC Climate Week 2025
+Fetching: Invertek Drives secures ISO 14001:2015 recertification
+Fetching: Trane Technologies Named Among World’s Best Employers Securing Top Honors for Culture, Sustainability, and Industry Leadership
+Fetching: Sustainability in Action: How Industry Partnerships Are Shaping a Greener Future
+Fetching: Haier Air Conditioning Hosts 2025 GBW
+Fetching: Haier: HIBs 2025 Global Technical Training, A New Journey Begins!
+Fetching: Resilient Cooling of Buildings: Re-Introduction to our Guidebook 33!
+Fetching: Johnson Controls appoints Todd Grabowski to lead Americas segment
+Fetching: SophiA Final Consortium Event: The IIR’s Strong Involvement in Sustainable Refrigeration Solutions for Africa
+Fetching: A new era for the IIR’s archives: 2,000 historical publications now available online
+Fetching: Asia–Pacific Ministers Renew Commitment to Ozone-Climate Action at Sixth Forum of Ministers and Environment Authorities…
+Fetching: REHVA at the REDI4HEAT Final Conference
+Fetching: Europe’s best heat hump projects shine at the 2025 Heat Pump Awards
+Fetching: Munters: a global hackathon for smarter, more energy-efficient dehumidification
+Fetching: Samsung Brings ‘AI Home: Future Living, Now’ to India
+Fetching: Swegon: how are we meeting HVAC design challenges with passive climate ceiling systems?
+Fetching: Spotlight on Lineage in the United Kingdom: Powering the European Food Chain With A Strategic Network
+Fetching: UL Solutions Expands Marketing Claim Verification Into Industrial Manufacturing Software and Processes, Helping Accelerate Industrial Metaverse Adoption
+Fetching: Challenging climate conditions: Liebherr presents HVAC-solution at Global Rail 2025
+Fetching: From transparency to ergonomics: Vendome transforms the deli counter
+Fetching: Future of Computing: Energy-Efficient Computing for AI and Beyond
+Fetching: September 2025 TechCast | The Semiconductor Shift: All Eyes Are on Arizona
+Fetching: Contracts for Difference to Spur Clean and Competitive Industry: Options for Federal Policymakers
+Fetching: Messe Frankfurt to expand portfolio in Central Asia and organise Intelligent Building Expo
+Fetching: Copeland’s Industrial Single-Screw Ammonia Heat Pump Selected by Saputo to Achieve Sustainability Goals
+Fetching: COPA: Implementation Models WG
+Fetching: Hitachi agrees to acquire German data and AI services firm synvert to accelerate Agentic AI and Physical AI development, driving global expansion of HMAX business
+Fetching: Haier Smart Home Global ESG Family Summit
+Fetching: Haier HVAC Solutions Extends Partnership with the Professional Darts Corporation for the 2025 / 2026 Calendar Year
+Fetching: Retail Giant Best Buy Canada Visits Midea
+Fetching: RHC-ETIP at the final event of the REDI4HEAT project
+Fetching: Distorted taxation is undermining energy security
+Fetching: Headline News Volume 797
+Fetching: Carrier Transicold Expands Electric Portfolio with Pulsor eCool Launch in India
+Fetching: Haier AC Chonburi Industrial Park Start Production
+Fetching: Nigeria's First Midea Proshop Grand Opening
+Fetching: Samsung Brings ‘Big Bespoke AI Festival’ with Never-Before-Seen Deals, Cashback & Rewards on Bespoke AI Appliances
+Fetching: Exchange of Expertise and Global Vision- Frascold Shanghai on an official visit to Italy
+Fetching: East African Community approves regional MEPS for ACs and refrigerators
+Fetching: Johnson Controls and Concordia University partner on net zero retrofit
+Fetching: BESA signs global indoor air quality pledge
+Fetching: Mitsubishi Electric: running with nature for nature
+Fetching: Helios Technologies Extends History of Quarterly Dividends With 115th Consecutive Cash Dividend
+Fetching: Celebrating Michelle Ganderton’s Journey from First Job to Leadership in D2C Operations
+Fetching: Emerson Introduces AI-Enabled Guidance to Support Industrial Resilience
+Fetching: Exploratory study of heat pump pooling concepts in urban district heating networks in Wienna
+Fetching: Haier: HIBs Unveils 2026 New Products, Sets Smart & Green Future Pace [1/2]
+Fetching: IFA2025｜Midea SPACE MASTER Series Debuts [1/2]
+Fetching: Mitsubishi Electric: happy anniversary to the best HVAC system ever
+Fetching: Airedale: Sustainable Cooling Solutions for High-Density Data Centers
+Fetching: Combat: Are Radiant Heaters Right for your Premises?
+Fetching: The smart HVAC revolution comes to C&R 2025 with new space dedicated to regulation and control
+📰Opening: JARN-Interviews
+Fetching: LG ES Company Driving the Future of Global HVAC Innovation
+Fetching: Epta Advances Sustainable Refrigeration Innovation
+Fetching: Prihoda, the Juggernaut of the Fabric Diffuser Industry
+Fetching: Panasonic Expands Its Leadership in CO2 Refrigeration Field
+📰Opening: EHPA
+Waiting for the cookie pop-up.
+Cookie pop-up did not show up.
+Fetching: Key steps to decarbonisation highlighted as EU funded project closes
+Fetching: Europe’s best heat hump projects shine at the 2025 Heat Pump Awards
+Fetching: Distorted taxation is undermining energy security
+📰Opening: Contracting Business - Residential
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: Why Disruptive Branding Helps HVAC Contractors Win More Customers
+📰Opening: Contracting Business - Commercial
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Refrigeration
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - IndustryNews
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: Global Research Boosts LG HVAC Innovation for Efficiency and Sustainability
+Fetching: ServiceTitan Acquires Conduit Tech
+📰Opening: Contracting Business - Technology
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Product News
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: Panasonic Launches New Energy Recovery Ventilation Products for Year-Round Comfort
+Fetching: GF Expands Uponor ChlorFIT Offering with Launch of 565 Butterfly Valves
+📰Opening: Contractor Mag - Management
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: Tariffs, Trade and Construction Contractors
+Fetching: 6 Unsolvable Plumbing Problems (and Why They Don’t Matter)
+An error has occured: 'NoneType' object has no attribute 'text'
+📰Opening: Contractor Mag - Codes
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: IAPMO Releases 2025 Report on Proposals for 2027 WE•Stand Code
+Fetching: IAPMO Elects New Leaders, Honors Industry Achievements at 2025 Conference
+Fetching: Rock & Roll Vibes Energize IAPMO Conference in Palm Springs
+An error has occured: 'NoneType' object has no attribute 'text'
+📰Opening: Contractor Mag - Hydronics
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: Electrical Infrastructure In Boiler Rooms: A Mechanical Contractor’s Guide
+📰Opening: Contractor Mag - Technology
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contractor Mag - Tools
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: From Shop Class to Flat Track: CTE Students Build Race-Ready Harley
+📰Opening: ACR Journal
+Pop-up closed.
+Fetching: Conor Eaton-Smith joins ADA
+Fetching: Elta launches new subfloor ventilation fan
+Fetching: Weatherite and Condair deliver direct solution
+Fetching: Airedale's 2MW TurboChill for data centres
+Fetching: R290 solution helps hotel’s Net Zero journey
+📰Opening: Fleet Owner
+Ads Closed.
+Mimicking a human scrolling through the news.
+📰Opening: RAC Plus
+Pop-up closed.
+Waiting for a banner blocking the news blocks to close..
+Fetching: ACRIB survey finds strong support for refrigerant training
+Fetching: Optimised cooling needed for data centre boom, says Galebreaker
+📰Opening: PHCP Pros
+Scrolling through the news, making sure all articles are loaded.
+Fetching: S&P USA Ventilation Systems Premium Choice EC Fan Models
+Fetching: Panasonic Intelli-Balance Elite and Elite Plus+ Series
+📰Opening: HV UK
+Pop-up closed.
+Waiting for a banner blocking the news blocks to close..
+Fetching: NICEIC publishes research on relationship between tradespeople and the public
+Fetching: MP tours zero-emission boiler production facility
+Fetching: Levy cuts not enough for clean heating transition, says SEA
+📰Opening: Climate Control
+Fetching: R290 heating for apartments
+📰Opening: DOE - Press Release
+Fetching: DOE Awards $15 Million Financial Assistance Cooperative Agreement to Southern States Energy Board
+Fetching: FEMP Celebrates 2024 Federal Energy and Water Management Award Winners
+Fetching: Energy Department Returns $13 Billion in Unobligated Wasteful Spending to American Taxpayers
+Fetching: Projects at LM Sites Aim to Improve Soil Moisture Monitoring While Lowering Costs
+📰Opening: DOE - Testimony
+📰Opening: DOE - Latest OpEds
+📰Opening: IEA
+Fetching: Southeast Asia can harness vast renewable resources to meet fast-growing electricity demand
+📰Opening: HPA
+Fetching: Q&A with Craig Dolan – Reflecting on his time as HPA Chair
+📰Opening: Trane Technologies
+getting summary of: Trane Technologies Named Among World’s Best Employers Securing Top Honors for Culture, Sustainability, and Industry Leadership
+📰Opening: Danfoss
+Accepted Cookies.
+📰Opening: LG-Corporate
+📰Opening: LG-ApplianceSolution
+📰Opening: LG-Entertainment
+📰Opening: LG-VehicleSolutions
+📰Opening: LG-EcoSolutions
+📰Opening: LG-Statements
+📰Opening: LG HVAC
+📰Opening: LG Electronics - NA
+📰Opening: Copeland-US
+Accepted cookies.
+Fetching: Copeland at AHR Expo México 2025
+Fetching: RNG WORKS: 2025 Technical Workshop + Trade Expo
+Fetching: Visit Copeland at SIFA 2025
+Fetching: Visit Copeland at Fruit Attraction
+Fetching: Power Today, Build Tomorrow with Copeland at ESD 2025
+Fetching: Data Centre World Asia 2025
+Fetching: Meet Copeland at The Global Produce and Floral Expo
+Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
+📰Opening: Copeland-Asia
+No cookie pop-up found.
+Fetching: Copeland at AHR Expo México 2025
+Fetching: RNG WORKS: 2025 Technical Workshop + Trade Expo
+Fetching: Visit Copeland at SIFA 2025
+Fetching: Visit Copeland at Fruit Attraction
+Fetching: Power Today, Build Tomorrow with Copeland at ESD 2025
+Fetching: Data Centre World Asia 2025
+Fetching: Meet Copeland at The Global Produce and Floral Expo
+Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
+📰Opening: Carrier-Corporate
+Selecing list view.
+Getting news list
+Error scraping Carrier-Corporate: cannot access local variable 'title' where it is not associated with a value
+📰Opening: Carrier-Residential
+No list view detected
+Getting news list
+📰Opening: Carrier-Commercial
+No list view detected
+Getting news list
+📰Opening: Carrier-Transicold
+No list view detected
+Getting news list
+📰Opening: Viessmann
+No cookie pop-up detected.
+An error has occured: 'NoneType' object has no attribute 'text'
+📰Opening: Lennox
+📰Opening: BDR Thermea
+📰Opening: Honeywell
+📰Opening: ThermoKing
+📰Opening: ThermoKing - Europe
+opening in new tab
+Fetching: Thermo King Showcases Electric Passenger Comfort Solutions at Busworld Brussels 2025
+opening in new tab
+Fetching: Thermo King Launches TX-Series: New High Performance and Fuel Efficient Truck Units
+opening in new tab
+📰Opening: Carel
+📰Opening: DeltaTrak
+📰Opening: Bitzer
+📰Opening: Generac
+📰Opening: Nidec
+Fetching: Notice Regarding Completion of Submission of the Securities Report for the Fiscal Year Ended March 31, 2025 (52nd Fiscal Year)
+Fetching: Notice Regarding Disclaimer of Opinion in the Audit Report of Financial Statements and Internal Audit Report for the Fiscal Year Ended March 31, 2025
+Fetching: Notice Regarding Material Weakness about Internal Control over Financial Reporting and Disclaimer of Evaluation Results in Internal Control Report
+Fetching: Important Notice Regarding Annual Securities Reports, etc.
+Fetching: (Amendments) Nidec Corporation Fiscal 2024 Financial Results Presentation Materials
+Fetching: (Amendment) Supplementary Financial Data
+Fetching: (Correction/Numerical Data Correction) Notice Regarding Partial Correction of the “Financial Statements Summary for the Year Ended March 31, 2025 [IFRS] (Consolidated)”
+📰Opening: Beijer Ref
+📰Opening: Daikin-Corporate
+Fetching: Daikin Releases Its Integrated Report 2025 and Sustainability Report 2025
+Fetching: Daikin U.S. Corporation to Lead Building Decarbonization and Energy Resiliency Discussions at NYC Climate Week 2025
+📰Opening: Daikin-EU
+Cookies Accepted.
+📰Opening: Daikin-UK
+Cookies Accepted.
+📰Opening: Daikin-Applied
+📰Opening: GEA
+📰Opening: Stiebel Eltron
+Cookies accepted.
+scrolling through the news..
+📰Opening: Resideo
+📰Opening: Resideo - Investor
+📰Opening: SPX
+📰Opening: Rheem
+📰Opening: Hussman
+Fetching: Hussmann Unveils New Reach-In Merchandiser with Air-Cooled Microblock™ Technology
+📰Opening: Panasonic - Global
+Popup watcher launched.
+Pop-up found and closed.
+Fetching: Panasonic Holdings Announces to Apply for Delisting of its Shares from the Nagoya Stock Exchange
+📰Opening: Panasonic - HVAC
+Pop-up found and closed.
+📰Opening: Panasonic - UK
+📰Opening: Atmos Zero
+📰Opening: Mesa Labs
+📰Opening: Mitsubishi Electric - Global
+📰Opening: Mitsubishi Electric - HVAC
+📰Opening: Mitsubishi Electric - SCI
+📰Opening: Parker Sporlan
+📰Opening: Rechi
+Fetching: 2025 Annual Investor Conference
+📰Opening: Schott
+📰Opening: Secop
+Fetching: Secop Celebrates 15 Years of Brand Identity with Second World Tour Stop in Slovakia
+Fetching: Secop and Imcosa Celebrate 10 Years of Partnership at AHR Show 2025
+Fetching: Secop and Official Distributor Prima Prospek at RHVAC Indonesia 2025
+📰Opening: Sensata
+Pop-up has been closed.
+📰Opening: Tive
+Fetching: Tive Named to FreightWaves "2026 FreightTech 100" Top Innovators List
+📰Opening: NIBE
+Pop-up closed.
+📰Opening: Tecumseh
+Pop-up closed; waiting for the page to reload.
+📰Opening: Watsco
+📰Opening: Sanhua-US
+📰Opening: Sanhua-Europe
+📰Opening: Sanhua Group
+📰Opening: ICM Controls
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+📰Opening: Midea
+Pop-up closed.
+📰Opening: Rees Scientific
+Logging ended..

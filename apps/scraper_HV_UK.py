@@ -24,6 +24,7 @@ class HVUKNews:
         self.root = 'https://www.hvnplus.co.uk/'
     
     def get_soup(self):
+        print(f'📰Opening: HV UK')
         self.driver.get(self.url)
         try:
             self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'fc-primary-button'))).click()
@@ -52,22 +53,25 @@ class HVUKNews:
                 parsed_date = self.clean_ordinal_suffix(parsed_date)
                 parsed_date_obj = datetime.strptime(parsed_date,'%d %B %Y')
                 publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-                if parsed_date_obj >= self.date_limit:
-                    title = soup.find('h1',class_='entry-title').find('span',{'itemprop':'name'}).text.strip()
-                    paragraphs = soup.find_all('p')
-                    summary = None
-                    for p in paragraphs:
-                        para = p.text.strip()
-                        if len(para) > 200:
-                            summary = para
-                            break
-                    if not summary:
-                        summary = 'Unable to parse summary, please visit the news page instead.'
-                    self.driver.close()
-                    self.driver.switch_to.window(self.driver.window_handles[0])
-                    self.append(publish_date,title,summary,news)
+                if parsed_date_obj <= self.date_limit:
+                    break
+                title = soup.find('h1',class_='entry-title').find('span',{'itemprop':'name'}).text.strip()
+                paragraphs = soup.find_all('p')
+                summary = None
+                for p in paragraphs:
+                    para = p.text.strip()
+                    if len(para) > 200:
+                        summary = para
+                        break
+                if not summary:
+                    summary = 'Unable to parse summary, please visit the news page instead.'
+                
+                self.append(publish_date,title,summary,news)
             except Exception as e:
                 print(f'An error has occured: {e}')
+            finally:
+                self.driver.close()
+                self.driver.switch_to.window(self.driver.window_handles[0])
     
     def iterate_link_list(self,link_list):
         for news in link_list:

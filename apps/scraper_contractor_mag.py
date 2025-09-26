@@ -24,7 +24,7 @@ class ContractorMag:
 
     def get_soup(self):
         self.driver.get(self.url)
-        print(f'Opening: {self.source}')
+        print(f'📰Opening: {self.source}')
         try:
             self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'continue'))).click()
             print('Ads Closed.')

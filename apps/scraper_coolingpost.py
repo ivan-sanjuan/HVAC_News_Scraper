@@ -25,6 +25,7 @@ class CoolingPostNews:
         self.source = source
     
     def get_soup(self):
+        print(f'📰Opening: {self.source}')
         try:
             while True:
                 url = self.news_url if self.page_num == 1 else f'https://www.coolingpost.com/{self.name}/page/{self.page_num}/'
@@ -42,7 +43,6 @@ class CoolingPostNews:
     def get_news_blocks(self):
         news_section = self.soup.find('div', class_='cl-layout')
         news_blocks = news_section.find_all('div', class_='cl-layout__item')
-        print(f'Getting {self.source}')
         for news in news_blocks:
             parsed_date = news.find('div', class_='cl-element-published_date').text
             parsed_date_obj = datetime.strptime(re.sub(r'(\d+)(st|nd|rd|th)', r'\1', parsed_date), '%d %B %Y')

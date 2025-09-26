@@ -22,6 +22,7 @@ class RefIndustryNews:
         self.root = 'https://refindustry.com/'
         
     def get_soup(self):
+        print(f'📰Opening: RefIndustry')
         while True:
             try:
                 if self.page_num == 1:

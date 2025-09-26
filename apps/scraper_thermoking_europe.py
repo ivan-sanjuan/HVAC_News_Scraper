@@ -45,6 +45,7 @@ class ThermokingNewsEurope:
         return re.sub(r'(\d+)(st|nd|rd|th)', r'\1', date_str)
 
     def get_soup(self):
+        print(f'📰Opening: ThermoKing - Europe')
         self.driver.get(self.url)
         WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.ID,'hs-eu-confirmation-button'))).click()
         news_blocks = self.driver.find_elements(By.CLASS_NAME,'block-card')

@@ -38,6 +38,7 @@ class EHPANews:
         
                 
     def get_soup(self):
+        print(f'📰Opening: EHPA')
         self.driver.get(self.url)
         try:
             print('Waiting for the cookie pop-up.')

@@ -24,7 +24,7 @@ class ContractingBusinessNews:
 
     def get_soup(self):
         self.driver.get(self.url)
-        print(f'Getting: {self.source}')
+        print(f'📰Opening: {self.source}')
         try:
             continue_button = self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'continue')))
             self.driver.execute_script("arguments[0].click();",continue_button)

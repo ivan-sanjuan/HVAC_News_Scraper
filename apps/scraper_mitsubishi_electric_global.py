@@ -23,6 +23,7 @@ class MitsubishiGlobalNews:
         self.root = 'https://www.mitsubishielectric.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Mitsubishi Electric - Global')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'list-news')))
         html = self.driver.page_source

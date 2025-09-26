@@ -22,6 +22,7 @@ class ResideoNews:
         self.root = 'https://www.resideo.com'
 
     def get_soup(self):
+        print(f'📰Opening: Resideo')
         self.driver.get(self.url)
         popup = self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'truste-consent-button')))
         if popup:

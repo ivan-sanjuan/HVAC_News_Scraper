@@ -23,6 +23,7 @@ class SecopNews:
         self.root = 'https://www.secop.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Secop')
         self.driver.get(self.url)
         button = self.driver_wait(EC.element_to_be_clickable((By.XPATH,'r_button--accept-all')))
         if button:

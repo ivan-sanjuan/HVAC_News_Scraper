@@ -24,6 +24,7 @@ class EcobeeNews:
         self.root = 'https://www.ecobee.com'
     
     def get_soup(self):
+        print(f'📰Opening: Ecobee')
         self.driver.get(self.url)
         cookie_popup = self.driver_wait(EC.element_to_be_clickable((By.ID,'onetrust-accept-btn-handler')))
         cookie_popup.click()

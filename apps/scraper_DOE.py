@@ -25,7 +25,7 @@ class DOENews:
         self.root = 'https://www.energy.gov/'
     
     def get_soup(self):
-        print(f'Opening: {self.source}')
+        print(f'📰Opening: {self.source}')
         while True:
             if self.page_num == 1:
                 self.driver.get(self.url)

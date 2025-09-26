@@ -25,6 +25,7 @@ class ACRJournal:
         self.root = 'https://www.acrjournal.uk/'
 
     def get_soup(self):
+        print(f'📰Opening: ACR Journal')
         while True:
             if self.page_num == 1:
                 self.driver.get(self.url)

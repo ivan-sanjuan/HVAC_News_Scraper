@@ -18,6 +18,7 @@ class TraneNews:
         self.latest_news = []
         
     def get_soup(self):
+        print(f'📰Opening: Trane Technologies')
         self.driver.get(self.news_url)
         WebDriverWait(self.driver,5).until(
             EC.presence_of_element_located((By.CLASS_NAME,'newspromo__promos'))

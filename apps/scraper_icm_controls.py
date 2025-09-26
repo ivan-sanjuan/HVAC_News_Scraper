@@ -23,6 +23,7 @@ class ICMControlsNews:
         self.root = 'https://www.icmcontrols.com/'
         
     def get_soup(self):
+        print(f'📰Opening: ICM Controls')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'entry-content-wrapper')))
         html = self.driver.page_source

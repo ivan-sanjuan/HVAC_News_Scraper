@@ -20,6 +20,7 @@ class NaturalRefrigerants:
         self.root = 'https://naturalrefrigerants.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Natural Refrigerants')
         url = self.news_url
         self.driver.delete_all_cookies()
         self.driver.get(url)

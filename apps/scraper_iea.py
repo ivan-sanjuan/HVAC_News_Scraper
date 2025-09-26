@@ -23,6 +23,7 @@ class IEANews:
         self.root = 'https://www.iea.org/'
     
     def get_soup(self):
+        print(f'📰Opening: IEA')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'m-grid--news-detailed')))
         html = self.driver.page_source

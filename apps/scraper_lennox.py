@@ -18,6 +18,7 @@ class LennoxNews:
         self.today = datetime.today()
     
     def get_soup(self):
+        print(f'📰Opening: Lennox')
         self.driver.get(self.url)
         WebDriverWait(self.driver,5).until(
             EC.presence_of_element_located((By.CLASS_NAME,'nir-widget--list'))

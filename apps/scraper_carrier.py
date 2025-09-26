@@ -19,7 +19,7 @@ class CarrierNews:
 
     def get_soup(self):
         self.driver.get(self.news_url)
-        print(f'Getting {self.source}')
+        print(f'📰Opening: {self.source}')
         try:
             list_view = WebDriverWait(self.driver,2).until(
                 EC.element_to_be_clickable((By.ID,'btn-listview'))

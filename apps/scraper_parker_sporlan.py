@@ -23,6 +23,7 @@ class ParkerSporlanNews:
         self.root = 'https://www.parker.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Parker Sporlan')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'cmp-news-v2-component__container')))
         html = self.driver.page_source

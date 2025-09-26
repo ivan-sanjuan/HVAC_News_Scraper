@@ -21,6 +21,7 @@ class BeijerRefNews:
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
         
     def get_soup(self):
+        print(f'📰Opening: Beijer Ref')
         self.driver.get(self.url)
         time.sleep(5)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'collection_pressreleases')))

@@ -19,6 +19,7 @@ class DeltaTrakNews:
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
     
     def get_soup(self):
+        print(f'📰Opening: DeltaTrak')
         self.driver.get(self.url)
         WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'container')))
         html = self.driver.page_source
@@ -83,4 +84,3 @@ def get_delta_trak_news(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/deltatrak_news.csv',index=False)
-    

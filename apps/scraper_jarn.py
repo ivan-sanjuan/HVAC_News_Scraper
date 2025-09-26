@@ -21,6 +21,7 @@ class JarnNews:
         self.page_num = 1
 
     def get_soup(self):
+        print(f'📰Opening: {self.source}')
         while True:
             if self.page_num == 1: 
                 self.driver.get(self.url) 
@@ -37,8 +38,6 @@ class JarnNews:
                 break
             self.page_num += 1
 
-            
-        
     def open_new_tab(self,link):
         ActionChains(self.driver)\
             .key_down(Keys.CONTROL)\
@@ -72,7 +71,7 @@ class JarnNews:
                 parsed_date = dates.find_element(By.CLASS_NAME,'data').text.strip()
                 parsed_date_obj = datetime.strptime(parsed_date,'%Y.%m.%d')
                 publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-                if parsed_date_obj < self.date_limit:
+                if parsed_date_obj <= self.date_limit:
                     return False
                 link_sel = dates.find_element(By.CLASS_NAME,'article-box-in')
                 self.driver.execute_script("arguments[0].scrollIntoView();", dates)
@@ -110,8 +109,8 @@ class JarnNews:
             pass          
 
 sources = [
-    {'url':'https://www.ejarn.com/category/eJarn_news_index','source':'JARN News'},
-    {'url':'https://www.ejarn.com/category/interview_index','source':'JARN Interviews'}
+    {'url':'https://www.ejarn.com/category/eJarn_news_index','source':'JARN'},
+    {'url':'https://www.ejarn.com/category/interview_index','source':'JARN-Interviews'}
 ]
 
 all_news=[]

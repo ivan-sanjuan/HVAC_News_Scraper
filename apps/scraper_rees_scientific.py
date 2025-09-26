@@ -23,6 +23,7 @@ class ReesScientificNews:
         self.root = 'https://reesscientific.com/'
         
     def get_soup(self):
+        print(f'📰Opening: Rees Scientific')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'views-rows')))
         html = self.driver.page_source

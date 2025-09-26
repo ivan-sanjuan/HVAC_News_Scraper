@@ -22,6 +22,7 @@ class DaikinEUNews:
         self.source = source
         
     def get_soup(self):
+        print(f'📰Opening: {self.source}')
         self.driver.get(self.url)
         time.sleep(10)
         button = self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'cta-button--accept')))
