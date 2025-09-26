@@ -35,25 +35,28 @@ class TecumsehNews:
         self.driver_wait(EC.presence_of_element_located((By.CSS_SELECTOR,'[data-test-selector="newslist_pagetitle"]')))
         link_blocks = self.driver.find_elements(By.CSS_SELECTOR,'[data-test-selector="newslist_pagetitle"]')
         for links in link_blocks:
-            link = links.get_attribute('href')
-            if link:
-                self.driver.switch_to.new_window('tab')
-                parsed_date_obj = self.get_date(link)
-                if parsed_date_obj < self.date_limit:
-                    break
-                title = self.driver.find_element(By.CSS_SELECTOR,'[data-test-selector="PageTitle"]').text.strip()
-                paragraphs = self.driver.find_elements(By.TAG_NAME,'p')
-                summary = None
-                for p in paragraphs:
-                    para = p.text.strip()
-                    if len(para) > 200:
-                        summary = para
+            try:
+                link = links.get_attribute('href')
+                if link:
+                    self.driver.switch_to.new_window('tab')
+                    parsed_date_obj = self.get_date(link)
+                    if parsed_date_obj <= self.date_limit:
                         break
-                if not summary:
-                    summary = 'Unable to parse summary, please visit the news page instead.'
+                    title = self.driver.find_element(By.CSS_SELECTOR,'[data-test-selector="PageTitle"]').text.strip()
+                    paragraphs = self.driver.find_elements(By.TAG_NAME,'p')
+                    summary = None
+                    for p in paragraphs:
+                        para = p.text.strip()
+                        if len(para) > 200:
+                            summary = para
+                            break
+                    if not summary:
+                        summary = 'Unable to parse summary, please visit the news page instead.'
+                    
+                    self.append(self.publish_date,title,summary,link)
+            finally:
                 self.driver.close()
                 self.driver.switch_to.window(self.driver.window_handles[0])
-                self.append(self.publish_date,title,summary,link)
             
     def get_date(self,link):
         self.driver.get(link)
@@ -95,4 +98,5 @@ def get_tecumseh(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/tecumseh_news.csv',index=False)

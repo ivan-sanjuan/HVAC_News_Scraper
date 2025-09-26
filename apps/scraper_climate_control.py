@@ -29,50 +29,48 @@ class ClimateControlNews:
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'landing-wrap')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        news_section = soup.find('div',class_='landing-wrap')
-        headline_link = news_section.find('a', class_='gallery-link').get('href')
-        landing_cards = soup.find_all('div',class_='landing-card')
-        self.get_news(headline_link)
-        for url in landing_cards:
-            try:
-                link = url.find('p',class_='pull-right').find('a').get('href')
-                status = self.get_news(link)
-                if status == False:
-                    break
-            except Exception as e:
-                print(f'An error has occured: {e}')
-
+        links = soup.find_all('a')
+        for url in links:
+            link = url.get('href')
+            if link:
+                if link.startswith('/news/latest/'):  
+                    link = urljoin(self.root,link)
+                    status = self.get_news(link)
+                    if status == False:
+                        break
+    
     def get_news(self,link):
         try:
-            link = urljoin(self.root,link)
             self.driver.switch_to.new_window('tab')
             self.driver.get(link)
-            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'article')))
+            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'article-content')))
             html = self.driver.page_source
             soup = BeautifulSoup(html,'html.parser')
-            parsed_date = soup.find('div',class_='article-author').text.strip().split(maxsplit=3)[3]
-            parsed_date = parsed_date.replace('| ','').strip()
-            parsed_date_obj = datetime.strptime(parsed_date,'%d %B %Y')
-            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.date_limit:
-                title = soup.find('h1',class_='article-title').text.strip()
-                paragraphs = soup.find_all('p')
-                summary = None
-                for p in paragraphs:
-                    para = p.text.strip()
-                    if len(para) > 200:
-                        summary = para
-                        break
-                if not summary:
-                    summary = 'Unable to parse summary, please visit the news page instead.'
-                self.append(publish_date,title,summary,link)
-                return True
-            else:
-                return False
+            parsed_date = soup.find('div',class_='article-info').find('span').text.strip()
+            if parsed_date:
+                parsed_date = parsed_date.replace('By Sandra Rossi | ','').strip()
+                parsed_date_obj = datetime.strptime(parsed_date,'%d %B %Y')
+                publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+                if parsed_date_obj >= self.date_limit:
+                    title = soup.find('h1').text.strip()
+                    paragraphs = soup.find_all('p')
+                    summary = None
+                    for p in paragraphs:
+                        para = p.text.strip()
+                        if len(para) > 200:
+                            summary = para
+                            break
+                    if not summary:
+                        summary = 'Unable to parse summary, please visit the news page instead.'
+                    self.append(publish_date,title,summary,link)
+                else:
+                    return False
+        except Exception as e:
+            print(f'An error has occured: {e}')
         finally:
             self.driver.close()
             self.driver.switch_to.window(self.driver.window_handles[0])
-            
+        
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
         self.latest_news.append(

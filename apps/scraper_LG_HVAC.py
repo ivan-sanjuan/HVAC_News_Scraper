@@ -74,4 +74,3 @@ def get_LGHVAC_NA(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/LG_HVAC_NA_news.csv',index=False)
-

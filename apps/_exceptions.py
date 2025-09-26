@@ -88,6 +88,9 @@ def get_exceptions():
         get_climate_control_news,
         get_DOE,
         get_IEA,
-        get_rac_plus
+        get_rac_plus,
+        get_viessmann_news,
+        get_LGHVAC_NA,
+        get_thermoking_europe
     ]
     return exceptions

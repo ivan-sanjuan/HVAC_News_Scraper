@@ -10,6 +10,7 @@ import win32com.client as outlook
 from pandas.errors import EmptyDataError
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from functools import partial
+import pyautogui
 import random
 import threading
 import pythoncom
@@ -116,7 +117,6 @@ def main(page:ft.Page):
     color_tint_orange = '#DF8369'
     ui_queue = asyncio.Queue()
     
-    
     def stop_scraping(e):
         global scraping_active
         scraping_active = False
@@ -151,13 +151,20 @@ def main(page:ft.Page):
                 
             elif msg_type == "start_log":
                 task = asyncio.create_task(append_log(buffer))
-                # await append_log(buffer)
                 
             elif msg_type == "end_log":
                 print("Logging ended..")
                 task.cancel()
                 with open("scrape_log.txt", "w", encoding="utf-8") as f:
                     f.write(buffer.getvalue())
+            
+            elif msg_type == "nudge_on":
+                sleep = asyncio.create_task(prevent_sleep(payload))
+                print('Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.')
+            
+            elif msg_type == "nudge_off":
+                sleep.cancel()
+                print('Nudges is now DISABLED.')
                 
             page.update()
             await asyncio.sleep(0.1)
@@ -171,6 +178,13 @@ def main(page:ft.Page):
             output_section_log_text.value = buffer.getvalue()
             page.update()
             await asyncio.sleep(0.2)
+    
+    async def prevent_sleep(condition):
+        while True:
+            if condition == True:
+                pyautogui.moveRel(1, 0, duration=0.1)
+                pyautogui.moveRel(-1, 0, duration=0.1)
+                await asyncio.sleep(60)
         
     def start_scraping(e):
         scrape_button_disabled()
@@ -185,7 +199,8 @@ def main(page:ft.Page):
         await ui_queue.put(('clear_output','clear'))
         await ui_queue.put(('show_progress',True))
         await ui_queue.put(('start_log','start'))
-        
+        await ui_queue.put(('nudge_on',True))
+        await asyncio.sleep(1)
         def runtime():
             total_seconds = sum(total_duration)
             return timedelta(seconds=total_seconds)
@@ -200,20 +215,19 @@ def main(page:ft.Page):
         scrapers = get_scrapers()
         exceptions = get_exceptions()
         useragents = user_agents()
+        csv_paths = get_paths()
+        user_agent = random.choice(useragents)
+        print(f'User Agent: {user_agent}')
         if any(exception in scrapers for exception in exceptions):
             options.page_load_strategy = 'eager'
         # options.add_argument('--headless=new')
-        await asyncio.sleep(0.5)
         options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1920x1080')
         options.add_argument('--log-level=3')
         options.add_argument("--disable-blink-features=AutomationControlled")
-        user_agent = random.choice(useragents)
-        print(f'User Agent: {user_agent}')
         options.add_argument(f'user-agent={user_agent}')
         driver = webdriver.Chrome(options=options)
         driver.set_window_size(1920, 1080)
-        csv_paths = get_paths()
         for csv in csv_paths:
             if os.path.isfile(csv):
                 empty = []
@@ -272,6 +286,8 @@ def main(page:ft.Page):
         finally:
             status_report_generation = 'SCRAPING COMPLETE, GENERATING REPORT...'
             total_time = runtime()
+            await ui_queue.put(('nudge_off',False))
+            await asyncio.sleep(0.2)
             report = f'TOTAL Runtime: {format_runtime(total_time)}'
             try:
                 driver.quit()
@@ -286,8 +302,10 @@ def main(page:ft.Page):
             except:
                 pass
             await ui_queue.put(('end_log','end'))
+            await asyncio.sleep(0.2)
             await ui_queue.put(('log',status_report_generation))
             await ui_queue.put(('log',report))
+            await asyncio.sleep(0.2)
             await ui_queue.put(('status',report))
             scrape_button_enabled()
             await asyncio.sleep(0.1)
@@ -324,6 +342,7 @@ def main(page:ft.Page):
             today=datetime.today()
             today_formatted=today.strftime('%B %d, %Y | %X')
             print(f'NO NEW News at the moment: {today_formatted}')
+            await asyncio.sleep(0.1)
             await ui_queue.put({'msg_type':'status','payload':f'No NEW News at the moment: {today_formatted}'})
             await asyncio.sleep(0.1)
     
@@ -394,7 +413,7 @@ def main(page:ft.Page):
         loop = asyncio.get_running_loop()
         df = await loop.run_in_executor(None,pd.read_csv,file_path)
         return df
-        
+
     def minimize_window(e):
         page.window.minimized = True
         page.update()

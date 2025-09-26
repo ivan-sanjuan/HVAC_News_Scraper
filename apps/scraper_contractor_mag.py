@@ -34,7 +34,7 @@ class ContractorMag:
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'item-row')))
         news_blocks_sel = self.driver.find_elements(By.CLASS_NAME,'item-row')
         self.scroll_each_news()
-        time.sleep(2)
+        time.sleep(1)
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         news_blocks = soup.find_all('div',class_='item-row')
@@ -44,7 +44,7 @@ class ContractorMag:
         bottom = self.driver.find_element(By.CLASS_NAME,'load-more')
         self.driver.execute_script("arguments[0].scrollIntoView();",bottom)
         print('Mimicking a human scrolling through the news.')
-        time.sleep(0.5)
+        time.sleep(0.2)
         try:
             blocks = self.driver.find_elements(By.CLASS_NAME,'item-row')
         except StaleElementReferenceException:
@@ -53,7 +53,7 @@ class ContractorMag:
         for news in blocks:
             link_sel = news.find_element(By.CLASS_NAME,'title-wrapper')
             self.driver.execute_script("arguments[0].scrollIntoView();",link_sel)
-            time.sleep(0.5)
+            time.sleep(0.2)
 
     def clean_date(self,date_str):
         cleaned = date_str.replace('.','')
