@@ -67,6 +67,7 @@ from .scraper_sanhua_group import get_sanhua_group
 from .scraper_icm_controls import get_icm_controls
 from .scraper_midea import get_midea
 from .scraper_rees_scientific import get_rees_scientific
+from .scraper_carrier_groups import get_carrier_group_news
 
 def get_exceptions():
     exceptions = [
@@ -94,6 +95,8 @@ def get_exceptions():
         get_thermoking_europe,
         get_contractor_mag,
         get_contracting_business,
-        get_tecumseh
+        get_tecumseh,
+        get_carrier_news,
+        get_carrier_group_news
     ]
     return exceptions

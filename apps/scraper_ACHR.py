@@ -59,7 +59,7 @@ class ACHRNews:
             parsed_date = news.find('div',class_='article-summary__post-date').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj <= self.date_limit:
+            if parsed_date_obj < self.date_limit:
                 return False
             self.driver.execute_script("arguments[0].scrollIntoView();",sect)
             title_block = news.find('h2',class_='article-summary__headline').find('a')

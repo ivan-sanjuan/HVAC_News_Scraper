@@ -49,7 +49,7 @@ class HoneywellNews:
         for news in self.news_blocks:
             publish_date = news.find('div',class_='search-result-details__doc-type').text.strip()
             publish_date_obj = datetime.strptime(publish_date[:10],'%Y-%m-%d')
-            if publish_date_obj > self.today-timedelta(days=self.coverage_days):
+            if publish_date_obj >= self.today-timedelta(days=self.coverage_days):
                 title_section = news.find('a',class_='result-name')
                 title = title_section.text.strip()
                 link = title_section.get('href')

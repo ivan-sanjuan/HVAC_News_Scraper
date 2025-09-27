@@ -71,7 +71,7 @@ class JarnNews:
                 parsed_date = dates.find_element(By.CLASS_NAME,'data').text.strip()
                 parsed_date_obj = datetime.strptime(parsed_date,'%Y.%m.%d')
                 publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-                if parsed_date_obj <= self.date_limit:
+                if parsed_date_obj < self.date_limit:
                     return False
                 link_sel = dates.find_element(By.CLASS_NAME,'article-box-in')
                 self.driver.execute_script("arguments[0].scrollIntoView();", dates)

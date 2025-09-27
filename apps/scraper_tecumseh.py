@@ -40,7 +40,7 @@ class TecumsehNews:
                 if link:
                     self.driver.switch_to.new_window('tab')
                     parsed_date_obj = self.get_date(link)
-                    if parsed_date_obj <= self.date_limit:
+                    if parsed_date_obj < self.date_limit:
                         break
                     title = self.driver.find_element(By.CSS_SELECTOR,'[data-test-selector="PageTitle"]').text.strip()
                     paragraphs = self.driver.find_elements(By.TAG_NAME,'p')

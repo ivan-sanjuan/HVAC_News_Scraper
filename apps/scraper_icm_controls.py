@@ -24,13 +24,16 @@ class ICMControlsNews:
         
     def get_soup(self):
         print(f'📰Opening: ICM Controls')
-        self.driver.get(self.url)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'entry-content-wrapper')))
-        html = self.driver.page_source
-        soup = BeautifulSoup(html,'html.parser')
-        news_section = soup.find('div',class_='entry-content-wrapper')
-        news_blocks = news_section.find_all('article',class_='slide-entry')
-        self.get_news(news_blocks)
+        try:
+            self.driver.get(self.url)
+            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'entry-content-wrapper')))
+            html = self.driver.page_source
+            soup = BeautifulSoup(html,'html.parser')
+            news_section = soup.find('div',class_='entry-content-wrapper')
+            news_blocks = news_section.find_all('article',class_='slide-entry')
+            self.get_news(news_blocks)
+        except AttributeError:
+            print('Triggered CAPTCHA, unable to visit the site.')
     
     def get_news(self,blocks):
         for news in blocks:
@@ -44,21 +47,24 @@ class ICMControlsNews:
                     title = news.find('h3',class_='slide-entry-title').text.strip()
                     self.driver.switch_to.new_window('tab')
                     self.driver.get(link)
-                    self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'entry-content')))
-                    html = self.driver.page_source
-                    soup = BeautifulSoup(html,'html.parser')
-                    paragraphs = soup.find_all('p')
-                    summary = None
-                    for p in paragraphs:
-                        para = p.text.strip()
-                        if len(para) > 200:
-                            summary = para
-                            break
-                    if not summary:
-                        summary = 'Unable to parse summary, please visit the news page instead.'
-                    self.append(publish_date,title,summary,link)
-                    self.driver.close()
-                    self.driver.switch_to.window(self.driver.window_handles[0])
+                    try:
+                        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'entry-content')))
+                        html = self.driver.page_source
+                        soup = BeautifulSoup(html,'html.parser')
+                        paragraphs = soup.find_all('p')
+                        summary = None
+                        for p in paragraphs:
+                            para = p.text.strip()
+                            if len(para) > 200:
+                                summary = para
+                                break
+                        if not summary:
+                            summary = 'Unable to parse summary, please visit the news page instead.'
+                        if not any(item['Link']==link for item in self.latest_news):
+                            self.append(publish_date,title,summary,link)
+                    finally:
+                        self.driver.close()
+                        self.driver.switch_to.window(self.driver.window_handles[0])
             except Exception as e:
                 print(f'An error has occured: {e}')
 

@@ -9,14 +9,14 @@ from urllib.parse import urljoin
 import time
 import pandas as pd
 
-class CarrierNews:
-    def __init__(self,driver,coverage_days,news_url,source,root):
+class CarrierGroupNews:
+    def __init__(self,driver,coverage_days,news_url,source):
         self.driver = driver
         self.coverage_days = coverage_days
         self.news_url = news_url
         self.source = source
         self.date_limit = datetime.today()-timedelta(days=self.coverage_days)
-        self.root = root
+        self.root = 'https://www.carrier.com/'
         self.latest_news = []
 
     def get_soup(self):
@@ -25,41 +25,40 @@ class CarrierNews:
         self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'ct-news-list')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        news_blocks = soup.find_all('div',class_='card-body')
+        news_section = soup.find('div',class_='list-group')
+        news_blocks = news_section.find_all('div',class_='pb-4')
         self.get_news(news_blocks)
     
     def get_news(self,blocks):
         for news in blocks:
             parsed_date = news.find('time',class_='date')
             if parsed_date:
-                parsed_date = parsed_date.text.strip()
-                parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
+                parsed_date = parsed_date.text.replace('.','')
+                parsed_date = parsed_date.strip()
+                parsed_date_obj = datetime.strptime(parsed_date,'%b %d, %Y')
                 publish_date = parsed_date_obj.strftime('%Y-%m-%d')
                 if parsed_date_obj >= self.date_limit:
-                    title = news.find('p',class_='card-text').text.strip()
                     link = news.find('a').get('href')
                     try:
                         if link.startswith('/'):
                             link = urljoin(self.root,link)
                         self.driver.switch_to.new_window('tab')
                         self.driver.get(link)
-                        if link.endswith('.pdf'):
-                            summary = 'Unable to parse summary, link leads to a PDF file'
-                        else:
-                            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'container')))
-                            html = self.driver.page_source
-                            soup = BeautifulSoup(html,'html.parser')
-                            paragraphs = soup.find_all('p')
-                            summary = None
-                            for p in paragraphs:
-                                para = p.text.strip()
-                                if len(para) > 150:
-                                    summary = para
-                                    break
-                            if not summary:
-                                summary = 'Unable to parse summary, please visit the news page instead.'
-                            if not any(item['Link']==link for item in self.latest_news):
-                                self.append(publish_date,title,summary,link)
+                        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'container')))
+                        html = self.driver.page_source
+                        soup = BeautifulSoup(html,'html.parser')
+                        title = soup.find('h1').text.strip()
+                        paragraphs = soup.find_all('p')
+                        summary = None
+                        for p in paragraphs:
+                            para = p.text.strip()
+                            if len(para) > 200:
+                                summary = para
+                                break
+                        if not summary:
+                            summary = 'Unable to parse summary, please visit the news page instead.'
+                        if not any(item['Link']==link for item in self.latest_news):
+                            self.append(publish_date,title,summary,link)
                     finally:
                         self.driver.close()
                         self.driver.switch_to.window(self.driver.window_handles[0])
@@ -87,20 +86,20 @@ class CarrierNews:
         self.get_soup()
         
 all_news = []
-def get_carrier_news(driver,coverage_days):
+def get_carrier_group_news(driver,coverage_days):
     driver.set_window_size(1920, 1080)
     sources = [
-        {'url':'https://www.corporate.carrier.com/news/?typefilter=Press%20Releases','src':'Carrier-Corporate','root':'https://www.corporate.carrier.com/'},
-        # {'url':'https://www.carrier.com/residential/en/us/news/','src':'Carrier-Residential'},
-        # {'url':'https://www.carrier.com/commercial/en/us/news/','src':'Carrier-Commercial'},
-        # {'url':'https://www.carrier.com/truck-trailer/en/eu/news/','src':'Carrier-Transicold'}
+        {'url':'https://www.carrier.com/residential/en/us/news/','src':'Carrier-Residential'},
+        {'url':'https://www.carrier.com/commercial/en/us/news/','src':'Carrier-Commercial'},
+        {'url':'https://www.carrier.com/truck-trailer/en/eu/news/','src':'Carrier-Transicold'}
         ]
     for news in sources:
         try:
-            run = CarrierNews(driver,coverage_days,news['url'],news['src'],news['root'])
+            run = CarrierGroupNews(driver,coverage_days,news['url'],news['src'])
             run.scrape()
             all_news.extend(run.latest_news)
         except Exception as e:
             print(f'Error scraping {news['src']}: {e}')
     df = pd.DataFrame(all_news)
-    df.to_csv('csv/carrier_news.csv',index=False)
+    df = df.drop_duplicates(subset=['Link'])
+    df.to_csv('csv/carrier_group_news.csv',index=False)

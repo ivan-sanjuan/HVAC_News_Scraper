@@ -1,8 +1,8 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (Linux; Android 4.2.2; Nexus 4 Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.94 Mobile Safari/537.36
+User Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36
 📰Opening: Trane Technologies
-getting summary of: Trane Technologies Named Among World’s Best Employers Securing Top Honors for Culture, Sustainability, and Industry Leadership
+Fetching: Trane Technologies Named Among World’s Best Employers Securing Top Honors for Culture, Sustainability, and Industry Leadership
 📰Opening: Danfoss
 Accepted Cookies.
 📰Opening: LG-Corporate
@@ -15,8 +15,6 @@ Accepted Cookies.
 📰Opening: LG Electronics - NA
 📰Opening: Copeland-US
 Accepted cookies.
-Fetching: Copeland at AHR Expo México 2025
-Fetching: RNG WORKS: 2025 Technical Workshop + Trade Expo
 Fetching: Visit Copeland at SIFA 2025
 Fetching: Visit Copeland at Fruit Attraction
 Fetching: Power Today, Build Tomorrow with Copeland at ESD 2025
@@ -25,8 +23,6 @@ Fetching: Meet Copeland at The Global Produce and Floral Expo
 Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
 📰Opening: Copeland-Asia
 No cookie pop-up found.
-Fetching: Copeland at AHR Expo México 2025
-Fetching: RNG WORKS: 2025 Technical Workshop + Trade Expo
 Fetching: Visit Copeland at SIFA 2025
 Fetching: Visit Copeland at Fruit Attraction
 Fetching: Power Today, Build Tomorrow with Copeland at ESD 2025
@@ -34,18 +30,12 @@ Fetching: Data Centre World Asia 2025
 Fetching: Meet Copeland at The Global Produce and Floral Expo
 Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
 📰Opening: Carrier-Corporate
-Selecing list view.
-Getting news list
-Error scraping Carrier-Corporate: cannot access local variable 'title' where it is not associated with a value
+Fetching: Carrier Transicold Wins 2025 Truck & Trailer Welt Award for Low-CO2 Trailer Refrigeration System
+Fetching: Carrier Unveils AI-Powered Abound Platform Upgrade for Smarter Building Management
 📰Opening: Carrier-Residential
-No list view detected
-Getting news list
 📰Opening: Carrier-Commercial
-No list view detected
-Getting news list
 📰Opening: Carrier-Transicold
-No list view detected
-Getting news list
+Fetching: Carrier Transicold Wins 2025 Truck & Trailer Welt Award for Low-CO2 Trailer Refrigeration System
 📰Opening: Viessmann
 No cookie pop-up detected.
 Fetching: Viessmann once again wins the “Stiftung Warentest”
@@ -103,13 +93,9 @@ Fetching: Panasonic Supports EHPA’s Call for Stable Regulation and Fair Electr
 📰Opening: Mitsubishi Electric - SCI
 📰Opening: Parker Sporlan
 📰Opening: Rechi
-Fetching: 2025 Annual Investor Conference
 📰Opening: Schott
 📰Opening: Secop
-Fetching: Secop Celebrates 15 Years of Brand Identity with Second World Tour Stop in Slovakia
-Fetching: Secop and Imcosa Celebrate 10 Years of Partnership at AHR Show 2025
 📰Opening: Sensata
-An error has occured: 'NoneType' object has no attribute 'find_all'
 📰Opening: Tive
 📰Opening: NIBE
 Pop-up closed.
@@ -120,7 +106,7 @@ Pop-up closed; waiting for the page to reload.
 📰Opening: Sanhua-Europe
 📰Opening: Sanhua Group
 📰Opening: ICM Controls
-An error has occured: 'NoneType' object has no attribute 'find_all'
+Triggered CAPTCHA, unable to visit the site.
 📰Opening: Midea
 Pop-up closed.
 📰Opening: Rees Scientific
@@ -129,21 +115,15 @@ Fetching: Haier opens US$400m Thai factory
 Fetching: MVR heat pump offers CO2-free steam generation
 Fetching: Joint guide on Ecodesign requirements for fans
 Fetching: Daikin plans to produce heat exchangers using recycled aluminium
-Fetching: Bluu Unit adds KKL Holding GmbH
-Fetching: Bosch halts Polish heat pump factory plans
-Fetching: Acquisitions create major refrigeration group
-Fetching: Two dead in Iowa legionnaires’ disease outbreak
 📰Opening: CoolingPost-UK
 Fetching: £5.5m funding for AC in homes impact study
 Fetching: Samsung adds Duftons as distributor
-Fetching: ADA appoints Eaton-Smith as technical project director
 📰Opening: CoolingPost-Products
 📰Opening: CoolingPost-Features
-Fetching: Copeland ammonia chiller has dairy date
-Fetching: Carrier R290 heat pump secures hotel booking
 📰Opening: CoolingPost-Blog
 📰Opening: CoolingPost-T&E
 📰Opening: RefIndustry
+Fetching: Johnson Controls and Concordia University to Retrofit Campus Building for Net Zero
 Fetching: Europe honours top heat pump projects at 2025 EHPA Awards
 Fetching: Axiom Cloud launches AI-driven portal for refrigeration issue management
 Fetching: Hussmann launches new reach-in merchandisers with Microblock Technology in USA
@@ -151,9 +131,9 @@ Fetching: Trane launches connected service agreements across EMEA
 Fetching: Pete Curtis appointed BESA President, urges culture shift in UK building services
 Fetching: Qvantum appoints Sandra Trittin to board of directors
 Fetching: Carrier Transicold launches REN Program to upgrade mid-life reefers
-Fetching: UNEP and COP30 launch global ‘Beat the Heat’ drive for sustainable cooling
 Cookies Accepted.
 RefIndustry News, Page: 2
+Fetching: Johnson Controls and Concordia University to Retrofit Campus Building for Net Zero
 Fetching: Europe honours top heat pump projects at 2025 EHPA Awards
 Fetching: Axiom Cloud launches AI-driven portal for refrigeration issue management
 Fetching: Hussmann launches new reach-in merchandisers with Microblock Technology in USA
@@ -161,48 +141,34 @@ Fetching: Trane launches connected service agreements across EMEA
 Fetching: Pete Curtis appointed BESA President, urges culture shift in UK building services
 Fetching: Qvantum appoints Sandra Trittin to board of directors
 Fetching: Carrier Transicold launches REN Program to upgrade mid-life reefers
-Fetching: UNEP and COP30 launch global ‘Beat the Heat’ drive for sustainable cooling
 No cookie block found.
 RefIndustry News, Page: 3
+Fetching: UNEP and COP30 launch global ‘Beat the Heat’ drive for sustainable cooling
 Fetching: Clivet launches AQUA F monobloc heat pump for domestic hot water
 Fetching: Low-GWP Shift and Food Sector Growth Drive Global Refrigeration Oil Market
 Fetching: Thermo King launches TX-Series truck refrigeration units in EMEA
-Fetching: Johnson Controls names Todd Grabowski president of Americas
-Fetching: Carrier achieves first DOE-validated 10–14-ton rooftop unit in U.S.
-Fetching: Carrier Transicold launches Pulsor eCool electric unit in India
-Fetching: Solid-state cooling technologies forecasted to grow in global demand through 2046
-Fetching: Australia’s 2035 climate target highlights HVAC&R electrification and HFC phase-down
-No cookie block found.
-RefIndustry News, Page: 4
-Fetching: MOON-TECH wins top prize in Shandong for industrial heat pump project
-Fetching: Austria wins Refrigeration and Air Conditioning gold at EuroSkills 2025
-Fetching: ACT tests high-power cold plate for AI and HPC chip cooling in the US
-Fetching: Castell Howell Deploys 20 Carrier Supra HE 13 MT Units in UK Fleet
-Fetching: Refrigeration compressor market to hit USD 40.43 bn by 2032
-Fetching: ECHA updates PFAS restriction proposal under REACH
-Fetching: Bluefors signs helium-3 supply agreement with Interlune for quantum cooling
 📰Opening: Natural Refrigerants
 An error has occured: Message: 
 Stacktrace:
-	GetHandleVerifier [0x0x7ff7b24a1eb5+80197]
-	GetHandleVerifier [0x0x7ff7b24a1f10+80288]
-	(No symbol) [0x0x7ff7b22202fa]
-	(No symbol) [0x0x7ff7b2277cd7]
-	(No symbol) [0x0x7ff7b2277f9c]
-	(No symbol) [0x0x7ff7b22cba87]
-	(No symbol) [0x0x7ff7b22a03bf]
-	(No symbol) [0x0x7ff7b22c87fb]
-	(No symbol) [0x0x7ff7b22a0153]
-	(No symbol) [0x0x7ff7b2268b02]
-	(No symbol) [0x0x7ff7b22698d3]
-	GetHandleVerifier [0x0x7ff7b275e83d+2949837]
-	GetHandleVerifier [0x0x7ff7b2758c6a+2926330]
-	GetHandleVerifier [0x0x7ff7b27786c7+3055959]
-	GetHandleVerifier [0x0x7ff7b24bcfee+191102]
-	GetHandleVerifier [0x0x7ff7b24c50af+224063]
-	GetHandleVerifier [0x0x7ff7b24aaf64+117236]
-	GetHandleVerifier [0x0x7ff7b24ab119+117673]
-	GetHandleVerifier [0x0x7ff7b24910a8+11064]
+	GetHandleVerifier [0x0x7ff6939c1eb5+80197]
+	GetHandleVerifier [0x0x7ff6939c1f10+80288]
+	(No symbol) [0x0x7ff6937402fa]
+	(No symbol) [0x0x7ff693797cd7]
+	(No symbol) [0x0x7ff693797f9c]
+	(No symbol) [0x0x7ff6937eba87]
+	(No symbol) [0x0x7ff6937c03bf]
+	(No symbol) [0x0x7ff6937e87fb]
+	(No symbol) [0x0x7ff6937c0153]
+	(No symbol) [0x0x7ff693788b02]
+	(No symbol) [0x0x7ff6937898d3]
+	GetHandleVerifier [0x0x7ff693c7e83d+2949837]
+	GetHandleVerifier [0x0x7ff693c78c6a+2926330]
+	GetHandleVerifier [0x0x7ff693c986c7+3055959]
+	GetHandleVerifier [0x0x7ff6939dcfee+191102]
+	GetHandleVerifier [0x0x7ff6939e50af+224063]
+	GetHandleVerifier [0x0x7ff6939caf64+117236]
+	GetHandleVerifier [0x0x7ff6939cb119+117673]
+	GetHandleVerifier [0x0x7ff6939b10a8+11064]
 	BaseThreadInitThunk [0x0x7ff98953e8d7+23]
 	RtlUserThreadStart [0x0x7ff98a528d9c+44]
 
@@ -211,12 +177,9 @@ Waiting for the cookie pop-up.
 Cookie pop-up did not show up.
 Fetching: Plumbers, prices & projects: Heat Pump Forum 2025 wrapped up
 Fetching: Key steps to decarbonisation highlighted as EU funded project closes
-Fetching: Europe’s best heat hump projects shine at the 2025 Heat Pump Awards
-Fetching: Distorted taxation is undermining energy security
 📰Opening: Contracting Business - Residential
 Ads not found.
 Mimicking a human scrolling through the news.
-Fetching: Why Disruptive Branding Helps HVAC Contractors Win More Customers
 📰Opening: Contracting Business - Commercial
 Ads not found.
 Mimicking a human scrolling through the news.
@@ -231,7 +194,6 @@ Fetching: Carrier Launches Field Trials of Battery-Enabled HVAC to Support U.S. 
 Fetching: 16th Annual Sonnhalter Tool Drive Raises  $36,000 Worth of Donations for Habitat for Humanity
 Fetching: BDR University Fall Courses Equip HVAC Contractors for Growth
 Fetching: Global Research Boosts LG HVAC Innovation for Efficiency and Sustainability
-Fetching: ServiceTitan Acquires Conduit Tech
 📰Opening: Contracting Business - Technology
 Ads not found.
 Mimicking a human scrolling through the news.
@@ -241,40 +203,33 @@ Mimicking a human scrolling through the news.
 Fetching: Greenheck Make Up Air Units Extend Capacity with Packaged Cooling
 Fetching: CPS Products Announces 5-2-1 Compressor Saver Hard Start Kit
 Fetching: Taco Releases HS Series Horizontal Split Case Pumps
-Fetching: GF Expands Uponor ChlorFIT Offering with Launch of 565 Butterfly Valves
-Fetching: Panasonic Launches New Energy Recovery Ventilation Products for Year-Round Comfort
 📰Opening: Contractor Mag - Management
 Ads not found.
 Mimicking a human scrolling through the news.
 Fetching: How Video and Training Led to 3X Business Growth
-Fetching: Tariffs, Trade and Construction Contractors
-Fetching: 6 Unsolvable Plumbing Problems (and Why They Don’t Matter)
+An error has occured: 'NoneType' object has no attribute 'text'
 📰Opening: Contractor Mag - Codes
 Ads not found.
 Mimicking a human scrolling through the news.
-Fetching: IAPMO Releases 2025 Report on Proposals for 2027 WE•Stand Code
-Fetching: IAPMO Elects New Leaders, Honors Industry Achievements at 2025 Conference
-Fetching: Rock & Roll Vibes Energize IAPMO Conference in Palm Springs
+An error has occured: 'NoneType' object has no attribute 'text'
 📰Opening: Contractor Mag - Hydronics
 Ads not found.
 Mimicking a human scrolling through the news.
 Fetching: High-Demand Kitchen Solves Hot Water Challenges with Cyclone Flex
 Fetching: Weekly Product Gallery: General Pipe Cleaners, Lochinvar, LIXIL, Kohler, Brass Knuckle, Cat Footwear
-Fetching: Electrical Infrastructure In Boiler Rooms: A Mechanical Contractor’s Guide
+An error has occured: 'NoneType' object has no attribute 'text'
 📰Opening: Contractor Mag - Technology
 Ads not found.
 Mimicking a human scrolling through the news.
+An error has occured: 'NoneType' object has no attribute 'text'
 📰Opening: Contractor Mag - Tools
 Ads not found.
 Mimicking a human scrolling through the news.
 Fetching: Weekly Product Gallery: General Pipe Cleaners, Lochinvar, LIXIL, Kohler, Brass Knuckle, Cat Footwear
 Fetching: From Shop Class to Flat Track: CTE Students Build Race-Ready Harley
+An error has occured: 'NoneType' object has no attribute 'text'
 📰Opening: ACR Journal
 Pop-up closed.
-Fetching: Conor Eaton-Smith joins ADA
-Fetching: Elta launches new subfloor ventilation fan
-Fetching: Weatherite and Condair deliver direct solution
-Fetching: Airedale's 2MW TurboChill for data centres
 📰Opening: Fleet Owner
 Ads Closed.
 Mimicking a human scrolling through the news.
@@ -283,29 +238,20 @@ Fetching: Echo Global Logistics announces new Monterrey office to enhance refrig
 📰Opening: RAC Plus
 Pop-up closed.
 Waiting for a banner blocking the news blocks to close..
-Fetching: ACRIB survey finds strong support for refrigerant training
 📰Opening: PHCP Pros
 Scrolling through the news, making sure all articles are loaded.
-Fetching: S&P USA Ventilation Systems Premium Choice EC Fan Models
-Fetching: Panasonic Intelli-Balance Elite and Elite Plus+ Series
 📰Opening: HV UK
 Pop-up closed.
 Waiting for a banner blocking the news blocks to close..
 Fetching: NICEIC publishes research on relationship between tradespeople and the public
-Fetching: MP tours zero-emission boiler production facility
-Fetching: Levy cuts not enough for clean heating transition, says SEA
 📰Opening: Climate Control
-Fetching: R290 heating for apartments
 📰Opening: DOE - Press Release
 Fetching: U.S. Department of Energy Launches Mine of the Future Initiatives to Bolster the U.S. Mining Industry
 Fetching: DOE Awards $15 Million Financial Assistance Cooperative Agreement to Southern States Energy Board
-Fetching: FEMP Celebrates 2024 Federal Energy and Water Management Award Winners
-Fetching: Energy Department Returns $13 Billion in Unobligated Wasteful Spending to American Taxpayers
 📰Opening: DOE - Testimony
 📰Opening: DOE - Latest OpEds
 📰Opening: IEA
 📰Opening: HPA
-Fetching: Q&A with Craig Dolan – Reflecting on his time as HPA Chair
 📰Opening: JARN
 Fetching: Viessmann once again wins the “Stiftung Warentest” – Vitocal 250-A air/water heat pump continues to impress in 2025
 Fetching: Eurovent, AMCA & EVIA publish FAQ guide on Fans
@@ -358,71 +304,10 @@ Fetching: Haier HVAC Solutions Extends Partnership with the Professional Darts C
 Fetching: Retail Giant Best Buy Canada Visits Midea
 Fetching: RHC-ETIP at the final event of the REDI4HEAT project
 Fetching: Distorted taxation is undermining energy security
-Fetching: Headline News Volume 797
-Fetching: Carrier Transicold Expands Electric Portfolio with Pulsor eCool Launch in India
-Fetching: Haier AC Chonburi Industrial Park Start Production
-Fetching: Nigeria's First Midea Proshop Grand Opening
-Fetching: Samsung Brings ‘Big Bespoke AI Festival’ with Never-Before-Seen Deals, Cashback & Rewards on Bespoke AI Appliances
-Fetching: Exchange of Expertise and Global Vision- Frascold Shanghai on an official visit to Italy
-Fetching: East African Community approves regional MEPS for ACs and refrigerators
-An error has occured: Message: 
-Stacktrace:
-	GetHandleVerifier [0x0x7ff7b24a1eb5+80197]
-	GetHandleVerifier [0x0x7ff7b24a1f10+80288]
-	(No symbol) [0x0x7ff7b22202fa]
-	(No symbol) [0x0x7ff7b2277cd7]
-	(No symbol) [0x0x7ff7b2277f9c]
-	(No symbol) [0x0x7ff7b22cba87]
-	(No symbol) [0x0x7ff7b22a03bf]
-	(No symbol) [0x0x7ff7b22c87fb]
-	(No symbol) [0x0x7ff7b22a0153]
-	(No symbol) [0x0x7ff7b2268b02]
-	(No symbol) [0x0x7ff7b22698d3]
-	GetHandleVerifier [0x0x7ff7b275e83d+2949837]
-	GetHandleVerifier [0x0x7ff7b2758c6a+2926330]
-	GetHandleVerifier [0x0x7ff7b27786c7+3055959]
-	GetHandleVerifier [0x0x7ff7b24bcfee+191102]
-	GetHandleVerifier [0x0x7ff7b24c50af+224063]
-	GetHandleVerifier [0x0x7ff7b24aaf64+117236]
-	GetHandleVerifier [0x0x7ff7b24ab119+117673]
-	GetHandleVerifier [0x0x7ff7b24910a8+11064]
-	BaseThreadInitThunk [0x0x7ff98953e8d7+23]
-	RtlUserThreadStart [0x0x7ff98a528d9c+44]
-
-An error has occured: Message: no such element: element not found
-  (Session info: chrome=140.0.7339.128); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
-Stacktrace:
-	GetHandleVerifier [0x0x7ff7b24a1eb5+80197]
-	GetHandleVerifier [0x0x7ff7b24a1f10+80288]
-	(No symbol) [0x0x7ff7b22202fa]
-	(No symbol) [0x0x7ff7b2236b15]
-	(No symbol) [0x0x7ff7b2235603]
-	(No symbol) [0x0x7ff7b2228bc7]
-	(No symbol) [0x0x7ff7b2226a70]
-	(No symbol) [0x0x7ff7b222af6f]
-	(No symbol) [0x0x7ff7b222b02f]
-	(No symbol) [0x0x7ff7b2277587]
-	(No symbol) [0x0x7ff7b2277f9c]
-	(No symbol) [0x0x7ff7b226a59c]
-	(No symbol) [0x0x7ff7b22a03bf]
-	(No symbol) [0x0x7ff7b226a456]
-	(No symbol) [0x0x7ff7b22a0590]
-	(No symbol) [0x0x7ff7b22c87fb]
-	(No symbol) [0x0x7ff7b22a0153]
-	(No symbol) [0x0x7ff7b2268b02]
-	(No symbol) [0x0x7ff7b22698d3]
-	GetHandleVerifier [0x0x7ff7b275e83d+2949837]
-	GetHandleVerifier [0x0x7ff7b2758c6a+2926330]
-	GetHandleVerifier [0x0x7ff7b27786c7+3055959]
-	GetHandleVerifier [0x0x7ff7b24bcfee+191102]
-	GetHandleVerifier [0x0x7ff7b24c50af+224063]
-	GetHandleVerifier [0x0x7ff7b24aaf64+117236]
-	GetHandleVerifier [0x0x7ff7b24ab119+117673]
-	GetHandleVerifier [0x0x7ff7b24910a8+11064]
-	BaseThreadInitThunk [0x0x7ff98953e8d7+23]
-	RtlUserThreadStart [0x0x7ff98a528d9c+44]
-
-No such page found.
 📰Opening: JARN-Interviews
+Fetching: LG ES Company Driving the Future of Global HVAC Innovation
+Fetching: Epta Advances Sustainable Refrigeration Innovation
+Fetching: Prihoda, the Juggernaut of the Fabric Diffuser Industry
+Fetching: Panasonic Expands Its Leadership in CO2 Refrigeration Field
 Nudges is now DISABLED.
 Logging ended..

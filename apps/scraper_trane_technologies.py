@@ -41,7 +41,7 @@ class TraneNews:
                     self.title = link_tag.text.strip()
                     if link_target == '_self':
                         self.driver.switch_to.new_window('tab')
-                        print(f'getting summary of: {self.title}')
+                        print(f'Fetching: {self.title}')
                         self.driver.get(self.link)
                         self.summary = self.driver.find_element(By.XPATH,'//*[@id="_ctrl0_ctl70_divModuleContainer"]/div/div/div/div[3]/div/p[1]').text.strip()
                         self.driver.close()

@@ -41,7 +41,7 @@ class CopelandNews:
             parsed_date = news.find('div',class_='ddl-card__date').text.strip().split(maxsplit=1)[1]
             parsed_date_obj = datetime.strptime(parsed_date,'%b %d %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj > self.today-timedelta(days=self.coverage_days):
+            if parsed_date_obj >= self.today-timedelta(days=self.coverage_days):
                 heading = news.find('a', class_='ddl-card__heading')
                 title = heading.text.strip()
                 link = heading.get('href')

@@ -24,16 +24,19 @@ class SensataNews:
 
     def get_soup(self):
         print(f'📰Opening: Sensata')
-        self.driver.get(self.url)
-        button = self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'CybotCookiebotBannerCloseButton')))
-        if button:
-            button.click()
-            print('Pop-up has been closed.')
-        html = self.driver.page_source
-        soup = BeautifulSoup(html,'html.parser')
-        news_section = soup.find('div',class_='newsroom__content')
-        news_blocks = news_section.find_all('div',class_='listing-item')
-        self.get_news(news_blocks)
+        try:
+            self.driver.get(self.url)
+            button = self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'CybotCookiebotBannerCloseButton')))
+            if button:
+                button.click()
+                print('Pop-up has been closed.')
+            html = self.driver.page_source
+            soup = BeautifulSoup(html,'html.parser')
+            news_section = soup.find('div',class_='newsroom__content')
+            news_blocks = soup.find_all('div',class_='listing-item')
+            self.get_news(news_blocks)
+        except AttributeError:
+            print('Triggered CAPTCHA, unable to visit the site.')
     
     def get_news(self,bs4_blocks):
         for news in bs4_blocks:

@@ -50,7 +50,7 @@ class ACRJournal:
             parsed_date = news.find('p').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%d %B %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj <= self.date_limit:
+            if parsed_date_obj < self.date_limit:
                 return False
             title_block = news.find('h5').find('a')
             title = title_block.text.strip()

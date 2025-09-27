@@ -337,6 +337,7 @@ def main(page:ft.Page):
             combined_csv_df = pd.DataFrame(combined_csv)
             scraped_data = ScrapedData(None,combined_csv_df,page)
             await ui_queue.put(("display_output", scraped_data.run()))
+            scrape_button_enabled()
             await asyncio.sleep(0.1)
         else:
             today=datetime.today()

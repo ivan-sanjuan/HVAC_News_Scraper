@@ -53,7 +53,7 @@ class HVUKNews:
                 parsed_date = self.clean_ordinal_suffix(parsed_date)
                 parsed_date_obj = datetime.strptime(parsed_date,'%d %B %Y')
                 publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-                if parsed_date_obj <= self.date_limit:
+                if parsed_date_obj < self.date_limit:
                     break
                 title = soup.find('h1',class_='entry-title').find('span',{'itemprop':'name'}).text.strip()
                 paragraphs = soup.find_all('p')

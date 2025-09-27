@@ -70,6 +70,7 @@ def get_paths():
                 'csv/sanhua_group_news.csv',
                 'csv/icm_controls_news.csv',
                 'csv/midea_news.csv',
-                'csv/rees_scientific_news.csv'
+                'csv/rees_scientific_news.csv',
+                'csv/carrier_group_news.csv'
             ]
     return csv_paths

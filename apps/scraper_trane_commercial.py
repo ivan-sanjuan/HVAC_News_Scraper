@@ -24,11 +24,6 @@ class TraneCommercialNews:
         print(f'📰Opening: Trane - Commercial')
         self.driver.get(self.url)
         time.sleep(10)
-        # WebDriverWait(self.driver,60).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,'[data-eventtype="TITLE_CLICK"]')))
-        # self.driver_wait(EC.presence_of_all_elements_located((By.CSS_SELECTOR,'[data-eventtype="TITLE_CLICK"]')))
-        # search_button = self.driver_wait(EC.presence_of_all_elements_located((By.CSS_SELECTOR,'[data-eventtype="TITLE_CLICK"]')))
-        # self.driver.execute_script("arguments[0].scrollIntoView();",search_button)
-        # self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'content')))
         section = self.driver.find_elements(By.CSS_SELECTOR,'[data-component="Card"]')
         print(section)
         html = self.driver.page_source

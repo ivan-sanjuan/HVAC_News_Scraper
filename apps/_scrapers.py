@@ -67,6 +67,7 @@ from .scraper_sanhua_group import get_sanhua_group
 from .scraper_icm_controls import get_icm_controls
 from .scraper_midea import get_midea
 from .scraper_rees_scientific import get_rees_scientific
+from .scraper_carrier_groups import get_carrier_group_news
 # get_ACHR,
 def get_scrapers():
     scrapers = [
@@ -77,6 +78,7 @@ def get_scrapers():
             get_LG_Electronics_NA,
             get_copeland_news,
             get_carrier_news,
+            get_carrier_group_news,
             get_viessmann_news,
             get_lennox_news,
             get_BDRthermea_news,
