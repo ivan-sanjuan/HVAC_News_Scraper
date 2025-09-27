@@ -1,6 +1,6 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (iPod touch; CPU iPhone OS 4_1 like Mac OS X) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0 Mobile/8B117 Safari/6533.18.5
+User Agent: Mozilla/5.0 (Linux; Android 4.2.2; Nexus 4 Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.94 Mobile Safari/537.36
 📰Opening: Trane Technologies
 getting summary of: Trane Technologies Named Among World’s Best Employers Securing Top Honors for Culture, Sustainability, and Industry Leadership
 📰Opening: Danfoss
@@ -109,7 +109,7 @@ Fetching: 2025 Annual Investor Conference
 Fetching: Secop Celebrates 15 Years of Brand Identity with Second World Tour Stop in Slovakia
 Fetching: Secop and Imcosa Celebrate 10 Years of Partnership at AHR Show 2025
 📰Opening: Sensata
-Pop-up has been closed.
+An error has occured: 'NoneType' object has no attribute 'find_all'
 📰Opening: Tive
 📰Opening: NIBE
 Pop-up closed.
@@ -120,15 +120,7 @@ Pop-up closed; waiting for the page to reload.
 📰Opening: Sanhua-Europe
 📰Opening: Sanhua Group
 📰Opening: ICM Controls
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'find_all'
 📰Opening: Midea
 Pop-up closed.
 📰Opening: Rees Scientific
@@ -190,13 +182,30 @@ Fetching: Refrigeration compressor market to hit USD 40.43 bn by 2032
 Fetching: ECHA updates PFAS restriction proposal under REACH
 Fetching: Bluefors signs helium-3 supply agreement with Interlune for quantum cooling
 📰Opening: Natural Refrigerants
-Fetching: ATMO MAC: China to Lead the Transition to Natural Refrigerants in Electric Vehicles, Says S&P Global Mobility
-Fetching: IAA Mobility 2025: Nidec AMEC Showcases R290 Thermal Management Module for EVs
-Fetching: SCM Ref NZ has Supplied Over 80 Transcritical CO2 Systems in New Zealand, According to Product Development Manager
-Fetching: Takeda’s Butane–Water High-Temperature Heat Pump Has Commenced Operation at Its Vienna Manufacturing Facility
-Fetching: Tesco Expands Use of ECOOLTEC’s Hydrocarbon/CO2 Transport Refrigeration Units
-Fetching: High-Temperature CO2 Heat Pump Team Is Runner-Up in New York’s Empire Technology Prize
-Fetching: Nokia’s R&D and Manufacturing Campus in Finland Has ‘One of the World’s Largest CO2 District Heating and Cooling Plants’
+An error has occured: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff7b24a1eb5+80197]
+	GetHandleVerifier [0x0x7ff7b24a1f10+80288]
+	(No symbol) [0x0x7ff7b22202fa]
+	(No symbol) [0x0x7ff7b2277cd7]
+	(No symbol) [0x0x7ff7b2277f9c]
+	(No symbol) [0x0x7ff7b22cba87]
+	(No symbol) [0x0x7ff7b22a03bf]
+	(No symbol) [0x0x7ff7b22c87fb]
+	(No symbol) [0x0x7ff7b22a0153]
+	(No symbol) [0x0x7ff7b2268b02]
+	(No symbol) [0x0x7ff7b22698d3]
+	GetHandleVerifier [0x0x7ff7b275e83d+2949837]
+	GetHandleVerifier [0x0x7ff7b2758c6a+2926330]
+	GetHandleVerifier [0x0x7ff7b27786c7+3055959]
+	GetHandleVerifier [0x0x7ff7b24bcfee+191102]
+	GetHandleVerifier [0x0x7ff7b24c50af+224063]
+	GetHandleVerifier [0x0x7ff7b24aaf64+117236]
+	GetHandleVerifier [0x0x7ff7b24ab119+117673]
+	GetHandleVerifier [0x0x7ff7b24910a8+11064]
+	BaseThreadInitThunk [0x0x7ff98953e8d7+23]
+	RtlUserThreadStart [0x0x7ff98a528d9c+44]
+
 📰Opening: EHPA
 Waiting for the cookie pop-up.
 Cookie pop-up did not show up.
@@ -237,94 +246,183 @@ Fetching: Panasonic Launches New Energy Recovery Ventilation Products for Year-R
 📰Opening: Contractor Mag - Management
 Ads not found.
 Mimicking a human scrolling through the news.
-An error has occured: 'NoneType' object has no attribute 'find'
-An error has occured: Message: no such element: element not found
-  (Session info: chrome=140.0.7339.128); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
-Stacktrace:
-	GetHandleVerifier [0x0x7ff7b24a1eb5+80197]
-	GetHandleVerifier [0x0x7ff7b24a1f10+80288]
-	(No symbol) [0x0x7ff7b22202fa]
-	(No symbol) [0x0x7ff7b2236b15]
-	(No symbol) [0x0x7ff7b2235603]
-	(No symbol) [0x0x7ff7b2228bc7]
-	(No symbol) [0x0x7ff7b2226a70]
-	(No symbol) [0x0x7ff7b222af6f]
-	(No symbol) [0x0x7ff7b222b02f]
-	(No symbol) [0x0x7ff7b2277587]
-	(No symbol) [0x0x7ff7b2277f9c]
-	(No symbol) [0x0x7ff7b226a59c]
-	(No symbol) [0x0x7ff7b22a03bf]
-	(No symbol) [0x0x7ff7b226a456]
-	(No symbol) [0x0x7ff7b22a0590]
-	(No symbol) [0x0x7ff7b22c87fb]
-	(No symbol) [0x0x7ff7b22a0153]
-	(No symbol) [0x0x7ff7b2268b02]
-	(No symbol) [0x0x7ff7b22698d3]
-	GetHandleVerifier [0x0x7ff7b275e83d+2949837]
-	GetHandleVerifier [0x0x7ff7b2758c6a+2926330]
-	GetHandleVerifier [0x0x7ff7b27786c7+3055959]
-	GetHandleVerifier [0x0x7ff7b24bcfee+191102]
-	GetHandleVerifier [0x0x7ff7b24c50af+224063]
-	GetHandleVerifier [0x0x7ff7b24aaf64+117236]
-	GetHandleVerifier [0x0x7ff7b24ab119+117673]
-	GetHandleVerifier [0x0x7ff7b24910a8+11064]
-	BaseThreadInitThunk [0x0x7ff98953e8d7+23]
-	RtlUserThreadStart [0x0x7ff98a528d9c+44]
-
-An error has occured: Message: no such element: element not found
-  (Session info: chrome=140.0.7339.128); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
-Stacktrace:
-	GetHandleVerifier [0x0x7ff7b24a1eb5+80197]
-	GetHandleVerifier [0x0x7ff7b24a1f10+80288]
-	(No symbol) [0x0x7ff7b22202fa]
-	(No symbol) [0x0x7ff7b2236b15]
-	(No symbol) [0x0x7ff7b2235603]
-	(No symbol) [0x0x7ff7b2228bc7]
-	(No symbol) [0x0x7ff7b2226a70]
-	(No symbol) [0x0x7ff7b222af6f]
-	(No symbol) [0x0x7ff7b222b02f]
-	(No symbol) [0x0x7ff7b2277587]
-	(No symbol) [0x0x7ff7b2277f9c]
-	(No symbol) [0x0x7ff7b226a59c]
-	(No symbol) [0x0x7ff7b22a03bf]
-	(No symbol) [0x0x7ff7b226a456]
-	(No symbol) [0x0x7ff7b22a0590]
-	(No symbol) [0x0x7ff7b22c87fb]
-	(No symbol) [0x0x7ff7b22a0153]
-	(No symbol) [0x0x7ff7b2268b02]
-	(No symbol) [0x0x7ff7b22698d3]
-	GetHandleVerifier [0x0x7ff7b275e83d+2949837]
-	GetHandleVerifier [0x0x7ff7b2758c6a+2926330]
-	GetHandleVerifier [0x0x7ff7b27786c7+3055959]
-	GetHandleVerifier [0x0x7ff7b24bcfee+191102]
-	GetHandleVerifier [0x0x7ff7b24c50af+224063]
-	GetHandleVerifier [0x0x7ff7b24aaf64+117236]
-	GetHandleVerifier [0x0x7ff7b24ab119+117673]
-	GetHandleVerifier [0x0x7ff7b24910a8+11064]
-	BaseThreadInitThunk [0x0x7ff98953e8d7+23]
-	RtlUserThreadStart [0x0x7ff98a528d9c+44]
-
+Fetching: How Video and Training Led to 3X Business Growth
+Fetching: Tariffs, Trade and Construction Contractors
+Fetching: 6 Unsolvable Plumbing Problems (and Why They Don’t Matter)
 📰Opening: Contractor Mag - Codes
 Ads not found.
 Mimicking a human scrolling through the news.
-An error has occured: 'NoneType' object has no attribute 'find'
-An error has occured: 'NoneType' object has no attribute 'find'
-An error has occured: 'NoneType' object has no attribute 'find'
-An error has occured: 'NoneType' object has no attribute 'text'
+Fetching: IAPMO Releases 2025 Report on Proposals for 2027 WE•Stand Code
+Fetching: IAPMO Elects New Leaders, Honors Industry Achievements at 2025 Conference
+Fetching: Rock & Roll Vibes Energize IAPMO Conference in Palm Springs
 📰Opening: Contractor Mag - Hydronics
 Ads not found.
 Mimicking a human scrolling through the news.
-An error has occured: 'NoneType' object has no attribute 'find'
-An error has occured: 'NoneType' object has no attribute 'find'
-An error has occured: 'NoneType' object has no attribute 'find'
+Fetching: High-Demand Kitchen Solves Hot Water Challenges with Cyclone Flex
+Fetching: Weekly Product Gallery: General Pipe Cleaners, Lochinvar, LIXIL, Kohler, Brass Knuckle, Cat Footwear
+Fetching: Electrical Infrastructure In Boiler Rooms: A Mechanical Contractor’s Guide
 📰Opening: Contractor Mag - Technology
 Ads not found.
 Mimicking a human scrolling through the news.
 📰Opening: Contractor Mag - Tools
 Ads not found.
 Mimicking a human scrolling through the news.
-An error has occured: 'NoneType' object has no attribute 'find'
-An error has occured: 'NoneType' object has no attribute 'find'
-Logging ended..
+Fetching: Weekly Product Gallery: General Pipe Cleaners, Lochinvar, LIXIL, Kohler, Brass Knuckle, Cat Footwear
+Fetching: From Shop Class to Flat Track: CTE Students Build Race-Ready Harley
+📰Opening: ACR Journal
+Pop-up closed.
+Fetching: Conor Eaton-Smith joins ADA
+Fetching: Elta launches new subfloor ventilation fan
+Fetching: Weatherite and Condair deliver direct solution
+Fetching: Airedale's 2MW TurboChill for data centres
+📰Opening: Fleet Owner
+Ads Closed.
+Mimicking a human scrolling through the news.
+Fetching: Tag-N-Trac unveils AI-powered monitoring to improve cold chain transport efficiency and product safety
+Fetching: Echo Global Logistics announces new Monterrey office to enhance refrigerated cross-border shipping solutions
+📰Opening: RAC Plus
+Pop-up closed.
+Waiting for a banner blocking the news blocks to close..
+Fetching: ACRIB survey finds strong support for refrigerant training
+📰Opening: PHCP Pros
+Scrolling through the news, making sure all articles are loaded.
+Fetching: S&P USA Ventilation Systems Premium Choice EC Fan Models
+Fetching: Panasonic Intelli-Balance Elite and Elite Plus+ Series
+📰Opening: HV UK
+Pop-up closed.
+Waiting for a banner blocking the news blocks to close..
+Fetching: NICEIC publishes research on relationship between tradespeople and the public
+Fetching: MP tours zero-emission boiler production facility
+Fetching: Levy cuts not enough for clean heating transition, says SEA
+📰Opening: Climate Control
+Fetching: R290 heating for apartments
+📰Opening: DOE - Press Release
+Fetching: U.S. Department of Energy Launches Mine of the Future Initiatives to Bolster the U.S. Mining Industry
+Fetching: DOE Awards $15 Million Financial Assistance Cooperative Agreement to Southern States Energy Board
+Fetching: FEMP Celebrates 2024 Federal Energy and Water Management Award Winners
+Fetching: Energy Department Returns $13 Billion in Unobligated Wasteful Spending to American Taxpayers
+📰Opening: DOE - Testimony
+📰Opening: DOE - Latest OpEds
+📰Opening: IEA
+📰Opening: HPA
+Fetching: Q&A with Craig Dolan – Reflecting on his time as HPA Chair
+📰Opening: JARN
+Fetching: Viessmann once again wins the “Stiftung Warentest” – Vitocal 250-A air/water heat pump continues to impress in 2025
+Fetching: Eurovent, AMCA & EVIA publish FAQ guide on Fans
+Fetching: HPT: Large heat pumps in Stockholm Stockholm, Sweden
+Fetching: Plumbers, prices & projects: Heat Pump Forum 2025 wrapped up
+Fetching: Engineered in Britain, Built for Net Zero: How Daikin Applied (UK) Is Shaping the Future of Sustainable HVAC
+Fetching: ‘Do something’ – BESA President lays down challenge
+Fetching: Carrier Honored on Fortune's 2025 Change the World List
+Fetching: Emerson’s Oxygen Analyzer Provides Ease of Use for Optimizing Combustion Systems
+Fetching: Haier opens a new boutique at Berlin MediaMarkt
+Fetching: Thermo King Launches TX-Series: New High Performance and Fuel Efficient Truck Units
+Fetching: STULZ: Modular Data Centers in the era of AI and Edge Computing
+Fetching: China: Kigali Amendment compliance could reduce HFC emissions by 18.9 Gt CO2-eq by 2060
+Fetching: The IIR at ESEF 2025 in the Gambia
+Fetching: Danfoss earns Gold Medal in EcoVadis 2025 sustainability assessment
+Fetching: Airedale: Strategies To Maximize Cooling Efficiency [1/2]
+Fetching: Key steps to decarbonisation highlighted as EU funded project closes
+Fetching: Alfa Laval and Aalborg CSP launch header-and-coil heat exchanger for large-scale energy storage systems
+Fetching: Thermo King Showcases Electric Passenger Comfort Solutions at Busworld Brussels 2025
+Fetching: JERA and DENSO Begin Japan’s First Demonstration of SOEC Hydrogen Production at a JERA Thermal Power Station
+Fetching: Daikin U.S. Corporation to Lead Building Decarbonization and Energy Resiliency Discussions at NYC Climate Week 2025
+Fetching: Invertek Drives secures ISO 14001:2015 recertification
+Fetching: Trane Technologies Named Among World’s Best Employers Securing Top Honors for Culture, Sustainability, and Industry Leadership
+Fetching: Sustainability in Action: How Industry Partnerships Are Shaping a Greener Future
+Fetching: Haier Air Conditioning Hosts 2025 GBW
+Fetching: Haier: HIBs 2025 Global Technical Training, A New Journey Begins!
+Fetching: Resilient Cooling of Buildings: Re-Introduction to our Guidebook 33!
+Fetching: Johnson Controls appoints Todd Grabowski to lead Americas segment
+Fetching: SophiA Final Consortium Event: The IIR’s Strong Involvement in Sustainable Refrigeration Solutions for Africa
+Fetching: A new era for the IIR’s archives: 2,000 historical publications now available online
+Fetching: Asia–Pacific Ministers Renew Commitment to Ozone-Climate Action at Sixth Forum of Ministers and Environment Authorities…
+Fetching: REHVA at the REDI4HEAT Final Conference
+Fetching: Europe’s best heat hump projects shine at the 2025 Heat Pump Awards
+Fetching: Munters: a global hackathon for smarter, more energy-efficient dehumidification
+Fetching: Samsung Brings ‘AI Home: Future Living, Now’ to India
+Fetching: Swegon: how are we meeting HVAC design challenges with passive climate ceiling systems?
+Fetching: Spotlight on Lineage in the United Kingdom: Powering the European Food Chain With A Strategic Network
+Fetching: UL Solutions Expands Marketing Claim Verification Into Industrial Manufacturing Software and Processes, Helping Accelerate Industrial Metaverse Adoption
+Fetching: Challenging climate conditions: Liebherr presents HVAC-solution at Global Rail 2025
+Fetching: From transparency to ergonomics: Vendome transforms the deli counter
+Fetching: Future of Computing: Energy-Efficient Computing for AI and Beyond
+Fetching: September 2025 TechCast | The Semiconductor Shift: All Eyes Are on Arizona
+Fetching: Contracts for Difference to Spur Clean and Competitive Industry: Options for Federal Policymakers
+Fetching: Messe Frankfurt to expand portfolio in Central Asia and organise Intelligent Building Expo
+Fetching: Copeland’s Industrial Single-Screw Ammonia Heat Pump Selected by Saputo to Achieve Sustainability Goals
+Fetching: COPA: Implementation Models WG
+Fetching: Hitachi agrees to acquire German data and AI services firm synvert to accelerate Agentic AI and Physical AI development, driving global expansion of HMAX business
+Fetching: Haier Smart Home Global ESG Family Summit
+Fetching: Haier HVAC Solutions Extends Partnership with the Professional Darts Corporation for the 2025 / 2026 Calendar Year
+Fetching: Retail Giant Best Buy Canada Visits Midea
+Fetching: RHC-ETIP at the final event of the REDI4HEAT project
+Fetching: Distorted taxation is undermining energy security
+Fetching: Headline News Volume 797
+Fetching: Carrier Transicold Expands Electric Portfolio with Pulsor eCool Launch in India
+Fetching: Haier AC Chonburi Industrial Park Start Production
+Fetching: Nigeria's First Midea Proshop Grand Opening
+Fetching: Samsung Brings ‘Big Bespoke AI Festival’ with Never-Before-Seen Deals, Cashback & Rewards on Bespoke AI Appliances
+Fetching: Exchange of Expertise and Global Vision- Frascold Shanghai on an official visit to Italy
+Fetching: East African Community approves regional MEPS for ACs and refrigerators
+An error has occured: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff7b24a1eb5+80197]
+	GetHandleVerifier [0x0x7ff7b24a1f10+80288]
+	(No symbol) [0x0x7ff7b22202fa]
+	(No symbol) [0x0x7ff7b2277cd7]
+	(No symbol) [0x0x7ff7b2277f9c]
+	(No symbol) [0x0x7ff7b22cba87]
+	(No symbol) [0x0x7ff7b22a03bf]
+	(No symbol) [0x0x7ff7b22c87fb]
+	(No symbol) [0x0x7ff7b22a0153]
+	(No symbol) [0x0x7ff7b2268b02]
+	(No symbol) [0x0x7ff7b22698d3]
+	GetHandleVerifier [0x0x7ff7b275e83d+2949837]
+	GetHandleVerifier [0x0x7ff7b2758c6a+2926330]
+	GetHandleVerifier [0x0x7ff7b27786c7+3055959]
+	GetHandleVerifier [0x0x7ff7b24bcfee+191102]
+	GetHandleVerifier [0x0x7ff7b24c50af+224063]
+	GetHandleVerifier [0x0x7ff7b24aaf64+117236]
+	GetHandleVerifier [0x0x7ff7b24ab119+117673]
+	GetHandleVerifier [0x0x7ff7b24910a8+11064]
+	BaseThreadInitThunk [0x0x7ff98953e8d7+23]
+	RtlUserThreadStart [0x0x7ff98a528d9c+44]
+
+An error has occured: Message: no such element: element not found
+  (Session info: chrome=140.0.7339.128); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff7b24a1eb5+80197]
+	GetHandleVerifier [0x0x7ff7b24a1f10+80288]
+	(No symbol) [0x0x7ff7b22202fa]
+	(No symbol) [0x0x7ff7b2236b15]
+	(No symbol) [0x0x7ff7b2235603]
+	(No symbol) [0x0x7ff7b2228bc7]
+	(No symbol) [0x0x7ff7b2226a70]
+	(No symbol) [0x0x7ff7b222af6f]
+	(No symbol) [0x0x7ff7b222b02f]
+	(No symbol) [0x0x7ff7b2277587]
+	(No symbol) [0x0x7ff7b2277f9c]
+	(No symbol) [0x0x7ff7b226a59c]
+	(No symbol) [0x0x7ff7b22a03bf]
+	(No symbol) [0x0x7ff7b226a456]
+	(No symbol) [0x0x7ff7b22a0590]
+	(No symbol) [0x0x7ff7b22c87fb]
+	(No symbol) [0x0x7ff7b22a0153]
+	(No symbol) [0x0x7ff7b2268b02]
+	(No symbol) [0x0x7ff7b22698d3]
+	GetHandleVerifier [0x0x7ff7b275e83d+2949837]
+	GetHandleVerifier [0x0x7ff7b2758c6a+2926330]
+	GetHandleVerifier [0x0x7ff7b27786c7+3055959]
+	GetHandleVerifier [0x0x7ff7b24bcfee+191102]
+	GetHandleVerifier [0x0x7ff7b24c50af+224063]
+	GetHandleVerifier [0x0x7ff7b24aaf64+117236]
+	GetHandleVerifier [0x0x7ff7b24ab119+117673]
+	GetHandleVerifier [0x0x7ff7b24910a8+11064]
+	BaseThreadInitThunk [0x0x7ff98953e8d7+23]
+	RtlUserThreadStart [0x0x7ff98a528d9c+44]
+
+No such page found.
+📰Opening: JARN-Interviews
 Nudges is now DISABLED.
 Logging ended..

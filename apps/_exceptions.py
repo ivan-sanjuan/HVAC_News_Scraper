@@ -91,6 +91,9 @@ def get_exceptions():
         get_rac_plus,
         get_viessmann_news,
         get_LGHVAC_NA,
-        get_thermoking_europe
+        get_thermoking_europe,
+        get_contractor_mag,
+        get_contracting_business,
+        get_tecumseh
     ]
     return exceptions

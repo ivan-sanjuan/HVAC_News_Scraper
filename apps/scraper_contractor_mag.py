@@ -82,28 +82,25 @@ class ContractorMag:
         standard_news = self.get_news_details()
         title = standard_news.get('title')
         summary = standard_news.get('summary')
-        self.driver.close()
-        self.driver.switch_to.window(self.driver.window_handles[0])
         self.append(publish_date,title,summary,link)
             
     def get_news(self,section,section_sel):
-        page_num = 1
         for news, sect in zip(section,section_sel):
             self.driver_wait(lambda e: len(e.window_handles) == 1)
             try:
                 parsed_date = news.find('div',class_='date').text.strip()
                 parsed_date_obj = self.clean_date(parsed_date)
                 publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-                if page_num == 1:
-                    if parsed_date_obj >= self.date_limit:
+                if parsed_date_obj >= self.date_limit:
+                    try:
                         self.get_details(publish_date,sect)
-                    continue
-                else:
-                    if parsed_date_obj >= self.date_limit:
-                        self.get_details(publish_date,sect)
+                    except Exception as e:
+                            print(f'An error has occured: {e}')
+                    finally:
+                        self.driver.close()
+                        self.driver.switch_to.window(self.driver.window_handles[0])
             except Exception as e:
                 print(f'An error has occured: {e}')
-            page_num += 1
             
     def get_label(self):
         label = self.soup.find('div',class_='above-line')

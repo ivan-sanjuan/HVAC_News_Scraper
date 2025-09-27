@@ -45,7 +45,7 @@ class ContractingBusinessNews:
         bottom = self.driver.find_element(By.CLASS_NAME,'load-more')
         self.driver.execute_script("arguments[0].scrollIntoView();",bottom)
         print('Mimicking a human scrolling through the news.')
-        time.sleep(1)
+        time.sleep(0.2)
         try:
             blocks = self.driver.find_elements(By.CLASS_NAME,'item-row')
         except StaleElementReferenceException:
@@ -54,7 +54,7 @@ class ContractingBusinessNews:
         for news in blocks:
             link_sel = news.find_element(By.CLASS_NAME,'title-wrapper')
             self.driver.execute_script("arguments[0].scrollIntoView();",link_sel)
-            time.sleep(0.5)
+            time.sleep(0.2)
 
     def clean_date(self,date_str):
         cleaned = date_str.replace('.','')
@@ -92,7 +92,13 @@ class ContractingBusinessNews:
                     parsed_date_obj = self.clean_date(parsed_date)
                     publish_date = parsed_date_obj.strftime('%Y-%m-%d')
                     if parsed_date_obj >= self.date_limit:
-                        self.get_details(publish_date,sect)
+                        try:
+                            self.get_details(publish_date,sect)
+                        except Exception as e:
+                            print(f'An error has occured: {e}')
+                        finally:
+                            self.driver.close()
+                            self.driver.switch_to.window(self.driver.window_handles[0])
             except Exception as e:
                 print(f'An error has occured: {e}')
             
@@ -123,8 +129,6 @@ class ContractingBusinessNews:
             title = f'(SPONSORED NEWS POST) {extracted_title}'
         else:
             title = extracted_title
-        self.driver.close()
-        self.driver.switch_to.window(self.driver.window_handles[0])
         return ({'title':title,'summary':summary})
     
     def append(self,publish_date,title,summary,link):
