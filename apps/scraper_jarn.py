@@ -123,4 +123,5 @@ def get_jarn(driver,coverage_days):
         site.scrape()
         all_news.extend(site.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/jarn_news.csv',index=False)

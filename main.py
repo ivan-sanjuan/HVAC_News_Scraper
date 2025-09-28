@@ -59,7 +59,7 @@ class ScrapedData:
                         text="Visit",
                         data=cell_value,
                         on_click=self.open_link,
-                        style=ft.ButtonStyle(color=ft.Colors.BLUE)
+                        style=ft.ButtonStyle(color=ft.Colors.BLUE),
                     )
                 else:
                     cell_content = ft.Text(cell_value, color='#1F2134')
@@ -73,7 +73,14 @@ class ScrapedData:
                     cell_widget = cell_content
 
                 row_cells.append(ft.DataCell(cell_widget))
-            rows.append(ft.DataRow(cells=row_cells))
+            rows.append(ft.DataRow(cells=row_cells,
+                                   color={
+                                    ft.ControlState.HOVERED: '#AAA089',
+                                    ft.ControlState.SELECTED: '#93C7A1',
+                                    ft.ControlState.DEFAULT: '#DEDAC6',
+                                    }
+                                    )
+                        )
         return rows
     
     def output(self):        
@@ -86,7 +93,6 @@ class ScrapedData:
                         rows=self.rows(),
                         column_spacing=15,
                         heading_row_color='#2B2B2B',
-                        data_row_color={ft.ControlState.HOVERED: "0x30CCCCCC"},
                         show_checkbox_column=True,
                         border=ft.border.all(1, '#78655E'),
                         width=1500
@@ -259,10 +265,13 @@ def main(page:ft.Page):
                             coverage_days = int(coverage_input.value)
                         try:
                             loop = asyncio.get_running_loop()
+                            await asyncio.sleep(1)
                             await loop.run_in_executor(None,scraper,driver,coverage_days)
                             await asyncio.sleep(0.1)
                         except Exception as f:
                             print(f'An error has occured: {f}')
+                        except WebDriverException as f:
+                            print(f'A general WebDriver error occured: {f}')
                         duration = time.time() - start
                         await ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
                         await ui_queue.put(('progress',(i+1)/total_tasks))
@@ -307,7 +316,6 @@ def main(page:ft.Page):
             await ui_queue.put(('log',report))
             await asyncio.sleep(0.2)
             await ui_queue.put(('status',report))
-            scrape_button_enabled()
             await asyncio.sleep(0.1)
         
         valid_dfs = []
@@ -332,7 +340,8 @@ def main(page:ft.Page):
             
         if len(valid_dfs) > 0:
             combined_df = pd.concat(valid_dfs, ignore_index=True)
-            await save_csv_async(combined_df,'csv/combined_news.csv')
+            sorted_df = combined_df.sort_values(by='PublishDate',ascending=False)
+            await save_csv_async(sorted_df,'csv/combined_news.csv')
             combined_csv = await read_csv_async('csv/combined_news.csv')
             combined_csv_df = pd.DataFrame(combined_csv)
             scraped_data = ScrapedData(None,combined_csv_df,page)

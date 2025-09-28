@@ -118,3 +118,18 @@ def get_ACHR(driver,coverage_days):
     df = pd.DataFrame(all_news)
     df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/achr_news.csv',index=False)
+    
+    
+# options = Options()
+# # options.add_argument('--headless=new')
+# options.add_argument('--disable-gpu')
+# options.add_argument('--window-size=1920x1080')
+# options.add_argument('--log-level=3')
+# options.add_argument("--disable-blink-features=AutomationControlled")
+# options.add_argument("user-agent=Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36")
+# options.page_load_strategy = 'eager'
+# driver = webdriver.Chrome(options=options)
+# get_ACHR(driver,coverage_days=15)
+
+# time.sleep(5)
+# driver.quit()

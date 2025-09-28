@@ -24,27 +24,27 @@ class ICMControlsNews:
         
     def get_soup(self):
         print(f'📰Opening: ICM Controls')
-        try:
-            self.driver.get(self.url)
-            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'entry-content-wrapper')))
-            html = self.driver.page_source
-            soup = BeautifulSoup(html,'html.parser')
-            news_section = soup.find('div',class_='entry-content-wrapper')
-            news_blocks = news_section.find_all('article',class_='slide-entry')
-            self.get_news(news_blocks)
-        except AttributeError:
-            print('Triggered CAPTCHA, unable to visit the site.')
+        self.driver.get(self.url)
+        time.sleep(5)
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'entry-content-wrapper')))
+        html = self.driver.page_source
+        soup = BeautifulSoup(html,'html.parser')
+        news_section = soup.find('div',class_='entry-content-wrapper')
+        news_blocks = news_section.find_all('article',class_='slide-entry')
+        self.get_news(news_blocks)
     
     def get_news(self,blocks):
         for news in blocks:
             try:
-                parsed_date = news.find('time',{'itemprop':'datePublished'}).text.strip()
+                parsed_date = news.find('time',class_='slide-meta-time').text.strip()
                 parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
                 publish_date = parsed_date_obj.strftime('%Y-%m-%d')
                 if parsed_date_obj >= self.date_limit:
                     link = news.find('a',class_='more-link').get('href')
                     link = urljoin(self.root,link)
-                    title = news.find('h3',class_='slide-entry-title').text.strip()
+                    title = news.find('h3',class_='slide-entry-title')
+                    if title:
+                        title = title.find('a').text.strip()
                     self.driver.switch_to.new_window('tab')
                     self.driver.get(link)
                     try:

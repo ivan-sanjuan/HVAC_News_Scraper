@@ -4,7 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import StaleElementReferenceException, NoSuchWindowException
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchWindowException, WebDriverException
 from selenium.webdriver.common.keys import Keys
 import re
 from bs4 import BeautifulSoup
@@ -24,13 +24,18 @@ class LGHVACNews:
     
     def get_soup(self):
         print(f'📰Opening: LG HVAC')
-        self.driver.get(self.url)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'articles-list')))
-        html = self.driver.page_source
-        soup = BeautifulSoup(html,'html.parser')
-        news_section_bs4 = soup.find('ol',class_='articles-list')
-        blocks_bs4 = news_section_bs4.find_all('li',class_='item')
-        self.get_news(blocks_bs4)
+        try:
+            self.driver.get(self.url)
+            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'articles-list')))
+            html = self.driver.page_source
+            soup = BeautifulSoup(html,'html.parser')
+            news_section_bs4 = soup.find('ol',class_='articles-list')
+            blocks_bs4 = news_section_bs4.find_all('li',class_='item')
+            self.get_news(blocks_bs4)
+        except Exception as f:
+            print(f'An error has occured: {f}')
+        except WebDriverException as f:
+            print(f'A general WebDriver error occured: {f}')
         
     def get_news(self,blocks_bs4):
         for news in blocks_bs4:
