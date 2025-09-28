@@ -1,4 +1,4 @@
-from .scraper_coolingpost import get_cooling_post
+from .scraper_coolingpost import CoolingPostNews
 from .scraper_refindustry import get_refindustry_news
 from .scraper_natural_refrigerants import get_natural_refrigerants_news
 from .scraper_trane_technologies import get_trane_news
@@ -68,76 +68,9 @@ from .scraper_icm_controls import get_icm_controls
 from .scraper_midea import get_midea
 from .scraper_rees_scientific import get_rees_scientific
 from .scraper_carrier_groups import get_carrier_group_news
-# get_ACHR,
-def get_scrapers():
-    scrapers = [
-            get_refindustry_news,
-            get_cooling_post,
-            # get_trane_news,
-            # get_danfoss_news,
-            # get_LG_news,
-            # get_LG_Electronics_NA,
-            # get_copeland_news,
-            # get_carrier_news,
-            # get_carrier_group_news,
-            # get_viessmann_news,
-            # get_lennox_news,
-            # get_BDRthermea_news,
-            # get_honeywell_news,
-            # get_thermoking,
-            # get_delta_trak_news,
-            # get_generac,
-            # get_nidec,
-            # get_beijer_ref,
-            # get_daikin_corporate,
-            # get_daikin_EU,
-            # get_daikin_applied,
-            # get_GEA,
-            # get_stiebel_eltron,
-            # get_resideo,
-            # get_resideo_investor,
-            # get_SPX,
-            # get_rheem,
-            # get_hussmann,
-            # get_panasonic_global,
-            # get_panasonic_hvac,
-            # get_panasonic_uk,
-            # get_atmoszero,
-            # get_mesa_labs,
-            # get_mitsubishi_electric_global,
-            # get_mitsubishi_electric_hvac,
-            # get_mitsubishi_electric_sci,
-            # get_parker_sporlan,
-            # get_rechi,
-            # get_schott,
-            # get_secop,
-            # get_sensata,
-            # get_tive,
-            # get_nibe,
-            # get_tecumseh,
-            # get_watsco,
-            # get_sanhua,
-            # get_sanhua_group,
-            # get_icm_controls,
-            # get_midea,
-            # get_rees_scientific,
-            # get_natural_refrigerants_news,
-            # get_EHPA,
-            # get_contracting_business,
-            # get_contractor_mag,
-            # get_acr_journal,
-            # get_fleet_owner,
-            # get_rac_plus,
-            # get_PHCP_pros,
-            # get_climate_control_news,
-            # get_DOE,
-            # get_IEA,
-            # get_HPA,
-            # get_jarn,
-            # get_carel,
-            # get_bitzer_news,
-            # get_LGHVAC_NA,
-            # get_thermoking_europe,
-            # get_HV_UK,
-        ]
-    return scrapers
+
+def get_scraper_classes():
+    scraper_classes = [
+        CoolingPostNews,
+    ]
+    return scraper_classes

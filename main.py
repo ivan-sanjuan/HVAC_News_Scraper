@@ -2,6 +2,7 @@ from apps._scrapers import get_scrapers
 from apps._paths import get_paths
 from apps._exceptions import get_exceptions
 from apps._useragents import user_agents
+from apps._response import get_scraper_classes
 from apps import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -10,6 +11,7 @@ import win32com.client as outlook
 from pandas.errors import EmptyDataError
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from functools import partial
+import requests
 import pyautogui
 import random
 import threading
@@ -197,6 +199,15 @@ def main(page:ft.Page):
         page.run_task(poll_ui)
         page.run_task(scrape_all)
         
+    def check_head(scraper,driver,coverage_days):
+        print('checking head..')
+        site_url = scraper(driver,coverage_days)
+        print(site_url)
+        response = requests.get(site_url,timeout=10)
+        print(response)
+        response.close()
+        return response.status_code
+        
     async def call_scrape_function(scraper,driver,coverage_days):
         loop = asyncio.get_running_loop()
         await loop.run_in_executor(None,scraper,driver,coverage_days)
@@ -221,12 +232,13 @@ def main(page:ft.Page):
         scrapers = get_scrapers()
         exceptions = get_exceptions()
         useragents = user_agents()
+        scraper_classes = get_scraper_classes()
         csv_paths = get_paths()
         user_agent = random.choice(useragents)
         print(f'User Agent: {user_agent}')
         if any(exception in scrapers for exception in exceptions):
             options.page_load_strategy = 'eager'
-        # options.add_argument('--headless=new')
+        options.add_argument('--headless=new')
         options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1920x1080')
         options.add_argument('--log-level=3')
@@ -256,27 +268,27 @@ def main(page:ft.Page):
                             await ui_queue.put(('log', 'Starting to scrape.'))
                         else:
                             pass
-                        await ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
-                        await ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
-                        await ui_queue.put(('progress',(i+1)/total_tasks))
-                        if coverage_input.value == '' or coverage_input.value == '0':
-                            coverage_days = 1
-                        else:
-                            coverage_days = int(coverage_input.value)
-                        try:
-                            loop = asyncio.get_running_loop()
-                            await asyncio.sleep(1)
-                            await loop.run_in_executor(None,scraper,driver,coverage_days)
+                            await ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+                            await ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+                            await ui_queue.put(('progress',(i+1)/total_tasks))
+                            if coverage_input.value == '' or coverage_input.value == '0':
+                                coverage_days = 1
+                            else:
+                                coverage_days = int(coverage_input.value)
+                            try:
+                                await asyncio.sleep(1)
+                                loop = asyncio.get_running_loop()
+                                await loop.run_in_executor(None,scraper,driver,coverage_days)
+                                await asyncio.sleep(0.1)
+                            except Exception as f:
+                                print(f'An error has occured: {f}')
+                            except WebDriverException as f:
+                                print(f'A general WebDriver error occured: {f}')
+                            duration = time.time() - start
+                            await ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
+                            await ui_queue.put(('progress',(i+1)/total_tasks))
+                            total_duration.append(duration)
                             await asyncio.sleep(0.1)
-                        except Exception as f:
-                            print(f'An error has occured: {f}')
-                        except WebDriverException as f:
-                            print(f'A general WebDriver error occured: {f}')
-                        duration = time.time() - start
-                        await ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
-                        await ui_queue.put(('progress',(i+1)/total_tasks))
-                        total_duration.append(duration)
-                        await asyncio.sleep(0.1)
                     else:
                         await ui_queue.put(('end_log','end'))
                         break

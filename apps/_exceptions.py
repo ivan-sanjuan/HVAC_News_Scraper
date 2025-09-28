@@ -1,4 +1,4 @@
-from .scraper_coolingpost import get_cooling_post_news
+from .scraper_coolingpost import get_cooling_post
 from .scraper_refindustry import get_refindustry_news
 from .scraper_natural_refrigerants import get_natural_refrigerants_news
 from .scraper_trane_technologies import get_trane_news
@@ -97,6 +97,8 @@ def get_exceptions():
         get_contracting_business,
         get_tecumseh,
         get_carrier_news,
-        get_carrier_group_news
+        get_carrier_group_news,
+        get_beijer_ref,
+        get_bitzer_news
     ]
     return exceptions

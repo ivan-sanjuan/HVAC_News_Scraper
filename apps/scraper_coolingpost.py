@@ -89,7 +89,7 @@ sites = [
 ]
 
 all_news = []        
-def get_cooling_post_news(driver,coverage_days):
+def get_cooling_post(driver,coverage_days):
     for details in sites:
         url = details.get('url')
         name = details.get('name')
@@ -97,6 +97,7 @@ def get_cooling_post_news(driver,coverage_days):
         news = CoolingPostNews(driver,coverage_days,url,name,src)
         news.scrape()
         all_news.extend(news.latest_news)
+        # return CoolingPostNews.news_url
     df = pd.DataFrame(all_news)
     df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/cooling_post_news.csv', index=False)

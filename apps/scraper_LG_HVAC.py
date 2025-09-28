@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchWindowException, WebDriverException
 from selenium.webdriver.common.keys import Keys
+import requests
 import re
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
@@ -79,3 +80,5 @@ def get_LGHVAC_NA(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df.to_csv('csv/LG_HVAC_NA_news.csv',index=False)
+    root = 'https://lghvac.com/'
+    return url
