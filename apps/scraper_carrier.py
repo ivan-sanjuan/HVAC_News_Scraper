@@ -91,9 +91,6 @@ def get_carrier_news(driver,coverage_days):
     driver.set_window_size(1920, 1080)
     sources = [
         {'url':'https://www.corporate.carrier.com/news/?typefilter=Press%20Releases','src':'Carrier-Corporate','root':'https://www.corporate.carrier.com/'},
-        # {'url':'https://www.carrier.com/residential/en/us/news/','src':'Carrier-Residential'},
-        # {'url':'https://www.carrier.com/commercial/en/us/news/','src':'Carrier-Commercial'},
-        # {'url':'https://www.carrier.com/truck-trailer/en/eu/news/','src':'Carrier-Transicold'}
         ]
     for news in sources:
         try:

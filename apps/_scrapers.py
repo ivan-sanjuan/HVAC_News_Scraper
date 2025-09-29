@@ -1,4 +1,4 @@
-from .scraper_coolingpost import get_cooling_post
+from .scraper_coolingpost import get_cooling_post, CoolingPostNews
 from .scraper_refindustry import get_refindustry_news
 from .scraper_natural_refrigerants import get_natural_refrigerants_news
 from .scraper_trane_technologies import get_trane_news
@@ -71,17 +71,15 @@ from .scraper_carrier_groups import get_carrier_group_news
 # get_ACHR,
 def get_scrapers():
     scrapers = [
-            get_refindustry_news,
-            get_cooling_post,
-            # get_trane_news,
-            # get_danfoss_news,
-            # get_LG_news,
-            # get_LG_Electronics_NA,
-            # get_copeland_news,
-            # get_carrier_news,
-            # get_carrier_group_news,
-            # get_viessmann_news,
-            # get_lennox_news,
+            {'func':get_trane_news,'root':'https://www.tranetechnologies.com/en/index/news/news-archive.html'},
+            {'func':get_danfoss_news,'root':'https://www.danfoss.com/en/about-danfoss/news/?pageSize=15&sort=startDate_desc'},
+            {'func':get_LG_news,'root':'https://www.lgnewsroom.com/'},
+            {'func':get_LG_Electronics_NA,'root':'https://www.lg.com/us/press-release'},
+            {'func':get_copeland_news,'root':'https://www.copeland.com/'},
+            {'func':get_carrier_news,'root':'https://www.corporate.carrier.com/news/?typefilter=Press%20Releases'},
+            {'func':get_carrier_group_news,'root':'https://www.carrier.com/residential/en/us/news/'},
+            {'func':get_viessmann_news,'root':'https://www.viessmann-climatesolutions.com/en/newsroom.html'},
+            {'func':get_lennox_news,'root':'https://investor.lennox.com/news-events/news-releases'},
             # get_BDRthermea_news,
             # get_honeywell_news,
             # get_thermoking,
@@ -121,6 +119,8 @@ def get_scrapers():
             # get_icm_controls,
             # get_midea,
             # get_rees_scientific,
+            # get_refindustry_news,
+            {'func':get_cooling_post,'root':'https://www.coolingpost.com/'},
             # get_natural_refrigerants_news,
             # get_EHPA,
             # get_contracting_business,
@@ -130,14 +130,14 @@ def get_scrapers():
             # get_rac_plus,
             # get_PHCP_pros,
             # get_climate_control_news,
-            # get_DOE,
-            # get_IEA,
-            # get_HPA,
-            # get_jarn,
-            # get_carel,
-            # get_bitzer_news,
-            # get_LGHVAC_NA,
-            # get_thermoking_europe,
-            # get_HV_UK,
+            {'func':get_DOE,'root':'https://www.energy.gov/'},
+            {'func':get_IEA,'root':'https://www.iea.org/news'},
+            {'func':get_HPA,'root':'https://www.heatpumps.org.uk/news-events/'},
+            {'func':get_jarn,'root':'https://www.ejarn.com/'},
+            {'func':get_carel,'root':'https://www.carel.com/news'},
+            {'func':get_bitzer_news,'root':'https://www.bitzer.de/gb/en/press/'},
+            {'func':get_LGHVAC_NA,'root':'https://lghvac.com/about-lg/'},
+            {'func':get_thermoking_europe,'root':'https://europe.thermoking.com/media-room'},
+            {'func':get_HV_UK,'root':'https://www.hvnplus.co.uk/news/'},
         ]
     return scrapers

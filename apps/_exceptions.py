@@ -99,6 +99,7 @@ def get_exceptions():
         get_carrier_news,
         get_carrier_group_news,
         get_beijer_ref,
-        get_bitzer_news
+        get_bitzer_news,
+        get_cooling_post
     ]
     return exceptions
