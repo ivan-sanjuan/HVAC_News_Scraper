@@ -585,7 +585,6 @@ def main(page:ft.Page):
         page.update()
         
     max_value = 30
-    
     def validate_number(e):
         try:
             value=int(e.control.value)
