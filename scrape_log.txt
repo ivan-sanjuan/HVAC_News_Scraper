@@ -1,31 +1,9 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36
-Trying to access: get_trane_news
-get_trane_news returned a 200 response.
-get_trane_news responded [200] "OK"
-📰Opening: Trane Technologies
-Trying to access: get_danfoss_news
-get_danfoss_news returned a 200 response.
-get_danfoss_news responded [200] "OK"
-📰Opening: Danfoss
-Accepted Cookies.
-Trying to access: get_LG_news
-get_LG_news returned a 200 response.
-get_LG_news responded [200] "OK"
-📰Opening: LG-Corporate
-📰Opening: LG-ApplianceSolution
-📰Opening: LG-Entertainment
-📰Opening: LG-VehicleSolutions
-📰Opening: LG-EcoSolutions
-📰Opening: LG-Statements
-Trying to access: get_LG_Electronics_NA
-get_LG_Electronics_NA returned a 200 response.
-get_LG_Electronics_NA responded [200] "OK"
-📰Opening: LG Electronics - NA
-Trying to access: get_copeland_news
-get_copeland_news returned a 200 response.
-get_copeland_news responded [200] "OK"
+User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+Trying to access: Copeland
+Site returned status code: 200
+✅Copeland returned [200]"OK" RESPONSE.
 📰Opening: Copeland-US
 Accepted cookies.
 Fetching: Visit Copeland at SIFA 2025
@@ -42,108 +20,9 @@ Fetching: Power Today, Build Tomorrow with Copeland at ESD 2025
 Fetching: Data Centre World Asia 2025
 Fetching: Meet Copeland at The Global Produce and Floral Expo
 Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
-Trying to access: get_carrier_news
-get_carrier_news returned a 200 response.
-get_carrier_news responded [200] "OK"
-📰Opening: Carrier-Corporate
-Trying to access: get_carrier_group_news
-SSL Certificate is being bypassed for this site.
-get_carrier_group_news returned a 200 response.
-get_carrier_group_news responded [200] "OK"
-📰Opening: Carrier-Residential
-📰Opening: Carrier-Commercial
-📰Opening: Carrier-Transicold
-Trying to access: get_viessmann_news
-get_viessmann_news returned a 200 response.
-get_viessmann_news responded [200] "OK"
-📰Opening: Viessmann
-No cookie pop-up detected.
-Trying to access: get_lennox_news
-get_lennox_news returned a 200 response.
-get_lennox_news responded [200] "OK"
-📰Opening: Lennox
-Trying to access: get_cooling_post
-get_cooling_post returned a 200 response.
-get_cooling_post responded [200] "OK"
-📰Opening: CoolingPost-World
-📰Opening: CoolingPost-UK
-Fetching: Accolades for Kevin Glass and Nabil Cook
-📰Opening: CoolingPost-Products
-Fetching: Daikin adds 3,000ton centrifugal chiller
-📰Opening: CoolingPost-Features
-Fetching: ICS chiller keeps seafood process running
-📰Opening: CoolingPost-Blog
-📰Opening: CoolingPost-T&E
-Trying to access: get_DOE
-get_DOE returned a 200 response.
-get_DOE responded [200] "OK"
-📰Opening: DOE - Press Release
-📰Opening: DOE - Testimony
-📰Opening: DOE - Latest OpEds
-Trying to access: get_IEA
-get_IEA returned a 200 response.
-get_IEA responded [200] "OK"
-📰Opening: IEA
-Trying to access: get_HPA
-status code returns 403, retrying...
-get_HPA returned a 403 response.
-Site is not responding properly.
-Trying to access: get_jarn
-get_jarn returned a 200 response.
-get_jarn responded [200] "OK"
-📰Opening: JARN
-Fetching: Panasonic Supports EHPA’s Call for Stable Regulation and Fair Electricity Taxation for Heat Pumps
-Fetching: Haier: First-ever Local Assembling & Testing MRV in Pakistan
-Fetching: Made in Britain: Daikin Applied (UK) Leading the Way in Sustainable HVAC Innovation
-Fetching: Daikin | The Future of HVAC Maintenance: Connected Services Driving Performance, Savings, and Sustainability
-Fetching: Carrier Transicold Wins 2025 Truck & Trailer Welt Award for Low-CO2 Trailer Refrigeration System
-Fetching: Haier: FPA Scoops Most Trusted Awards
-Fetching: Carrier Unveils AI-Powered Abound Platform Upgrade for Smarter Building Management
-Fetching: Minimum Energy Efficiency Standards (MEES): What EPC B Means for UK Commercial Property by 2030
-Fetching: Daikin Releases Its Integrated Report 2025 and Sustainability Report 2025
-Fetching: REHVA co-signs EVIA's IAQ Manifesto: For Indoor Air quality to become a basic human right!
-Fetching: Johnson Controls deepens commitment to workforce development with additional $3M investment to community college partners
-Fetching: HPT: Multi-family home in Adorf, Germany
-Fetching: HPT: Sthlmflex – Creating and testing a flexibility market in Stockholm
-Fetching: Haier Thailand New AC Plant Began Operation
-Fetching: Union Minister Shri Sonowal inaugurates India's First Maritime Simulation Centre at AMET University
-Fetching: Energy Efficiency Summit 2025: spotlighting India’s cleantech solutions for industry
-Fetching: Viessmann once again wins the “Stiftung Warentest” – Vitocal 250-A air/water heat pump continues to impress in 2025
-Fetching: Eurovent, AMCA & EVIA publish FAQ guide on Fans
-Fetching: HPT: Large heat pumps in Stockholm Stockholm, Sweden
-Fetching: Plumbers, prices & projects: Heat Pump Forum 2025 wrapped up
-Fetching: Engineered in Britain, Built for Net Zero: How Daikin Applied (UK) Is Shaping the Future of Sustainable HVAC
-Fetching: ‘Do something’ – BESA President lays down challenge
-Fetching: Carrier Honored on Fortune's 2025 Change the World List
-Fetching: Emerson’s Oxygen Analyzer Provides Ease of Use for Optimizing Combustion Systems
-Fetching: Haier opens a new boutique at Berlin MediaMarkt
-Fetching: Thermo King Launches TX-Series: New High Performance and Fuel Efficient Truck Units
-Fetching: STULZ: Modular Data Centers in the era of AI and Edge Computing
-Fetching: China: Kigali Amendment compliance could reduce HFC emissions by 18.9 Gt CO2-eq by 2060
-Fetching: The IIR at ESEF 2025 in the Gambia
-Fetching: Danfoss earns Gold Medal in EcoVadis 2025 sustainability assessment
-Fetching: Airedale: Strategies To Maximize Cooling Efficiency [1/2]
-📰Opening: JARN-Interviews
-Trying to access: get_carel
-get_carel returned a 200 response.
-get_carel responded [200] "OK"
-📰Opening: Carel
-Trying to access: get_bitzer_news
-get_bitzer_news returned a 200 response.
-get_bitzer_news responded [200] "OK"
-📰Opening: Bitzer
-Trying to access: get_LGHVAC_NA
-get_LGHVAC_NA returned a 200 response.
-get_LGHVAC_NA responded [200] "OK"
-📰Opening: LG HVAC
-An error has occured: HTTPConnectionPool(host='localhost', port=55615): Read timed out. (read timeout=120)
-Trying to access: get_thermoking_europe
-get_thermoking_europe returned a 200 response.
-get_thermoking_europe responded [200] "OK"
-An error has occured: HTTPConnectionPool(host='localhost', port=55615): Read timed out. (read timeout=120)
-Trying to access: get_HV_UK
-status code returns 403, retrying...
-get_HV_UK returned a 403 response.
-Site is not responding properly.
+Trying to access: Lennox
+Request failed: HTTPSConnectionPool(host='investor.lennox.com', port=443): Read timed out. (read timeout=15)
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
 Nudges is now DISABLED.
 Logging ended..

@@ -11,6 +11,7 @@ import win32com.client as outlook
 from pandas.errors import EmptyDataError
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from functools import partial
+from requests.exceptions import ReadTimeout, ConnectTimeout
 import requests
 import pyautogui
 import random
@@ -200,20 +201,33 @@ def main(page:ft.Page):
         page.run_task(scrape_all)
         
     def check_head(url):
+        response = None
         try:
-            response = requests.get(url,timeout=(15,15),stream=True)
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/117 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9",
+                "Accept-Language": "en-US,en;q=0.9",
+                "Referer": "https://www.google.com/",
+            }
+            response = requests.get(url,headers=headers,timeout=(15,15),stream=True)
             response.close()
             if response.status_code == 403:
-                print('status code returns 403, retrying...')
-                response = requests.head(url, timeout=(20,20), verify=False)
+                print('Status code returns 403, retrying...')
+                response = requests.head(url,headers=headers, timeout=(20,20), verify=False)
+            else:
+                print(f'Site returned status code: {response.status_code}')
         except requests.exceptions.SSLError:
             print('SSL Certificate is being bypassed for this site.')
-            response = requests.get(url,timeout=(20,20),stream=True,verify=False)
+            response = requests.get(url,headers=headers,timeout=(20,20),stream=True,verify=False)
             response.close()
         except requests.RequestException as e:
             print(f"Request failed: {e}")
-        return response.status_code
-        
+        if response:
+            return response.status_code
+        if not response:
+            print(f'Site failed to respond, please visit the site instead.')
+            pass
+            
     async def call_scrape_function(scraper,driver,coverage_days):
         loop = asyncio.get_running_loop()
         await loop.run_in_executor(None,scraper,driver,coverage_days)
@@ -234,11 +248,23 @@ def main(page:ft.Page):
             minutes, seconds = divmod(remainder, 60)
             return f"{hours:02}:{minutes:02}:{seconds:02}"
         
+        failed_scrapers = []
+        def failed_scrapers_func(source,link):
+            failed_scrapers.append(
+                {
+                    'PublishDate':'-----',
+                    'Source':source,
+                    'Type':'------',
+                    'Title':'Failed scrape',
+                    'Summary':'Please visit the site instead.',
+                    'Link':link
+                }
+            )
+        
         options = Options()
         scrapers = get_scrapers()
         exceptions = get_exceptions()
         useragents = user_agents()
-        scraper_classes = get_scraper_classes()
         csv_paths = get_paths()
         user_agent = random.choice(useragents)
         print(f'User Agent: {user_agent}')
@@ -264,14 +290,17 @@ def main(page:ft.Page):
             global scraping_active
             scraping_active = True
             total_duration = []
+            failed_list = []
             total_tasks = len(scrapers)
             for i, scrape in enumerate(scrapers):
                 scraper = scrape.get('func')
-                url = scrape.get('root')
-                print(f'Trying to access: {scraper.__name__}')
+                url = scrape.get('url')
+                scraper_name = scrape.get('name')
+                print(f'Trying to access: {scraper_name}')
                 loop = asyncio.get_running_loop()
                 response = await loop.run_in_executor(None,check_head,url)
-                print(f'{scraper.__name__} returned a {response} response.')
+                if not response:
+                    pass
                 if scraping_active == True:
                     await ui_queue.put(('status', 'Starting to scrape..'))
                     start = time.time()
@@ -279,8 +308,8 @@ def main(page:ft.Page):
                         await ui_queue.put(('log', 'Starting to scrape.'))
                     else:
                         pass
-                    await ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
-                    await ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
+                    await ui_queue.put(('status',f'Running {scraper_name} scraper... ({i+1} of {total_tasks})'))
+                    await ui_queue.put(('log',f'Running {scraper_name} scraper... ({i+1} of {total_tasks})'))
                     await ui_queue.put(('progress',(i+1)/total_tasks))
                     if coverage_input.value == '' or coverage_input.value == '0':
                         coverage_days = 1
@@ -288,18 +317,45 @@ def main(page:ft.Page):
                         coverage_days = int(coverage_input.value)
                     try:
                         if response == 200:
-                            print(f'{scraper.__name__} responded [{response}] "OK"')
+                            print(f'✅{scraper_name} returned [200]"OK" RESPONSE.')
                             await asyncio.sleep(1)
                             await loop.run_in_executor(None,scraper,driver,coverage_days)
                         else:
-                            print(f'Site is not responding properly.')
+                            if len(failed_list) == 0:
+                                failed_scraper_log.controls.append(failed_scraper_title)
+                            print(f'⛔Site is not responding properly.')
+                            failed_scrapers_func(scraper_name,url)
+                            failed_list.append(f'⚠️{scraper_name}')
+                            failed_scraper_log.controls.append(failed_scraper_log_text)
+                            failed_scraper_log_text.value = ('\n'.join(failed_list))
+                            page.update()
                             pass
+                    except ReadTimeout:
+                        if len(failed_list) == 0:
+                            failed_scraper_log.controls.append(failed_scraper_title)
+                        print(f'⛔{scraper_name} read timed out.')
+                        failed_scrapers_func(scraper_name,url)
+                        failed_list.append(f'⚠️{scraper_name}')
+                        failed_scraper_log.controls.append(failed_scraper_log_text)
+                        failed_scraper_log_text.value = ('\n'.join(failed_list))
+                        page.update()
+                        pass
+                    except ConnectTimeout:
+                        if len(failed_list) == 0:
+                            failed_scraper_log.controls.append(failed_scraper_title)
+                        print(f'⛔{scraper_name} connect timed out.')
+                        failed_scrapers_func(scraper_name,url)
+                        failed_list.append(f'⚠️{scraper_name}')
+                        failed_scraper_log.controls.append(failed_scraper_log_text)
+                        failed_scraper_log_text.value = ('\n'.join(failed_list))
+                        page.update()
+                        pass
                     except Exception as f:
                         print(f'An error has occured: {f}')
                     except WebDriverException as f:
                         print(f'A general WebDriver error occured: {f}')
                     duration = time.time() - start
-                    await ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
+                    await ui_queue.put(('log',f"{scraper_name} completed in {duration:.2f} seconds"))
                     await ui_queue.put(('progress',(i+1)/total_tasks))
                     total_duration.append(duration)
                     await asyncio.sleep(0.1)
@@ -316,6 +372,8 @@ def main(page:ft.Page):
                     # except requests.RequestException as e:
                     #     print(f"General request error for {url}: {e}")
         finally:
+            failed_df = pd.DataFrame(failed_scrapers)
+            await save_csv_async(failed_df,'csv/failed_scrapers.csv')
             status_report_generation = 'SCRAPING COMPLETE, GENERATING REPORT...'
             total_time = runtime()
             await ui_queue.put(('nudge_off',False))
@@ -367,31 +425,6 @@ def main(page:ft.Page):
             await asyncio.sleep(0.1)
             await ui_queue.put({'msg_type':'status','payload':f'No NEW News at the moment: {today_formatted}'})
             await asyncio.sleep(0.1)
-    
-    async def backup_scraper(i,scraper,driver,total_tasks):
-        await ui_queue.put(('status', 'Starting to scrape..'))
-        start = time.time()
-        if i == 0:
-            await ui_queue.put(('log', 'Starting to scrape.'))
-        else:
-            pass
-        await ui_queue.put(('status',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
-        await ui_queue.put(('log',f'Running {scraper.__name__}... ({i+1} of {total_tasks})'))
-        await ui_queue.put(('progress',(i+1)/total_tasks))
-        if coverage_input.value == '' or coverage_input.value == '0':
-            coverage_days = 1
-        else:
-            coverage_days = int(coverage_input.value)
-        try:
-            loop = asyncio.get_running_loop()
-            await loop.run_in_executor(None,scraper,driver,coverage_days)
-            await asyncio.sleep(0.1)
-        except Exception as f:
-            print(f'An error has occured: {f}')
-        duration = time.time() - start
-        await ui_queue.put(('log',f"{scraper.__name__} completed in {duration:.2f} seconds"))
-        await ui_queue.put(('progress',(i+1)/total_tasks))
-        await asyncio.sleep(0.1)
     
     async def reload_results(e):
         try:
@@ -504,6 +537,7 @@ def main(page:ft.Page):
         send_report.disabled = True
         send_report.visible = False
         output_section_log.visible = True
+        output_section_log_container.visible = True
         page.update()
     
     def scrape_button_enabled():
@@ -519,6 +553,7 @@ def main(page:ft.Page):
         send_report.disabled = False
         send_report.visible = True
         output_section_log.visible = False
+        output_section_log_container.visible = False
         page.update()
         
     max_value = 30
@@ -565,7 +600,7 @@ def main(page:ft.Page):
             page.run_task(lambda: save_and_export(e.path))
 
     file_picker.on_result = on_save_result
-
+    
     output_section_log_text = ft.Text(
         size=16,
         value='', 
@@ -573,13 +608,37 @@ def main(page:ft.Page):
         weight=ft.FontWeight.W_400
         )
     
+    failed_scraper_log_text = ft.Text(
+        size=16,
+        value='', 
+        color="#474747",
+        weight=ft.FontWeight.W_400
+        )
+    
+    failed_scraper_title = ft.Text(
+        value='Failed Scraper List:',
+        size=20,
+        color=color_primary_dark
+        )
+    
     output_section = ft.Column(
         scroll="auto",
         controls=[]
     )
     
+    failed_scraper_log = ft.ListView(
+        height=570,
+        width=400,
+        expand=False,
+        spacing=3,
+        auto_scroll=True,
+        padding=ft.padding.only(top=15,bottom=15,right=15,left=15),
+        controls=[]
+    )
+    
     output_section_log = ft.ListView(
         height=570,
+        width=1100,
         expand=False,
         spacing=3,
         auto_scroll=True,
@@ -587,12 +646,24 @@ def main(page:ft.Page):
         padding=ft.padding.only(top=15,bottom=15,right=15,left=15)
     )
     
+    output_section_log_container = ft.Container(
+        height = 570,
+        expand = True,
+        content=ft.Row(
+            height=570,
+            controls=[
+                output_section_log,
+                failed_scraper_log
+            ]
+        )
+    )
+    
     output_section_stack = ft.Stack(
         height=570,
         width=1500,
         controls=[
             output_section,
-            output_section_log
+            output_section_log_container
         ]
     )
     
