@@ -11,7 +11,9 @@ import win32com.client as outlook
 from pandas.errors import EmptyDataError
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from functools import partial
-from requests.exceptions import ReadTimeout, ConnectTimeout
+from requests.exceptions import ReadTimeout, ConnectTimeout, RequestException
+from tkinter import Tk, filedialog
+import socket
 import requests
 import pyautogui
 import random
@@ -104,7 +106,20 @@ class ScrapedData:
         
     def run(self):
         return self.output()
-  
+
+# class FileResponse:
+#     def __init__(self,file_path):
+#         self.path = file_path
+        
+#     def file_path_save(self):
+#         if self.path:
+#             df = pd.read_csv("csv/combined_news.csv")
+#             df.to_csv(self.path, index=False)
+#             print(f"✅ Saved to {self.path}")
+    
+#     def run(self):
+#         self.file_path_save()
+
 def main(page:ft.Page):
     page.window.width = 1500
     page.window.height = 820
@@ -296,7 +311,7 @@ def main(page:ft.Page):
                 scraper = scrape.get('func')
                 url = scrape.get('url')
                 scraper_name = scrape.get('name')
-                print(f'Trying to access: {scraper_name}')
+                print(f'\nTrying to access: {scraper_name}')
                 loop = asyncio.get_running_loop()
                 response = await loop.run_in_executor(None,check_head,url)
                 if not response:
@@ -317,9 +332,42 @@ def main(page:ft.Page):
                         coverage_days = int(coverage_input.value)
                     try:
                         if response == 200:
-                            print(f'✅{scraper_name} returned [200]"OK" RESPONSE.')
-                            await asyncio.sleep(1)
-                            await loop.run_in_executor(None,scraper,driver,coverage_days)
+                            try:
+                                print(f'✅{scraper_name} returned [200]"OK" RESPONSE.')
+                                await asyncio.sleep(1)
+                                await loop.run_in_executor(None,scraper,driver,coverage_days)
+                            except (ReadTimeout, ConnectTimeout) as e:
+                                if len(failed_list) == 0:
+                                    failed_scraper_log.controls.append(failed_scraper_title)
+                                print(f'⛔{scraper_name} Error: {e}')
+                                failed_scrapers_func(scraper_name,url)
+                                failed_list.append(f'⚠️{scraper_name}')
+                                failed_scraper_log.controls.append(failed_scraper_log_text)
+                                failed_scraper_log_text.value = ('\n'.join(failed_list))
+                                page.update()
+                                pass
+                            except (RequestException,socket.timeout) as e:
+                                if len(failed_list) == 0:
+                                    failed_scraper_log.controls.append(failed_scraper_title)
+                                print(f'⛔{scraper_name} Error: {e}')
+                                failed_scrapers_func(scraper_name,url)
+                                failed_list.append(f'⚠️{scraper_name}')
+                                failed_scraper_log.controls.append(failed_scraper_log_text)
+                                failed_scraper_log_text.value = ('\n'.join(failed_list))
+                                page.update()
+                                pass
+                            except Exception as e:
+                                if 'localhost' in str(e) or '127.0.0.1' in str(e):
+                                    print(f'⚠️ Proxy or middleware timeout for {scraper_name} scraper.')
+                                    if len(failed_list) == 0:
+                                        failed_scraper_log.controls.append(failed_scraper_title)
+                                    print(f'⛔{scraper_name} Error: {e}')
+                                    failed_scrapers_func(scraper_name,url)
+                                    failed_list.append(f'⚠️{scraper_name}')
+                                    failed_scraper_log.controls.append(failed_scraper_log_text)
+                                    failed_scraper_log_text.value = ('\n'.join(failed_list))
+                                    page.update()
+                                    pass
                         else:
                             if len(failed_list) == 0:
                                 failed_scraper_log.controls.append(failed_scraper_title)
@@ -330,26 +378,6 @@ def main(page:ft.Page):
                             failed_scraper_log_text.value = ('\n'.join(failed_list))
                             page.update()
                             pass
-                    except ReadTimeout:
-                        if len(failed_list) == 0:
-                            failed_scraper_log.controls.append(failed_scraper_title)
-                        print(f'⛔{scraper_name} read timed out.')
-                        failed_scrapers_func(scraper_name,url)
-                        failed_list.append(f'⚠️{scraper_name}')
-                        failed_scraper_log.controls.append(failed_scraper_log_text)
-                        failed_scraper_log_text.value = ('\n'.join(failed_list))
-                        page.update()
-                        pass
-                    except ConnectTimeout:
-                        if len(failed_list) == 0:
-                            failed_scraper_log.controls.append(failed_scraper_title)
-                        print(f'⛔{scraper_name} connect timed out.')
-                        failed_scrapers_func(scraper_name,url)
-                        failed_list.append(f'⚠️{scraper_name}')
-                        failed_scraper_log.controls.append(failed_scraper_log_text)
-                        failed_scraper_log_text.value = ('\n'.join(failed_list))
-                        page.update()
-                        pass
                     except Exception as f:
                         print(f'An error has occured: {f}')
                     except WebDriverException as f:
@@ -360,17 +388,8 @@ def main(page:ft.Page):
                     total_duration.append(duration)
                     await asyncio.sleep(0.1)
                 else:
-                    await ui_queue.put(('end_log','end'))
+                    # await ui_queue.put(('end_log','end'))
                     break
-                
-                    # except requests.Timeout:
-                    #     print(f"Timeout while checking {url}")
-                    # except requests.ConnectionError as e:
-                    #     print(f"Connection error for {url}: {e}")
-                    # except requests.HTTPError as e:
-                    #     print(f"HTTP error for {url}: {e}")
-                    # except requests.RequestException as e:
-                    #     print(f"General request error for {url}: {e}")
         finally:
             failed_df = pd.DataFrame(failed_scrapers)
             await save_csv_async(failed_df,'csv/failed_scrapers.csv')
@@ -380,7 +399,6 @@ def main(page:ft.Page):
             await asyncio.sleep(0.2)
             report = f'TOTAL Runtime: {format_runtime(total_time)}'
             driver.quit()
-            await ui_queue.put(('end_log','end'))
             await asyncio.sleep(0.2)
             await ui_queue.put(('log',status_report_generation))
             await ui_queue.put(('log',report))
@@ -418,13 +436,17 @@ def main(page:ft.Page):
             await ui_queue.put(("display_output", scraped_data.run()))
             scrape_button_enabled()
             await asyncio.sleep(0.1)
+            await ui_queue.put(('end_log','end'))
         else:
             today=datetime.today()
             today_formatted=today.strftime('%B %d, %Y | %X')
             print(f'NO NEW News at the moment: {today_formatted}')
             await asyncio.sleep(0.1)
-            await ui_queue.put({'msg_type':'status','payload':f'No NEW News at the moment: {today_formatted}'})
+            await ui_queue.put({'status',f'No NEW News at the moment: {today_formatted}'})
             await asyncio.sleep(0.1)
+            scrape_button_enabled()
+            await asyncio.sleep(0.1)
+            await ui_queue.put(('end_log','end'))
     
     async def reload_results(e):
         try:
@@ -538,6 +560,8 @@ def main(page:ft.Page):
         send_report.visible = False
         output_section_log.visible = True
         output_section_log_container.visible = True
+        toggle_switch.disabled = True
+        toggle_switch.visible = False
         page.update()
     
     def scrape_button_enabled():
@@ -554,6 +578,10 @@ def main(page:ft.Page):
         send_report.visible = True
         output_section_log.visible = False
         output_section_log_container.visible = False
+        toggle_switch.disabled = False
+        toggle_switch.label = 'VIEWING: RESULTS'
+        toggle_switch.value = True
+        toggle_switch.visible = True
         page.update()
         
     max_value = 30
@@ -569,6 +597,18 @@ def main(page:ft.Page):
         except ValueError:
             search_status.value = "you can leave it blank (i'll still change it to 1 :D)"
         search_status.update()
+        
+    def toggle_output_section(e):
+        if toggle_switch.value == True:
+            output_section.visible = True
+            output_section_log_container.visible = False
+        else:
+            output_section.visible = False
+            output_section_log_container.visible = True
+            output_section_log.visible = True
+            failed_scraper_log.visible = True
+        toggle_switch.label = ('VIEWING: RESULTS' if toggle_switch.value == True else 'VIEWING: SCRAPING REPORT')
+        page.update()
     
     async def handle_search_change(e):
         await filter_items(e.control.value)
@@ -579,27 +619,13 @@ def main(page:ft.Page):
             args=(e,),
             daemon=True
         ).start()
-        
-        
-    file_picker = ft.FilePicker()
-    page.overlay.append(file_picker)
-    async def save_and_export(path):
-        df = await read_csv_async('csv/combined_news.csv')
-        await save_csv_async(df, path)
-
-    def handle_save_click(e):
-        file_picker.save_file(
-            dialog_title="Save scraped results",
-            file_name="scraped_results.csv",
-            allowed_extensions=["csv"]
-        )
-
-    def on_save_result(e: ft.FilePickerResultEvent):
-        print('saving')
-        if e.path:
-            page.run_task(lambda: save_and_export(e.path))
-
-    file_picker.on_result = on_save_result
+    
+    def run_save_dialog(e):
+        import subprocess
+        script_path = os.path.join("apps", "_save_dialog.py")
+        subprocess.Popen(["python", script_path])
+        # file_path = FileResponse(script_path)
+        # ui_queue.put(('status',f'{file_path}'))
     
     output_section_log_text = ft.Text(
         size=16,
@@ -609,7 +635,7 @@ def main(page:ft.Page):
         )
     
     failed_scraper_log_text = ft.Text(
-        size=16,
+        size=18,
         value='', 
         color="#474747",
         weight=ft.FontWeight.W_400
@@ -666,9 +692,6 @@ def main(page:ft.Page):
             output_section_log_container
         ]
     )
-    
-    file_picker = ft.FilePicker()
-    page.overlay.append(file_picker)
     
     search_field = ft.TextField(
         border_radius=10,
@@ -809,12 +832,12 @@ def main(page:ft.Page):
         width=190,
         height=30,
         content=ft.ElevatedButton(
-            text='SAVE',
+            text='SAVE CSV',
             icon=ft.Icons.SAVE_ALT_ROUNDED,
             elevation=5,
             width=200,
             height=20,
-            on_click=handle_save_click,
+            on_click=run_save_dialog,
             bgcolor=color_tint_lilac,
             style=ft.ButtonStyle(
                 shape=ft.RoundedRectangleBorder(radius=10),
@@ -870,6 +893,16 @@ def main(page:ft.Page):
     tool_name = ft.Text(
         value='HVACR News - Scraper Tool',
         color='#DEDAC6',
+    )
+    
+    toggle_switch = ft.Switch(
+        on_change = toggle_output_section,
+        disabled = True,
+        value = True,
+        label = 'RESULTS AND REPORTS TOGGLE',
+        active_color=color_tint_mint,
+        inactive_track_color=color_primary_dark,
+        visible = False
     )
 
     container = ft.Container(
@@ -927,7 +960,8 @@ def main(page:ft.Page):
                                                             controls=[
                                                                 search_status,
                                                                 reload_last_result,
-                                                                save_result
+                                                                save_result,
+                                                                toggle_switch
                                                             ]
                                                         )
                                                     ]

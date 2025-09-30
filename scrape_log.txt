@@ -1,28 +1,38 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
-Trying to access: Copeland
-Site returned status code: 200
-✅Copeland returned [200]"OK" RESPONSE.
-📰Opening: Copeland-US
-Accepted cookies.
-Fetching: Visit Copeland at SIFA 2025
-Fetching: Visit Copeland at Fruit Attraction
-Fetching: Power Today, Build Tomorrow with Copeland at ESD 2025
-Fetching: Data Centre World Asia 2025
-Fetching: Meet Copeland at The Global Produce and Floral Expo
-Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
-📰Opening: Copeland-Asia
-No cookie pop-up found.
-Fetching: Visit Copeland at SIFA 2025
-Fetching: Visit Copeland at Fruit Attraction
-Fetching: Power Today, Build Tomorrow with Copeland at ESD 2025
-Fetching: Data Centre World Asia 2025
-Fetching: Meet Copeland at The Global Produce and Floral Expo
-Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
-Trying to access: Lennox
-Request failed: HTTPSConnectionPool(host='investor.lennox.com', port=443): Read timed out. (read timeout=15)
+User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15
+
+Trying to access: Parker Sporlan
+Status code returns 403, retrying...
 Site failed to respond, please visit the site instead.
 ⛔Site is not responding properly.
+
+Trying to access: Rechi
+Site returned status code: 200
+✅Rechi returned [200]"OK" RESPONSE.
+📰Opening: Rechi
+Fetching: 2025 Annual Investor Conference
+
+Trying to access: Schott
+Site returned status code: 200
+✅Schott returned [200]"OK" RESPONSE.
+📰Opening: Schott
+Fetching: AR breakthrough: SCHOTT achieves serial production of geometric reflective waveguides
+
+Trying to access: Secop
+Site returned status code: 200
+✅Secop returned [200]"OK" RESPONSE.
+📰Opening: Secop
+Fetching: Secop Continues World Tour Celebrating 15 Years of Brand Identity with its Third Stop: the Americas
+Fetching: Secop and Prima Prospek Wrap Up a Successful RHVAC Indonesia 2025
+Fetching: Secop Celebrates 15 Years of Brand Identity with Second World Tour Stop in Slovakia
+Fetching: Secop and Imcosa Celebrate 10 Years of Partnership at AHR Show 2025
+Fetching: Secop and Official Distributor Prima Prospek at RHVAC Indonesia 2025
+Fetching: Secop Celebrates Milestone of One Million BD Nano Compressors Produced at Tianjin Plant
+Fetching: Secop and Official Distributor Imcosa at AHR Expo Mexico 2025
+
+Trying to access: Sensata
+Status code returns 403, retrying...
+Site failed to respond, please visit the site instead.
 Nudges is now DISABLED.
 Logging ended..

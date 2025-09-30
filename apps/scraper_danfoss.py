@@ -88,6 +88,7 @@ class DanfossNews:
             else:
                 self.summary = 'NO SUMMARY'
             self.root_url = 'https://www.danfoss.com/'
+            print(f'Fetching: {self.title}')
             self.latest_news.append(
                 {
                 'PublishDate': self.publish_date,
