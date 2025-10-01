@@ -1,16 +1,457 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
+User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36
 
 Trying to access: Trane
 Site returned status code: 200
 ✅Trane returned [200]"OK" RESPONSE.
 📰Opening: Trane Technologies
-Fetching: Victoria Lazar Joins Trane Technologies as General Counsel
-Fetching: Trane Technologies Named Among World’s Best Employers Securing Top Honors for Culture, Sustainability, and Industry Leadership
-Fetching: Trane Technologies Ignites a New Era for Smart Buildings with Game-Changing AI Controls and AI Agent
 
 Trying to access: Danfoss
 Site returned status code: 200
+✅Danfoss returned [200]"OK" RESPONSE.
+📰Opening: Danfoss
+Accepted Cookies.
+
+Trying to access: LG Global
+Site returned status code: 200
+✅LG Global returned [200]"OK" RESPONSE.
+📰Opening: LG-Corporate
+📰Opening: LG-ApplianceSolution
+📰Opening: LG-Entertainment
+📰Opening: LG-VehicleSolutions
+📰Opening: LG-EcoSolutions
+📰Opening: LG-Statements
+
+Trying to access: LG Electronics NA
+Site returned status code: 200
+✅LG Electronics NA returned [200]"OK" RESPONSE.
+📰Opening: LG Electronics - NA
+
+Trying to access: Copeland
+Site returned status code: 200
+✅Copeland returned [200]"OK" RESPONSE.
+📰Opening: Copeland-US
+Accepted cookies.
+Fetching: Power Today, Build Tomorrow with Copeland at ESD 2025
+Fetching: Data Centre World Asia 2025
+Fetching: Meet Copeland at The Global Produce and Floral Expo
+Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
+📰Opening: Copeland-Asia
+No cookie pop-up found.
+Fetching: Power Today, Build Tomorrow with Copeland at ESD 2025
+Fetching: Data Centre World Asia 2025
+Fetching: Meet Copeland at The Global Produce and Floral Expo
+Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
+
+Trying to access: Carrier News
+Site returned status code: 200
+✅Carrier News returned [200]"OK" RESPONSE.
+📰Opening: Carrier-Corporate
+
+Trying to access: Carrier Group
+SSL Certificate is being bypassed for this site.
+✅Carrier Group returned [200]"OK" RESPONSE.
+📰Opening: Carrier-Residential
+📰Opening: Carrier-Commercial
+📰Opening: Carrier-Transicold
+
+Trying to access: Viessmann
+Site returned status code: 200
+✅Viessmann returned [200]"OK" RESPONSE.
+📰Opening: Viessmann
+No cookie pop-up detected.
+
+Trying to access: Lennox
+Request failed: HTTPSConnectionPool(host='investor.lennox.com', port=443): Read timed out. (read timeout=15)
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
+
+Trying to access: BDR Thermea
+Site returned status code: 200
+✅BDR Thermea returned [200]"OK" RESPONSE.
+📰Opening: BDR Thermea
+
+Trying to access: Honeywell
+Site returned status code: 200
+✅Honeywell returned [200]"OK" RESPONSE.
+📰Opening: Honeywell
+
+Trying to access: ThermoKing
+Site returned status code: 200
+✅ThermoKing returned [200]"OK" RESPONSE.
+📰Opening: ThermoKing
+
+Trying to access: DeltaTrak
+Site returned status code: 200
+✅DeltaTrak returned [200]"OK" RESPONSE.
+📰Opening: DeltaTrak
+
+Trying to access: Generac
+Site returned status code: 200
+✅Generac returned [200]"OK" RESPONSE.
+📰Opening: Generac
+
+Trying to access: Nidec
+Site returned status code: 200
+✅Nidec returned [200]"OK" RESPONSE.
+📰Opening: Nidec
+
+Trying to access: Beijer Ref
+Site returned status code: 200
+✅Beijer Ref returned [200]"OK" RESPONSE.
+📰Opening: Beijer Ref
+
+Trying to access: Daikin Corporate
+Site returned status code: 200
+✅Daikin Corporate returned [200]"OK" RESPONSE.
+📰Opening: Daikin-Corporate
+
+Trying to access: Daikin EU
+Site returned status code: 200
+✅Daikin EU returned [200]"OK" RESPONSE.
+📰Opening: Daikin-EU
+Cookies Accepted.
+📰Opening: Daikin-UK
+Cookies Accepted.
+
+Trying to access: Daikin Applied
+Site returned status code: 200
+✅Daikin Applied returned [200]"OK" RESPONSE.
+📰Opening: Daikin-Applied
+
+Trying to access: GEA
+Site returned status code: 200
+✅GEA returned [200]"OK" RESPONSE.
+📰Opening: GEA
+
+Trying to access: Stiebel Eltron
+Site returned status code: 200
+✅Stiebel Eltron returned [200]"OK" RESPONSE.
+📰Opening: Stiebel Eltron
+Cookies accepted.
+scrolling through the news..
+
+Trying to access: Resideo
+Site returned status code: 200
+✅Resideo returned [200]"OK" RESPONSE.
+📰Opening: Resideo
+
+Trying to access: Resideo - Investor
+Site returned status code: 200
+✅Resideo - Investor returned [200]"OK" RESPONSE.
+📰Opening: Resideo - Investor
+
+Trying to access: SPX
+Site returned status code: 200
+✅SPX returned [200]"OK" RESPONSE.
+📰Opening: SPX
+
+Trying to access: Rheem
+Site returned status code: 200
+✅Rheem returned [200]"OK" RESPONSE.
+📰Opening: Rheem
+
+Trying to access: Hussmann
+Site returned status code: 200
+✅Hussmann returned [200]"OK" RESPONSE.
+📰Opening: Hussman
+
+Trying to access: Panasonic Global
+Site returned status code: 200
+✅Panasonic Global returned [200]"OK" RESPONSE.
+📰Opening: Panasonic - Global
+Popup watcher launched.
+Pop-up found and closed.
+
+Trying to access: Panasonic HVAC
+Request failed: HTTPSConnectionPool(host='www.panasonic.com', port=443): Read timed out. (read timeout=15)
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
+
+Trying to access: Panasonic UK
+Site returned status code: 200
+✅Panasonic UK returned [200]"OK" RESPONSE.
+📰Opening: Panasonic - UK
+
+Trying to access: AtmosZero
+Site returned status code: 200
+✅AtmosZero returned [200]"OK" RESPONSE.
+📰Opening: Atmos Zero
+
+Trying to access: Mesa Labs
+Site returned status code: 200
+✅Mesa Labs returned [200]"OK" RESPONSE.
+📰Opening: Mesa Labs
+
+Trying to access: Mitsubishi Electric - Global
+Site returned status code: 200
+✅Mitsubishi Electric - Global returned [200]"OK" RESPONSE.
+📰Opening: Mitsubishi Electric - Global
+
+Trying to access: Mitsubishi Electric - HVAC
+Site returned status code: 200
+✅Mitsubishi Electric - HVAC returned [200]"OK" RESPONSE.
+📰Opening: Mitsubishi Electric - HVAC
+
+Trying to access: Mitsubishi Electric - SCI
+Site returned status code: 200
+✅Mitsubishi Electric - SCI returned [200]"OK" RESPONSE.
+📰Opening: Mitsubishi Electric - SCI
+
+Trying to access: Parker Sporlan
+Status code returns 403, retrying...
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
+
+Trying to access: Rechi
+Site returned status code: 200
+✅Rechi returned [200]"OK" RESPONSE.
+📰Opening: Rechi
+
+Trying to access: Schott
+Site returned status code: 200
+✅Schott returned [200]"OK" RESPONSE.
+📰Opening: Schott
+
+Trying to access: Secop
+Site returned status code: 200
+✅Secop returned [200]"OK" RESPONSE.
+📰Opening: Secop
+
+Trying to access: Sensata
+Status code returns 403, retrying...
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
+
+Trying to access: Tive
+Site returned status code: 200
+✅Tive returned [200]"OK" RESPONSE.
+📰Opening: Tive
+
+Trying to access: Nibe
+Site returned status code: 200
+✅Nibe returned [200]"OK" RESPONSE.
+📰Opening: NIBE
+Pop-up closed.
+
+Trying to access: Tecumseh
+Site returned status code: 200
+✅Tecumseh returned [200]"OK" RESPONSE.
+📰Opening: Tecumseh
+Pop-up closed; waiting for the page to reload.
+
+Trying to access: Watsco
+Request failed: HTTPSConnectionPool(host='investors.watsco.com', port=443): Read timed out. (read timeout=15)
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
+
+Trying to access: Sanhua
+Site returned status code: 200
+✅Sanhua returned [200]"OK" RESPONSE.
+📰Opening: Sanhua-US
+📰Opening: Sanhua-Europe
+
+Trying to access: Sanhua Group
+Site returned status code: 200
+✅Sanhua Group returned [200]"OK" RESPONSE.
+📰Opening: Sanhua Group
+⚠️ Proxy or middleware timeout for Sanhua Group scraper.
+⛔Sanhua Group Error: HTTPConnectionPool(host='localhost', port=65389): Read timed out. (read timeout=120)
+
+Trying to access: ICM Controls
+Site returned status code: 200
+✅ICM Controls returned [200]"OK" RESPONSE.
+⚠️ Proxy or middleware timeout for ICM Controls scraper.
+⛔ICM Controls Error: HTTPConnectionPool(host='localhost', port=65389): Read timed out. (read timeout=120)
+
+Trying to access: Midea
+Site returned status code: 200
+✅Midea returned [200]"OK" RESPONSE.
+📰Opening: Midea
+Pop-up closed.
+
+Trying to access: Rees Scientific
+Site returned status code: 200
+✅Rees Scientific returned [200]"OK" RESPONSE.
+📰Opening: Rees Scientific
+
+Trying to access: RefIndustry
+Site returned status code: 200
+✅RefIndustry returned [200]"OK" RESPONSE.
+📰Opening: RefIndustry
+Fetching: Americold opens flagship cold storage hub in Dubai with DP World
+Fetching: Danfoss acquires Italy’s Palladio Compressors to expand screw technology range
+Fetching: Fujitsu General to Rebrand as GENERAL Inc. from 2026
+Fetching: US urged to align safety standards to allow propane in AC and heat pumps
+Fetching: Modine appoints Jeremy Patten as President of Performance Technologies
+Fetching: Panasonic and Osaka Gas develop hydrogen-compatible absorption chiller
+Fetching: Arla and Maersk expand cold chain logistics with new facility in Denmark
+Fetching: Nordic Climate Group acquires Huijbregts Koeltechniek in Dutch expansion
+Fetching: Daikin, UACJ, and Nihon Jiryoku demonstrate closed-loop recycling for HVAC heat exchangers
+Cookies Accepted.
+RefIndustry News, Page: 2
+Fetching: Americold opens flagship cold storage hub in Dubai with DP World
+Fetching: Danfoss acquires Italy’s Palladio Compressors to expand screw technology range
+Fetching: Fujitsu General to Rebrand as GENERAL Inc. from 2026
+Fetching: US urged to align safety standards to allow propane in AC and heat pumps
+Fetching: Modine appoints Jeremy Patten as President of Performance Technologies
+Fetching: Panasonic and Osaka Gas develop hydrogen-compatible absorption chiller
+Fetching: Arla and Maersk expand cold chain logistics with new facility in Denmark
+Fetching: Nordic Climate Group acquires Huijbregts Koeltechniek in Dutch expansion
+Fetching: Daikin, UACJ, and Nihon Jiryoku demonstrate closed-loop recycling for HVAC heat exchangers
+No cookie block found.
+RefIndustry News, Page: 3
+
+Trying to access: CoolingPost
+Site returned status code: 200
+✅CoolingPost returned [200]"OK" RESPONSE.
+📰Opening: CoolingPost-World
+📰Opening: CoolingPost-UK
+📰Opening: CoolingPost-Products
+📰Opening: CoolingPost-Features
+📰Opening: CoolingPost-Blog
+📰Opening: CoolingPost-T&E
+
+Trying to access: JARN
+Site returned status code: 200
+✅JARN returned [200]"OK" RESPONSE.
+📰Opening: JARN
+Fetching: Danfoss adds screw compressors to portfolio through strategic acquisition of Palladio Compressors
+Fetching: Star Refrigeration Wins Manufacturer of the Year at Made in Scotland Awards 2025
+Fetching: Johnson Controls redefines the future of building safety at GSX 2025
+Fetching: Rosenberg: ETRI Unveils High-Efficiency Fan Trays for Space-Saving, Custom Ventilation
+Fetching: Haier HVAC UK and Wolseley Announce Flagship Partnership to Supply complete renewable solutions to the UK Market
+Fetching: Swegon: 5 examples of how waterborne climate systems can save money on your project
+Fetching: Cielo: What Is the Hottest Time of the Day? (And Why It’s Not Noon)
+Fetching: Fujitsu General to Change Trade Name to "GENERAL Inc."
+Fetching: Wiegmann Associates Team Member “Raised the Ruff” for the 2025 KIDstruction Week
+Fetching: Carrier Brings Next-Generation QuantumLeap Thermal Management Solutions to Data Centre World Asia
+Fetching: Skills legacy scheme off to 'flying start'
+Fetching: Arla and Maersk expand partnership with new coldstore facility in Denmark
+Fetching: Impact of IAQ in Schools: New Literature Review
+Fetching: Ferroli: £100 Cashback – DOUBLE BUBBLE!
+Fetching: REHVA at the Eurovent Summit 2025 — Prague
+📰Opening: JARN-Interviews
+
+Trying to access: Natural Refrigerants
+Site returned status code: 200
+✅Natural Refrigerants returned [200]"OK" RESPONSE.
+📰Opening: Natural Refrigerants
+Fetching: EIA Report Supports Full Harmonization of Flammable HVAC Refrigerant Standards in U.S. with Global Standard
+Fetching: Colombian Hypermarket Chain Alkosto Opens its First Transcritical CO2 Store
+
+Trying to access: EHPA
+Site returned status code: 200
+✅EHPA returned [200]"OK" RESPONSE.
+📰Opening: EHPA
+Waiting for the cookie pop-up.
+Cookie pop-up did not show up.
+
+Trying to access: Contracting Business
+Site returned status code: 200
+✅Contracting Business returned [200]"OK" RESPONSE.
+📰Opening: Contracting Business - Residential
+Ads not found.
+Mimicking a human scrolling through the news.
+
+Trying to access: Contractor Mag
+Site returned status code: 200
+✅Contractor Mag returned [200]"OK" RESPONSE.
+📰Opening: Contractor Mag - Management
+Ads Closed.
+Mimicking a human scrolling through the news.
+📰Opening: Contractor Mag - Codes
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contractor Mag - Hydronics
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: Bradford White Puts Contractor Partnerships at the Forefront of PHCC CONNECT 2025
+📰Opening: Contractor Mag - Technology
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contractor Mag - Tools
+Ads not found.
+Mimicking a human scrolling through the news.
+
+Trying to access: ACR Journal
+Site returned status code: 200
+✅ACR Journal returned [200]"OK" RESPONSE.
+📰Opening: ACR Journal
+Pop-up closed.
+
+Trying to access: Fleet Owner
+Site returned status code: 200
+✅Fleet Owner returned [200]"OK" RESPONSE.
+📰Opening: Fleet Owner
+Ads not found.
+Mimicking a human scrolling through the news.
+
+Trying to access: RAC Plus
+Site returned status code: 200
+✅RAC Plus returned [200]"OK" RESPONSE.
+📰Opening: RAC Plus
+Pop-up closed.
+Waiting for a banner blocking the news blocks to close..
+
+Trying to access: PHCP Pros
+Site returned status code: 200
+✅PHCP Pros returned [200]"OK" RESPONSE.
+📰Opening: PHCP Pros
+Scrolling through the news, making sure all articles are loaded.
+
+Trying to access: Climate Control News
+Site returned status code: 200
+✅Climate Control News returned [200]"OK" RESPONSE.
+📰Opening: Climate Control
+
+Trying to access: DOE
+Site returned status code: 200
+✅DOE returned [200]"OK" RESPONSE.
+📰Opening: DOE - Press Release
+📰Opening: DOE - Testimony
+📰Opening: DOE - Latest OpEds
+
+Trying to access: IEA
+Status code returns 403, retrying...
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
+
+Trying to access: HPA
+Site returned status code: 200
+✅HPA returned [200]"OK" RESPONSE.
+📰Opening: HPA
+⚠️ Proxy or middleware timeout for HPA scraper.
+⛔HPA Error: HTTPConnectionPool(host='localhost', port=65389): Read timed out. (read timeout=120)
+
+Trying to access: Carel
+Site returned status code: 200
+✅Carel returned [200]"OK" RESPONSE.
+⚠️ Proxy or middleware timeout for Carel scraper.
+⛔Carel Error: HTTPConnectionPool(host='localhost', port=65389): Read timed out. (read timeout=120)
+
+Trying to access: Bitzer
+Site returned status code: 200
+✅Bitzer returned [200]"OK" RESPONSE.
+📰Opening: Bitzer
+
+Trying to access: LG HVAC - NA
+Site returned status code: 200
+✅LG HVAC - NA returned [200]"OK" RESPONSE.
+📰Opening: LG HVAC
+
+Trying to access: ThermoKing - Europe
+Site returned status code: 200
+✅ThermoKing - Europe returned [200]"OK" RESPONSE.
+📰Opening: ThermoKing - Europe
+opening in new tab
+
+Trying to access: HV UK
+Site returned status code: 200
+✅HV UK returned [200]"OK" RESPONSE.
+📰Opening: HV UK
+Pop-up closed.
+Waiting for a banner blocking the news blocks to close..
 Nudges is now DISABLED.
 Logging ended..

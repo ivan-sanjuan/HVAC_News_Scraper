@@ -562,6 +562,7 @@ def main(page:ft.Page):
         output_section_log_container.visible = True
         toggle_switch.disabled = True
         toggle_switch.visible = False
+        progress_bar.visible = True
         page.update()
     
     def scrape_button_enabled():
@@ -579,9 +580,10 @@ def main(page:ft.Page):
         output_section_log.visible = False
         output_section_log_container.visible = False
         toggle_switch.disabled = False
-        toggle_switch.label = 'VIEWING: RESULTS'
+        toggle_switch.label = ' VIEWING: RESULTS'
         toggle_switch.value = True
         toggle_switch.visible = True
+        progress_bar.visible = False
         page.update()
         
     max_value = 30
@@ -606,7 +608,7 @@ def main(page:ft.Page):
             output_section_log_container.visible = True
             output_section_log.visible = True
             failed_scraper_log.visible = True
-        toggle_switch.label = ('VIEWING: RESULTS' if toggle_switch.value == True else 'VIEWING: SCRAPING REPORT')
+        toggle_switch.label = (' VIEWING: RESULTS' if toggle_switch.value == True else ' VIEWING: SCRAPING REPORT')
         page.update()
     
     async def handle_search_change(e):
@@ -737,7 +739,7 @@ def main(page:ft.Page):
         value='ON STAND-BY...',
         size=15,
         color='#DEDAC6',
-        width=383,
+        width=300,
     )
     
     progress_bar = ft.ProgressBar(
@@ -788,28 +790,27 @@ def main(page:ft.Page):
     )
     
     send_report = ft.Container( 
-        width=250,
-        height=50,
+        width=222,
+        height=30,
         visible=False,
         content=ft.ElevatedButton(
             text='SEND TO OUTLOOK',
             icon=ft.Icons.ATTACH_EMAIL_ROUNDED,
-            icon_color='#78655E',
             elevation=5,
-            width=200,
+            width=220,
             height=20,
             on_click=send_to_outlook,
             bgcolor=color_tint_lilac,
             style=ft.ButtonStyle(
-                shape=ft.RoundedRectangleBorder(radius=30),
-                text_style=ft.TextStyle(size=18, weight=ft.FontWeight.NORMAL),
+                shape=ft.RoundedRectangleBorder(radius=10),
+                text_style=ft.TextStyle(size=14, weight=ft.FontWeight.NORMAL),
                 color="#2B2B2B"
             ),
         )
     )
     
     reload_last_result = ft.Container( 
-        width=200,
+        width=222,
         height=30,
         content=ft.ElevatedButton(
             text='RELOAD RESULT',
@@ -828,7 +829,7 @@ def main(page:ft.Page):
     )
     
     save_result = ft.Container( 
-        width=190,
+        width=220,
         height=30,
         content=ft.ElevatedButton(
             text='SAVE CSV',
@@ -898,10 +899,32 @@ def main(page:ft.Page):
         on_change = toggle_output_section,
         disabled = True,
         value = True,
-        label = 'RESULTS AND REPORTS TOGGLE',
+        label = ' RESULTS AND REPORTS TOGGLE',
         active_color=color_tint_mint,
         inactive_track_color=color_primary_dark,
-        visible = False
+        # visible = False
+    )
+    
+    footer_stack = ft.Stack(
+        controls=[
+            progress_bar,
+            toggle_switch
+        ]
+    )
+    
+    dropdown = ft.Dropdown(
+        filled=True,
+        fill_color='#ffffff',
+        color='#354850',
+        border_width=2,
+        border_radius=10,
+        on_change=handle_search_change,
+        focused_border_color=color_tint_mint,
+        options=[
+            ft.dropdown.Option('Company News'),
+            ft.dropdown.Option('Industry News')
+        ],
+        # content_padding=ft.Padding(top=0,bottom=0,left=10,right=10)
     )
 
     container = ft.Container(
@@ -924,7 +947,7 @@ def main(page:ft.Page):
                                     content=ft.Row(
                                         controls=[
                                             tool_name,
-                                            date_time_field
+                                            date_time_field,
                                         ]
                                     )
                                 ),
@@ -952,7 +975,8 @@ def main(page:ft.Page):
                                                                 scrape_buttons_stack,
                                                                 coverage_input,
                                                                 search_field,
-                                                                send_report
+                                                                dropdown,
+                                                                
                                                             ]
                                                         ),
                                                         ft.Row(
@@ -960,7 +984,8 @@ def main(page:ft.Page):
                                                                 search_status,
                                                                 reload_last_result,
                                                                 save_result,
-                                                                toggle_switch
+                                                                send_report
+                                                                
                                                             ]
                                                         )
                                                     ]
@@ -991,7 +1016,13 @@ def main(page:ft.Page):
                         controls=[
                             ft.Container(
                                 width=1300,
-                                content=progress_bar
+                                content=footer_stack
+                                # ft.Row(
+                                #     controls = [
+                                #         toggle_switch,
+                                #         progress_bar
+                                #         ]
+                                #     )
                             ),
                             ft.TextButton(
                                 'Report an Issue',
