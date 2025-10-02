@@ -264,12 +264,12 @@ def main(page:ft.Page):
             return f"{hours:02}:{minutes:02}:{seconds:02}"
         
         failed_scrapers = []
-        def failed_scrapers_func(source,link):
+        def failed_scrapers_func(source,link,scraper_type):
             failed_scrapers.append(
                 {
                     'PublishDate':'-----',
                     'Source':source,
-                    'Type':'------',
+                    'Type':scraper_type,
                     'Title':'Failed scrape',
                     'Summary':'Please visit the site instead.',
                     'Link':link
@@ -311,6 +311,7 @@ def main(page:ft.Page):
                 scraper = scrape.get('func')
                 url = scrape.get('url')
                 scraper_name = scrape.get('name')
+                scraper_type = scrape.get('type')
                 print(f'\nTrying to access: {scraper_name}')
                 loop = asyncio.get_running_loop()
                 response = await loop.run_in_executor(None,check_head,url)
@@ -340,7 +341,7 @@ def main(page:ft.Page):
                                 if len(failed_list) == 0:
                                     failed_scraper_log.controls.append(failed_scraper_title)
                                 print(f'⛔{scraper_name} Error: {e}')
-                                failed_scrapers_func(scraper_name,url)
+                                failed_scrapers_func(scraper_name,url,scraper_type)
                                 failed_list.append(f'⚠️{scraper_name}')
                                 failed_scraper_log.controls.append(failed_scraper_log_text)
                                 failed_scraper_log_text.value = ('\n'.join(failed_list))
@@ -350,7 +351,7 @@ def main(page:ft.Page):
                                 if len(failed_list) == 0:
                                     failed_scraper_log.controls.append(failed_scraper_title)
                                 print(f'⛔{scraper_name} Error: {e}')
-                                failed_scrapers_func(scraper_name,url)
+                                failed_scrapers_func(scraper_name,url,scraper_type)
                                 failed_list.append(f'⚠️{scraper_name}')
                                 failed_scraper_log.controls.append(failed_scraper_log_text)
                                 failed_scraper_log_text.value = ('\n'.join(failed_list))
@@ -362,7 +363,7 @@ def main(page:ft.Page):
                                     if len(failed_list) == 0:
                                         failed_scraper_log.controls.append(failed_scraper_title)
                                     print(f'⛔{scraper_name} Error: {e}')
-                                    failed_scrapers_func(scraper_name,url)
+                                    failed_scrapers_func(scraper_name,url,scraper_type)
                                     failed_list.append(f'⚠️{scraper_name}')
                                     failed_scraper_log.controls.append(failed_scraper_log_text)
                                     failed_scraper_log_text.value = ('\n'.join(failed_list))
@@ -372,7 +373,7 @@ def main(page:ft.Page):
                             if len(failed_list) == 0:
                                 failed_scraper_log.controls.append(failed_scraper_title)
                             print(f'⛔Site is not responding properly.')
-                            failed_scrapers_func(scraper_name,url)
+                            failed_scrapers_func(scraper_name,url,scraper_type)
                             failed_list.append(f'⚠️{scraper_name}')
                             failed_scraper_log.controls.append(failed_scraper_log_text)
                             failed_scraper_log_text.value = ('\n'.join(failed_list))
@@ -557,12 +558,12 @@ def main(page:ft.Page):
         search_field.bgcolor = color_neutral_light
         coverage_input.bgcolor = color_neutral_light
         send_report.disabled = True
-        send_report.visible = False
         output_section_log.visible = True
         output_section_log_container.visible = True
         toggle_switch.disabled = True
         toggle_switch.visible = False
         progress_bar.visible = True
+        dropdown.disabled = True
         page.update()
     
     def scrape_button_enabled():
@@ -576,7 +577,6 @@ def main(page:ft.Page):
         search_field.disabled = False
         coverage_input.bgcolor = "#ffffff"
         send_report.disabled = False
-        send_report.visible = True
         output_section_log.visible = False
         output_section_log_container.visible = False
         toggle_switch.disabled = False
@@ -584,6 +584,8 @@ def main(page:ft.Page):
         toggle_switch.value = True
         toggle_switch.visible = True
         progress_bar.visible = False
+        dropdown.disabled = False
+        dropdown.fill_color = '#ffffff'
         page.update()
         
     max_value = 30
@@ -737,7 +739,7 @@ def main(page:ft.Page):
 
     search_status = ft.Text(
         value='ON STAND-BY...',
-        size=15,
+        size=13,
         color='#DEDAC6',
         width=300,
     )
@@ -792,7 +794,6 @@ def main(page:ft.Page):
     send_report = ft.Container( 
         width=222,
         height=30,
-        visible=False,
         content=ft.ElevatedButton(
             text='SEND TO OUTLOOK',
             icon=ft.Icons.ATTACH_EMAIL_ROUNDED,
@@ -914,8 +915,14 @@ def main(page:ft.Page):
     
     dropdown = ft.Dropdown(
         filled=True,
-        fill_color='#ffffff',
+        fill_color="#AAA089",
         color='#354850',
+        hint_text='News Type',
+        hint_style=ft.TextStyle(
+            color='#2B2B2B',
+            size=14
+        ),
+        disabled=True,
         border_width=2,
         border_radius=10,
         on_change=handle_search_change,

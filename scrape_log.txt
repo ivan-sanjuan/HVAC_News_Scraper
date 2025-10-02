@@ -1,6 +1,6 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36
+User Agent: Mozilla/5.0 (iPad; CPU OS 16_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Mobile/15E148 Safari/604.1
 
 Trying to access: Trane
 Site returned status code: 200
@@ -91,11 +91,14 @@ Trying to access: Generac
 Site returned status code: 200
 ✅Generac returned [200]"OK" RESPONSE.
 📰Opening: Generac
+⚠️ Proxy or middleware timeout for Generac scraper.
+⛔Generac Error: HTTPConnectionPool(host='localhost', port=53679): Read timed out. (read timeout=120)
 
 Trying to access: Nidec
 Site returned status code: 200
 ✅Nidec returned [200]"OK" RESPONSE.
-📰Opening: Nidec
+⚠️ Proxy or middleware timeout for Nidec scraper.
+⛔Nidec Error: HTTPConnectionPool(host='localhost', port=53679): Read timed out. (read timeout=120)
 
 Trying to access: Beijer Ref
 Site returned status code: 200
@@ -256,14 +259,11 @@ Trying to access: Sanhua Group
 Site returned status code: 200
 ✅Sanhua Group returned [200]"OK" RESPONSE.
 📰Opening: Sanhua Group
-⚠️ Proxy or middleware timeout for Sanhua Group scraper.
-⛔Sanhua Group Error: HTTPConnectionPool(host='localhost', port=65389): Read timed out. (read timeout=120)
 
 Trying to access: ICM Controls
 Site returned status code: 200
 ✅ICM Controls returned [200]"OK" RESPONSE.
-⚠️ Proxy or middleware timeout for ICM Controls scraper.
-⛔ICM Controls Error: HTTPConnectionPool(host='localhost', port=65389): Read timed out. (read timeout=120)
+📰Opening: ICM Controls
 
 Trying to access: Midea
 Site returned status code: 200
@@ -280,28 +280,12 @@ Trying to access: RefIndustry
 Site returned status code: 200
 ✅RefIndustry returned [200]"OK" RESPONSE.
 📰Opening: RefIndustry
+Fetching: Bosch launches Hitachi airHome ductless heat pumps in U.S.
+Fetching: AHRI responds to EPA’s proposed reconsideration of Technology Transitions Rule
+Fetching: Eurovent PG-AHU re-elects Lenz and Bijmans as leadership team
+Fetching: EU Mid-Term Review Expands Cohesion Funding for HVAC Energy Efficiency and Sustainable Cooling
 Fetching: Americold opens flagship cold storage hub in Dubai with DP World
 Fetching: Danfoss acquires Italy’s Palladio Compressors to expand screw technology range
-Fetching: Fujitsu General to Rebrand as GENERAL Inc. from 2026
-Fetching: US urged to align safety standards to allow propane in AC and heat pumps
-Fetching: Modine appoints Jeremy Patten as President of Performance Technologies
-Fetching: Panasonic and Osaka Gas develop hydrogen-compatible absorption chiller
-Fetching: Arla and Maersk expand cold chain logistics with new facility in Denmark
-Fetching: Nordic Climate Group acquires Huijbregts Koeltechniek in Dutch expansion
-Fetching: Daikin, UACJ, and Nihon Jiryoku demonstrate closed-loop recycling for HVAC heat exchangers
-Cookies Accepted.
-RefIndustry News, Page: 2
-Fetching: Americold opens flagship cold storage hub in Dubai with DP World
-Fetching: Danfoss acquires Italy’s Palladio Compressors to expand screw technology range
-Fetching: Fujitsu General to Rebrand as GENERAL Inc. from 2026
-Fetching: US urged to align safety standards to allow propane in AC and heat pumps
-Fetching: Modine appoints Jeremy Patten as President of Performance Technologies
-Fetching: Panasonic and Osaka Gas develop hydrogen-compatible absorption chiller
-Fetching: Arla and Maersk expand cold chain logistics with new facility in Denmark
-Fetching: Nordic Climate Group acquires Huijbregts Koeltechniek in Dutch expansion
-Fetching: Daikin, UACJ, and Nihon Jiryoku demonstrate closed-loop recycling for HVAC heat exchangers
-No cookie block found.
-RefIndustry News, Page: 3
 
 Trying to access: CoolingPost
 Site returned status code: 200
@@ -317,29 +301,24 @@ Trying to access: JARN
 Site returned status code: 200
 ✅JARN returned [200]"OK" RESPONSE.
 📰Opening: JARN
-Fetching: Danfoss adds screw compressors to portfolio through strategic acquisition of Palladio Compressors
-Fetching: Star Refrigeration Wins Manufacturer of the Year at Made in Scotland Awards 2025
-Fetching: Johnson Controls redefines the future of building safety at GSX 2025
-Fetching: Rosenberg: ETRI Unveils High-Efficiency Fan Trays for Space-Saving, Custom Ventilation
-Fetching: Haier HVAC UK and Wolseley Announce Flagship Partnership to Supply complete renewable solutions to the UK Market
-Fetching: Swegon: 5 examples of how waterborne climate systems can save money on your project
-Fetching: Cielo: What Is the Hottest Time of the Day? (And Why It’s Not Noon)
-Fetching: Fujitsu General to Change Trade Name to "GENERAL Inc."
-Fetching: Wiegmann Associates Team Member “Raised the Ruff” for the 2025 KIDstruction Week
-Fetching: Carrier Brings Next-Generation QuantumLeap Thermal Management Solutions to Data Centre World Asia
-Fetching: Skills legacy scheme off to 'flying start'
-Fetching: Arla and Maersk expand partnership with new coldstore facility in Denmark
-Fetching: Impact of IAQ in Schools: New Literature Review
-Fetching: Ferroli: £100 Cashback – DOUBLE BUBBLE!
-Fetching: REHVA at the Eurovent Summit 2025 — Prague
+Fetching: Carrier Rebrands Global Command Centers to Advance Customer Outcomes
+Fetching: Salt River Project Completes Hydropower Modernization Project for Greater Renewable Energy Production Efficiency and Reliability
+Fetching: Mitsubishi Electric: supermarkets
+Fetching: Saudi Arabia joins global effort against climate change as 166th country to ratify the Kigali Amendment
+Fetching: Resideo Launches Next-Generation Honeywell Home Dehumidifier
+Fetching: PG-AHU re-elects Lenz & Bijmans as Chair, Vice-Chair
+Fetching: MHI Signs Memorandum of Agreement with University of the Philippines to Consider Decarbonization Strategies in the Philippines
+Fetching: Turboden selected to deliver 180 MW of Fervo’s Gen 2 ORC Power Plants at Cape Station in Utah.
+Fetching: Meet HPT TCP at the European Heat Pump Summit in Nuremberg!
+Fetching: Heat Pumping Technologies Magazine Issue 2, 2025 Out Now
+Fetching: Policy and certification in focus: EHPA at the European Heat Pump Summit 2025
+Fetching: Alfa Laval FCM LPG chosen as the fuel supply system for four new LPG carriers
+Fetching: Samsung and OpenAI Announce Strategic Partnership To Accelerate Advancements in Global AI Infrastructure
 📰Opening: JARN-Interviews
 
 Trying to access: Natural Refrigerants
-Site returned status code: 200
-✅Natural Refrigerants returned [200]"OK" RESPONSE.
-📰Opening: Natural Refrigerants
-Fetching: EIA Report Supports Full Harmonization of Flammable HVAC Refrigerant Standards in U.S. with Global Standard
-Fetching: Colombian Hypermarket Chain Alkosto Opens its First Transcritical CO2 Store
+Site returned status code: 202
+⛔Site is not responding properly.
 
 Trying to access: EHPA
 Site returned status code: 200
@@ -352,6 +331,21 @@ Trying to access: Contracting Business
 Site returned status code: 200
 ✅Contracting Business returned [200]"OK" RESPONSE.
 📰Opening: Contracting Business - Residential
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Commercial
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Refrigeration
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - IndustryNews
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Technology
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Product News
 Ads not found.
 Mimicking a human scrolling through the news.
 
@@ -367,7 +361,7 @@ Mimicking a human scrolling through the news.
 📰Opening: Contractor Mag - Hydronics
 Ads not found.
 Mimicking a human scrolling through the news.
-Fetching: Bradford White Puts Contractor Partnerships at the Forefront of PHCC CONNECT 2025
+Fetching: Navien Donates $50,000 and Equipment to Kerr County Flood Relief
 📰Opening: Contractor Mag - Technology
 Ads not found.
 Mimicking a human scrolling through the news.
@@ -385,7 +379,7 @@ Trying to access: Fleet Owner
 Site returned status code: 200
 ✅Fleet Owner returned [200]"OK" RESPONSE.
 📰Opening: Fleet Owner
-Ads not found.
+Ads Closed.
 Mimicking a human scrolling through the news.
 
 Trying to access: RAC Plus
@@ -423,13 +417,13 @@ Site returned status code: 200
 ✅HPA returned [200]"OK" RESPONSE.
 📰Opening: HPA
 ⚠️ Proxy or middleware timeout for HPA scraper.
-⛔HPA Error: HTTPConnectionPool(host='localhost', port=65389): Read timed out. (read timeout=120)
+⛔HPA Error: HTTPConnectionPool(host='localhost', port=53679): Read timed out. (read timeout=120)
 
 Trying to access: Carel
 Site returned status code: 200
 ✅Carel returned [200]"OK" RESPONSE.
 ⚠️ Proxy or middleware timeout for Carel scraper.
-⛔Carel Error: HTTPConnectionPool(host='localhost', port=65389): Read timed out. (read timeout=120)
+⛔Carel Error: HTTPConnectionPool(host='localhost', port=53679): Read timed out. (read timeout=120)
 
 Trying to access: Bitzer
 Site returned status code: 200

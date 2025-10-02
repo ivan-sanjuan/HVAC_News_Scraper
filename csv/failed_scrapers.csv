@@ -1,11 +1,12 @@
 PublishDate,Source,Type,Title,Summary,Link
------,Lennox,------,Failed scrape,Please visit the site instead.,https://investor.lennox.com/news-events/news-releases
------,Panasonic HVAC,------,Failed scrape,Please visit the site instead.,https://www.panasonic.com/global/hvac/news.html
------,Parker Sporlan,------,Failed scrape,Please visit the site instead.,https://www.parker.com/us/en/about-parker/newsroom/news-release-details.html
------,Sensata,------,Failed scrape,Please visit the site instead.,https://www.sensata.com/newsroom
------,Watsco,------,Failed scrape,Please visit the site instead.,https://investors.watsco.com/news
------,Sanhua Group,------,Failed scrape,Please visit the site instead.,https://www.sanhuagroup.com/en/news.html
------,ICM Controls,------,Failed scrape,Please visit the site instead.,https://www.icmcontrols.com/blog/
------,IEA,------,Failed scrape,Please visit the site instead.,https://www.iea.org/news
------,HPA,------,Failed scrape,Please visit the site instead.,https://www.heatpumps.org.uk/news-events/
------,Carel,------,Failed scrape,Please visit the site instead.,https://www.carel.com/news
+-----,Lennox,Company News,Failed scrape,Please visit the site instead.,https://investor.lennox.com/news-events/news-releases
+-----,Generac,Company News,Failed scrape,Please visit the site instead.,https://www.generac.com/about/news/
+-----,Nidec,Company News,Failed scrape,Please visit the site instead.,https://www.nidec.com/en/corporate/news/
+-----,Panasonic HVAC,Company News,Failed scrape,Please visit the site instead.,https://www.panasonic.com/global/hvac/news.html
+-----,Parker Sporlan,Company News,Failed scrape,Please visit the site instead.,https://www.parker.com/us/en/about-parker/newsroom/news-release-details.html
+-----,Sensata,Company News,Failed scrape,Please visit the site instead.,https://www.sensata.com/newsroom
+-----,Watsco,Company News,Failed scrape,Please visit the site instead.,https://investors.watsco.com/news
+-----,Natural Refrigerants,Industry News,Failed scrape,Please visit the site instead.,https://naturalrefrigerants.com/news/
+-----,IEA,Industry News,Failed scrape,Please visit the site instead.,https://www.iea.org/news
+-----,HPA,Industry News,Failed scrape,Please visit the site instead.,https://www.heatpumps.org.uk/news-events/
+-----,Carel,Company News,Failed scrape,Please visit the site instead.,https://www.carel.com/news

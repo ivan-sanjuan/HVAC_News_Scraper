@@ -81,7 +81,7 @@ class ACRJournal:
             {
             'PublishDate':publish_date,
             'Source': 'ACR Journal',
-            'Type': 'Company News',
+            'Type': 'Industry News',
             'Title': title,
             'Summary': summary,
             'Link': link
