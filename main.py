@@ -480,6 +480,9 @@ def main(page:ft.Page):
         ]
         filtered_result = ScrapedData(None,filtered_df,page)
         output_section.controls = [filtered_result.run()]
+        if not search_field.value == '':
+            dropdown.visible = False
+            dropdown.visible = True
         page.update()
         await ui_queue.put(("display_output",filtered_result.run()))
         
@@ -927,7 +930,9 @@ def main(page:ft.Page):
         border_radius=10,
         on_change=handle_search_change,
         focused_border_color=color_tint_mint,
+        # value='ALL Type',
         options=[
+            # ft.dropdown.Option('ALL Type'),
             ft.dropdown.Option('Company News'),
             ft.dropdown.Option('Industry News')
         ],
