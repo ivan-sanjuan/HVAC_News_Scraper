@@ -1,6 +1,6 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36
+User Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
 
 Trying to access: Trane
 Site returned status code: 200
@@ -12,6 +12,7 @@ Site returned status code: 200
 ✅Danfoss returned [200]"OK" RESPONSE.
 📰Opening: Danfoss
 Accepted Cookies.
+Fetching: Danfoss reinforces commitment to cybersecurity with ISO 27001 certification
 
 Trying to access: LG Global
 Site returned status code: 200
@@ -91,14 +92,11 @@ Trying to access: Generac
 Site returned status code: 200
 ✅Generac returned [200]"OK" RESPONSE.
 📰Opening: Generac
-⚠️ Proxy or middleware timeout for Generac scraper.
-⛔Generac Error: HTTPConnectionPool(host='localhost', port=49753): Read timed out. (read timeout=120)
 
 Trying to access: Nidec
 Site returned status code: 200
 ✅Nidec returned [200]"OK" RESPONSE.
-⚠️ Proxy or middleware timeout for Nidec scraper.
-⛔Nidec Error: HTTPConnectionPool(host='localhost', port=49753): Read timed out. (read timeout=120)
+📰Opening: Nidec
 
 Trying to access: Beijer Ref
 Site returned status code: 200
@@ -166,6 +164,7 @@ Site returned status code: 200
 📰Opening: Panasonic - Global
 Popup watcher launched.
 Pop-up found and closed.
+Fetching: Panasonic’s KAIROS powers world’s first* “IOWN and Perfume” 3D live performance with 4K high-resolution video transmission real time
 
 Trying to access: Panasonic HVAC
 Request failed: HTTPSConnectionPool(host='www.panasonic.com', port=443): Read timed out. (read timeout=15)
@@ -186,11 +185,15 @@ Trying to access: Mesa Labs
 Site returned status code: 200
 ✅Mesa Labs returned [200]"OK" RESPONSE.
 📰Opening: Mesa Labs
+Fetching: Mesa Laboratories, Inc. to Announce Second Quarter Results on November 6, 2025
+Fetching: MESA LABS DECLARES QUARTERLY DIVIDEND
 
 Trying to access: Mitsubishi Electric - Global
 Site returned status code: 200
 ✅Mitsubishi Electric - Global returned [200]"OK" RESPONSE.
 📰Opening: Mitsubishi Electric - Global
+Fetching: Mitsubishi Electric Announces Status of Company Stock Repurchase
+Fetching: Mitsubishi Electric’s Railcar Motor System Wins R&D 100 Award
 
 Trying to access: Mitsubishi Electric - HVAC
 Site returned status code: 200
@@ -216,6 +219,7 @@ Trying to access: Schott
 Site returned status code: 200
 ✅Schott returned [200]"OK" RESPONSE.
 📰Opening: Schott
+Fetching: SCHOTT Inspires Next Generation During Manufacturing Day 2025
 
 Trying to access: Secop
 Site returned status code: 200
@@ -280,6 +284,7 @@ Trying to access: RefIndustry
 Site returned status code: 200
 ✅RefIndustry returned [200]"OK" RESPONSE.
 📰Opening: RefIndustry
+Fetching: IIR promotes sustainable refrigeration at ESEF 2025 in the Gambia
 Fetching: BITZER showcases compressors for natural refrigerants at Busworld Europe 2025
 Fetching: Carrier Transicold wins 2025 Truck & Trailer Welt Award for low-CO2 system
 Fetching: Asia–Pacific Ministers Back Ozone and Climate Goals at Regional Forum in Fiji
@@ -288,9 +293,9 @@ Fetching: Johnson Controls invests $3M in community college partnerships for ski
 Fetching: Daikin Applied UK expands locally made AHU offering to support net zero goals
 Fetching: ARENA funds low-emission heat tech at major Australian manufacturers
 Fetching: Wolseley partners with Haier to expand UK renewables range and training
-Fetching: Global Refrigerated Transport Market to Reach USD 232.9 Billion by 2034
 Cookies Accepted.
 RefIndustry News, Page: 2
+Fetching: IIR promotes sustainable refrigeration at ESEF 2025 in the Gambia
 Fetching: BITZER showcases compressors for natural refrigerants at Busworld Europe 2025
 Fetching: Carrier Transicold wins 2025 Truck & Trailer Welt Award for low-CO2 system
 Fetching: Asia–Pacific Ministers Back Ozone and Climate Goals at Regional Forum in Fiji
@@ -299,17 +304,24 @@ Fetching: Johnson Controls invests $3M in community college partnerships for ski
 Fetching: Daikin Applied UK expands locally made AHU offering to support net zero goals
 Fetching: ARENA funds low-emission heat tech at major Australian manufacturers
 Fetching: Wolseley partners with Haier to expand UK renewables range and training
-Fetching: Global Refrigerated Transport Market to Reach USD 232.9 Billion by 2034
 No cookie block found.
 RefIndustry News, Page: 3
+Fetching: Global Refrigerated Transport Market to Reach USD 232.9 Billion by 2034
 Fetching: Daikin launches air quality innovation trials at Toyota Woven City
 
 Trying to access: CoolingPost
 Site returned status code: 200
 ✅CoolingPost returned [200]"OK" RESPONSE.
 📰Opening: CoolingPost-World
+Fetching: Honeywell spin-off expected October 30
+Fetching: Fujitsu General to trade as General Inc
+Fetching: Carrier rebrands BluEdge service platform
+Fetching: Desiccant AC joins Amazon’s development scheme
 📰Opening: CoolingPost-UK
+Fetching: Wolseley to stock Haier renewable products
 📰Opening: CoolingPost-Products
+Fetching: MHI heat pump can supply hot water at 90℃
+Fetching: Clivet updates Zephir4 air renewal series
 📰Opening: CoolingPost-Features
 📰Opening: CoolingPost-Blog
 📰Opening: CoolingPost-T&E
@@ -318,6 +330,15 @@ Trying to access: JARN
 Site returned status code: 200
 ✅JARN returned [200]"OK" RESPONSE.
 📰Opening: JARN
+Fetching: Joe Stockunas Eyes Growth Opportunities for SEMICON West
+Fetching: Arkema’s product carbon footprint calculation methodology certified by TÜV Rheinland
+Fetching: HPT: 15th IEA Heat Pump Conference 2026
+Fetching: Danfoss reinforces commitment to cybersecurity with ISO 27001 certification
+Fetching: Energy Retrofits for Low- and Moderate-Income Households Require Coordinated Funding
+Fetching: Mitsubishi Electric’s Railcar Motor System Wins R&D 100 Award
+Fetching: AAF: Continuous Filter Line Team Lead 1st Shift
+Fetching: AAF: Manufacturing Engineer INTERN - Bartow, Florida
+Fetching: Mitsubishi Electric: Nicola Cattelan
 Fetching: Mitsubishi Heavy Industries Thermal Systems Has Launched "ETI-W"
 Fetching: AAF: Filter Service Technician II - Aurora, CO
 Fetching: EHPA | air pollution: heat pump switch crucial for health
@@ -327,9 +348,23 @@ Fetching: Combat: What to Do When Your Commercial Heater Stops Working
 Fetching: A. O. Smith Hires Chris Howe as New Chief Digital Information Officer
 Fetching: Rinnai: Will Natural Gas Be Phased Out in the UK?
 Fetching: Oakland: Appointment Strengthens Sustainability Leadership
-Fetching: 70% of Americans Feel Digital Guilt Yet Keep Scrolling and Streaming, New Airedale by Modine™ Survey Finds
+Fetching: 70% of Americans Feel Digital Guilt Yet Keep Scrolling and Streaming, New Airedale by Modine™ Survey Finds [1/2]
 Fetching: MHI Starts a Study on Optimizing the Decarbonization Value Chain Using Green Hydrogen and Ammonia Exported from India
 Fetching: ARBS helping to fund the future HVAC&R
+Fetching: Dunham-Bush Showcases Athena ACM-AE Oil-free Chiller at MARVEX 2025
+Fetching: Carrier Rebrands Global Command Centers to Advance Customer Outcomes
+Fetching: Salt River Project Completes Hydropower Modernization Project for Greater Renewable Energy Production Efficiency and Reliability
+Fetching: Mitsubishi Electric: supermarkets
+Fetching: Saudi Arabia joins global effort against climate change as 166th country to ratify the Kigali Amendment
+Fetching: Resideo Launches Next-Generation Honeywell Home Dehumidifier
+Fetching: PG-AHU re-elects Lenz & Bijmans as Chair, Vice-Chair
+Fetching: MHI Signs Memorandum of Agreement with University of the Philippines to Consider Decarbonization Strategies in the Philippines
+Fetching: Turboden selected to deliver 180 MW of Fervo’s Gen 2 ORC Power Plants at Cape Station in Utah.
+Fetching: Meet HPT TCP at the European Heat Pump Summit in Nuremberg!
+Fetching: Heat Pumping Technologies Magazine Issue 2, 2025 Out Now
+Fetching: Policy and certification in focus: EHPA at the European Heat Pump Summit 2025
+Fetching: Alfa Laval FCM LPG chosen as the fuel supply system for four new LPG carriers
+Fetching: Samsung and OpenAI Announce Strategic Partnership To Accelerate Advancements in Global AI Infrastructure
 📰Opening: JARN-Interviews
 
 Trying to access: Natural Refrigerants
@@ -337,6 +372,8 @@ Site returned status code: 200
 ✅Natural Refrigerants returned [200]"OK" RESPONSE.
 📰Opening: Natural Refrigerants
 Fetching: Interview: LYD Sales Manager Highlights the Company’s CO2 Heat Pump Projects in China
+Fetching: Enerin to Install 1.2MW HoegTemp High-Temperature Heat Pump Using Helium at a Roche Switzerland Facility
+Fetching: U.S. EPA Proposes 5- to 6-Year Delays in GWP Limits for Retail and Cold Storage
 
 Trying to access: EHPA
 Site returned status code: 200
@@ -344,6 +381,7 @@ Site returned status code: 200
 📰Opening: EHPA
 Waiting for the cookie pop-up.
 Cookie pop-up did not show up.
+Fetching: Air pollution: heat pump switch crucial for health
 
 Trying to access: Contracting Business
 Site returned status code: 200
@@ -351,14 +389,32 @@ Site returned status code: 200
 📰Opening: Contracting Business - Residential
 Ads not found.
 Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Commercial
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Refrigeration
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - IndustryNews
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: Florida HVAC and Plumbing Contractor Helps Put Turkeys on the Table
+Fetching: Susan Labadie Named President of Rapid Locking System
+Fetching: Copeland Hosts Seventh Annual Apprentice Day to Support HVACR Workforce Growth
+Fetching: Danfoss Adds Screw Compressors to Portfolio Through Palladio Compressors Acquisition
+📰Opening: Contracting Business - Technology
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Product News
+Ads not found.
+Mimicking a human scrolling through the news.
 
 Trying to access: Contractor Mag
 Site returned status code: 200
 ✅Contractor Mag returned [200]"OK" RESPONSE.
 📰Opening: Contractor Mag - Management
-Ads Closed.
+Ads not found.
 Mimicking a human scrolling through the news.
-Fetching: The Construction Tech Shake-Up: M&A and the Contractor’s Bottom Line
 📰Opening: Contractor Mag - Codes
 Ads not found.
 Mimicking a human scrolling through the news.
@@ -367,6 +423,7 @@ Fetching: IAPMO Seeks Experts for Pool, Spa and Hot Tub Code Task Group
 Ads not found.
 Mimicking a human scrolling through the news.
 Fetching: A. O. Smith Names Chris Howe as Senior Vice President and Chief Digital Information Officer
+Fetching: Navien Donates $50,000 and Equipment to Kerr County Flood Relief
 📰Opening: Contractor Mag - Technology
 Ads not found.
 Mimicking a human scrolling through the news.
@@ -376,6 +433,7 @@ Fetching: The Construction Tech Shake-Up: M&A and the Contractor’s Bottom Line
 📰Opening: Contractor Mag - Tools
 Ads not found.
 Mimicking a human scrolling through the news.
+Fetching: KNIPEX Tools Earns Great Place To Work® Certification for Second Year in a Row
 
 Trying to access: ACR Journal
 Site returned status code: 200
@@ -387,8 +445,9 @@ Trying to access: Fleet Owner
 Site returned status code: 200
 ✅Fleet Owner returned [200]"OK" RESPONSE.
 📰Opening: Fleet Owner
-Ads Closed.
+Ads not found.
 Mimicking a human scrolling through the news.
+Fetching: Peli BioThermal launches Vēro One to support sustainable cold chain shipping with a curbside recyclable dry ice shipper
 
 Trying to access: RAC Plus
 Site returned status code: 200
@@ -425,13 +484,13 @@ Site returned status code: 200
 ✅HPA returned [200]"OK" RESPONSE.
 📰Opening: HPA
 ⚠️ Proxy or middleware timeout for HPA scraper.
-⛔HPA Error: HTTPConnectionPool(host='localhost', port=49753): Read timed out. (read timeout=120)
+⛔HPA Error: HTTPConnectionPool(host='localhost', port=49954): Read timed out. (read timeout=120)
 
 Trying to access: Carel
 Site returned status code: 200
 ✅Carel returned [200]"OK" RESPONSE.
 ⚠️ Proxy or middleware timeout for Carel scraper.
-⛔Carel Error: HTTPConnectionPool(host='localhost', port=49753): Read timed out. (read timeout=120)
+⛔Carel Error: HTTPConnectionPool(host='localhost', port=49954): Read timed out. (read timeout=120)
 
 Trying to access: Bitzer
 Site returned status code: 200
@@ -455,5 +514,11 @@ Site returned status code: 200
 📰Opening: HV UK
 Pop-up closed.
 Waiting for a banner blocking the news blocks to close..
+Fetching: Industry survey finds mixed results for heat pump training
+
+Trying to access: Ecobee
+Site returned status code: 200
+✅Ecobee returned [200]"OK" RESPONSE.
+📰Opening: Ecobee
 Nudges is now DISABLED.
 Logging ended..

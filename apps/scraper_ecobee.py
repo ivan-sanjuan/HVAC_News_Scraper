@@ -40,7 +40,9 @@ class EcobeeNews:
             link = url.find('a').get('href')
             if link.startswith('/en-ca/newsroom/'):
                 link = urljoin(self.root,link)
-                self.get_news(link)
+                status = self.get_news(link)
+                if status == False:
+                    break
                 
     def get_news(self,link):
         try:
@@ -49,23 +51,44 @@ class EcobeeNews:
             self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'single-post-press')))
             html = self.driver.page_source
             soup = BeautifulSoup(html,'html.parser')
-            article_block = soup.find('div',class_='content-container')
-            parsed_date = article_block.find('p')
-            parsed_date = self.find_date(parsed_date)
-            print(parsed_date)
+            paragraphs = soup.find_all('p')
+            summary = None
+            title = soup.find('h1',id='page-heading').text.strip()
+            for p in paragraphs:
+                para = p.text.strip()
+                if len(para) > 200:
+                    summary = para
+                    parsed_date = self.find_date(summary)
+                    break
+            if not summary:
+                pass
+            if parsed_date <= self.date_limit:
+                return False
+            self.append(parsed_date,title,summary,link)
+            return True
         except Exception as e:
             print(f'An error has occured: {e}')
         finally:
             self.driver.close()
             self.driver.switch_to.window(self.driver.window_handles[0])
             
-    def find_date(self,date_paragraphs):
-        parsed_date = None
-        para = date_paragraphs.text.strip()
-        matches = datefinder.find_dates(para)
-        dates = list(matches)
-        for text in dates:
-            print(text)
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate':publish_date,
+            'Source':'Ecobee',
+            'Type':'Company News',
+            'Title':title,
+            'Summary':summary,
+            'Link':link
+            }
+        )
+            
+    def find_date(self,date_paragraph):
+        matches = datefinder.find_dates(date_paragraph)
+        parsed_date = list(matches)[0]
+        return parsed_date
         
     def driver_wait(self,condition):
         try:
@@ -84,17 +107,5 @@ def get_ecobee(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/ecobee_news.csv',index=False)
-    
-options = Options()
-options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-driver = webdriver.Chrome(options=options)
-get_ecobee(driver,coverage_days=3)
-
-time.sleep(10)
-driver.quit()

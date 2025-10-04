@@ -3,6 +3,7 @@ from apps._paths import get_paths
 from apps._exceptions import get_exceptions
 from apps._useragents import user_agents
 from apps._response import get_scraper_classes
+from apps._save_dialog import launch_dialog
 import certifi
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -141,12 +142,14 @@ def main(page:ft.Page):
     color_tint_orange = '#DF8369'
     ui_queue = asyncio.Queue()
     
+    
     def stop_scraping(e):
         global scraping_active
         scraping_active = False
         search_status.value = 'Run will be stopped after this function.. Please wait.'
 
     async def poll_ui():
+        print('Polling started')
         buffer = io.StringIO()
         while True:
             msg_type, payload = await ui_queue.get()
@@ -184,7 +187,7 @@ def main(page:ft.Page):
             
             elif msg_type == "nudge_on":
                 sleep = asyncio.create_task(prevent_sleep(payload))
-                print('Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.')
+                
             
             elif msg_type == "nudge_off":
                 sleep.cancel()
@@ -192,6 +195,7 @@ def main(page:ft.Page):
                 
             page.update()
             await asyncio.sleep(0.1)
+    
             
     async def append_log(buffer):
         sys.stdout = buffer
@@ -204,11 +208,12 @@ def main(page:ft.Page):
             await asyncio.sleep(0.2)
     
     async def prevent_sleep(condition):
+        print('Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.')
         while True:
             if condition == True:
-                pyautogui.moveRel(1, 0, duration=0.1)
-                pyautogui.moveRel(-1, 0, duration=0.1)
-                await asyncio.sleep(60)
+                pyautogui.moveRel(1, 1, duration=0.1)
+                pyautogui.moveRel(-1, 1, duration=0.1)
+                await asyncio.sleep(30)
         
     def start_scraping(e):
         scrape_button_disabled()
@@ -627,11 +632,12 @@ def main(page:ft.Page):
         ).start()
     
     def run_save_dialog(e):
-        import subprocess
-        script_path = os.path.join("apps", "_save_dialog.py")
-        subprocess.Popen(["python", script_path])
-        # file_path = FileResponse(script_path)
-        # ui_queue.put(('status',f'{file_path}'))
+        file_path = launch_dialog()
+        store_filepath(file_path)
+    
+    def store_filepath(file_path):
+        search_status.value = f'Saved to:\n{file_path}'
+        search_status.update()
     
     output_section_log_text = ft.Text(
         size=16,
@@ -707,7 +713,7 @@ def main(page:ft.Page):
         bgcolor=color_neutral_light,
         color='#354850',
         disabled=True,
-        width=400,
+        width=368,
         border_width=2,
         focused_border_color=color_tint_mint,
         on_change=handle_search_change,
@@ -744,7 +750,7 @@ def main(page:ft.Page):
         value='ON STAND-BY...',
         size=13,
         color='#DEDAC6',
-        width=300,
+        width=383,
     )
     
     progress_bar = ft.ProgressBar(
@@ -755,14 +761,14 @@ def main(page:ft.Page):
     )
     
     scrape_button = ft.Container( 
-        width=300,
+        width=383,
         height=50,
         content=ft.ElevatedButton(
             text='START SCRAPING...',
             icon=ft.Icons.MANAGE_SEARCH_OUTLINED,
             icon_color='#2B2B2B',
             elevation=5,
-            width=200,
+            width=383,
             height=20,
             on_click=start_scraping,
             bgcolor=color_tint_mint,
@@ -776,13 +782,13 @@ def main(page:ft.Page):
     )
     
     scrape_running_button = ft.Container( 
-        width=300,
+        width=383,
         height=50,
         content=ft.ElevatedButton(
             text='STOP SCRAPING',
             icon=ft.Icons.CANCEL_OUTLINED,
             icon_color="#DEDAC6",
-            width=200,
+            width=383,
             height=20,
             on_click=stopping_scrape,
             bgcolor=color_tint_orange,
@@ -852,7 +858,7 @@ def main(page:ft.Page):
     )
     
     scrape_buttons_stack = ft.Stack(
-        width=300,
+        width=383,
         height=50,
         controls=[
             scrape_running_button,
@@ -917,6 +923,7 @@ def main(page:ft.Page):
     )
     
     dropdown = ft.Dropdown(
+        width=222,
         filled=True,
         fill_color="#AAA089",
         color='#354850',

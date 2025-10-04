@@ -68,6 +68,7 @@ from .scraper_icm_controls import get_icm_controls
 from .scraper_midea import get_midea
 from .scraper_rees_scientific import get_rees_scientific
 from .scraper_carrier_groups import get_carrier_group_news
+from .scraper_ecobee import get_ecobee
 
 def get_exceptions():
     exceptions = [
@@ -100,6 +101,7 @@ def get_exceptions():
         get_carrier_group_news,
         get_beijer_ref,
         get_bitzer_news,
-        get_cooling_post
+        get_cooling_post,
+        get_ecobee
     ]
     return exceptions

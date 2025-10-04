@@ -72,6 +72,7 @@ def get_paths():
                 'csv/midea_news.csv',
                 'csv/rees_scientific_news.csv',
                 'csv/carrier_group_news.csv',
-                'csv/failed_scrapers.csv'
+                'csv/failed_scrapers.csv',
+                'csv/ecobee_news.csv'
             ]
     return csv_paths
