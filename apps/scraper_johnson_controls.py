@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 from datetime import date, timedelta, datetime
 from urllib.parse import urljoin
+from dateutil.parser import parse
 import datefinder
 import pandas as pd
 import time
@@ -32,45 +33,49 @@ class JohnsonControlsNews:
         links = soup.find_all('a')
         for url in links:
             url = url.get('href')
-            if url and url.startswith('/media-center/news/press-releases/'):
+            if url and url.startswith('https://www.johnsoncontrols.com/media-center/news/press-releases/'):
                 link = urljoin(self.root,url)
                 status = self.get_news(link)
+                self.driver.close()
+                self.driver.switch_to.window(self.driver.window_handles[0])
                 if status == False:
                     break
-    
+                
     def get_news(self,link):
         try:
             self.driver.switch_to.new_window('tab')
             self.driver.get(link)
+            time.sleep(10)
             self.driver_wait(EC.presence_of_element_located((By.ID,'content')))
             html = self.driver.page_source
             soup = BeautifulSoup(html,'html.parser')
+            date_block = soup.find('div',class_='universalrichtext-text')
+            parsed_date = self.clean_date(date_block)
             paragraphs = soup.find_all('p')
             title = soup.find('h1').text.strip()
             summary = None
             for p in paragraphs:
                 para = p.text.strip()
                 if len(para) > 250:
-                    print(para)
                     summary = para
-                    parsed_date = self.clean_date(para)
                     break
-        #     if not summary:
-        #         summary = 'Unable to parse summary, please visit the news page instead.'
-        #     if parsed_date <= self.date_limit:
-        #         return False
-        #     self.append(parsed_date,title,summary,link)
-        #     return True
-        # except Exception as e:
-        #     print(f'An error has occured: {e}')
-        finally:
-            self.driver.close()
-            self.driver.switch_to.window(self.driver.window_handles[0])
+            if not summary:
+                summary = 'Unable to parse summary, please visit the news page instead.'
+            if parsed_date <= self.date_limit:
+                return False
+            self.append(parsed_date,title,summary,link)
+            return True
+        except Exception as e:
+            print(f'An error has occured: {e}')
     
-    def clean_date(self,date_str):
-        matches = datefinder.find_dates(date_str)
-        parsed_date = list(matches)
-        print(parsed_date)
+    def clean_date(self,date_block):
+        try:
+            block = date_block.find('strong').text.strip()
+            parsed_date = parse(block,fuzzy=True)
+        except:
+            block = date_block.find_all('span',class_='legendSpanClass')[1].text.strip()
+            parsed_date = parse(block,fuzzy=True)
+        return parsed_date
     
     def driver_wait(self,condition):
         try:
@@ -103,18 +108,4 @@ def get_johnsonControls_news(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df = df.drop_duplicates(subset=['Link'])
-    df.to_csv('csv/johnson_control_news.csv',index=False)
-
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-options.page_load_strategy = 'eager'
-driver = webdriver.Chrome(options=options)
-get_johnsonControls_news(driver,coverage_days=15)
-
-driver.quit()
-time.sleep(10)
+    df.to_csv('csv/johnson_controls_news.csv',index=False)

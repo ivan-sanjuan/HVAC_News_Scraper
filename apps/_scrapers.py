@@ -69,6 +69,7 @@ from .scraper_midea import get_midea
 from .scraper_rees_scientific import get_rees_scientific
 from .scraper_carrier_groups import get_carrier_group_news
 from .scraper_ecobee import get_ecobee
+from .scraper_johnson_controls import get_johnsonControls_news
 # get_ACHR,
 def get_scrapers():
     scrapers = [
@@ -141,5 +142,6 @@ def get_scrapers():
             {'name':'ThermoKing - Europe','type':'Company News','func':get_thermoking_europe,'url':'https://europe.thermoking.com/media-room'},
             {'name':'HV UK','type':'Industry News','func':get_HV_UK,'url':'https://www.hvnplus.co.uk/news/'},
             {'name':'Ecobee','type':'Company News','func':get_ecobee,'url':'https://www.ecobee.com/en-ca/newsroom/'},
+            {'name':'Johnson Controls','type':'Company News','func':get_johnsonControls_news,'url':'https://www.johnsoncontrols.com/media-center/news#sort=%40insightdate%20descending'},
         ]
     return scrapers
