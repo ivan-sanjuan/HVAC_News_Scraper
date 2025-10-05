@@ -51,17 +51,18 @@ class JohnsonControlsNews:
             for p in paragraphs:
                 para = p.text.strip()
                 if len(para) > 250:
+                    print(para)
                     summary = para
                     parsed_date = self.clean_date(para)
                     break
-            if not summary:
-                summary = 'Unable to parse summary, please visit the news page instead.'
-            if parsed_date <= self.date_limit:
-                return False
-            self.append(parsed_date,title,summary,link)
-            return True
-        except Exception as e:
-            print(f'An error has occured: {e}')
+        #     if not summary:
+        #         summary = 'Unable to parse summary, please visit the news page instead.'
+        #     if parsed_date <= self.date_limit:
+        #         return False
+        #     self.append(parsed_date,title,summary,link)
+        #     return True
+        # except Exception as e:
+        #     print(f'An error has occured: {e}')
         finally:
             self.driver.close()
             self.driver.switch_to.window(self.driver.window_handles[0])
@@ -69,8 +70,7 @@ class JohnsonControlsNews:
     def clean_date(self,date_str):
         matches = datefinder.find_dates(date_str)
         parsed_date = list(matches)
-        for text in parsed_date:
-            print(text)
+        print(parsed_date)
     
     def driver_wait(self,condition):
         try:
