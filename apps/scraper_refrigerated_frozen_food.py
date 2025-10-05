@@ -22,8 +22,12 @@ class RefrigeratedFrozenFood:
 
     def get_soup(self):
         self.driver.get(self.url)
+        self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'close-olytics-image-bottom-mid'))).click()
+        
+        
+    def driver_wait(self,condition):
         try:
-            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.CLASS_NAME,'close-olytics-image-bottom-mid'))).click()
+            return WebDriverWait(self.driver,10).until(condition)
         except:
             pass
         
