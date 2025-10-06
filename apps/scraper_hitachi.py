@@ -33,8 +33,8 @@ class HitachiNews:
     
     def get_news(self,blocks):
         for news in blocks:
-            time.sleep(5)
             try:
+                time.sleep(3)
                 parsed_date = news.find('div',class_='news-card__date').text.strip()
                 parsed_date = self.clean_date(parsed_date)
                 link = news.find('a').get('href')
@@ -54,12 +54,16 @@ class HitachiNews:
                             break
                     if not summary:
                         summary = 'Unable to parse summary, please visit the news page instead.'
+                    self.driver.close()
+                    handles = self.driver.window_handles
+                    if handles:
+                        self.driver.switch_to.window(handles[0])
+                    else:
+                        print("No window handles found. Possibly redirected or closed.")
                     self.append(parsed_date,title,summary,link)
+                    
             except Exception as e:
                 print(f'An error has occured: {e}')
-            finally:
-                self.driver.close()
-                self.driver.switch_to.window(self.driver.window_handles[0])
 
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
@@ -80,7 +84,7 @@ class HitachiNews:
 
     def driver_wait(self,condition):
         try:
-            return WebDriverWait(self.driver,5).until(condition)
+            return WebDriverWait(self.driver,10).until(condition)
         except:
             pass
     
@@ -106,7 +110,7 @@ options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36")
 options.page_load_strategy = 'eager'
 driver = webdriver.Chrome(options=options)
-get_hitachi(driver,coverage_days=15)
+get_hitachi(driver,coverage_days=18)
 
-time.sleep(5)
+time.sleep(30)
 driver.quit()
