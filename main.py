@@ -108,19 +108,6 @@ class ScrapedData:
     def run(self):
         return self.output()
 
-# class FileResponse:
-#     def __init__(self,file_path):
-#         self.path = file_path
-        
-#     def file_path_save(self):
-#         if self.path:
-#             df = pd.read_csv("csv/combined_news.csv")
-#             df.to_csv(self.path, index=False)
-#             print(f"✅ Saved to {self.path}")
-    
-#     def run(self):
-#         self.file_path_save()
-
 def main(page:ft.Page):
     page.window.width = 1500
     page.window.height = 820
@@ -541,7 +528,7 @@ def main(page:ft.Page):
             today_csv=datetime.today()
             today_csv_formatted=today_csv.strftime('%Y-%m-%d')
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            filename_scraped_news = os.path.join(base_dir, 'csv/Reports', f'scraped_news_{today_csv_formatted}.csv')
+            filename_scraped_news = os.path.join(base_dir, 'csv\\Reports', f'scraped_news_{today_csv_formatted}.csv')
             mail_item.Attachments.Add(filename_scraped_news)
             mail_item.Display()
             pythoncom.CoUninitialize()
