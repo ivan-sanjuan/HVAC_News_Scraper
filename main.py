@@ -12,7 +12,7 @@ import win32com.client as outlook
 from pandas.errors import EmptyDataError
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from functools import partial
-from requests.exceptions import ReadTimeout, ConnectTimeout, RequestException
+from requests.exceptions import ReadTimeout, ConnectTimeout, RequestException, SSLError
 from tkinter import Tk, filedialog
 import socket
 import requests
@@ -351,6 +351,17 @@ def main(page:ft.Page):
                                 pass
                             except Exception as e:
                                 if 'localhost' in str(e) or '127.0.0.1' in str(e):
+                                    print(f'⚠️ Proxy or middleware timeout for {scraper_name} scraper.')
+                                    if len(failed_list) == 0:
+                                        failed_scraper_log.controls.append(failed_scraper_title)
+                                    print(f'⛔{scraper_name} Error: {e}')
+                                    failed_scrapers_func(scraper_name,url,scraper_type)
+                                    failed_list.append(f'⚠️{scraper_name}')
+                                    failed_scraper_log.controls.append(failed_scraper_log_text)
+                                    failed_scraper_log_text.value = ('\n'.join(failed_list))
+                                    page.update()
+                                    pass
+                                elif 'port=443' in str(e):
                                     print(f'⚠️ Proxy or middleware timeout for {scraper_name} scraper.')
                                     if len(failed_list) == 0:
                                         failed_scraper_log.controls.append(failed_scraper_title)

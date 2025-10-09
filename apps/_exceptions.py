@@ -70,12 +70,13 @@ from .scraper_rees_scientific import get_rees_scientific
 from .scraper_carrier_groups import get_carrier_group_news
 from .scraper_ecobee import get_ecobee
 from .scraper_johnson_controls import get_johnsonControls_news
+from .scraper_embraco import get_embraco
 
 def get_exceptions():
     exceptions = [
         get_HPA,
         get_jarn,
-        # get_embraco,
+        get_embraco,
         get_mitsubishi_electric_hvac,
         get_sanhua,
         get_sanhua_group,
