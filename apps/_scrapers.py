@@ -120,7 +120,6 @@ def get_scrapers():
             {'name':'Sanhua','type':'Company News','func':get_sanhua,'url':'https://www.sanhuausa.com/'},
             {'name':'Sanhua Group','type':'Company News','func':get_sanhua_group,'url':'https://www.sanhuagroup.com/en/news.html'},
             {'name':'ICM Controls','type':'Company News','func':get_icm_controls,'url':'https://www.icmcontrols.com/blog/'},
-            {'name':'Midea','type':'Company News','func':get_midea,'url':'https://mbt.midea.com/global/news'},
             {'name':'Rees Scientific','type':'Company News','func':get_rees_scientific,'url':'https://reesscientific.com/blog'},
             {'name':'RefIndustry','type':'Industry News','func':get_refindustry_news,'url':'https://refindustry.com/news/'},
             {'name':'CoolingPost','type':'Industry News','func':get_cooling_post,'url':'https://www.coolingpost.com/'},
@@ -144,6 +143,7 @@ def get_scrapers():
             {'name':'HV UK','type':'Industry News','func':get_HV_UK,'url':'https://www.hvnplus.co.uk/news/'},
             {'name':'Ecobee','type':'Company News','func':get_ecobee,'url':'https://www.ecobee.com/en-ca/newsroom/'},
             {'name':'Johnson Controls','type':'Company News','func':get_johnsonControls_news,'url':'https://www.johnsoncontrols.com/media-center/news#sort=%40insightdate%20descending'},
-            {'name':'Hitachi AC','type':'Company News','func':get_hitachi,'url':'https://www.hitachiaircon.com/newsroom/en/news'}
+            {'name':'Hitachi AC','type':'Company News','func':get_hitachi,'url':'https://www.hitachiaircon.com/newsroom/en/news'},
+            {'name':'Midea','type':'Company News','func':get_midea,'url':'https://mbt.midea.com/global/news'},
         ]
     return scrapers

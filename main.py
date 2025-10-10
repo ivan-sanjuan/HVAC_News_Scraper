@@ -329,7 +329,7 @@ def main(page:ft.Page):
                                 print(f'✅{scraper_name} returned [200]"OK" RESPONSE.')
                                 await asyncio.sleep(1)
                                 await loop.run_in_executor(None,scraper,driver,coverage_days)
-                            except (ReadTimeout, ConnectTimeout) as e:
+                            except (ReadTimeout, ConnectTimeout,SSLError) as e:
                                 if len(failed_list) == 0:
                                     failed_scraper_log.controls.append(failed_scraper_title)
                                 print(f'⛔{scraper_name} Error: {e}')
@@ -361,17 +361,6 @@ def main(page:ft.Page):
                                     failed_scraper_log_text.value = ('\n'.join(failed_list))
                                     page.update()
                                     pass
-                                elif 'port=443' in str(e):
-                                    print(f'⚠️ Proxy or middleware timeout for {scraper_name} scraper.')
-                                    if len(failed_list) == 0:
-                                        failed_scraper_log.controls.append(failed_scraper_title)
-                                    print(f'⛔{scraper_name} Error: {e}')
-                                    failed_scrapers_func(scraper_name,url,scraper_type)
-                                    failed_list.append(f'⚠️{scraper_name}')
-                                    failed_scraper_log.controls.append(failed_scraper_log_text)
-                                    failed_scraper_log_text.value = ('\n'.join(failed_list))
-                                    page.update()
-                                    pass
                         else:
                             if len(failed_list) == 0:
                                 failed_scraper_log.controls.append(failed_scraper_title)
@@ -383,9 +372,10 @@ def main(page:ft.Page):
                             page.update()
                             pass
                     except Exception as f:
-                        print(f'An error has occured: {f}')
+                        print(f'An error has occured: {e}')
                     except WebDriverException as f:
                         print(f'A general WebDriver error occured: {f}')
+                            
                     duration = time.time() - start
                     await ui_queue.put(('log',f"{scraper_name} completed in {duration:.2f} seconds"))
                     await ui_queue.put(('progress',(i+1)/total_tasks))
@@ -394,6 +384,18 @@ def main(page:ft.Page):
                 else:
                     # await ui_queue.put(('end_log','end'))
                     break
+        except Exception as e:
+            if 'port=443' in str(e):
+                print(f'⚠️ Proxy or middleware timeout for {scraper_name} scraper.')
+                if len(failed_list) == 0:
+                    failed_scraper_log.controls.append(failed_scraper_title)
+                print(f'⛔{scraper_name} Error: {e}')
+                failed_scrapers_func(scraper_name,url,scraper_type)
+                failed_list.append(f'⚠️{scraper_name}')
+                failed_scraper_log.controls.append(failed_scraper_log_text)
+                failed_scraper_log_text.value = ('\n'.join(failed_list))
+                page.update()
+                pass
         finally:
             failed_df = pd.DataFrame(failed_scrapers)
             await save_csv_async(failed_df,'csv/failed_scrapers.csv')
