@@ -100,4 +100,5 @@ def get_carrier_news(driver,coverage_days):
         except Exception as e:
             print(f'Error scraping {news['src']}: {e}')
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/carrier_news.csv',index=False)

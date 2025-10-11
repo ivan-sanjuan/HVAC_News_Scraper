@@ -15,14 +15,13 @@ class LennoxNews:
         self.coverage = coverage_days
         self.url = url
         self.latest_news = []
-        self.today = datetime.today()
+        self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.root = 'https://investor.lennox.com/'
     
     def get_soup(self):
         print(f'📰Opening: Lennox')
         self.driver.get(self.url)
-        WebDriverWait(self.driver,5).until(
-            EC.presence_of_element_located((By.CLASS_NAME,'nir-widget--list'))
-        )
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'nir-widget--list')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         news_section = soup.find('div',class_='nir-widget--list')
@@ -34,9 +33,10 @@ class LennoxNews:
             parsed_date = news.find('div',class_='nir-widget--news--date-time').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.today-timedelta(days=self.coverage):
+            if parsed_date_obj >= self.date_limit:
                 button = toggle.find_element(By.CLASS_NAME,'nir-widget--news--accordion-toggle')
-                self.driver.execute_script("arguments[0].scrollIntoView();", button)
+                if button:
+                    self.driver.execute_script("arguments[0].scrollIntoView();", button)
                 button_clicked = False
                 if not button_clicked:
                     button.click()
@@ -49,18 +49,29 @@ class LennoxNews:
                         summary = news.find('div','nir-widget--news--teaser').find('p').text.strip()
                     else:
                         summary = news.find('div','nir-widget--news--teaser').text.strip()
-                    link = news.find('div',class_='nir-widget--news--read-more').find('a').get('href')
-                    root_link = 'https://investor.lennox.com'
-                    self.latest_news.append(
+                    link = news.find('div',class_='nir-widget--news--read-more')
+                    if link:
+                        link = link.find('a').get('href')
+                    self.append(publish_date,title,summary,link)
+    
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
                         {
                         'PublishDate': publish_date,
                         'Source': 'Lennox',
                         'Type': 'Company News',
                         'Title': title,
                         'Summary': summary,
-                        'Link': f'{root_link}{link}'
+                        'Link': link
                         }
                     )
+    
+    def driver_wait(self,condition):
+        try:
+            WebDriverWait(self.driver,5).until(condition)
+        except:
+            pass
                 
     def scrape(self):
         self.get_soup()
@@ -74,5 +85,19 @@ def get_lennox_news(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/lennox_news.csv', index=False)
+    
+options = Options()
+# options.add_argument('--headless=new')
+options.add_argument('--disable-gpu')
+options.add_argument('--window-size=1920x1080')
+options.add_argument('--log-level=3')
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4")
+options.page_load_strategy = 'eager'
+driver = webdriver.Chrome(options=options)
+get_lennox_news(driver,coverage_days=15)
 
+time.sleep(5)
+driver.quit()
