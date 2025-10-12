@@ -4,78 +4,71 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
+from dateutil.parser import parse
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from datetime import date, timedelta, datetime
 import pandas as pd
 import time
 
 class LennoxNews:
-    def __init__(self,driver,coverage_days,url):
+    def __init__(self,driver,coverage,url):
         self.driver = driver
-        self.coverage = coverage_days
+        self.coverage = coverage
         self.url = url
-        self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.latest_news = []
         self.root = 'https://investor.lennox.com/'
     
     def get_soup(self):
-        print(f'📰Opening: Lennox')
         self.driver.get(self.url)
-        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'nir-widget--list')))
+        self.driver_wait(EC.presence_of_element_located((By.ID,'content-header')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        news_section = soup.find('div',class_='nir-widget--list')
-        self.news_blocks = news_section.find_all('article')
-        self.toggle_buttons = self.driver.find_elements(By.TAG_NAME,'article')
-        
-    def get_news(self):
-        for news, toggle in zip(self.news_blocks, self.toggle_buttons):
-            parsed_date = news.find('div',class_='nir-widget--news--date-time').text.strip()
-            parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
-            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.date_limit:
-                button = toggle.find_element(By.CLASS_NAME,'nir-widget--news--accordion-toggle')
-                if button:
-                    self.driver.execute_script("arguments[0].scrollIntoView();", button)
-                button_clicked = False
-                if not button_clicked:
-                    button.click()
-                    button_clicked = True
-                    title = news.find('a',class_='nir-widget--news--accordion-toggle').text.strip()
-                    print(title)
-                    summary_section = news.find('div','nir-widget--news--teaser')
-                    p_tag = summary_section.find('p')
-                    if p_tag:
-                        summary = news.find('div','nir-widget--news--teaser').find('p').text.strip()
-                    else:
-                        summary = news.find('div','nir-widget--news--teaser').text.strip()
-                    link = news.find('div',class_='nir-widget--news--read-more')
-                    if link:
-                        link = link.find('a').get('href')
-                    self.append(publish_date,title,summary,link)
+        news_blocks = soup.find_all('article')
+        news_blocks_sel = self.driver.find_elements(By.TAG_NAME,'article')
+        self.get_news(news_blocks,news_blocks_sel)
     
+    def get_news(self,blocks,blocks_sel):
+        for news, sect in zip(blocks,blocks_sel):
+            parsed_date = news.find('div',class_='nir-widget--news--date-time').text.strip()
+            parsed_date = self.get_date(parsed_date)
+            publish_date = parsed_date.strftime('%Y-%m-%d')
+            if parsed_date >= self.date_limit:
+                title = news.find('a').text.strip()
+                link = sect.find_element(By.LINK_TEXT,'Read More').get_attribute('href')
+                link = urljoin(self.root,link)
+                summary = None
+                summary = news.find('div',class_='nir-widget--news--teaser').text.strip()
+                if not summary:
+                    summary = 'Unable to parse summary, please visit the news page instead.'
+                self.append(publish_date,title,summary,link)
+    
+    def get_date(self,date_str):
+        parsed_date = parse(date_str,fuzzy=True)
+        return parsed_date
+
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
         self.latest_news.append(
-                        {
-                        'PublishDate': publish_date,
-                        'Source': 'Lennox',
-                        'Type': 'Company News',
-                        'Title': title,
-                        'Summary': summary,
-                        'Link': link
-                        }
-                    )
+            {
+            'PublishDate':publish_date,
+            'Source':'Lennox',
+            'Type':'Company News',
+            'Title':title,
+            'Summary':summary,
+            'Link':link
+            }
+        )
+    
+    def scrape(self):
+        self.get_soup()
     
     def driver_wait(self,condition):
         try:
-            WebDriverWait(self.driver,5).until(condition)
+            return WebDriverWait(self.driver,5).until(condition)
         except:
             pass
-                
-    def scrape(self):
-        self.get_soup()
-        self.get_news()
 
 all_news = []
 def get_lennox_news(driver,coverage_days):
@@ -86,18 +79,4 @@ def get_lennox_news(driver,coverage_days):
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
     df = df.drop_duplicates(subset=['Link'])
-    df.to_csv('csv/lennox_news.csv', index=False)
-    
-options = Options()
-# options.add_argument('--headless=new')
-options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--log-level=3')
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4")
-options.page_load_strategy = 'eager'
-driver = webdriver.Chrome(options=options)
-get_lennox_news(driver,coverage_days=15)
-
-time.sleep(5)
-driver.quit()
+    df.to_csv('csv/lennox_news.csv',index=False)

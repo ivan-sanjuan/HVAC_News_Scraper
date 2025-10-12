@@ -105,6 +105,7 @@ def get_exceptions():
         get_bitzer_news,
         get_cooling_post,
         get_ecobee,
-        get_johnsonControls_news
+        get_johnsonControls_news,
+        get_lennox_news
     ]
     return exceptions
