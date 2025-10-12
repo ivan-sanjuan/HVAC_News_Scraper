@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
+from dateutil.parser import parse
 from bs4 import BeautifulSoup
 from datetime import date, timedelta, datetime
 import pandas as pd
@@ -17,58 +18,48 @@ class HoneywellNews:
         self.today = datetime.today()
         self.latest_news = []
     
-    def prepare_page(self):
+    def get_soup(self):
         print(f'📰Opening: Honeywell')
         self.driver.get(self.url)
-        WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.ID,'swiftype-result')))
-        time.sleep(5)
-        news_date = self.driver.find_elements(By.CLASS_NAME,'search-result-details__doc-type')
-        dates_list = []
-        try:
-            for dates in news_date:
-                publish_date = dates.text
-                publish_date_obj = datetime.strptime(publish_date[:10],'%Y-%m-%d')
-                dates_list.append(publish_date_obj)
-        finally:
-            if min(dates_list) > self.today-timedelta(days=self.coverage_days):
-                load_more = WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.ID,'load-more')))
-                self.driver.execute_script("arguments[0].scrollIntoView();", load_more)
-                load_more.click()
-            else:
-                pass
-                
-    def get_soup(self):
-        time.sleep(3)
-        WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'mb-3')))
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'root')))
+        time.sleep(10)
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        news_section = soup.find('div',id='swiftype-search-results-v2')
-        self.news_blocks = news_section.find_all('div',class_='mb-3')
+        news_blocks = soup.find_all('div',class_='center-top')
+        self.get_news(news_blocks)
+    
+    def get_news(self,blocks):
+        for news in blocks:
+            parsed_date = news.find('div',{'data-property':'articlepublicationdate'}).text.strip()
+            parsed_date = self.clean_date(parsed_date)
+            publish_date = parsed_date.strftime('%Y-%m-%d')
+            print(publish_date)
         
-    def get_news(self):
-        for news in self.news_blocks:
-            publish_date = news.find('div',class_='search-result-details__doc-type').text.strip()
-            publish_date_obj = datetime.strptime(publish_date[:10],'%Y-%m-%d')
-            if publish_date_obj >= self.today-timedelta(days=self.coverage_days):
-                title_section = news.find('a',class_='result-name')
-                title = title_section.text.strip()
-                link = title_section.get('href')
-                summary = news.find('div',class_='search-result-details__result-description').text.strip()
-                self.latest_news.append(
-                    {
-                    'PublishDate': publish_date_obj,
-                    'Source': 'Honeywell',
-                    'Type': 'Company News',
-                    'Title': title,
-                    'Summary': summary,
-                    'Link': link
-                    }
-                )
+    def clean_date(self,date_str):
+        parsed_date = parse(date_str,fuzzy=True)
+        return parsed_date
+    
+    def driver_wait(self,condition):
+        try:
+            return WebDriverWait(self.driver,5).until(condition)
+        except:
+            pass
+    
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate': publish_date,
+            'Source': 'Honeywell',
+            'Type': 'Company News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
         
     def scrape(self):
-        self.prepare_page()
         self.get_soup()
-        self.get_news()
         
 all_news = []
 def get_honeywell_news(driver,coverage_days):
@@ -78,6 +69,7 @@ def get_honeywell_news(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/honeywell_news.csv',index=False)
   
 options = Options()
@@ -87,7 +79,7 @@ options.add_argument('--window-size=1920x1080')
 options.add_argument('--log-level=3')
 options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4")
-options.page_load_strategy = 'eager'
+# options.page_load_strategy = 'eager'
 driver = webdriver.Chrome(options=options)
 get_honeywell_news(driver,coverage_days=15)
 
