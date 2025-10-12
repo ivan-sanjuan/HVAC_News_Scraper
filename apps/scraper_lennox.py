@@ -21,6 +21,7 @@ class LennoxNews:
         self.root = 'https://investor.lennox.com/'
     
     def get_soup(self):
+        print(f'📰Opening: Lennox')
         self.driver.get(self.url)
         self.driver_wait(EC.presence_of_element_located((By.ID,'content-header')))
         html = self.driver.page_source
