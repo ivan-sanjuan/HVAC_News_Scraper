@@ -1,32 +1,26 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
+User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
 
 Trying to access: Trane
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Trane returned [200]"OK" RESPONSE.
 📰Opening: Trane Technologies
-Fetching: Trane Technologies Recognized as One of the World’s Best Employers by Forbes
-Fetching: Trane Technologies Declares Quarterly Dividend
+Fetching: Trane Technologies Schedules Third Quarter 2025 Earnings Conference Call
 
 Trying to access: Danfoss
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Danfoss returned [200]"OK" RESPONSE.
 📰Opening: Danfoss
 Accepted Cookies.
 
 Trying to access: LG Global
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅LG Global returned [200]"OK" RESPONSE.
 📰Opening: LG-Corporate
-📰Opening: LG-ApplianceSolution
-📰Opening: LG-Entertainment
-📰Opening: LG-VehicleSolutions
-📰Opening: LG-EcoSolutions
-📰Opening: LG-Statements
 
 Trying to access: LG Electronics NA
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅LG Electronics NA returned [200]"OK" RESPONSE.
 📰Opening: LG Electronics - NA
 
@@ -43,70 +37,70 @@ Fetching: Meet Copeland at The Global Produce and Floral Expo
 Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
 
 Trying to access: Carrier News
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Carrier News returned [200]"OK" RESPONSE.
 📰Opening: Carrier-Corporate
 
 Trying to access: Carrier Group
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Carrier Group returned [200]"OK" RESPONSE.
 📰Opening: Carrier-Residential
 📰Opening: Carrier-Commercial
 📰Opening: Carrier-Transicold
 
 Trying to access: Viessmann
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Viessmann returned [200]"OK" RESPONSE.
 📰Opening: Viessmann
 No cookie pop-up detected.
 
 Trying to access: Lennox
-SSL Certificate is being bypassed for this site.
-✅Lennox returned [200]"OK" RESPONSE.
-📰Opening: Lennox
+Request failed: HTTPSConnectionPool(host='investor.lennox.com', port=443): Read timed out. (read timeout=15)
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
 
 Trying to access: BDR Thermea
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅BDR Thermea returned [200]"OK" RESPONSE.
 📰Opening: BDR Thermea
 
 Trying to access: Honeywell
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Honeywell returned [200]"OK" RESPONSE.
 📰Opening: Honeywell
 
 Trying to access: ThermoKing
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅ThermoKing returned [200]"OK" RESPONSE.
 📰Opening: ThermoKing
 
 Trying to access: DeltaTrak
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅DeltaTrak returned [200]"OK" RESPONSE.
 📰Opening: DeltaTrak
 
 Trying to access: Generac
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Generac returned [200]"OK" RESPONSE.
 📰Opening: Generac
 
 Trying to access: Nidec
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Nidec returned [200]"OK" RESPONSE.
 📰Opening: Nidec
 
 Trying to access: Beijer Ref
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Beijer Ref returned [200]"OK" RESPONSE.
 📰Opening: Beijer Ref
 
 Trying to access: Daikin Corporate
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Daikin Corporate returned [200]"OK" RESPONSE.
 📰Opening: Daikin-Corporate
 
 Trying to access: Daikin EU
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Daikin EU returned [200]"OK" RESPONSE.
 📰Opening: Daikin-EU
 Cookies Accepted.
@@ -114,96 +108,81 @@ Cookies Accepted.
 Cookies Accepted.
 
 Trying to access: Daikin Applied
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Daikin Applied returned [200]"OK" RESPONSE.
 📰Opening: Daikin-Applied
 
 Trying to access: GEA
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅GEA returned [200]"OK" RESPONSE.
 📰Opening: GEA
 
 Trying to access: Stiebel Eltron
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Stiebel Eltron returned [200]"OK" RESPONSE.
 📰Opening: Stiebel Eltron
 Cookies accepted.
 scrolling through the news..
 
 Trying to access: Resideo
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Resideo returned [200]"OK" RESPONSE.
 📰Opening: Resideo
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
-An error has occured: 'NoneType' object has no attribute 'text'
 
 Trying to access: Resideo - Investor
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Resideo - Investor returned [200]"OK" RESPONSE.
 📰Opening: Resideo - Investor
 
 Trying to access: SPX
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅SPX returned [200]"OK" RESPONSE.
 📰Opening: SPX
 
 Trying to access: Rheem
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Rheem returned [200]"OK" RESPONSE.
 📰Opening: Rheem
 
 Trying to access: Hussmann
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Hussmann returned [200]"OK" RESPONSE.
 📰Opening: Hussman
 
 Trying to access: Panasonic Global
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Panasonic Global returned [200]"OK" RESPONSE.
 📰Opening: Panasonic - Global
 Popup watcher launched.
 Pop-up found and closed.
 
 Trying to access: Panasonic HVAC
-SSL Certificate is being bypassed for this site.
-✅Panasonic HVAC returned [200]"OK" RESPONSE.
-📰Opening: Panasonic - HVAC
-Pop-up found and closed.
+Request failed: HTTPSConnectionPool(host='www.panasonic.com', port=443): Read timed out. (read timeout=15)
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
 
 Trying to access: Panasonic UK
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Panasonic UK returned [200]"OK" RESPONSE.
 📰Opening: Panasonic - UK
-Fetching: Panasonic Strengthens Refrigeration Leadership with Launch of iCORE CO₂ Range Across Europe
-Fetching: Harron Homes Meets New Future Home Standard with Sustainable Panasonic Aquarea Heat Pumps
 
 Trying to access: AtmosZero
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅AtmosZero returned [200]"OK" RESPONSE.
 📰Opening: Atmos Zero
 
 Trying to access: Mesa Labs
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Mesa Labs returned [200]"OK" RESPONSE.
 📰Opening: Mesa Labs
 
 Trying to access: Mitsubishi Electric - Global
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Mitsubishi Electric - Global returned [200]"OK" RESPONSE.
 📰Opening: Mitsubishi Electric - Global
 
 Trying to access: Mitsubishi Electric - HVAC
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Mitsubishi Electric - HVAC returned [200]"OK" RESPONSE.
 📰Opening: Mitsubishi Electric - HVAC
 
@@ -213,46 +192,43 @@ Site returned status code: 200
 📰Opening: Mitsubishi Electric - SCI
 
 Trying to access: Parker Sporlan
-SSL Certificate is being bypassed for this site.
-✅Parker Sporlan returned [200]"OK" RESPONSE.
-📰Opening: Parker Sporlan
-Fetching: Parker Lord Brings STEAM to Meadville Area Middle School
+Status code returns 403, retrying...
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
 
 Trying to access: Rechi
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Rechi returned [200]"OK" RESPONSE.
 📰Opening: Rechi
 
 Trying to access: Schott
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Schott returned [200]"OK" RESPONSE.
 📰Opening: Schott
 
 Trying to access: Secop
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Secop returned [200]"OK" RESPONSE.
 📰Opening: Secop
 
 Trying to access: Sensata
-SSL Certificate is being bypassed for this site.
-✅Sensata returned [200]"OK" RESPONSE.
-📰Opening: Sensata
-Pop-up has been closed.
+Status code returns 403, retrying...
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
 
 Trying to access: Tive
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Tive returned [200]"OK" RESPONSE.
 📰Opening: Tive
-Fetching: LogiPharma USA 2025: How the Pharmaceutical Industry Collaborates to Boost Resilience Across the Global Supply Network
 
 Trying to access: Nibe
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Nibe returned [200]"OK" RESPONSE.
 📰Opening: NIBE
 Pop-up closed.
 
 Trying to access: Tecumseh
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Tecumseh returned [200]"OK" RESPONSE.
 📰Opening: Tecumseh
 Pop-up closed; waiting for the page to reload.
@@ -263,245 +239,233 @@ Site failed to respond, please visit the site instead.
 ⛔Site is not responding properly.
 
 Trying to access: Sanhua
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Sanhua returned [200]"OK" RESPONSE.
 📰Opening: Sanhua-US
 📰Opening: Sanhua-Europe
 
 Trying to access: Sanhua Group
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Sanhua Group returned [200]"OK" RESPONSE.
 📰Opening: Sanhua Group
 
 Trying to access: ICM Controls
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅ICM Controls returned [200]"OK" RESPONSE.
 📰Opening: ICM Controls
 
 Trying to access: Rees Scientific
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Rees Scientific returned [200]"OK" RESPONSE.
 📰Opening: Rees Scientific
 
 Trying to access: RefIndustry
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅RefIndustry returned [200]"OK" RESPONSE.
 📰Opening: RefIndustry
-Fetching: Eurovent, AMCA and EVIA publish FAQ guide on EU fan ecodesign rules
-Fetching: Global Minibar Refrigerator Market to Grow Steadily Through 2030
-Fetching: IIR highlights sustainable refrigeration strategies at SophiA final meeting in Germany
-Fetching: GEA restructures Executive Board, integrates Heating & Refrigeration Solutions into new division
-Fetching: BioLife Solutions sells cold chain logistics unit to Peli BioThermal
-Fetching: Refrigera 2025 expands with record exhibitor numbers in Italy
-Fetching: Global refrigerated storage market to reach USD 426.1 billion by 2034
-Fetching: IoT and Eco-Friendly Refrigerants Drive Growth in Medical Cold Chain Storage Market
+Fetching: BAC launches upgraded immersion cooling tanks for high-density data centers
+Fetching: U.S. Shipments of Air Conditioners and Heat Pumps Drop 30% in August
+Fetching: Atlas Copco introduces upgraded TCX chillers with R32 refrigerant in the UK
+Fetching: MOON-TECH showcases energy utilization solutions at exhibitions in China and Kazakhstan
+Fetching: ECOOLTEC appoints Klaas Kliffen as Sales Director for Benelux
+Fetching: Water-cooled chillers market to reach US$2.69 billion by 2031
+Fetching: Ben Hawkins appointed CEO of AMCA Australia
+Fetching: SEforALL highlights equity and innovation in global energy transition at UNGA80
+Fetching: Mauritius enforces SADC harmonised energy standards for air conditioners
 Cookies Accepted.
 RefIndustry News, Page: 2
-Fetching: Eurovent, AMCA and EVIA publish FAQ guide on EU fan ecodesign rules
-Fetching: Global Minibar Refrigerator Market to Grow Steadily Through 2030
-Fetching: IIR highlights sustainable refrigeration strategies at SophiA final meeting in Germany
-Fetching: GEA restructures Executive Board, integrates Heating & Refrigeration Solutions into new division
-Fetching: BioLife Solutions sells cold chain logistics unit to Peli BioThermal
-Fetching: Refrigera 2025 expands with record exhibitor numbers in Italy
-Fetching: Global refrigerated storage market to reach USD 426.1 billion by 2034
-Fetching: IoT and Eco-Friendly Refrigerants Drive Growth in Medical Cold Chain Storage Market
+Fetching: BAC launches upgraded immersion cooling tanks for high-density data centers
+Fetching: U.S. Shipments of Air Conditioners and Heat Pumps Drop 30% in August
+Fetching: Atlas Copco introduces upgraded TCX chillers with R32 refrigerant in the UK
+Fetching: MOON-TECH showcases energy utilization solutions at exhibitions in China and Kazakhstan
+Fetching: ECOOLTEC appoints Klaas Kliffen as Sales Director for Benelux
+Fetching: Water-cooled chillers market to reach US$2.69 billion by 2031
+Fetching: Ben Hawkins appointed CEO of AMCA Australia
+Fetching: SEforALL highlights equity and innovation in global energy transition at UNGA80
+Fetching: Mauritius enforces SADC harmonised energy standards for air conditioners
 No cookie block found.
 RefIndustry News, Page: 3
-Fetching: Embraco debuts new Scroll compressors and Bioma+ condensing unit at Host Milano 2025
-Fetching: Viessmann installs 19 heat pumps at FC Bayern Munich’s Allianz Arena
+Fetching: UNEP cold chain project cuts post-harvest food loss in Kenya
 
 Trying to access: CoolingPost
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅CoolingPost returned [200]"OK" RESPONSE.
 📰Opening: CoolingPost-World
 📰Opening: CoolingPost-UK
-Fetching: Retail fridge energy use could be reduced by 67.5%
+Fetching: Heat pump push should also target all-electric
+Fetching: Steve Dinning appointed FSW UK MD
 📰Opening: CoolingPost-Products
 📰Opening: CoolingPost-Features
 📰Opening: CoolingPost-Blog
 📰Opening: CoolingPost-T&E
 
 Trying to access: JARN
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅JARN returned [200]"OK" RESPONSE.
 📰Opening: JARN
-Fetching: Copeland Launches Sensi Hydro Sanitary Water Heat Pump in Southeast Asia
-Fetching: Panasonic Strengthens Refrigeration Leadership with Launch of iCORE CO₂ Range Across Europe
-Fetching: Harron Homes Meets New Future Home Standard with Sustainable Panasonic Aquarea Heat Pumps
-Fetching: Mitsubishi Electric: WZ-E for Data Centers
-Fetching: Md Mehrab Hossen Siam Receives Graduate Endowed Fellowship
-Fetching: Lam Research Receives 2025 SEMI Award for North America
-Fetching: Hubbard: the new era of ice machines is here!
-Fetching: Vulcan Announces Third Quarter 2025 Conference Call
-Fetching: Carrier Board of Directors Declares Quarterly Cash Dividend
-Fetching: Weil-Mclain: Hybrid Hydronic Heat + DHW for Residential Homes
-Fetching: Primetals Technologies Successfully Completes DC Drives Upgrade for Sterling Steel
-Fetching: What does EHPA actually do?
-Fetching: LU-VE: Financial highlights results as of September 30, 2025
-Fetching: Diesel engine manufacturer saves €165 000 annually by installing a Heat Pump
-Fetching: EHPA feedback on the revision the General Block Exemption Regulation (GBER)
-Fetching: Johnson Controls announces fourth quarter 2025 earnings conference call webcast
-Fetching: Mitsubishi Electric Hybrid Cooling Solutions
-Fetching: Cold Chain Federation welcome new member Premier Sealant Systems Ltd
-Fetching: Thermo King Extends Compatibility with B100 Biofuel to Support Sustainable Refrigerated Transport
-Fetching: Danfoss celebrates the 25th anniversary of the SVL Valve portfolio
-Fetching: Swegon: Beyond energy efficiency, the revised EPBD puts IEQ in focus
-Fetching: FreshFlow Food Solutions Celebrates First Audit Success with ‘A’ Accreditation
-Fetching: Trane Technologies Declares Quarterly Dividend
-Fetching: Carrier Third Quarter 2025 Earnings Advisory
-Fetching: Bosch puts its first hydrogen truck into service in plant traffic
-Fetching: Faster, a Helios Technologies Operating Company, Launches the New MultiFaster; Built to Complement, Engineered for More Pressure
-Fetching: BCIA: the BEMS sector’s biggest event in 2026!
-Fetching: Opportunities to Use Energy Efficiency and Demand Flexibility to Reduce Data Center Energy Use and Peak Demand
-Fetching: Data Center Efficiency and Load Flexibility Can Reduce Power Grid Strain and Costs
-Fetching: CEEE Faculty Honored With Top University Awards
+Fetching: ebm‑papst: Ready for the new Ecodesign Regulation with reliable complete solutions
+Fetching: REHVA refreshed cooperation with our MoU partners
+Fetching: Very successful REHVA seminar during the ASHRAE Winter Conference 2015
+Fetching: REHVA: ASHRAE Recognizes Outstanding Industry Achievements
+Fetching: REHVA: Ben Bronsema 80 years
+Fetching: Vulcan materials company announces CEO succession plan
+Fetching: Mitsubishi Electric: how sustainable are the UN’s goals?
+Fetching: UNEP OzonAction and League of Arab States Enhance Regional Dialogue on Ozone Protection
+Fetching: Haier Water Solutions Debuts at Uzbekistan
 📰Opening: JARN-Interviews
 
 Trying to access: Natural Refrigerants
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Natural Refrigerants returned [200]"OK" RESPONSE.
 📰Opening: Natural Refrigerants
-Fetching: Swegon Extends the Heating Capacity of Its Water-to-Water R290 Sigma Zero Heat Pump/Chiller to 290kW
-Fetching: IAA 2025: DENSO Gives an Update on the R290 MAC Components Its Developing for EVs
+Fetching: Kolo’s New DK5 Colocation Data Center in Copenhagen Uses R290 Chillers for Server Cooling
 
 Trying to access: EHPA
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅EHPA returned [200]"OK" RESPONSE.
 📰Opening: EHPA
 Waiting for the cookie pop-up.
 Cookie pop-up did not show up.
-Fetching: What does EHPA actually do?
 
 Trying to access: Contracting Business
-SSL Certificate is being bypassed for this site.
-Site failed to respond, please visit the site instead.
-⛔Site is not responding properly.
+Site returned status code: 200
+✅Contracting Business returned [200]"OK" RESPONSE.
+📰Opening: Contracting Business - Residential
+Ads Closed.
+Mimicking a human scrolling through the news.
+Fetching: Smarter, Faster, Stronger: How Artificial Intelligence is Changing the Game for Contractors
+📰Opening: Contracting Business - Commercial
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Refrigeration
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - IndustryNews
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contracting Business - Technology
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: Smarter, Faster, Stronger: How Artificial Intelligence is Changing the Game for Contractors
+📰Opening: Contracting Business - Product News
+Ads not found.
+Mimicking a human scrolling through the news.
 
 Trying to access: Contractor Mag
-SSL Certificate is being bypassed for this site.
-Site failed to respond, please visit the site instead.
-⛔Site is not responding properly.
+Site returned status code: 200
+✅Contractor Mag returned [200]"OK" RESPONSE.
+📰Opening: Contractor Mag - Management
+Ads Closed.
+Mimicking a human scrolling through the news.
+📰Opening: Contractor Mag - Codes
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contractor Mag - Hydronics
+Ads not found.
+Mimicking a human scrolling through the news.
+Fetching: Titan Construction Transforms Aging Bowling Alley into Modern Fitness Facility
+📰Opening: Contractor Mag - Technology
+Ads not found.
+Mimicking a human scrolling through the news.
+📰Opening: Contractor Mag - Tools
+Ads not found.
+Mimicking a human scrolling through the news.
 
 Trying to access: ACR Journal
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅ACR Journal returned [200]"OK" RESPONSE.
 📰Opening: ACR Journal
 Pop-up closed.
 
 Trying to access: Fleet Owner
-SSL Certificate is being bypassed for this site.
-Site failed to respond, please visit the site instead.
-⛔Site is not responding properly.
+Site returned status code: 200
+✅Fleet Owner returned [200]"OK" RESPONSE.
+📰Opening: Fleet Owner
+Ads Closed.
+Mimicking a human scrolling through the news.
 
 Trying to access: RAC Plus
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅RAC Plus returned [200]"OK" RESPONSE.
 📰Opening: RAC Plus
 Pop-up closed.
 Waiting for a banner blocking the news blocks to close..
-Fetching: Johnson Controls invests in data centre cooling specialist
 
 Trying to access: PHCP Pros
-SSL Certificate is being bypassed for this site.
-Site failed to respond, please visit the site instead.
-⛔Site is not responding properly.
+Site returned status code: 200
+✅PHCP Pros returned [200]"OK" RESPONSE.
+📰Opening: PHCP Pros
+Scrolling through the news, making sure all articles are loaded.
 
 Trying to access: Climate Control News
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Climate Control News returned [200]"OK" RESPONSE.
 📰Opening: Climate Control
 
 Trying to access: DOE
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅DOE returned [200]"OK" RESPONSE.
 📰Opening: DOE - Press Release
 📰Opening: DOE - Testimony
 📰Opening: DOE - Latest OpEds
 
 Trying to access: IEA
-SSL Certificate is being bypassed for this site.
+Status code returns 403, retrying...
 Site failed to respond, please visit the site instead.
 ⛔Site is not responding properly.
 
 Trying to access: HPA
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅HPA returned [200]"OK" RESPONSE.
 📰Opening: HPA
-⚠️ Proxy or middleware timeout for HPA scraper.
-⛔HPA Error: HTTPConnectionPool(host='localhost', port=52599): Read timed out. (read timeout=120)
 
 Trying to access: Carel
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Carel returned [200]"OK" RESPONSE.
-⚠️ Proxy or middleware timeout for Carel scraper.
-⛔Carel Error: HTTPConnectionPool(host='localhost', port=52599): Read timed out. (read timeout=120)
+📰Opening: Carel
 
 Trying to access: Bitzer
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Bitzer returned [200]"OK" RESPONSE.
 📰Opening: Bitzer
-An error has occured: Message: 
-Stacktrace:
-	GetHandleVerifier [0x0x7ff72696e955+80021]
-	GetHandleVerifier [0x0x7ff72696e9b0+80112]
-	(No symbol) [0x0x7ff7266f060f]
-	(No symbol) [0x0x7ff726748854]
-	(No symbol) [0x0x7ff726748b1c]
-	(No symbol) [0x0x7ff72679c927]
-	(No symbol) [0x0x7ff72677126f]
-	(No symbol) [0x0x7ff72679968a]
-	(No symbol) [0x0x7ff726771003]
-	(No symbol) [0x0x7ff7267395d1]
-	(No symbol) [0x0x7ff72673a3f3]
-	GetHandleVerifier [0x0x7ff726c2dd0d+2960461]
-	GetHandleVerifier [0x0x7ff726c27fca+2936586]
-	GetHandleVerifier [0x0x7ff726c48a07+3070279]
-	GetHandleVerifier [0x0x7ff72698843e+185214]
-	GetHandleVerifier [0x0x7ff72698fe8f+216527]
-	GetHandleVerifier [0x0x7ff726977b94+117460]
-	GetHandleVerifier [0x0x7ff726977d4f+117903]
-	GetHandleVerifier [0x0x7ff72695dc28+11112]
-	BaseThreadInitThunk [0x0x7ffa7aa2259d+29]
-	RtlUserThreadStart [0x0x7ffa7b9aaf78+40]
-
 
 Trying to access: LG HVAC - NA
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅LG HVAC - NA returned [200]"OK" RESPONSE.
 📰Opening: LG HVAC
 
 Trying to access: ThermoKing - Europe
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅ThermoKing - Europe returned [200]"OK" RESPONSE.
 📰Opening: ThermoKing - Europe
 opening in new tab
 
 Trying to access: HV UK
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅HV UK returned [200]"OK" RESPONSE.
 📰Opening: HV UK
 Pop-up closed.
 Waiting for a banner blocking the news blocks to close..
-Fetching: Heat pump aftercare start-up secures £250k funding
 
 Trying to access: Ecobee
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Ecobee returned [200]"OK" RESPONSE.
 📰Opening: Ecobee
 
 Trying to access: Johnson Controls
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Johnson Controls returned [200]"OK" RESPONSE.
 📰Opening: Johnson Controls
 
 Trying to access: Hitachi AC
-SSL Certificate is being bypassed for this site.
+Site returned status code: 200
 ✅Hitachi AC returned [200]"OK" RESPONSE.
 📰Opening: Hitachi
 
 Trying to access: Midea
-SSL Certificate is being bypassed for this site.
-⚠️ Proxy or middleware timeout for Midea scraper.
-⛔Midea Error: HTTPSConnectionPool(host='mbt.midea.com', port=443): Max retries exceeded with url: /global/news (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1035)')))
+Site returned status code: 200
+✅Midea returned [200]"OK" RESPONSE.
+📰Opening: Midea
+Pop-up closed.
 Nudges is now DISABLED.
 Logging ended..
