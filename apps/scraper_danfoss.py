@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+from urllib.parse import urljoin
 import pandas as pd
 import threading
 import time
@@ -19,6 +20,7 @@ class DanfossNews:
         self.date_limit = datetime.today()-timedelta(days=self.coverage_days)
         self.latest_news = []
         self.page_num = 1
+        self.root = 'https://www.danfoss.com/'
         
     def popup_watcher(self):
         def watch():
@@ -67,29 +69,33 @@ class DanfossNews:
         for news in self.news_blocks:
             parsed_date = news.find('div',class_='tile__text-details_item').text.split(maxsplit=1)[1].strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
-            self.publish_date = parsed_date_obj.strftime('%Y-%m-%d')
+            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
             if parsed_date_obj < self.date_limit:
                 return False
-            self.title = news.find('div',class_='tile__text-title').text.strip()
-            self.link = news.find('a',class_='tile__link').get('href')
+            title = news.find('div',class_='tile__text-title').text.strip()
+            link = news.find('a',class_='tile__link').get('href')
+            link = urljoin(self.root,link)
             summary = news.find('div',class_='tile__text-description')
             if summary:
-                self.summary = news.find('div',class_='tile__text-description').find('span').find('p').text.strip()
+                summary = news.find('div',class_='tile__text-description').find('span').find('p').text.strip()
             else:
-                self.summary = 'NO SUMMARY'
-            self.root_url = 'https://www.danfoss.com/'
-            print(f'Fetching: {self.title}')
-            self.latest_news.append(
-                {
-                'PublishDate': self.publish_date,
-                'Source': 'Danfoss',
-                'Type': 'Company News',
-                'Title': self.title,
-                'Summary': self.summary,
-                'Link': f'{self.root_url}{self.link}'
-                }
-            )
+                summary = 'NO SUMMARY'
+            self.append(publish_date,title,summary,link)
+            
         return True
+    
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate': publish_date,
+            'Source': 'Danfoss',
+            'Type': 'Company News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
     
     def driver_wait(self,condition):
         try:
