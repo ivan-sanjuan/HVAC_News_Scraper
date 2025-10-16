@@ -109,3 +109,4 @@ def get_ecobee(driver,coverage_days):
     df = pd.DataFrame(all_news)
     df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/ecobee_news.csv',index=False)
+    

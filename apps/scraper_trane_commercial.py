@@ -24,15 +24,12 @@ class TraneCommercialNews:
     def get_soup(self):
         print(f'📰Opening: Trane - Commercial')
         self.driver.get(self.url)
-        time.sleep(20)
-        self.driver_wait(EC.presence_of_all_elements_located((By.CLASS_NAME,'HitchhikerProductProminentImage-titleLink')))
-        news_blocks = self.driver.find_elements(By.CLASS_NAME,'HitchhikerProductProminentImageClickable-body')
-        for block in news_blocks:
-            self.driver.execute_script("arguments[0].scrollIntoView();",block)
-            time.sleep(0.5)
-            link = block.find_element(By.CLASS_NAME,'HitchhikerProductProminentImage-titleLink').get_attribute('href')
-            print(link)
-            time.sleep(0.5)
+        time.sleep(60)
+        anchors = self.driver.find_elements(By.TAG_NAME,'a')
+        for a in anchors:
+            link = a.get_attribute('href')
+            if link and link.startswith('https://www.trane.com/commercial/north-america/us/en/about-us/newsroom/'):
+                print(link)
 
         
     def get_news(self,link):
@@ -93,10 +90,7 @@ options.add_argument('--disable-gpu')
 options.add_argument('--window-size=1920x1080')
 options.add_argument('--log-level=3')
 options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115 Safari/537.36")
-# options.page_load_strategy = 'eager'
+options.add_argument("user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4")
+options.page_load_strategy = 'eager'
 driver = webdriver.Chrome(options=options)
-get_trane_commercial(driver,coverage_days=10)
-
-driver.quit()
-time.sleep(5)
+get_trane_commercial(driver,coverage_days=15)
