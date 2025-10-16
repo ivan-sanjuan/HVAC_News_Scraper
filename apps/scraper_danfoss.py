@@ -16,7 +16,7 @@ class DanfossNews:
         self.coverage_days = coverage_days
         self.news_url = news_url
         self.interval = 2
-        self.today = datetime.today()
+        self.date_limit = datetime.today()-timedelta(days=self.coverage_days)
         self.latest_news = []
         self.page_num = 1
         
@@ -24,9 +24,7 @@ class DanfossNews:
         def watch():
             while True:
                 try:
-                    pop_up=WebDriverWait(self.driver, 10).until(
-                        EC.element_to_be_clickable((By.CLASS_NAME, 'close animatedCloseButton__AV-vN'))
-                    )
+                    pop_up = self.driver_wait(EC.element_to_be_clickable((By.CSS_SELECTOR, '[aria-label="Accept all"]')))
                     self.driver.execute_script("arguments[0].click();", pop_up)
                     print('Popup dismissed.')
                 except NoSuchElementException:
@@ -35,10 +33,8 @@ class DanfossNews:
         threading.Thread(target=watch, daemon=True).start()
     
     def goTo_next_page(self):
-        next = WebDriverWait(self.driver,5).until(
-                    EC.element_to_be_clickable((By.CLASS_NAME,'next-button'))
-                )
-        next.click()
+        next = self.driver_wait(EC.element_to_be_clickable((By.CLASS_NAME,'next-button')))
+        self.driver.execute_script("arguments[0].click();",next)
     
     def get_soup(self):
         print(f'📰Opening: Danfoss')
@@ -72,7 +68,7 @@ class DanfossNews:
             parsed_date = news.find('div',class_='tile__text-details_item').text.split(maxsplit=1)[1].strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
             self.publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj < self.today-timedelta(days=self.coverage_days):
+            if parsed_date_obj < self.date_limit:
                 return False
             self.title = news.find('div',class_='tile__text-title').text.strip()
             self.link = news.find('a',class_='tile__link').get('href')
