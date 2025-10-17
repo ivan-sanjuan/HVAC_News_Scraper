@@ -1,12 +1,11 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+User Agent: Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36
 
 Trying to access: Trane
 Site returned status code: 200
 ✅Trane returned [200]"OK" RESPONSE.
 📰Opening: Trane Technologies
-Fetching: Trane Technologies Schedules Third Quarter 2025 Earnings Conference Call
 
 Trying to access: Danfoss
 Site returned status code: 200
@@ -18,6 +17,11 @@ Trying to access: LG Global
 Site returned status code: 200
 ✅LG Global returned [200]"OK" RESPONSE.
 📰Opening: LG-Corporate
+📰Opening: LG-ApplianceSolution
+📰Opening: LG-Entertainment
+📰Opening: LG-VehicleSolutions
+📰Opening: LG-EcoSolutions
+📰Opening: LG-Statements
 
 Trying to access: LG Electronics NA
 Site returned status code: 200
@@ -29,11 +33,9 @@ Site returned status code: 200
 ✅Copeland returned [200]"OK" RESPONSE.
 📰Opening: Copeland-US
 Accepted cookies.
-Fetching: Meet Copeland at The Global Produce and Floral Expo
 Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
 📰Opening: Copeland-Asia
 No cookie pop-up found.
-Fetching: Meet Copeland at The Global Produce and Floral Expo
 Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
 
 Trying to access: Carrier News
@@ -148,6 +150,8 @@ Trying to access: Hussmann
 Site returned status code: 200
 ✅Hussmann returned [200]"OK" RESPONSE.
 📰Opening: Hussman
+⚠️ Proxy or middleware timeout for Hussmann scraper.
+⛔Hussmann Error: HTTPConnectionPool(host='localhost', port=59299): Read timed out. (read timeout=120)
 
 Trying to access: Panasonic Global
 Site returned status code: 200
@@ -155,6 +159,8 @@ Site returned status code: 200
 📰Opening: Panasonic - Global
 Popup watcher launched.
 Pop-up found and closed.
+Fetching: Panasonic Holdings develops “Reflect-DiT”, an Image Generation Technology where AI reflects on its own output to improve
+Fetching: Panasonic HD develops “UniEgoMotion” which enables 3D motion prediction and forecasting from egocentric video and head trajectory
 
 Trying to access: Panasonic HVAC
 Request failed: HTTPSConnectionPool(host='www.panasonic.com', port=443): Read timed out. (read timeout=15)
@@ -253,6 +259,7 @@ Trying to access: ICM Controls
 Site returned status code: 200
 ✅ICM Controls returned [200]"OK" RESPONSE.
 📰Opening: ICM Controls
+Fetching: Where are UA2L Refrigerants Headed in the HVAC/R Market?
 
 Trying to access: Rees Scientific
 Site returned status code: 200
@@ -263,62 +270,78 @@ Trying to access: RefIndustry
 Site returned status code: 200
 ✅RefIndustry returned [200]"OK" RESPONSE.
 📰Opening: RefIndustry
-Fetching: BAC launches upgraded immersion cooling tanks for high-density data centers
-Fetching: U.S. Shipments of Air Conditioners and Heat Pumps Drop 30% in August
-Fetching: Atlas Copco introduces upgraded TCX chillers with R32 refrigerant in the UK
-Fetching: MOON-TECH showcases energy utilization solutions at exhibitions in China and Kazakhstan
-Fetching: ECOOLTEC appoints Klaas Kliffen as Sales Director for Benelux
-Fetching: Water-cooled chillers market to reach US$2.69 billion by 2031
-Fetching: Ben Hawkins appointed CEO of AMCA Australia
-Fetching: SEforALL highlights equity and innovation in global energy transition at UNGA80
-Fetching: Mauritius enforces SADC harmonised energy standards for air conditioners
+Fetching: Mitsubishi Electric Trane HVAC US to Launch R-32 VRF Line in 2026
+Fetching: Marketair launches WiFi-enabled float switch for ductless A/C systems in the US
+Fetching: Daikin and Takenaka win Green Building Award for Polish heat pump factory
+Fetching: Refrigerant emissions in Germany continue to decline, VDKF reports
+Fetching: Synthetic ester lubricants market projected to reach USD 5.06 bn by 2031
+Fetching: Australia’s RAC sector responsible for 12.6% of national emissions
+Fetching: Lennox acquires NSI Industries’ HVAC division, adds Duro Dyne and Supco brands
+Fetching: Daikin Applied expands data center cooling capabilities with new products, acquisitions and facilities
+Fetching: Danfoss marks 25 years of SVL valve portfolio development
 Cookies Accepted.
 RefIndustry News, Page: 2
-Fetching: BAC launches upgraded immersion cooling tanks for high-density data centers
-Fetching: U.S. Shipments of Air Conditioners and Heat Pumps Drop 30% in August
-Fetching: Atlas Copco introduces upgraded TCX chillers with R32 refrigerant in the UK
-Fetching: MOON-TECH showcases energy utilization solutions at exhibitions in China and Kazakhstan
-Fetching: ECOOLTEC appoints Klaas Kliffen as Sales Director for Benelux
-Fetching: Water-cooled chillers market to reach US$2.69 billion by 2031
-Fetching: Ben Hawkins appointed CEO of AMCA Australia
-Fetching: SEforALL highlights equity and innovation in global energy transition at UNGA80
-Fetching: Mauritius enforces SADC harmonised energy standards for air conditioners
+Fetching: Mitsubishi Electric Trane HVAC US to Launch R-32 VRF Line in 2026
+Fetching: Marketair launches WiFi-enabled float switch for ductless A/C systems in the US
+Fetching: Daikin and Takenaka win Green Building Award for Polish heat pump factory
+Fetching: Refrigerant emissions in Germany continue to decline, VDKF reports
+Fetching: Synthetic ester lubricants market projected to reach USD 5.06 bn by 2031
+Fetching: Australia’s RAC sector responsible for 12.6% of national emissions
+Fetching: Lennox acquires NSI Industries’ HVAC division, adds Duro Dyne and Supco brands
+Fetching: Daikin Applied expands data center cooling capabilities with new products, acquisitions and facilities
+Fetching: Danfoss marks 25 years of SVL valve portfolio development
 No cookie block found.
 RefIndustry News, Page: 3
-Fetching: UNEP cold chain project cuts post-harvest food loss in Kenya
+Fetching: NewCold opens global center and off-grid warehouse in the Netherlands
+Fetching: AIT opens Austria’s most advanced heat pump laboratory
+Fetching: Global Household Refrigerator Market to Reach US$ 147.45 Billion by 2033
+Fetching: Constellation expands UK cold storage with 37,000 new pallet spaces
 
 Trying to access: CoolingPost
 Site returned status code: 200
 ✅CoolingPost returned [200]"OK" RESPONSE.
 📰Opening: CoolingPost-World
+Fetching: Central African Republic approves Kigali
+Fetching: Euro heat pump sales show slight increase
+Fetching: New Daikin controller wins design award
 📰Opening: CoolingPost-UK
-Fetching: Heat pump push should also target all-electric
-Fetching: Steve Dinning appointed FSW UK MD
 📰Opening: CoolingPost-Products
 📰Opening: CoolingPost-Features
 📰Opening: CoolingPost-Blog
 📰Opening: CoolingPost-T&E
+Fetching: U-3ARC to host first international conference
 
 Trying to access: JARN
 Site returned status code: 200
 ✅JARN returned [200]"OK" RESPONSE.
 📰Opening: JARN
-Fetching: ebm‑papst: Ready for the new Ecodesign Regulation with reliable complete solutions
-Fetching: REHVA refreshed cooperation with our MoU partners
-Fetching: Very successful REHVA seminar during the ASHRAE Winter Conference 2015
-Fetching: REHVA: ASHRAE Recognizes Outstanding Industry Achievements
-Fetching: REHVA: Ben Bronsema 80 years
-Fetching: Vulcan materials company announces CEO succession plan
-Fetching: Mitsubishi Electric: how sustainable are the UN’s goals?
-Fetching: UNEP OzonAction and League of Arab States Enhance Regional Dialogue on Ozone Protection
-Fetching: Haier Water Solutions Debuts at Uzbekistan
+Fetching: Daikin Applied Powers Next-Gen Hyperscale Data Centers with End-to-End Cooling Solutions
+Fetching: Boiler Rental Tips for Facilities Managers: Reliable Heating with Temporary Boiler Hire
+Fetching: Carrier Transicold Introduces eCool-Drive: The First Power Converter Specially Designed for Electric Tractors
+Fetching: MHIEC Receives Contract for Improvement of Core Equipment at Municipal Solid Waste Incineration Facility in Kanazawa
+Fetching: Denso to exhibit at Japan mobility show 2025
+Fetching: Munters: industrial residues from Swedish industry become plasterboards
+Fetching: GREE Unveils New Products at Canton Fair！
+Fetching: Danfoss unveils next-generation AxisPro proportional valve, increasing accessibility of intelligent hydraulics in industrial applications
+Fetching: Daikin to Exhibit at the COP30 Japan Pavilion
+Fetching: Electrifying the Cold Chain: Carrier Transicold to Showcase Innovative [R]eCool Retrofit Refrigeration System at Solutrans 2025
+Fetching: Carrier Transicold Launches Real-Time Emissions and Fuel Cost Insights in Lynx Fleet to Drive Sustainable Fleet Performance
+Fetching: Eurovent Team will be at ISK SODEX 2025
+Fetching: REHVA Supporter Eurovent Certification: Desert certification
+Fetching: Compressed air distributor in Yorkshire UK has become part of Atlas Copco Group
+Fetching: Lennox Completes Acquisition of NSI Industries' HVAC Division
+Fetching: Haier AC Shines at 138th Canton Fair [1/2]
+Fetching: Samsung Electronics Ranks 5th in Global Brands for the Sixth Consecutive Year
+Fetching: Aermec at the Datacenter Forum Copenhagen
 📰Opening: JARN-Interviews
 
 Trying to access: Natural Refrigerants
 Site returned status code: 200
 ✅Natural Refrigerants returned [200]"OK" RESPONSE.
 📰Opening: Natural Refrigerants
-Fetching: Kolo’s New DK5 Colocation Data Center in Copenhagen Uses R290 Chillers for Server Cooling
+Fetching: Nominate End Users, Person of the Year and Innovations for ATMO Awards/Europe 2025
+Fetching: Timing of U.S. EPA’s Reconsideration of Technology Transitions Rule Raises Concerns
+Fetching: U.K. Social-Housing Provider to Pilot R290 Heat Pumps in 60 Homes
 
 Trying to access: EHPA
 Site returned status code: 200
@@ -326,6 +349,8 @@ Site returned status code: 200
 📰Opening: EHPA
 Waiting for the cookie pop-up.
 Cookie pop-up did not show up.
+Fetching: Heat pump sales up 9% in 2025 so far
+Fetching: Counting down to Heat Pump Day 2025
 
 Trying to access: Contracting Business
 Site returned status code: 200
@@ -333,7 +358,7 @@ Site returned status code: 200
 📰Opening: Contracting Business - Residential
 Ads Closed.
 Mimicking a human scrolling through the news.
-Fetching: Smarter, Faster, Stronger: How Artificial Intelligence is Changing the Game for Contractors
+Fetching: AI Experts Reveal #1 Tip for HVAC Contractors Adopting Artificial Intelligence
 📰Opening: Contracting Business - Commercial
 Ads not found.
 Mimicking a human scrolling through the news.
@@ -343,13 +368,20 @@ Mimicking a human scrolling through the news.
 📰Opening: Contracting Business - IndustryNews
 Ads not found.
 Mimicking a human scrolling through the news.
+Fetching: HVAC Excellence Accreditation Strengthens Wisconsin Workforce Development
+Fetching: Greenheck Launches Fan Energy Index Resource Page for HVAC Professionals
+Fetching: LG Launches New Program to Boost HVAC Dealer Growth and Training
 📰Opening: Contracting Business - Technology
 Ads not found.
 Mimicking a human scrolling through the news.
-Fetching: Smarter, Faster, Stronger: How Artificial Intelligence is Changing the Game for Contractors
+Fetching: AI Experts Reveal #1 Tip for HVAC Contractors Adopting Artificial Intelligence
 📰Opening: Contracting Business - Product News
 Ads not found.
 Mimicking a human scrolling through the news.
+Fetching: Mitsubishi Electric Trane HVAC US R-32 VRF Line Meets 2026 Low-GWP Standards
+Fetching: Daikin Applied Launches Global Data Center Solutions Group for Mission-Critical Cooling
+Fetching: Ruskin XP500 Louver Simplifies Installation with New Flange Frame Design
+Fetching: Panasonic WhisperFit DC Fan Adds Bluetooth Speakers for Dual Function Ventilation
 
 Trying to access: Contractor Mag
 Site returned status code: 200
@@ -357,13 +389,16 @@ Site returned status code: 200
 📰Opening: Contractor Mag - Management
 Ads Closed.
 Mimicking a human scrolling through the news.
+Fetching: How WOWing Customers Led to $60 Million in Annual Revenue: Anderson's Success Story
+Fetching: Family Ties, Business Strength: Sibling Team to Share Growth Strategies at We Mean Business Conference
 📰Opening: Contractor Mag - Codes
 Ads not found.
 Mimicking a human scrolling through the news.
 📰Opening: Contractor Mag - Hydronics
 Ads not found.
 Mimicking a human scrolling through the news.
-Fetching: Titan Construction Transforms Aging Bowling Alley into Modern Fitness Facility
+Fetching: Rinnai America Names Craig Bryan Vice President of Finance
+Fetching: Water Hammer in Steam Systems
 📰Opening: Contractor Mag - Technology
 Ads not found.
 Mimicking a human scrolling through the news.
@@ -410,9 +445,10 @@ Site returned status code: 200
 📰Opening: DOE - Latest OpEds
 
 Trying to access: IEA
-Status code returns 403, retrying...
-Site failed to respond, please visit the site instead.
-⛔Site is not responding properly.
+Site returned status code: 200
+✅IEA returned [200]"OK" RESPONSE.
+📰Opening: IEA
+Fetching: As oil market surplus keeps rising, something’s got to give
 
 Trying to access: HPA
 Site returned status code: 200

@@ -50,7 +50,6 @@ class CarelNews:
         self.get_soup()
         self.get_news()
         
-
 all_news=[]
 def get_carel(driver,coverage_days):
     driver.set_window_size(1920, 1080)
