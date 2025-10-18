@@ -108,6 +108,7 @@ def get_exceptions():
         get_johnsonControls_news,
         get_lennox_news,
         get_BDRthermea_news,
-        get_trane_news
+        get_trane_news,
+        get_carel
     ]
     return exceptions

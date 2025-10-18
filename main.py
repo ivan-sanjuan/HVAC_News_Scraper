@@ -68,12 +68,17 @@ class ScrapedData:
                         style=ft.ButtonStyle(color=ft.Colors.BLUE),
                     )
                 else:
-                    cell_content = ft.Text(cell_value, color='#1F2134')
+                    cell_content = ft.Text(cell_value, color='#1F2134',selectable=True)
 
                 if header == "Title":
                     cell_widget = ft.Container(
                         content=cell_content,
                         width=450
+                    )
+                elif header == "Type":
+                    cell_widget = ft.Container(
+                        content=cell_content,
+                        width=110
                     )
                 else:
                     cell_widget = cell_content
