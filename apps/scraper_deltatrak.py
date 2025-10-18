@@ -21,30 +21,15 @@ class DeltaTrakNews:
     def get_soup(self):
         print(f'📰Opening: DeltaTrak')
         self.driver.get(self.url)
-        WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'container')))
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'container')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
-        self.news_blocks = soup.find_all('div',class_='News-container')
-        self.news_blocks_sel = self.driver.find_elements(By.CLASS_NAME,'News-container')
-        
-    def open_in_new_tab(self,driver_link):
-        print('Opening a new tab')
-        ActionChains(self.driver)\
-            .key_down(Keys.CONTROL)\
-            .click(driver_link)\
-            .key_up(Keys.CONTROL)\
-            .perform()
-            
-    def extract_page_soup(self):
-        WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'container')))
-        html_page = self.driver.page_source
-        soup_page = BeautifulSoup(html_page,'html.parser')
-        self.title = soup_page.find('div',class_='news-detail-header').text.strip()
-        print(f'Fetching summary of: {self.title}')
-        self.summary = soup_page.find('p',class_='1stpara').text.strip()
+        news_blocks = soup.find_all('div',class_='News-container')
+        news_blocks_sel = self.driver.find_elements(By.CLASS_NAME,'News-container')
+        self.get_news(news_blocks,news_blocks_sel)
 
-    def get_news(self):
-        for news, sect in zip(self.news_blocks,self.news_blocks_sel):
+    def get_news(self,bs4_block,sel_block):
+        for news, sect in zip(bs4_block,sel_block):
             parsed_date = news.find('p',class_='date').text.strip()
             parsed_date_obj = datetime.strptime(parsed_date,'%B %d %Y')
             publish_date = parsed_date_obj.strftime('%Y-%m-%d')
@@ -70,10 +55,31 @@ class DeltaTrakNews:
                     'Link': link
                     }
                 )
+    
+    def driver_wait(self,condition):
+        try:
+            return WebDriverWait(self.driver,5).until(condition)
+        except:
+            pass
+    
+    def open_in_new_tab(self,driver_link):
+        print('Opening a new tab')
+        ActionChains(self.driver)\
+            .key_down(Keys.CONTROL)\
+            .click(driver_link)\
+            .key_up(Keys.CONTROL)\
+            .perform()
+            
+    def extract_page_soup(self):
+        WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'container')))
+        html_page = self.driver.page_source
+        soup_page = BeautifulSoup(html_page,'html.parser')
+        self.title = soup_page.find('div',class_='news-detail-header').text.strip()
+        print(f'Fetching summary of: {self.title}')
+        self.summary = soup_page.find('p',class_='1stpara').text.strip()
 
     def scrape(self):
         self.get_soup()
-        self.get_news()
 
 all_news = []
 def get_delta_trak_news(driver,coverage_days):
