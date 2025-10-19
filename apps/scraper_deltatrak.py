@@ -40,10 +40,8 @@ class DeltaTrakNews:
                 self.driver.execute_script("arguments[0].scrollIntoView();",sect)
                 link = news.find('a',class_='News-link').get('href')
                 link = urljoin(self.root,link)
-                before_tabs = self.driver.window_handles
-                self.open_in_new_tab(driver_link)
-                self.driver.switch_to.window(self.driver.window_handles[1])
-                self.driver_wait(lambda d: len(d.window_handles) > len(before_tabs))
+                self.driver.switch_to.new_window('tab')
+                self.driver.get(link)
                 news = self.extract_page_soup()
                 title = news['title']
                 summary = news['summary']
