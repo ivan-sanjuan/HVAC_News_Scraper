@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
+from urllib.parse import urljoin
 import pandas as pd
 import time
 
@@ -17,6 +18,7 @@ class DeltaTrakNews:
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.root = 'https://deltatrak.com/'
     
     def get_soup(self):
         print(f'📰Opening: DeltaTrak')
@@ -37,24 +39,30 @@ class DeltaTrakNews:
                 driver_link = sect.find_element(By.CLASS_NAME,'News-link')
                 self.driver.execute_script("arguments[0].scrollIntoView();",sect)
                 link = news.find('a',class_='News-link').get('href')
-                time.sleep(3)
+                link = urljoin(self.root,link)
                 before_tabs = self.driver.window_handles
                 self.open_in_new_tab(driver_link)
                 self.driver.switch_to.window(self.driver.window_handles[1])
-                WebDriverWait(self.driver, 5).until(lambda d: len(d.window_handles) > len(before_tabs))
-                self.extract_page_soup()
+                self.driver_wait(lambda d: len(d.window_handles) > len(before_tabs))
+                news = self.extract_page_soup()
+                title = news['title']
+                summary = news['summary']
                 self.driver.close()
                 self.driver.switch_to.window(self.driver.window_handles[0])
-                self.latest_news.append(
-                    {
-                    'PublishDate':publish_date,
-                    'Source': 'DeltaTrak',
-                    'Type': 'Company News',
-                    'Title': self.title,
-                    'Summary': self.summary,
-                    'Link': link
-                    }
-                )
+                self.append(publish_date,title,summary,link)
+
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate':publish_date,
+            'Source': 'DeltaTrak',
+            'Type': 'Company News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
     
     def driver_wait(self,condition):
         try:
@@ -63,7 +71,6 @@ class DeltaTrakNews:
             pass
     
     def open_in_new_tab(self,driver_link):
-        print('Opening a new tab')
         ActionChains(self.driver)\
             .key_down(Keys.CONTROL)\
             .click(driver_link)\
@@ -71,12 +78,12 @@ class DeltaTrakNews:
             .perform()
             
     def extract_page_soup(self):
-        WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'container')))
-        html_page = self.driver.page_source
-        soup_page = BeautifulSoup(html_page,'html.parser')
-        self.title = soup_page.find('div',class_='news-detail-header').text.strip()
-        print(f'Fetching summary of: {self.title}')
-        self.summary = soup_page.find('p',class_='1stpara').text.strip()
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'container')))
+        html = self.driver.page_source
+        soup = BeautifulSoup(html,'html.parser')
+        title = soup.find('div',class_='news-detail-header').text.strip()
+        summary = soup.find('p',class_='1stpara').text.strip()
+        return ({'title':title,'summary':summary})
 
     def scrape(self):
         self.get_soup()
@@ -89,4 +96,19 @@ def get_delta_trak_news(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/deltatrak_news.csv',index=False)
+    
+options = Options()
+# options.add_argument('--headless=new')
+options.add_argument('--disable-gpu')
+options.add_argument('--window-size=1920x1080')
+options.add_argument('--log-level=3')
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4")
+options.page_load_strategy = 'eager'
+driver = webdriver.Chrome(options=options)
+get_delta_trak_news(driver,coverage_days=365)
+
+time.sleep(5)
+driver.quit()
