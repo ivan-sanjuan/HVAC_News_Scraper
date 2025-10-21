@@ -11,6 +11,7 @@ import re
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
 import pandas as pd
+from dateutil.parser import parse
 import time
 import pyautogui
 import pyperclip
@@ -22,52 +23,68 @@ class LGHVACNews:
         self.url = url
         self.latest_news = []
         self.date_limit = datetime.today()-timedelta(days=self.coverage)
+        self.strike = 0
     
     def get_soup(self):
         print(f'📰Opening: LG HVAC')
-        try:
+        while True:
             self.driver.get(self.url)
-            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'articles-list')))
+            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'tab-content')))
             html = self.driver.page_source
             soup = BeautifulSoup(html,'html.parser')
-            news_section_bs4 = soup.find('ol',class_='articles-list')
-            blocks_bs4 = news_section_bs4.find_all('li',class_='item')
-            self.get_news(blocks_bs4)
-        except Exception as f:
-            print(f'An error has occured: {f}')
-        except WebDriverException as f:
-            print(f'A general WebDriver error occured: {f}')
-        
-    def get_news(self,blocks_bs4):
-        for news in blocks_bs4:
-            parsed_date = news.find('time').text.strip().split(maxsplit=1)[1]
-            parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
-            publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-            if parsed_date_obj >= self.date_limit:
-                link = news.find('a',class_='learn-more-link').get('href')
+            news_blocks = soup.find_all('div',class_='space')
+            status = self.get_news(news_blocks)
+            if status == False:
+                break
+    
+    def get_news(self,blocks):
+        for news in blocks:
+            parsed_date = news.find('time').text.strip()
+            parsed_date = self.clean_date(parsed_date)
+            publish_date = parsed_date.strftime('%Y-%m-%d')
+            if parsed_date >= self.date_limit:
                 title = news.find('h4',class_='title').text.strip()
-                summary = 'LG HVAC News link always leads to 3rd party site - please visit the site instead.'
+                link = news.find('a',class_='learn-more-link').get('href')
+                paragraph = news.find_all('p')
+                summary = None
+                if paragraph:
+                    for p in paragraph:
+                        para = p.text.strip()
+                        if len(para) > 20:
+                            summary = para
+                            break
+                if not summary:
+                    summary = 'Unable to parse summary, please visit the news page instead.'
                 self.append(publish_date,title,summary,link)
-
+            else:
+                self.strike += 1
+                print(self.strike)
+                if self.strike == 3:
+                    return False
+    
     def append(self,publish_date,title,summary,link):
         print(f'Fetching: {title}')
         self.latest_news.append(
             {
             'PublishDate':publish_date,
-            'Source': 'LG HVAC - NA',
-            'Type': 'Company News',
-            'Title': title,
-            'Summary': summary,
-            'Link': link
+            'Source':'LG HVAC NA',
+            'Type':'Company News',
+            'Title':title,
+            'Summary':summary,
+            'Link':link
             }
         )
-
+            
+    def clean_date(self,date_str):
+        parsed_date = parse(date_str,fuzzy=False)
+        return parsed_date
+        
     def driver_wait(self,condition):
         try:
-            WebDriverWait(self.driver,5).until(condition)
+            return WebDriverWait(self.driver,5).until(condition)
         except:
             pass
-        
+
     def scrape(self):
         self.get_soup()
 
@@ -79,6 +96,19 @@ def get_LGHVAC_NA(driver,coverage_days):
     news.scrape()
     all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df = df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/LG_HVAC_NA_news.csv',index=False)
-    root = 'https://lghvac.com/'
-    return url
+    
+options = Options()
+options.add_argument('--headless=new')
+options.add_argument('--disable-gpu')
+options.add_argument('--window-size=1920x1080')
+options.add_argument('--log-level=3')
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4")
+options.page_load_strategy = 'eager'
+driver = webdriver.Chrome(options=options)
+get_LGHVAC_NA(driver,coverage_days=90)
+
+time.sleep(5)
+driver.quit()
