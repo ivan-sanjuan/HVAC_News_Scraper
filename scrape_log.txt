@@ -1,30 +1,29 @@
 Logging started..
 Nudges: ACTIVE; Preventing desktop to sleep while scrape is ongoing.
-User Agent: Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36
+User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36
 
 Trying to access: Trane
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Trane returned [200]"OK" RESPONSE.
 📰Opening: Trane Technologies
 
 Trying to access: Danfoss
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Danfoss returned [200]"OK" RESPONSE.
 📰Opening: Danfoss
 Accepted Cookies.
+Fetching: Urgent action needed on water sector’s rising energy consumption, according to new report
 
 Trying to access: LG Global
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅LG Global returned [200]"OK" RESPONSE.
 📰Opening: LG-Corporate
 📰Opening: LG-ApplianceSolution
 📰Opening: LG-Entertainment
 📰Opening: LG-VehicleSolutions
-📰Opening: LG-EcoSolutions
-📰Opening: LG-Statements
 
 Trying to access: LG Electronics NA
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅LG Electronics NA returned [200]"OK" RESPONSE.
 📰Opening: LG Electronics - NA
 
@@ -33,76 +32,75 @@ Site returned status code: 200
 ✅Copeland returned [200]"OK" RESPONSE.
 📰Opening: Copeland-US
 Accepted cookies.
-Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
 📰Opening: Copeland-Asia
 No cookie pop-up found.
-Fetching: We’re exhibiting at Intermodal Europe – the 50th Anniversary edition!
 
 Trying to access: Carrier News
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Carrier News returned [200]"OK" RESPONSE.
 📰Opening: Carrier-Corporate
 
 Trying to access: Carrier Group
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Carrier Group returned [200]"OK" RESPONSE.
 📰Opening: Carrier-Residential
 📰Opening: Carrier-Commercial
 📰Opening: Carrier-Transicold
 
 Trying to access: Viessmann
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Viessmann returned [200]"OK" RESPONSE.
 📰Opening: Viessmann
 No cookie pop-up detected.
 
 Trying to access: Lennox
-Request failed: HTTPSConnectionPool(host='investor.lennox.com', port=443): Read timed out. (read timeout=15)
-Site failed to respond, please visit the site instead.
-⛔Site is not responding properly.
+SSL Certificate is being bypassed for this site.
+✅Lennox returned [200]"OK" RESPONSE.
+📰Opening: Lennox
 
 Trying to access: BDR Thermea
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅BDR Thermea returned [200]"OK" RESPONSE.
 📰Opening: BDR Thermea
 
 Trying to access: Honeywell
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Honeywell returned [200]"OK" RESPONSE.
 📰Opening: Honeywell
 
 Trying to access: ThermoKing
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅ThermoKing returned [200]"OK" RESPONSE.
 📰Opening: ThermoKing
 
 Trying to access: DeltaTrak
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅DeltaTrak returned [200]"OK" RESPONSE.
 📰Opening: DeltaTrak
 
 Trying to access: Generac
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Generac returned [200]"OK" RESPONSE.
 📰Opening: Generac
 
 Trying to access: Nidec
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Nidec returned [200]"OK" RESPONSE.
 📰Opening: Nidec
+Fetching: Notice Regarding Designation of Security on Special Alert by Tokyo Stock Exchange
 
 Trying to access: Beijer Ref
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Beijer Ref returned [200]"OK" RESPONSE.
 📰Opening: Beijer Ref
 
 Trying to access: Daikin Corporate
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Daikin Corporate returned [200]"OK" RESPONSE.
 📰Opening: Daikin-Corporate
 
 Trying to access: Daikin EU
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Daikin EU returned [200]"OK" RESPONSE.
 📰Opening: Daikin-EU
 Cookies Accepted.
@@ -110,85 +108,97 @@ Cookies Accepted.
 Cookies Accepted.
 
 Trying to access: Daikin Applied
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Daikin Applied returned [200]"OK" RESPONSE.
 📰Opening: Daikin-Applied
 
 Trying to access: GEA
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅GEA returned [200]"OK" RESPONSE.
 📰Opening: GEA
 
 Trying to access: Stiebel Eltron
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Stiebel Eltron returned [200]"OK" RESPONSE.
 📰Opening: Stiebel Eltron
 Cookies accepted.
 scrolling through the news..
 
 Trying to access: Resideo
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Resideo returned [200]"OK" RESPONSE.
 📰Opening: Resideo
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
+An error has occured: 'NoneType' object has no attribute 'text'
 
 Trying to access: Resideo - Investor
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Resideo - Investor returned [200]"OK" RESPONSE.
 📰Opening: Resideo - Investor
 
 Trying to access: SPX
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅SPX returned [200]"OK" RESPONSE.
 📰Opening: SPX
 
 Trying to access: Rheem
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Rheem returned [200]"OK" RESPONSE.
 📰Opening: Rheem
 
 Trying to access: Hussmann
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Hussmann returned [200]"OK" RESPONSE.
 📰Opening: Hussman
-⚠️ Proxy or middleware timeout for Hussmann scraper.
-⛔Hussmann Error: HTTPConnectionPool(host='localhost', port=59299): Read timed out. (read timeout=120)
 
 Trying to access: Panasonic Global
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Panasonic Global returned [200]"OK" RESPONSE.
 📰Opening: Panasonic - Global
 Popup watcher launched.
 Pop-up found and closed.
-Fetching: Panasonic Holdings develops “Reflect-DiT”, an Image Generation Technology where AI reflects on its own output to improve
-Fetching: Panasonic HD develops “UniEgoMotion” which enables 3D motion prediction and forecasting from egocentric video and head trajectory
+Fetching: Panasonic’s Expo 2025 Pavilion Given New Lives by Co-Creation for Circular Ecosystem
+Fetching: Panasonic and Olympian Katie Ledecky Champion STEAM Education for Students in Kansas
 
 Trying to access: Panasonic HVAC
-Request failed: HTTPSConnectionPool(host='www.panasonic.com', port=443): Read timed out. (read timeout=15)
-Site failed to respond, please visit the site instead.
-⛔Site is not responding properly.
+SSL Certificate is being bypassed for this site.
+✅Panasonic HVAC returned [200]"OK" RESPONSE.
+📰Opening: Panasonic - HVAC
+Pop-up found and closed.
 
 Trying to access: Panasonic UK
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Panasonic UK returned [200]"OK" RESPONSE.
 📰Opening: Panasonic - UK
 
 Trying to access: AtmosZero
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅AtmosZero returned [200]"OK" RESPONSE.
 📰Opening: Atmos Zero
 
 Trying to access: Mesa Labs
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Mesa Labs returned [200]"OK" RESPONSE.
 📰Opening: Mesa Labs
 
 Trying to access: Mitsubishi Electric - Global
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Mitsubishi Electric - Global returned [200]"OK" RESPONSE.
 📰Opening: Mitsubishi Electric - Global
+Fetching: Mitsubishi Electric Hydronics & IT Cooling Systems Invests in South African Sales and Services Company
 
 Trying to access: Mitsubishi Electric - HVAC
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Mitsubishi Electric - HVAC returned [200]"OK" RESPONSE.
 📰Opening: Mitsubishi Electric - HVAC
 
@@ -198,43 +208,44 @@ Site returned status code: 200
 📰Opening: Mitsubishi Electric - SCI
 
 Trying to access: Parker Sporlan
-Status code returns 403, retrying...
-Site failed to respond, please visit the site instead.
-⛔Site is not responding properly.
+SSL Certificate is being bypassed for this site.
+✅Parker Sporlan returned [200]"OK" RESPONSE.
+📰Opening: Parker Sporlan
 
 Trying to access: Rechi
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Rechi returned [200]"OK" RESPONSE.
 📰Opening: Rechi
 
 Trying to access: Schott
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Schott returned [200]"OK" RESPONSE.
 📰Opening: Schott
 
 Trying to access: Secop
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Secop returned [200]"OK" RESPONSE.
 📰Opening: Secop
 
 Trying to access: Sensata
-Status code returns 403, retrying...
-Site failed to respond, please visit the site instead.
-⛔Site is not responding properly.
+SSL Certificate is being bypassed for this site.
+✅Sensata returned [200]"OK" RESPONSE.
+📰Opening: Sensata
+Pop-up has been closed.
 
 Trying to access: Tive
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Tive returned [200]"OK" RESPONSE.
 📰Opening: Tive
 
 Trying to access: Nibe
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Nibe returned [200]"OK" RESPONSE.
 📰Opening: NIBE
 Pop-up closed.
 
 Trying to access: Tecumseh
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Tecumseh returned [200]"OK" RESPONSE.
 📰Opening: Tecumseh
 Pop-up closed; waiting for the page to reload.
@@ -245,256 +256,474 @@ Site failed to respond, please visit the site instead.
 ⛔Site is not responding properly.
 
 Trying to access: Sanhua
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Sanhua returned [200]"OK" RESPONSE.
 📰Opening: Sanhua-US
 📰Opening: Sanhua-Europe
 
 Trying to access: Sanhua Group
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Sanhua Group returned [200]"OK" RESPONSE.
 📰Opening: Sanhua Group
+⚠️ Proxy or middleware timeout for Sanhua Group scraper.
+⛔Sanhua Group Error: HTTPConnectionPool(host='localhost', port=55844): Read timed out. (read timeout=120)
 
 Trying to access: ICM Controls
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅ICM Controls returned [200]"OK" RESPONSE.
-📰Opening: ICM Controls
-Fetching: Where are UA2L Refrigerants Headed in the HVAC/R Market?
+⚠️ Proxy or middleware timeout for ICM Controls scraper.
+⛔ICM Controls Error: HTTPConnectionPool(host='localhost', port=55844): Read timed out. (read timeout=120)
 
 Trying to access: Rees Scientific
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Rees Scientific returned [200]"OK" RESPONSE.
 📰Opening: Rees Scientific
 
 Trying to access: RefIndustry
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅RefIndustry returned [200]"OK" RESPONSE.
 📰Opening: RefIndustry
-Fetching: Mitsubishi Electric Trane HVAC US to Launch R-32 VRF Line in 2026
-Fetching: Marketair launches WiFi-enabled float switch for ductless A/C systems in the US
-Fetching: Daikin and Takenaka win Green Building Award for Polish heat pump factory
-Fetching: Refrigerant emissions in Germany continue to decline, VDKF reports
-Fetching: Synthetic ester lubricants market projected to reach USD 5.06 bn by 2031
-Fetching: Australia’s RAC sector responsible for 12.6% of national emissions
-Fetching: Lennox acquires NSI Industries’ HVAC division, adds Duro Dyne and Supco brands
-Fetching: Daikin Applied expands data center cooling capabilities with new products, acquisitions and facilities
-Fetching: Danfoss marks 25 years of SVL valve portfolio development
+Fetching: Kaltra launches new microchannel evaporator coils for reversible systems
+Fetching: Japan, Denmark and Australia collaborate to develop new thermal comfort index
+Fetching: Review explores challenges and innovations in sustainable cold storage for fresh produce
+Fetching: Mitsubishi Electric expands into South Africa with stake in HVAC and IT cooling firm
+Fetching: ﻿HPA: UK-made heat pumps reach one-third of national sales in 2024
+Fetching: UK industry leaders launch alliance to promote clean ammonia solutions
+Fetching: HARDI Pushes Back Against PFAS Restrictions in HVACR Sector
+Fetching: GEA launches AI-based energy optimization tool for cooling and heating systems
+Fetching: Eliwell presents new refrigeration control solutions at Refrigera 2025
 Cookies Accepted.
 RefIndustry News, Page: 2
-Fetching: Mitsubishi Electric Trane HVAC US to Launch R-32 VRF Line in 2026
-Fetching: Marketair launches WiFi-enabled float switch for ductless A/C systems in the US
-Fetching: Daikin and Takenaka win Green Building Award for Polish heat pump factory
-Fetching: Refrigerant emissions in Germany continue to decline, VDKF reports
-Fetching: Synthetic ester lubricants market projected to reach USD 5.06 bn by 2031
-Fetching: Australia’s RAC sector responsible for 12.6% of national emissions
-Fetching: Lennox acquires NSI Industries’ HVAC division, adds Duro Dyne and Supco brands
-Fetching: Daikin Applied expands data center cooling capabilities with new products, acquisitions and facilities
-Fetching: Danfoss marks 25 years of SVL valve portfolio development
+Fetching: Kaltra launches new microchannel evaporator coils for reversible systems
+Fetching: Japan, Denmark and Australia collaborate to develop new thermal comfort index
+Fetching: Review explores challenges and innovations in sustainable cold storage for fresh produce
+Fetching: Mitsubishi Electric expands into South Africa with stake in HVAC and IT cooling firm
+Fetching: ﻿HPA: UK-made heat pumps reach one-third of national sales in 2024
+Fetching: UK industry leaders launch alliance to promote clean ammonia solutions
+Fetching: HARDI Pushes Back Against PFAS Restrictions in HVACR Sector
+Fetching: GEA launches AI-based energy optimization tool for cooling and heating systems
+Fetching: Eliwell presents new refrigeration control solutions at Refrigera 2025
 No cookie block found.
 RefIndustry News, Page: 3
-Fetching: NewCold opens global center and off-grid warehouse in the Netherlands
-Fetching: AIT opens Austria’s most advanced heat pump laboratory
-Fetching: Global Household Refrigerator Market to Reach US$ 147.45 Billion by 2033
-Fetching: Constellation expands UK cold storage with 37,000 new pallet spaces
+Fetching: Kaori advances ESG strategy with verified carbon data and industry-first HRDD in Taiwan
+Fetching: LG opens air conditioner factory in Indonesia to support Global South strategy
+Fetching: Copeland to Acquire Germany’s SPH to Expand Industrial Heat Pump Portfolio
 
 Trying to access: CoolingPost
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅CoolingPost returned [200]"OK" RESPONSE.
 📰Opening: CoolingPost-World
-Fetching: Central African Republic approves Kigali
-Fetching: Euro heat pump sales show slight increase
-Fetching: New Daikin controller wins design award
 📰Opening: CoolingPost-UK
 📰Opening: CoolingPost-Products
+Fetching: Kaltra updates the microchannel evaporator coil
 📰Opening: CoolingPost-Features
 📰Opening: CoolingPost-Blog
 📰Opening: CoolingPost-T&E
-Fetching: U-3ARC to host first international conference
 
 Trying to access: JARN
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅JARN returned [200]"OK" RESPONSE.
 📰Opening: JARN
-Fetching: Daikin Applied Powers Next-Gen Hyperscale Data Centers with End-to-End Cooling Solutions
-Fetching: Boiler Rental Tips for Facilities Managers: Reliable Heating with Temporary Boiler Hire
-Fetching: Carrier Transicold Introduces eCool-Drive: The First Power Converter Specially Designed for Electric Tractors
-Fetching: MHIEC Receives Contract for Improvement of Core Equipment at Municipal Solid Waste Incineration Facility in Kanazawa
-Fetching: Denso to exhibit at Japan mobility show 2025
-Fetching: Munters: industrial residues from Swedish industry become plasterboards
-Fetching: GREE Unveils New Products at Canton Fair！
-Fetching: Danfoss unveils next-generation AxisPro proportional valve, increasing accessibility of intelligent hydraulics in industrial applications
-Fetching: Daikin to Exhibit at the COP30 Japan Pavilion
-Fetching: Electrifying the Cold Chain: Carrier Transicold to Showcase Innovative [R]eCool Retrofit Refrigeration System at Solutrans 2025
-Fetching: Carrier Transicold Launches Real-Time Emissions and Fuel Cost Insights in Lynx Fleet to Drive Sustainable Fleet Performance
-Fetching: Eurovent Team will be at ISK SODEX 2025
-Fetching: REHVA Supporter Eurovent Certification: Desert certification
-Fetching: Compressed air distributor in Yorkshire UK has become part of Atlas Copco Group
-Fetching: Lennox Completes Acquisition of NSI Industries' HVAC Division
-Fetching: Haier AC Shines at 138th Canton Fair [1/2]
-Fetching: Samsung Electronics Ranks 5th in Global Brands for the Sixth Consecutive Year
-Fetching: Aermec at the Datacenter Forum Copenhagen
+Fetching: Eurovent releases 2nd edition of Evaporative Cooling Guidebook at HVACR Next Generation Congress
+Fetching: Johnson Controls | Transforming Smart Buildings: How OpenBlue’s AI Powers Sustainable, Resilient Environments
+An error has occured: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff762d8e8e5+80021]
+	GetHandleVerifier [0x0x7ff762d8e940+80112]
+	(No symbol) [0x0x7ff762b1060f]
+	(No symbol) [0x0x7ff762b68854]
+	(No symbol) [0x0x7ff762b68b1c]
+	(No symbol) [0x0x7ff762bbc927]
+	(No symbol) [0x0x7ff762b9126f]
+	(No symbol) [0x0x7ff762bb968a]
+	(No symbol) [0x0x7ff762b91003]
+	(No symbol) [0x0x7ff762b595d1]
+	(No symbol) [0x0x7ff762b5a3f3]
+	GetHandleVerifier [0x0x7ff76304dc7d+2960429]
+	GetHandleVerifier [0x0x7ff763047f3a+2936554]
+	GetHandleVerifier [0x0x7ff763068977+3070247]
+	GetHandleVerifier [0x0x7ff762da83ce+185214]
+	GetHandleVerifier [0x0x7ff762dafe1f+216527]
+	GetHandleVerifier [0x0x7ff762d97b24+117460]
+	GetHandleVerifier [0x0x7ff762d97cdf+117903]
+	GetHandleVerifier [0x0x7ff762d7dbb8+11112]
+	BaseThreadInitThunk [0x0x7ffc212f259d+29]
+	RtlUserThreadStart [0x0x7ffc21aaaf78+40]
+
+An error has occured: Message: no such element: element not found
+  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff762d8e8e5+80021]
+	GetHandleVerifier [0x0x7ff762d8e940+80112]
+	(No symbol) [0x0x7ff762b1060f]
+	(No symbol) [0x0x7ff762b26e35]
+	(No symbol) [0x0x7ff762b25923]
+	(No symbol) [0x0x7ff762b18ea7]
+	(No symbol) [0x0x7ff762b16d80]
+	(No symbol) [0x0x7ff762b1b26f]
+	(No symbol) [0x0x7ff762b1b32f]
+	(No symbol) [0x0x7ff762b68107]
+	(No symbol) [0x0x7ff762b68b1c]
+	(No symbol) [0x0x7ff762b5b19c]
+	(No symbol) [0x0x7ff762b9126f]
+	(No symbol) [0x0x7ff762b5b056]
+	(No symbol) [0x0x7ff762b91440]
+	(No symbol) [0x0x7ff762bb968a]
+	(No symbol) [0x0x7ff762b91003]
+	(No symbol) [0x0x7ff762b595d1]
+	(No symbol) [0x0x7ff762b5a3f3]
+	GetHandleVerifier [0x0x7ff76304dc7d+2960429]
+	GetHandleVerifier [0x0x7ff763047f3a+2936554]
+	GetHandleVerifier [0x0x7ff763068977+3070247]
+	GetHandleVerifier [0x0x7ff762da83ce+185214]
+	GetHandleVerifier [0x0x7ff762dafe1f+216527]
+	GetHandleVerifier [0x0x7ff762d97b24+117460]
+	GetHandleVerifier [0x0x7ff762d97cdf+117903]
+	GetHandleVerifier [0x0x7ff762d7dbb8+11112]
+	BaseThreadInitThunk [0x0x7ffc212f259d+29]
+	RtlUserThreadStart [0x0x7ffc21aaaf78+40]
+
+An error has occured: Message: no such element: element not found
+  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff762d8e8e5+80021]
+	GetHandleVerifier [0x0x7ff762d8e940+80112]
+	(No symbol) [0x0x7ff762b1060f]
+	(No symbol) [0x0x7ff762b26e35]
+	(No symbol) [0x0x7ff762b25923]
+	(No symbol) [0x0x7ff762b18ea7]
+	(No symbol) [0x0x7ff762b16d80]
+	(No symbol) [0x0x7ff762b1b26f]
+	(No symbol) [0x0x7ff762b1b32f]
+	(No symbol) [0x0x7ff762b68107]
+	(No symbol) [0x0x7ff762b68b1c]
+	(No symbol) [0x0x7ff762b5b19c]
+	(No symbol) [0x0x7ff762b9126f]
+	(No symbol) [0x0x7ff762b5b056]
+	(No symbol) [0x0x7ff762b91440]
+	(No symbol) [0x0x7ff762bb968a]
+	(No symbol) [0x0x7ff762b91003]
+	(No symbol) [0x0x7ff762b595d1]
+	(No symbol) [0x0x7ff762b5a3f3]
+	GetHandleVerifier [0x0x7ff76304dc7d+2960429]
+	GetHandleVerifier [0x0x7ff763047f3a+2936554]
+	GetHandleVerifier [0x0x7ff763068977+3070247]
+	GetHandleVerifier [0x0x7ff762da83ce+185214]
+	GetHandleVerifier [0x0x7ff762dafe1f+216527]
+	GetHandleVerifier [0x0x7ff762d97b24+117460]
+	GetHandleVerifier [0x0x7ff762d97cdf+117903]
+	GetHandleVerifier [0x0x7ff762d7dbb8+11112]
+	BaseThreadInitThunk [0x0x7ffc212f259d+29]
+	RtlUserThreadStart [0x0x7ffc21aaaf78+40]
+
+An error has occured: Message: no such element: element not found
+  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff762d8e8e5+80021]
+	GetHandleVerifier [0x0x7ff762d8e940+80112]
+	(No symbol) [0x0x7ff762b1060f]
+	(No symbol) [0x0x7ff762b26e35]
+	(No symbol) [0x0x7ff762b25923]
+	(No symbol) [0x0x7ff762b18ea7]
+	(No symbol) [0x0x7ff762b16d80]
+	(No symbol) [0x0x7ff762b1b26f]
+	(No symbol) [0x0x7ff762b1b32f]
+	(No symbol) [0x0x7ff762b68107]
+	(No symbol) [0x0x7ff762b68b1c]
+	(No symbol) [0x0x7ff762b5b19c]
+	(No symbol) [0x0x7ff762b9126f]
+	(No symbol) [0x0x7ff762b5b056]
+	(No symbol) [0x0x7ff762b91440]
+	(No symbol) [0x0x7ff762bb968a]
+	(No symbol) [0x0x7ff762b91003]
+	(No symbol) [0x0x7ff762b595d1]
+	(No symbol) [0x0x7ff762b5a3f3]
+	GetHandleVerifier [0x0x7ff76304dc7d+2960429]
+	GetHandleVerifier [0x0x7ff763047f3a+2936554]
+	GetHandleVerifier [0x0x7ff763068977+3070247]
+	GetHandleVerifier [0x0x7ff762da83ce+185214]
+	GetHandleVerifier [0x0x7ff762dafe1f+216527]
+	GetHandleVerifier [0x0x7ff762d97b24+117460]
+	GetHandleVerifier [0x0x7ff762d97cdf+117903]
+	GetHandleVerifier [0x0x7ff762d7dbb8+11112]
+	BaseThreadInitThunk [0x0x7ffc212f259d+29]
+	RtlUserThreadStart [0x0x7ffc21aaaf78+40]
+
+An error has occured: Message: no such element: element not found
+  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff762d8e8e5+80021]
+	GetHandleVerifier [0x0x7ff762d8e940+80112]
+	(No symbol) [0x0x7ff762b1060f]
+	(No symbol) [0x0x7ff762b26e35]
+	(No symbol) [0x0x7ff762b25923]
+	(No symbol) [0x0x7ff762b18ea7]
+	(No symbol) [0x0x7ff762b16d80]
+	(No symbol) [0x0x7ff762b1b26f]
+	(No symbol) [0x0x7ff762b1b32f]
+	(No symbol) [0x0x7ff762b68107]
+	(No symbol) [0x0x7ff762b68b1c]
+	(No symbol) [0x0x7ff762b5b19c]
+	(No symbol) [0x0x7ff762b9126f]
+	(No symbol) [0x0x7ff762b5b056]
+	(No symbol) [0x0x7ff762b91440]
+	(No symbol) [0x0x7ff762bb968a]
+	(No symbol) [0x0x7ff762b91003]
+	(No symbol) [0x0x7ff762b595d1]
+	(No symbol) [0x0x7ff762b5a3f3]
+	GetHandleVerifier [0x0x7ff76304dc7d+2960429]
+	GetHandleVerifier [0x0x7ff763047f3a+2936554]
+	GetHandleVerifier [0x0x7ff763068977+3070247]
+	GetHandleVerifier [0x0x7ff762da83ce+185214]
+	GetHandleVerifier [0x0x7ff762dafe1f+216527]
+	GetHandleVerifier [0x0x7ff762d97b24+117460]
+	GetHandleVerifier [0x0x7ff762d97cdf+117903]
+	GetHandleVerifier [0x0x7ff762d7dbb8+11112]
+	BaseThreadInitThunk [0x0x7ffc212f259d+29]
+	RtlUserThreadStart [0x0x7ffc21aaaf78+40]
+
+An error has occured: Message: no such element: element not found
+  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff762d8e8e5+80021]
+	GetHandleVerifier [0x0x7ff762d8e940+80112]
+	(No symbol) [0x0x7ff762b1060f]
+	(No symbol) [0x0x7ff762b26e35]
+	(No symbol) [0x0x7ff762b25923]
+	(No symbol) [0x0x7ff762b18ea7]
+	(No symbol) [0x0x7ff762b16d80]
+	(No symbol) [0x0x7ff762b1b26f]
+	(No symbol) [0x0x7ff762b1b32f]
+	(No symbol) [0x0x7ff762b68107]
+	(No symbol) [0x0x7ff762b68b1c]
+	(No symbol) [0x0x7ff762b5b19c]
+	(No symbol) [0x0x7ff762b9126f]
+	(No symbol) [0x0x7ff762b5b056]
+	(No symbol) [0x0x7ff762b91440]
+	(No symbol) [0x0x7ff762bb968a]
+	(No symbol) [0x0x7ff762b91003]
+	(No symbol) [0x0x7ff762b595d1]
+	(No symbol) [0x0x7ff762b5a3f3]
+	GetHandleVerifier [0x0x7ff76304dc7d+2960429]
+	GetHandleVerifier [0x0x7ff763047f3a+2936554]
+	GetHandleVerifier [0x0x7ff763068977+3070247]
+	GetHandleVerifier [0x0x7ff762da83ce+185214]
+	GetHandleVerifier [0x0x7ff762dafe1f+216527]
+	GetHandleVerifier [0x0x7ff762d97b24+117460]
+	GetHandleVerifier [0x0x7ff762d97cdf+117903]
+	GetHandleVerifier [0x0x7ff762d7dbb8+11112]
+	BaseThreadInitThunk [0x0x7ffc212f259d+29]
+	RtlUserThreadStart [0x0x7ffc21aaaf78+40]
+
+An error has occured: Message: no such element: element not found
+  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff762d8e8e5+80021]
+	GetHandleVerifier [0x0x7ff762d8e940+80112]
+	(No symbol) [0x0x7ff762b1060f]
+	(No symbol) [0x0x7ff762b26e35]
+	(No symbol) [0x0x7ff762b25923]
+	(No symbol) [0x0x7ff762b18ea7]
+	(No symbol) [0x0x7ff762b16d80]
+	(No symbol) [0x0x7ff762b1b26f]
+	(No symbol) [0x0x7ff762b1b32f]
+	(No symbol) [0x0x7ff762b68107]
+	(No symbol) [0x0x7ff762b68b1c]
+	(No symbol) [0x0x7ff762b5b19c]
+	(No symbol) [0x0x7ff762b9126f]
+	(No symbol) [0x0x7ff762b5b056]
+	(No symbol) [0x0x7ff762b91440]
+	(No symbol) [0x0x7ff762bb968a]
+	(No symbol) [0x0x7ff762b91003]
+	(No symbol) [0x0x7ff762b595d1]
+	(No symbol) [0x0x7ff762b5a3f3]
+	GetHandleVerifier [0x0x7ff76304dc7d+2960429]
+	GetHandleVerifier [0x0x7ff763047f3a+2936554]
+	GetHandleVerifier [0x0x7ff763068977+3070247]
+	GetHandleVerifier [0x0x7ff762da83ce+185214]
+	GetHandleVerifier [0x0x7ff762dafe1f+216527]
+	GetHandleVerifier [0x0x7ff762d97b24+117460]
+	GetHandleVerifier [0x0x7ff762d97cdf+117903]
+	GetHandleVerifier [0x0x7ff762d7dbb8+11112]
+	BaseThreadInitThunk [0x0x7ffc212f259d+29]
+	RtlUserThreadStart [0x0x7ffc21aaaf78+40]
+
+An error has occured: Message: no such element: element not found
+  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff762d8e8e5+80021]
+	GetHandleVerifier [0x0x7ff762d8e940+80112]
+	(No symbol) [0x0x7ff762b1060f]
+	(No symbol) [0x0x7ff762b26e35]
+	(No symbol) [0x0x7ff762b25923]
+	(No symbol) [0x0x7ff762b18ea7]
+	(No symbol) [0x0x7ff762b16d80]
+	(No symbol) [0x0x7ff762b1b26f]
+	(No symbol) [0x0x7ff762b1b32f]
+	(No symbol) [0x0x7ff762b68107]
+	(No symbol) [0x0x7ff762b68b1c]
+	(No symbol) [0x0x7ff762b5b19c]
+	(No symbol) [0x0x7ff762b9126f]
+	(No symbol) [0x0x7ff762b5b056]
+	(No symbol) [0x0x7ff762b91440]
+	(No symbol) [0x0x7ff762bb968a]
+	(No symbol) [0x0x7ff762b91003]
+	(No symbol) [0x0x7ff762b595d1]
+	(No symbol) [0x0x7ff762b5a3f3]
+	GetHandleVerifier [0x0x7ff76304dc7d+2960429]
+	GetHandleVerifier [0x0x7ff763047f3a+2936554]
+	GetHandleVerifier [0x0x7ff763068977+3070247]
+	GetHandleVerifier [0x0x7ff762da83ce+185214]
+	GetHandleVerifier [0x0x7ff762dafe1f+216527]
+	GetHandleVerifier [0x0x7ff762d97b24+117460]
+	GetHandleVerifier [0x0x7ff762d97cdf+117903]
+	GetHandleVerifier [0x0x7ff762d7dbb8+11112]
+	BaseThreadInitThunk [0x0x7ffc212f259d+29]
+	RtlUserThreadStart [0x0x7ffc21aaaf78+40]
+
+No such page found.
 📰Opening: JARN-Interviews
 
 Trying to access: Natural Refrigerants
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Natural Refrigerants returned [200]"OK" RESPONSE.
 📰Opening: Natural Refrigerants
-Fetching: Nominate End Users, Person of the Year and Innovations for ATMO Awards/Europe 2025
-Fetching: Timing of U.S. EPA’s Reconsideration of Technology Transitions Rule Raises Concerns
-Fetching: U.K. Social-Housing Provider to Pilot R290 Heat Pumps in 60 Homes
+Fetching: Zero-C Products Sold in 2024 Avoided the Lifetime Release of 873,000 Metric Tons of CO2e and 21.5 Metric Tons of TFA
+Fetching: Interview: Panasonic Has Sold 7,000 CO2 Condensing Units in Europe, with 2,500 Sold in 2025 Alone, Says Managing Director
 
 Trying to access: EHPA
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅EHPA returned [200]"OK" RESPONSE.
 📰Opening: EHPA
 Waiting for the cookie pop-up.
 Cookie pop-up did not show up.
-Fetching: Heat pump sales up 9% in 2025 so far
-Fetching: Counting down to Heat Pump Day 2025
 
 Trying to access: Contracting Business
-Site returned status code: 200
-✅Contracting Business returned [200]"OK" RESPONSE.
-📰Opening: Contracting Business - Residential
-Ads Closed.
-Mimicking a human scrolling through the news.
-Fetching: AI Experts Reveal #1 Tip for HVAC Contractors Adopting Artificial Intelligence
-📰Opening: Contracting Business - Commercial
-Ads not found.
-Mimicking a human scrolling through the news.
-📰Opening: Contracting Business - Refrigeration
-Ads not found.
-Mimicking a human scrolling through the news.
-📰Opening: Contracting Business - IndustryNews
-Ads not found.
-Mimicking a human scrolling through the news.
-Fetching: HVAC Excellence Accreditation Strengthens Wisconsin Workforce Development
-Fetching: Greenheck Launches Fan Energy Index Resource Page for HVAC Professionals
-Fetching: LG Launches New Program to Boost HVAC Dealer Growth and Training
-📰Opening: Contracting Business - Technology
-Ads not found.
-Mimicking a human scrolling through the news.
-Fetching: AI Experts Reveal #1 Tip for HVAC Contractors Adopting Artificial Intelligence
-📰Opening: Contracting Business - Product News
-Ads not found.
-Mimicking a human scrolling through the news.
-Fetching: Mitsubishi Electric Trane HVAC US R-32 VRF Line Meets 2026 Low-GWP Standards
-Fetching: Daikin Applied Launches Global Data Center Solutions Group for Mission-Critical Cooling
-Fetching: Ruskin XP500 Louver Simplifies Installation with New Flange Frame Design
-Fetching: Panasonic WhisperFit DC Fan Adds Bluetooth Speakers for Dual Function Ventilation
+SSL Certificate is being bypassed for this site.
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
 
 Trying to access: Contractor Mag
-Site returned status code: 200
-✅Contractor Mag returned [200]"OK" RESPONSE.
-📰Opening: Contractor Mag - Management
-Ads Closed.
-Mimicking a human scrolling through the news.
-Fetching: How WOWing Customers Led to $60 Million in Annual Revenue: Anderson's Success Story
-Fetching: Family Ties, Business Strength: Sibling Team to Share Growth Strategies at We Mean Business Conference
-📰Opening: Contractor Mag - Codes
-Ads not found.
-Mimicking a human scrolling through the news.
-📰Opening: Contractor Mag - Hydronics
-Ads not found.
-Mimicking a human scrolling through the news.
-Fetching: Rinnai America Names Craig Bryan Vice President of Finance
-Fetching: Water Hammer in Steam Systems
-📰Opening: Contractor Mag - Technology
-Ads not found.
-Mimicking a human scrolling through the news.
-📰Opening: Contractor Mag - Tools
-Ads not found.
-Mimicking a human scrolling through the news.
+SSL Certificate is being bypassed for this site.
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
 
 Trying to access: ACR Journal
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅ACR Journal returned [200]"OK" RESPONSE.
 📰Opening: ACR Journal
 Pop-up closed.
 
 Trying to access: Fleet Owner
-Site returned status code: 200
-✅Fleet Owner returned [200]"OK" RESPONSE.
-📰Opening: Fleet Owner
-Ads Closed.
-Mimicking a human scrolling through the news.
+SSL Certificate is being bypassed for this site.
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
 
 Trying to access: RAC Plus
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅RAC Plus returned [200]"OK" RESPONSE.
 📰Opening: RAC Plus
 Pop-up closed.
 Waiting for a banner blocking the news blocks to close..
 
 Trying to access: PHCP Pros
-Site returned status code: 200
-✅PHCP Pros returned [200]"OK" RESPONSE.
-📰Opening: PHCP Pros
-Scrolling through the news, making sure all articles are loaded.
+SSL Certificate is being bypassed for this site.
+Site failed to respond, please visit the site instead.
+⛔Site is not responding properly.
 
 Trying to access: Climate Control News
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Climate Control News returned [200]"OK" RESPONSE.
 📰Opening: Climate Control
 
 Trying to access: DOE
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅DOE returned [200]"OK" RESPONSE.
 📰Opening: DOE - Press Release
-📰Opening: DOE - Testimony
-📰Opening: DOE - Latest OpEds
 
 Trying to access: IEA
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅IEA returned [200]"OK" RESPONSE.
 📰Opening: IEA
-Fetching: As oil market surplus keeps rising, something’s got to give
+Fetching: First IEA Governing Board meeting in Singapore underscores strong international energy cooperation
+Fetching: Coming surge in LNG production is set to reshape global gas markets
+Fetching: Driving down the cost of carbon removal: Why innovation matters
+Fetching: How can innovation help secure future battery markets and mineral supplies?
 
 Trying to access: HPA
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅HPA returned [200]"OK" RESPONSE.
 📰Opening: HPA
 
 Trying to access: Carel
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Carel returned [200]"OK" RESPONSE.
 📰Opening: Carel
 
 Trying to access: Bitzer
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Bitzer returned [200]"OK" RESPONSE.
 📰Opening: Bitzer
 
 Trying to access: LG HVAC - NA
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅LG HVAC - NA returned [200]"OK" RESPONSE.
 📰Opening: LG HVAC
 
 Trying to access: ThermoKing - Europe
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅ThermoKing - Europe returned [200]"OK" RESPONSE.
 📰Opening: ThermoKing - Europe
 opening in new tab
+An error has occured:Message: no such element: Unable to locate element: {"method":"css selector","selector":".before-h1"}
+  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff762d8e8e5+80021]
+	GetHandleVerifier [0x0x7ff762d8e940+80112]
+	(No symbol) [0x0x7ff762b1060f]
+	(No symbol) [0x0x7ff762b68854]
+	(No symbol) [0x0x7ff762b68b1c]
+	(No symbol) [0x0x7ff762bbc927]
+	(No symbol) [0x0x7ff762b9126f]
+	(No symbol) [0x0x7ff762bb968a]
+	(No symbol) [0x0x7ff762b91003]
+	(No symbol) [0x0x7ff762b595d1]
+	(No symbol) [0x0x7ff762b5a3f3]
+	GetHandleVerifier [0x0x7ff76304dc7d+2960429]
+	GetHandleVerifier [0x0x7ff763047f3a+2936554]
+	GetHandleVerifier [0x0x7ff763068977+3070247]
+	GetHandleVerifier [0x0x7ff762da83ce+185214]
+	GetHandleVerifier [0x0x7ff762dafe1f+216527]
+	GetHandleVerifier [0x0x7ff762d97b24+117460]
+	GetHandleVerifier [0x0x7ff762d97cdf+117903]
+	GetHandleVerifier [0x0x7ff762d7dbb8+11112]
+	BaseThreadInitThunk [0x0x7ffc212f259d+29]
+	RtlUserThreadStart [0x0x7ffc21aaaf78+40]
+
+opening in new tab
+An error has occured:time data '' does not match format '%d %B %Y'
+opening in new tab
 
 Trying to access: HV UK
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅HV UK returned [200]"OK" RESPONSE.
 📰Opening: HV UK
 Pop-up closed.
 Waiting for a banner blocking the news blocks to close..
+Fetching: Heat pump uptake curbed by demand and paperwork, Baxi reports
 
 Trying to access: Ecobee
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Ecobee returned [200]"OK" RESPONSE.
 📰Opening: Ecobee
 
 Trying to access: Johnson Controls
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Johnson Controls returned [200]"OK" RESPONSE.
 📰Opening: Johnson Controls
 
 Trying to access: Hitachi AC
-Site returned status code: 200
+SSL Certificate is being bypassed for this site.
 ✅Hitachi AC returned [200]"OK" RESPONSE.
 📰Opening: Hitachi
 

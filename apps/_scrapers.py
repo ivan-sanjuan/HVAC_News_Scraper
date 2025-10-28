@@ -117,10 +117,8 @@ def get_scrapers():
             {'name':'Nibe','type':'Company News','func':get_nibe,'url':'https://www.nibe.eu/en-gb/about-nibe/nibe-news'},
             {'name':'Tecumseh','type':'Company News','func':get_tecumseh,'url':'https://www.tecumseh.com/NewsAndEvents/News'},
             {'name':'Watsco','type':'Company News','func':get_watsco,'url':'https://investors.watsco.com/news'},
-            {'name':'Sanhua','type':'Company News','func':get_sanhua,'url':'https://www.sanhuausa.com/'},
-            {'name':'Sanhua Group','type':'Company News','func':get_sanhua_group,'url':'https://www.sanhuagroup.com/en/news.html'},
             {'name':'ICM Controls','type':'Company News','func':get_icm_controls,'url':'https://www.icmcontrols.com/blog/'},
-            {'name':'Rees Scientific','type':'Company News','func':get_rees_scientific,'url':'https://reesscientific.com/blog'},
+            {'name':'Rees Scientific','type':'Company News','func':get_rees_scientific,'url':'https://reesscientific.com/blog'},       
             {'name':'RefIndustry','type':'Industry News','func':get_refindustry_news,'url':'https://refindustry.com/news/'},
             {'name':'CoolingPost','type':'Industry News','func':get_cooling_post,'url':'https://www.coolingpost.com/'},
             {'name':'JARN','type':'Industry News','func':get_jarn,'url':'https://www.ejarn.com/category/eJarn_news_index'},
@@ -144,6 +142,8 @@ def get_scrapers():
             {'name':'Ecobee','type':'Company News','func':get_ecobee,'url':'https://www.ecobee.com/en-ca/newsroom/'},
             {'name':'Johnson Controls','type':'Company News','func':get_johnsonControls_news,'url':'https://www.johnsoncontrols.com/media-center/news#sort=%40insightdate%20descending'},
             {'name':'Hitachi AC','type':'Company News','func':get_hitachi,'url':'https://www.hitachiaircon.com/newsroom/en/news'},
+            {'name':'Sanhua','type':'Company News','func':get_sanhua,'url':'https://www.sanhuausa.com/'},
             {'name':'Midea','type':'Company News','func':get_midea,'url':'https://mbt.midea.com/global/news'},
+            {'name':'Sanhua Group','type':'Company News','func':get_sanhua_group,'url':'https://www.sanhuagroup.com/en/news.html'},
         ]
     return scrapers
