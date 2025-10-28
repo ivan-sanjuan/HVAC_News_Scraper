@@ -28,10 +28,10 @@ class JarnNews:
             else: 
                 try:
                     page = page_section.find_element(By.LINK_TEXT,f'{self.page_num}')
-                    page.click()
+                    self.driver.execute_script("arguments[0].click();",page)
                 except:
                     print(f'No such page found.')
-            news_section = WebDriverWait(self.driver,5).until(EC.presence_of_element_located((By.CLASS_NAME,'article-list')))
+            news_section = self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'article-list')))
             self.news_blocks = news_section.find_elements(By.CLASS_NAME,'article-box')
             page_section = self.driver.find_element(By.CLASS_NAME,'js-pagerSeparate')
             if not self.check_dates():
@@ -46,11 +46,10 @@ class JarnNews:
                         .perform()
                         
     def get_news(self):
-        WebDriverWait(self.driver,2).until(EC.presence_of_element_located((By.CLASS_NAME,'article-detail-wrap')))
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'article-detail-wrap')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         title = soup.find('h1',class_='articleTitle').text.strip()
-        print(f'Fetching: {title}')
         summary_block = soup.find('div', class_='article-detail-main')
         if not summary_block:
             return ({'title': title, 'summary': 'Summary block not found.'})
@@ -80,7 +79,7 @@ class JarnNews:
                 self.driver.switch_to.window(self.driver.window_handles[1])
                 before_tab = self.driver.window_handles
                 try:
-                    WebDriverWait(self.driver,2).until(lambda e: len(e.window_handles) > len(before_tab))
+                    WebDriverWait(self.driver,3).until(lambda e: len(e.window_handles) > len(before_tab))
                 except:
                     pass
                 news = self.get_news()
@@ -88,19 +87,29 @@ class JarnNews:
                 summary = news.get('summary')
                 self.driver.close()
                 self.driver.switch_to.window(self.driver.window_handles[0])
-                self.latest_news.append(
-                    {
-                    'PublishDate':publish_date,
-                    'Source': self.source,
-                    'Type': 'Industry News',
-                    'Title': title,
-                    'Summary': summary,
-                    'Link': link
-                    }
-                )
+                self.append(publish_date,title,summary,link)
             except Exception as e:
                 print(f'An error has occured: {e}')
         return True
+    
+    def append(self,publish_date,title,summary,link):
+        print(f'Fetching: {title}')
+        self.latest_news.append(
+            {
+            'PublishDate':publish_date,
+            'Source': self.source,
+            'Type': 'Industry News',
+            'Title': title,
+            'Summary': summary,
+            'Link': link
+            }
+        )
+    
+    def driver_wait(self,condition):
+        try:
+            return WebDriverWait(self.driver,5).until(condition)
+        except:
+            pass
                 
     def scrape(self):
         try:
