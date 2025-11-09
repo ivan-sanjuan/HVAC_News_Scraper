@@ -79,7 +79,7 @@ class AtmosZeroNews:
 
     def driver_wait(self,condition):
         try:
-            return WebDriverWait(self.driver,3).until(condition)
+            return WebDriverWait(self.driver,5).until(condition)
         except:
             pass
     
