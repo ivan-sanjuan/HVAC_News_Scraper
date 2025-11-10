@@ -68,9 +68,15 @@ class LGNews:
             if parsed_date_obj >= self.today-timedelta(days=self.coverage_days):
                 title = article.find('h2',class_='st_title').text.strip()
                 print(f'Scraping summary: {title}')
-                summary_block = article.find('p',style='text-align: justify;')
-                summary_block.strong.decompose()
-                summary = summary_block.text.strip()
+                paragraphs = soup.find_all('p')
+                summary = None
+                for p in paragraphs:
+                    ptext = p.text.strip()
+                    if len(ptext) >= 378:
+                        summary = ptext
+                        break
+                if not summary:
+                    summary = 'Unable to parse summary, please visit the news page instead.'
                 self.latest_news.append(
                     {
                     'PublishDate': publish_date,
@@ -120,7 +126,7 @@ def get_LG_news(driver,coverage_days):
     df.to_csv('csv/LG_News.csv', index=False)
     
 options = Options()
-# options.add_argument('--headless=new')
+options.add_argument('--headless=new')
 options.add_argument('--disable-gpu')
 options.add_argument('--window-size=1920x1080')
 options.add_argument('--log-level=3')
