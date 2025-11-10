@@ -1,9 +1,14 @@
+from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
+from datetime import date, timedelta, datetime
+from urllib.parse import urljoin
 import pandas as pd
+import time
 
 class LGNews:
     def __init__(self,driver,coverage_days,news_url,source):
@@ -92,41 +97,38 @@ class LGNews:
     def scrape(self):
         self.get_news()
 
+sources = (
+    {'url':'https://www.lgnewsroom.com/category/news/corporate/','source':'LG-Corporate'},
+    {'url':'https://www.lgnewsroom.com/category/news/home-appliances-solution/','source':'LG-ApplianceSolution'},
+    {'url':'https://www.lgnewsroom.com/category/news/media-entertainment-solution/','source':'LG-Entertainment'},
+    {'url':'https://www.lgnewsroom.com/category/news/vehicle-solution/','source':'LG-VehicleSolutions'},
+    {'url':'https://www.lgnewsroom.com/category/news/eco-solution/','source':'LG-EcoSolutions'},
+    {'url':'https://www.lgnewsroom.com/category/news/statements/','source':'LG-Statements'}
+)
+
 all_news = []
 def get_LG_news(driver,coverage_days):
-    corporate_url = 'https://www.lgnewsroom.com/category/news/corporate/'
-    appliance_solution_url = 'https://www.lgnewsroom.com/category/news/home-appliances-solution/'
-    entertainment_url = 'https://www.lgnewsroom.com/category/news/media-entertainment-solution/'
-    vehicle_solutions_url = 'https://www.lgnewsroom.com/category/news/vehicle-solution/'
-    eco_solutions_url = 'https://www.lgnewsroom.com/category/news/eco-solution/'
-    statements_url = 'https://www.lgnewsroom.com/category/news/statements/'
-    corporate_source = 'LG-Corporate'
-    appliance_solution_source = 'LG-ApplianceSolution'
-    entertainment_source = 'LG-Entertainment'
-    vehicle_solutions_source = 'LG-VehicleSolutions'
-    eco_solutions_source = 'LG-EcoSolutions'
-    statements_source = 'LG-Statements'
-    corporate = LGNews(driver,coverage_days,corporate_url,corporate_source)
-    appliance = LGNews(driver,coverage_days,appliance_solution_url,appliance_solution_source)
-    entertainment = LGNews(driver,coverage_days,entertainment_url,entertainment_source)
-    vehicle_solutions = LGNews(driver,coverage_days,vehicle_solutions_url,vehicle_solutions_source)
-    eco_solutions = LGNews(driver,coverage_days,eco_solutions_url,eco_solutions_source)
-    statements = LGNews(driver,coverage_days,statements_url,statements_source)
-    corporate.scrape()
-    appliance.scrape()
-    entertainment.scrape()
-    vehicle_solutions.scrape()
-    eco_solutions.scrape()
-    statements.scrape()
-    latest_news_list = [
-        corporate.latest_news,
-        appliance.latest_news,
-        entertainment.latest_news,
-        vehicle_solutions.latest_news,
-        eco_solutions.latest_news,
-        statements.latest_news,
-    ]
-    for category in latest_news_list:
-        all_news.extend(category)
+    driver.set_window_size(1920, 1080)
+    for item in sources:
+        url = item['url']
+        src = item['source']
+        news = LGNews(driver,coverage_days,url,src)
+        news.scrape()
+        all_news.extend(news.latest_news)
     df = pd.DataFrame(all_news)
+    df.drop_duplicates(subset=['Link'])
     df.to_csv('csv/LG_News.csv', index=False)
+    
+options = Options()
+# options.add_argument('--headless=new')
+options.add_argument('--disable-gpu')
+options.add_argument('--window-size=1920x1080')
+options.add_argument('--log-level=3')
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4")
+options.page_load_strategy = 'eager'
+driver = webdriver.Chrome(options=options)
+get_LG_news(driver,coverage_days=15)
+
+time.sleep(5)
+driver.quit()
