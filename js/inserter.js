@@ -31,8 +31,53 @@ function evenOdd(array){
     }
 }
 
-evenOdd(array1);
+function printNums(a,b){
+    for (let i=a;i<=b;i++){
+        if (i % 2 != 0){
+            console.log(i);
+        }
+    }
+}
+printNums(1,20);
 
-var array1 = [213,53214,5132,126,73553]
+function inputName(){
+    let enteredName = document.getElementById('name').value;
+    let enteredAge = document.getElementById('age').value;
+    document.getElementById('name_output').value =  `I am ${enteredName} and i am ${enteredAge}`;
+}
 
-evenOdd(array1);
+var fruitArray = ['apple','orange','mango','pineapple','avocado'];
+
+fruitArray.push('mangosteen');
+console.log(fruitArray);
+fruitArray.shift()
+fruitArray.sort()
+console.log(fruitArray)
+
+class Car{
+    constructor(brand,model,year){
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
+}
+
+function printDefinition(){
+    console.log(`This is a ${this.brand}, ${this.model} in the year ${this.year}`);
+}
+
+var carOne = new Car('Honda','Civic',1998);
+printDefinition.call(carOne);
+
+for (let c=1;c<=100;c++){
+    if(c%3==0){
+        console.log('Fizz',c);
+    }
+    if(c%5==0){
+        console.log('Buzz',c);
+    }
+    if(c%3==0 && c%5==0){
+        console.log('FizzBuzz',c);
+    }
+}
+
