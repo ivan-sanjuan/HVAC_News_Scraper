@@ -200,110 +200,191 @@
 // var sampleStrArray = ['panic','at','the','disco'];
 // var newStrArray = new StringManip(sampleStrArray).titleCase();
 
-class Person{
-    constructor(name,age){
-        this.name = name;
-        this.age = age;
-    }
-    introduce(){
-        let capName = this.name[0].toUpperCase() + this.name.slice(1);
-        console.log(`Hi, I'm ${capName} and i'm ${this.age} years old. `);
-    }
-}
+// class Person{
+//     constructor(name,age){
+//         this.name = name;
+//         this.age = age;
+//     }
+//     introduce(){
+//         let capName = this.name[0].toUpperCase() + this.name.slice(1);
+//         console.log(`Hi, I'm ${capName} and i'm ${this.age} years old. `);
+//     }
+// }
 
-var personOne = new Person('ivan',34).introduce();
+// var personOne = new Person('ivan',34).introduce();
 
-class Rectangle{
-    constructor(width,height){
-        if (typeof width !== 'number' || typeof height !== 'number'){
-            throw new TypeError('Width and Height must be numbers');
-        }
-        this.width = Math.abs(width);
-        this.height = Math.abs(height);
-    }
-    area(){
-        let area = this.width * this.height;
-        return area;
-    }
-    perimeter(){
-        let perimeter = 2*(this.width + this.height);
-        return perimeter;
-    }
-    convertAreaCm(){
-        let areaInCM = this.area() * 10000;
-        return areaInCM;
-    }
-    convertPeriCm(){
-        let periInCM = this.perimeter() * 100;
-        return periInCM;
-    }
-}
+// class Rectangle{
+//     constructor(width,height){
+//         if (typeof width !== 'number' || typeof height !== 'number'){
+//             throw new TypeError('Width and Height must be numbers');
+//         }
+//         this.width = Math.abs(width);
+//         this.height = Math.abs(height);
+//     }
+//     area(){
+//         let area = this.width * this.height;
+//         return area;
+//     }
+//     perimeter(){
+//         let perimeter = 2*(this.width + this.height);
+//         return perimeter;
+//     }
+//     convertAreaCm(){
+//         let areaInCM = this.area() * 10000;
+//         return areaInCM;
+//     }
+//     convertPeriCm(){
+//         let periInCM = this.perimeter() * 100;
+//         return periInCM;
+//     }
+// }
 
-var rect1 = new Rectangle(6,-7);
-console.log(`${rect1.area()} sq.m`);
-console.log(`${rect1.perimeter()} m`);
-console.log(`${rect1.convertAreaCm()} sq.cm`);
-console.log(`${rect1.convertPeriCm()} cm`);
+// var rect1 = new Rectangle(6,-7);
+// console.log(`${rect1.area()} sq.m`);
+// console.log(`${rect1.perimeter()} m`);
+// console.log(`${rect1.convertAreaCm()} sq.cm`);
+// console.log(`${rect1.convertPeriCm()} cm`);
 
 
-class Client{
+// class Client{
+//     constructor(owner,balance){
+//         if (typeof balance !== 'number'){
+//             throw new TypeError('Balance should be a number');
+//         }
+//         this.owner = owner;
+//         this.balance = balance;
+//         this.total = this.getBalance;
+//         this.transactions = [];
+//     }
+//     getBalance(){
+//         let total = this.balance;
+//         console.log(`TOTAL: $${total}`)
+//         return total;
+//     }
+//     deposit(amount){
+//         let sum = this.balance += amount;
+//         this.transactions.push({
+//             'Type':'Deposit',
+//             'Amount':amount,
+//             'Balance':this.balance,
+//             'TimeStamp':new Date().toLocaleString()
+//         });
+//         return sum;
+//     }
+//     withdraw(amount){
+//         let diff = this.balance -= amount;
+//         this.transactions.push({
+//             'Type':'Withdraw',
+//             'Amount':amount,
+//             'Balance':this.balance,
+//             'TimeStamp':new Date().toLocaleString()
+//         });
+//         return diff;
+//     }
+//     history(){
+//         console.log(`Transaction History for ${this.owner}`);
+//         this.transactions.forEach((hs,i) => {
+//             console.log(`${i+1}. ${hs.TimeStamp} : ${hs.Type.toUpperCase()} of ${hs.Amount} => Balance: ${hs.Balance}`);
+//         })
+//     }
+// }
+
+// var john = new Client('John',0)
+// john.deposit(100);
+// john.withdraw(25);
+// john.deposit(200);
+// john.deposit(1000);
+// john.withdraw(2000);
+// john.deposit(1000);
+// john.getBalance();
+// john.history();
+
+// var mary = new Client('Mary',5000);
+// mary.deposit(2000);
+// mary.deposit(3000);
+// mary.withdraw(200);
+// mary.withdraw(500);
+// mary.withdraw(1000);
+// mary.getBalance();
+// mary.history();
+
+
+class BankClient{
     constructor(owner,balance){
-        if (typeof balance !== 'number'){
-            throw new TypeError('Balance should be a number');
-        }
         this.owner = owner;
         this.balance = balance;
-        this.total = this.getBalance;
         this.transactions = [];
     }
-    getBalance(){
-        let total = this.balance;
-        console.log(`TOTAL: $${total}`)
-        return total;
+    register(amount){
+        this.transactions.push({
+            'Type':'Initial Deposit',
+            'Amount':amount,
+            'Balance':this.balance,
+            'Time': new Date().toLocaleString()
+        })
     }
     deposit(amount){
-        let sum = this.balance += amount;
+        let deposit = this.balance += amount;
+        this.output = deposit;
         this.transactions.push({
             'Type':'Deposit',
             'Amount':amount,
             'Balance':this.balance,
-            'TimeStamp':new Date().toLocaleString()
-        });
-        return sum;
+            'Time': new Date().toLocaleString()
+        })
+        document.getElementById('output').innerHTML = `${this.owner} has successfully deposited ${amount}.`;
+        return deposit;
     }
     withdraw(amount){
-        let diff = this.balance -= amount;
+        let withdraw = this.balance -= amount;
+        this.output = withdraw;
         this.transactions.push({
             'Type':'Withdraw',
             'Amount':amount,
             'Balance':this.balance,
-            'TimeStamp':new Date().toLocaleString()
+            'Time': new Date().toLocaleString()
         });
-        return diff;
+        document.getElementById('output').innerHTML = `${this.owner} has successfully withdrew $${amount}.`;
+        return withdraw;
+    }
+    getBalance(){
+        document.getElementById('output').innerHTML = `${this.owner} has $${this.balance} left in their account.`;
+        return this.balance;
     }
     history(){
-        console.log(`Transaction History for ${this.owner}`);
-        this.transactions.forEach((hs,i) => {
-            console.log(`${i+1}. ${hs.TimeStamp} : ${hs.Type.toUpperCase()} of ${hs.Amount} => Balance: ${hs.Balance}`);
-        })
+        let output = this.transactions.map((tran,i) => {
+            return `${i+1}. ${this.owner.charAt(0).toUpperCase()+this.owner.slice(1)} has a ${tran.Type.toUpperCase()} transaction amounting to $${tran.Amount} dated at ${tran.Time}. Remaining balance is $${tran.Balance}`;
+        }).join('<br>');
+        document.getElementById('output').innerHTML = output;
+        console.log(this.transactions);
+        return output;
     }
 }
 
-var john = new Client('John',0)
-john.deposit(100);
-john.withdraw(25);
-john.deposit(200);
-john.deposit(1000);
-john.withdraw(2000);
-john.deposit(1000);
-john.getBalance();
-john.history();
+let user;
 
-var mary = new Client('Mary',5000);
-mary.deposit(2000);
-mary.deposit(3000);
-mary.withdraw(200);
-mary.withdraw(500);
-mary.withdraw(1000);
-mary.getBalance();
-mary.history();
+document.getElementById('register').addEventListener('click',() => {
+    const owner = document.getElementById('name').value;
+    const initialDeposit = parseFloat(document.getElementById('amount').value);
+    user = new BankClient(owner,initialDeposit);
+    user.register(initialDeposit);
+    document.getElementById('output').innerHTML = `${owner} has been successfully registered with an initial deposit of ${initialDeposit}.`
+});
+
+document.getElementById('depositBtn').addEventListener('click',()=>{
+    let amount = parseFloat(document.getElementById('amount').value);
+    user.deposit(amount);
+});
+
+document.getElementById('withdraw').addEventListener('click',()=>{
+    let amount = parseFloat(document.getElementById('amount').value);
+    user.withdraw(amount);
+});
+
+document.getElementById('balance').addEventListener('click',()=>{
+    user.getBalance();
+});
+
+document.getElementById('history').addEventListener('click',()=>{
+    user.history();
+});
