@@ -309,82 +309,161 @@
 // mary.history();
 
 
-class BankClient{
-    constructor(owner,balance){
-        this.owner = owner;
-        this.balance = balance;
-        this.transactions = [];
+// class BankClient{
+//     constructor(owner,balance){
+//         this.owner = owner;
+//         this.balance = balance;
+//         this.transactions = [];
+//     }
+//     register(amount){
+//         this.transactions.push({
+//             'Type':'Initial Deposit',
+//             'Amount':amount,
+//             'Balance':this.balance,
+//             'Time': new Date().toLocaleString()
+//         })
+//     }
+//     deposit(amount){
+//         let deposit = this.balance += amount;
+//         this.output = deposit;
+//         this.transactions.push({
+//             'Type':'Deposit',
+//             'Amount':amount,
+//             'Balance':this.balance,
+//             'Time': new Date().toLocaleString()
+//         })
+//         document.getElementById('output').innerHTML = `${this.owner} has successfully deposited ${amount}.`;
+//         return deposit;
+//     }
+//     withdraw(amount){
+//         let withdraw = this.balance -= amount;
+//         this.output = withdraw;
+//         this.transactions.push({
+//             'Type':'Withdraw',
+//             'Amount':amount,
+//             'Balance':this.balance,
+//             'Time': new Date().toLocaleString()
+//         });
+//         document.getElementById('output').innerHTML = `${this.owner} has successfully withdrew $${amount}.`;
+//         return withdraw;
+//     }
+//     getBalance(){
+//         document.getElementById('output').innerHTML = `${this.owner} has $${this.balance} left in their account.`;
+//         return this.balance;
+//     }
+//     history(){
+//         let output = this.transactions.map((tran,i) => {
+//             return `${i+1}. ${this.owner.charAt(0).toUpperCase()+this.owner.slice(1)} has a ${tran.Type.toUpperCase()} transaction amounting to $${tran.Amount} dated at ${tran.Time}. Remaining balance is $${tran.Balance}`;
+//         }).join('<br>');
+//         document.getElementById('output').innerHTML = output;
+//         console.log(this.transactions);
+//         return output;
+//     }
+// }
+
+// let user;
+
+// document.getElementById('register').addEventListener('click',() => {
+//     const owner = document.getElementById('name').value;
+//     const initialDeposit = parseFloat(document.getElementById('amount').value);
+//     user = new BankClient(owner,initialDeposit);
+//     user.register(initialDeposit);
+//     document.getElementById('output').innerHTML = `${owner} has been successfully registered with an initial deposit of ${initialDeposit}.`
+// });
+
+// document.getElementById('depositBtn').addEventListener('click',()=>{
+//     let amount = parseFloat(document.getElementById('amount').value);
+//     user.deposit(amount);
+// });
+
+// document.getElementById('withdraw').addEventListener('click',()=>{
+//     let amount = parseFloat(document.getElementById('amount').value);
+//     user.withdraw(amount);
+// });
+
+// document.getElementById('balance').addEventListener('click',()=>{
+//     user.getBalance();
+// });
+
+// document.getElementById('history').addEventListener('click',()=>{
+//     user.history();
+// });
+
+class Customer{
+    constructor(user,loanAmount){
+        this.user = user;
+        this.loanAmount = parseFloat(loanAmount);
+        this.balance = parseFloat(0);
+        this.ledger = [];
+        this.date = new Date().toLocaleString();
     }
-    register(amount){
-        this.transactions.push({
-            'Type':'Initial Deposit',
-            'Amount':amount,
+    register(){
+        this.balance = this.loanAmount;
+        this.ledger.push({
+            'Transaction':'Initial Loan',
+            'LoanAmount':this.loanAmount,
             'Balance':this.balance,
-            'Time': new Date().toLocaleString()
-        })
-    }
-    deposit(amount){
-        let deposit = this.balance += amount;
-        this.output = deposit;
-        this.transactions.push({
-            'Type':'Deposit',
-            'Amount':amount,
-            'Balance':this.balance,
-            'Time': new Date().toLocaleString()
-        })
-        document.getElementById('output').innerHTML = `${this.owner} has successfully deposited ${amount}.`;
-        return deposit;
-    }
-    withdraw(amount){
-        let withdraw = this.balance -= amount;
-        this.output = withdraw;
-        this.transactions.push({
-            'Type':'Withdraw',
-            'Amount':amount,
-            'Balance':this.balance,
-            'Time': new Date().toLocaleString()
+            'Date':this.date
         });
-        document.getElementById('output').innerHTML = `${this.owner} has successfully withdrew $${amount}.`;
-        return withdraw;
+        document.getElementById('output').innerHTML = `${this.user} has successfully been registered. Loan amount is ${this.loanAmount}`;
+    }
+    loanPayment(amount){
+        this.balance -= amount;
+        this.ledger.push({
+            'Transaction':'Loan Payment',
+            'LoanAmount':this.loanAmount,
+            'Amount':amount,
+            'Balance':this.balance,
+            'Date':this.date
+        });
+        document.getElementById('output').innerHTML = `${this.user} has paid $${amount} for his loan, current balance is $${this.balance}`;
+    }
+    loanMoney(amount){
+        this.balance += amount;
+        this.ledger.push({
+            'Transaction':'Additional Loan',
+            'LoanAmount':this.loanAmount,
+            'Amount':amount,
+            'Balance':this.balance,
+            'Date':this.date
+        });
+        document.getElementById('output').innerHTML = `${this.user} has taken new loan amounting to $${amount}, new balance is $${this.balance}`;
     }
     getBalance(){
-        document.getElementById('output').innerHTML = `${this.owner} has $${this.balance} left in their account.`;
-        return this.balance;
+        return document.getElementById('output').innerHTML = `Current balance of ${this.user} is ${this.balance}`;
     }
     history(){
-        let output = this.transactions.map((tran,i) => {
-            return `${i+1}. ${this.owner.charAt(0).toUpperCase()+this.owner.slice(1)} has a ${tran.Type.toUpperCase()} transaction amounting to $${tran.Amount} dated at ${tran.Time}. Remaining balance is $${tran.Balance}`;
+        document.getElementById('output').innerHTML = this.ledger.map((led,i)=>{
+            return `${i+1}. ${this.user} has ${led.Transaction.toUpperCase()} of $${led.Amount} dated ${led.Date}. Balance is $${led.Balance}.`
         }).join('<br>');
-        document.getElementById('output').innerHTML = output;
-        console.log(this.transactions);
-        return output;
+        console.log(this.ledger);
     }
 }
 
-let user;
+var client;
 
-document.getElementById('register').addEventListener('click',() => {
-    const owner = document.getElementById('name').value;
-    const initialDeposit = parseFloat(document.getElementById('amount').value);
-    user = new BankClient(owner,initialDeposit);
-    user.register(initialDeposit);
-    document.getElementById('output').innerHTML = `${owner} has been successfully registered with an initial deposit of ${initialDeposit}.`
+document.getElementById('register').addEventListener('click',()=>{
+    const user = document.getElementById('name').value;
+    const loan = document.getElementById('amount').value;
+    client = new Customer(user,loan)
+    client.register()
 });
 
-document.getElementById('depositBtn').addEventListener('click',()=>{
+document.getElementById('loan_payment').addEventListener('click',()=>{
     let amount = parseFloat(document.getElementById('amount').value);
-    user.deposit(amount);
+    client.loanPayment(amount);
 });
 
-document.getElementById('withdraw').addEventListener('click',()=>{
+document.getElementById('loan_money').addEventListener('click',()=>{
     let amount = parseFloat(document.getElementById('amount').value);
-    user.withdraw(amount);
+    client.loanMoney(amount);
 });
 
 document.getElementById('balance').addEventListener('click',()=>{
-    user.getBalance();
+    client.getBalance();
 });
 
 document.getElementById('history').addEventListener('click',()=>{
-    user.history();
+    client.history();
 });
+
