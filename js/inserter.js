@@ -480,7 +480,7 @@ class Encoder{
             'Grade':grade,
             'Date':this.date
         });
-        return document.getElementById('output').innerHTML = `Entered ${grade} for subject ${subject} for student ${student}. Encoded by ${this.name}`
+        return document.getElementById('output').innerHTML = `Entered ${grade} for subject ${subject} for student ${student}. Encoded by ${this.name}`;
     }
 }
 
@@ -490,9 +490,10 @@ class Adviser extends Encoder{
         this.adviser = adviser;
     }
     viewGradeCard(){
-        this.gradeCard.map((card,i) => {
-            return document.getElementById('output').innerHTML = `${i+1}. ${card.Student.charAt(0).toUpperCase() + card.Student.slice(1)} : ${card.Grade} on ${card.Subject}. entered ${card.Date}. printed by ${this.adviser}`
+        document.getElementById('output').innerHTML = this.gradeCard.map((card,i) => {
+            return `${i+1}. ${card.Student.charAt(0).toUpperCase() + card.Student.slice(1)} : ${card.Grade} on ${card.Subject}. entered ${card.Date}. printed by ${this.adviser}`;
         });
+        console.log(this.gradeCard)
     }
 }
 
