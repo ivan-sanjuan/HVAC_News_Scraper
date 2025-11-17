@@ -389,81 +389,133 @@
 //     user.history();
 // });
 
-class Customer{
-    constructor(user,loanAmount){
-        this.user = user;
-        this.loanAmount = parseFloat(loanAmount);
-        this.balance = parseFloat(0);
-        this.ledger = [];
+// class Customer{
+//     constructor(user,loanAmount){
+//         this.user = user;
+//         this.loanAmount = parseFloat(loanAmount);
+//         this.balance = parseFloat(0);
+//         this.ledger = [];
+//         this.date = new Date().toLocaleString();
+//     }
+//     register(){
+//         this.balance = this.loanAmount;
+//         this.ledger.push({
+//             'Transaction':'Initial Loan',
+//             'LoanAmount':this.loanAmount,
+//             'Balance':this.balance,
+//             'Date':this.date
+//         });
+//         document.getElementById('output').innerHTML = `${this.user} has successfully been registered. Loan amount is ${this.loanAmount}`;
+//     }
+//     loanPayment(amount){
+//         this.balance -= amount;
+//         this.ledger.push({
+//             'Transaction':'Loan Payment',
+//             'LoanAmount':this.loanAmount,
+//             'Amount':amount,
+//             'Balance':this.balance,
+//             'Date':this.date
+//         });
+//         document.getElementById('output').innerHTML = `${this.user} has paid $${amount} for his loan, current balance is $${this.balance}`;
+//     }
+//     loanMoney(amount){
+//         this.balance += amount;
+//         this.ledger.push({
+//             'Transaction':'Additional Loan',
+//             'LoanAmount':this.loanAmount,
+//             'Amount':amount,
+//             'Balance':this.balance,
+//             'Date':this.date
+//         });
+//         document.getElementById('output').innerHTML = `${this.user} has taken new loan amounting to $${amount}, new balance is $${this.balance}`;
+//     }
+//     getBalance(){
+//         return document.getElementById('output').innerHTML = `Current balance of ${this.user} is ${this.balance}`;
+//     }
+//     history(){
+//         document.getElementById('output').innerHTML = this.ledger.map((led,i)=>{
+//             return `${i+1}. ${this.user} has ${led.Transaction.toUpperCase()} of $${led.Amount} dated ${led.Date}. Balance is $${led.Balance}.`
+//         }).join('<br>');
+//         console.log(this.ledger);
+//     }
+// }
+
+// var client;
+
+// document.getElementById('register').addEventListener('click',()=>{
+//     const user = document.getElementById('name').value;
+//     const loan = document.getElementById('amount').value;
+//     client = new Customer(user,loan)
+//     client.register()
+// });
+
+// document.getElementById('loan_payment').addEventListener('click',()=>{
+//     let amount = parseFloat(document.getElementById('amount').value);
+//     client.loanPayment(amount);
+// });
+
+// document.getElementById('loan_money').addEventListener('click',()=>{
+//     let amount = parseFloat(document.getElementById('amount').value);
+//     client.loanMoney(amount);
+// });
+
+// document.getElementById('balance').addEventListener('click',()=>{
+//     client.getBalance();
+// });
+
+// document.getElementById('history').addEventListener('click',()=>{
+//     client.history();
+// });
+
+class Encoder{
+    constructor(name){
+        this.name = name;
+        this.gradeCard = [];
         this.date = new Date().toLocaleString();
     }
-    register(){
-        this.balance = this.loanAmount;
-        this.ledger.push({
-            'Transaction':'Initial Loan',
-            'LoanAmount':this.loanAmount,
-            'Balance':this.balance,
+    enterGrade(student,subject,grade){
+        this.gradeCard.push({
+            'Student':student,
+            'Subject':subject,
+            'Grade':grade,
             'Date':this.date
         });
-        document.getElementById('output').innerHTML = `${this.user} has successfully been registered. Loan amount is ${this.loanAmount}`;
-    }
-    loanPayment(amount){
-        this.balance -= amount;
-        this.ledger.push({
-            'Transaction':'Loan Payment',
-            'LoanAmount':this.loanAmount,
-            'Amount':amount,
-            'Balance':this.balance,
-            'Date':this.date
-        });
-        document.getElementById('output').innerHTML = `${this.user} has paid $${amount} for his loan, current balance is $${this.balance}`;
-    }
-    loanMoney(amount){
-        this.balance += amount;
-        this.ledger.push({
-            'Transaction':'Additional Loan',
-            'LoanAmount':this.loanAmount,
-            'Amount':amount,
-            'Balance':this.balance,
-            'Date':this.date
-        });
-        document.getElementById('output').innerHTML = `${this.user} has taken new loan amounting to $${amount}, new balance is $${this.balance}`;
-    }
-    getBalance(){
-        return document.getElementById('output').innerHTML = `Current balance of ${this.user} is ${this.balance}`;
-    }
-    history(){
-        document.getElementById('output').innerHTML = this.ledger.map((led,i)=>{
-            return `${i+1}. ${this.user} has ${led.Transaction.toUpperCase()} of $${led.Amount} dated ${led.Date}. Balance is $${led.Balance}.`
-        }).join('<br>');
-        console.log(this.ledger);
+        return document.getElementById('output').innerHTML = `Entered ${grade} for subject ${subject} for student ${student}. Encoded by ${this.name}`
     }
 }
 
-var client;
+class Adviser extends Encoder{
+    constructor(name,adviser){
+        super(name)
+        this.adviser = adviser;
+    }
+    viewGradeCard(){
+        this.gradeCard.map((card,i) => {
+            return document.getElementById('output').innerHTML = `${i+1}. ${card.Student.charAt(0).toUpperCase() + card.Student.slice(1)} : ${card.Grade} on ${card.Subject}. entered ${card.Date}. printed by ${this.adviser}`
+        });
+    }
+}
 
-document.getElementById('register').addEventListener('click',()=>{
-    const user = document.getElementById('name').value;
-    const loan = document.getElementById('amount').value;
-    client = new Customer(user,loan)
-    client.register()
+var encoder;
+
+document.getElementById('reg_encoder').addEventListener('click',()=>{
+    let name = document.getElementById('name').value;
+    encoder = new Encoder(name);
 });
 
-document.getElementById('loan_payment').addEventListener('click',()=>{
-    let amount = parseFloat(document.getElementById('amount').value);
-    client.loanPayment(amount);
+document.getElementById('enter_grade').addEventListener('click',()=>{
+    let name = document.getElementById('name').value;
+    let subject = document.getElementById('subjects').value;
+    let grade = parseFloat(document.getElementById('grade').value);
+    encoder.enterGrade(name,subject,grade);
 });
 
-document.getElementById('loan_money').addEventListener('click',()=>{
-    let amount = parseFloat(document.getElementById('amount').value);
-    client.loanMoney(amount);
+var adviser;
+document.getElementById('reg_adviser').addEventListener('click',()=>{
+    let name = document.getElementById('name').value;
+    adviser = new Adviser(name);
 });
 
-document.getElementById('balance').addEventListener('click',()=>{
-    client.getBalance();
+document.getElementById('grade_card').addEventListener('click',()=>{
+    adviser.viewGradeCard();
 });
-
-document.getElementById('history').addEventListener('click',()=>{
-    client.history();
-});
-
