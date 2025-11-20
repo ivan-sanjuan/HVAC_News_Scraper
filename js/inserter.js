@@ -467,56 +467,56 @@
 //     client.history();
 // });
 
-class Encoder{
-    constructor(name){
-        this.name = name;
-        this.gradeCard = [];
-        this.date = new Date().toLocaleString();
-    }
-    enterGrade(student,subject,grade){
-        this.gradeCard.push({
-            'Student':student,
-            'Subject':subject,
-            'Grade':grade,
-            'Date':this.date
-        });
-        return document.getElementById('output').innerHTML = `Entered ${grade} for subject ${subject} for student ${student}. Encoded by ${this.name}`;
-    }
-}
+// class Encoder{
+//     constructor(name){
+//         this.name = name;
+//         this.gradeCard = [];
+//         this.date = new Date().toLocaleString();
+//     }
+//     enterGrade(student,subject,grade){
+//         this.gradeCard.push({
+//             'Student':student,
+//             'Subject':subject,
+//             'Grade':grade,
+//             'Date':this.date
+//         });
+//         return document.getElementById('output').innerHTML = `Entered ${grade} for subject ${subject} for student ${student}. Encoded by ${this.name}`;
+//     }
+// }
 
-class Adviser extends Encoder{
-    constructor(name,adviser){
-        super(name)
-        this.adviser = adviser;
-    }
-    viewGradeCard(){
-        document.getElementById('output').innerHTML = this.gradeCard.map((card,i) => {
-            return `${i+1}. ${card.Student.charAt(0).toUpperCase() + card.Student.slice(1)} : ${card.Grade} on ${card.Subject}. entered ${card.Date}. printed by ${this.adviser}`;
-        });
-        console.log(this.gradeCard)
-    }
-}
+// class Adviser extends Encoder{
+//     constructor(name,adviser){
+//         super(name)
+//         this.adviser = adviser;
+//     }
+//     viewGradeCard(){
+//         document.getElementById('output').innerHTML = this.gradeCard.map((card,i) => {
+//             return `${i+1}. ${card.Student.charAt(0).toUpperCase() + card.Student.slice(1)} : ${card.Grade} on ${card.Subject}. entered ${card.Date}. printed by ${this.adviser}`;
+//         });
+//         console.log(this.gradeCard)
+//     }
+// }
 
-var encoder;
+// var encoder;
 
-document.getElementById('reg_encoder').addEventListener('click',()=>{
-    let name = document.getElementById('name').value;
-    encoder = new Encoder(name);
-});
+// document.getElementById('reg_encoder').addEventListener('click',()=>{
+//     let name = document.getElementById('name').value;
+//     encoder = new Encoder(name);
+// });
 
-document.getElementById('enter_grade').addEventListener('click',()=>{
-    let name = document.getElementById('name').value;
-    let subject = document.getElementById('subjects').value;
-    let grade = parseFloat(document.getElementById('grade').value);
-    encoder.enterGrade(name,subject,grade);
-});
+// document.getElementById('enter_grade').addEventListener('click',()=>{
+//     let name = document.getElementById('name').value;
+//     let subject = document.getElementById('subjects').value;
+//     let grade = parseFloat(document.getElementById('grade').value);
+//     encoder.enterGrade(name,subject,grade);
+// });
 
-var adviser;
-document.getElementById('reg_adviser').addEventListener('click',()=>{
-    let name = document.getElementById('name').value;
-    adviser = new Adviser(name);
-});
+// var adviser;
+// document.getElementById('reg_adviser').addEventListener('click',()=>{
+//     let name = document.getElementById('name').value;
+//     adviser = new Adviser(name);
+// });
 
-document.getElementById('grade_card').addEventListener('click',()=>{
-    adviser.viewGradeCard();
-});
+// document.getElementById('grade_card').addEventListener('click',()=>{
+//     adviser.viewGradeCard();
+// });
