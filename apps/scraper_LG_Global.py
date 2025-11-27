@@ -20,9 +20,7 @@ class LGNews:
         self.source = source
 
     def get_highlight_soup(self):
-        WebDriverWait(self.driver,5).until(
-            EC.presence_of_element_located((By.CLASS_NAME,'page_content'))
-        )
+        self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'page_content')))
         html = self.driver.page_source
         soup = BeautifulSoup(html,'html.parser')
         article = soup.find('div',class_='page_content')
@@ -56,9 +54,7 @@ class LGNews:
             self.link = news.get('href')
             self.driver.switch_to.new_window('tab')
             self.driver.get(self.link)
-            WebDriverWait(self.driver,5).until(
-                EC.presence_of_element_located((By.CLASS_NAME,'page_content'))
-            )
+            self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'page_content')))
             html = self.driver.page_source
             soup = BeautifulSoup(html,'html.parser')
             article = soup.find('div',class_='page_content')
@@ -92,13 +88,17 @@ class LGNews:
             
     def get_news(self):
         self.driver.get(self.news_url)
-        highlighted_news = WebDriverWait(self.driver,5).until(
-            EC.presence_of_element_located((By.CLASS_NAME,'itembx'))
-        )
+        highlighted_news = self.driver_wait(EC.presence_of_element_located((By.CLASS_NAME,'itembx')))
         self.hlink = highlighted_news.get_attribute('href')
         highlighted_news.click()
         self.get_highlight_soup()
         self.get_blocks_soup()
+        
+    def driver_wait(self,condition):
+        try:
+            WebDriverWait(self.driver,5).until(condition)
+        except:
+            pass
         
     def scrape(self):
         self.get_news()
