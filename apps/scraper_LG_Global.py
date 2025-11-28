@@ -32,17 +32,19 @@ class LGNews:
             summary_block = article.find('p',style='text-align: justify;')
             summary_block.strong.decompose()
             summary = summary_block.text.strip()
-            self.latest_news.append(
-                {
-                'PublishDate': publish_date,
-                'Source': self.source,
-                'Type': 'Company News',
-                'Title': title,
-                'Summary': summary,
-                'Link': self.hlink
-                }
-            )
+            self.news_append(publish_date,title,summary)
         self.driver.back()
+        
+    def news_append(self,date,title,summary):
+        print(f'Fetching News: {title}')
+        self.latest_news.append({
+            'PublishDate': date,
+            'Source': self.source,
+            'Type': 'Company News',
+            'Title': title,
+            'Summary': summary,
+            'Link': self.hlink
+        })
         
     def get_blocks_soup(self):
         print(f'📰Opening: {self.source}')
