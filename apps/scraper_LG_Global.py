@@ -47,7 +47,6 @@ class LGNews:
         })
         
     def get_blocks_soup(self):
-        print(f'📰Opening: {self.source}')
         home_html=self.driver.page_source
         home_soup=BeautifulSoup(home_html,'html.parser')
         news_section = home_soup.find('div', class_='bs_psbx')
