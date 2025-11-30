@@ -16,7 +16,7 @@ class LGNews:
         self.coverage_days = coverage_days
         self.news_url = news_url
         self.latest_news = []
-        self.today = datetime.today()
+        self.date_limit = datetime.today()-timedelta(days=self.coverage_days)
         self.source = source
 
     def get_highlight_soup(self):
@@ -27,7 +27,7 @@ class LGNews:
         parsed_date = article.find('div',class_='date').text
         parsed_date_obj = datetime.strptime(parsed_date,'%B %d, %Y')
         publish_date = parsed_date_obj.strftime('%Y-%m-%d')
-        if parsed_date_obj >= self.today-timedelta(days=self.coverage_days):
+        if parsed_date_obj >= self.date_limit:
             title = article.find('h2',class_='st_title').text.strip()
             summary_block = article.find('p',style='text-align: justify;')
             summary_block.strong.decompose()
